@@ -3,27 +3,43 @@
   "version": "1.1.4",
   "description": "Javascript BPE Encoder Decoder for GPT-2 / GPT-3",
   "main": "index.js",
-  "types": "./index.d.ts",
   "files": [
+    "data",
     "Encoder.js",
-    "encoder.json",
-    "vocab.bpe",
-    "index.d.ts"
+    "index.js",
+    "utils.js"
   ],
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build-types": "tsc -p .",
+    "prettier": "prettier --write ."
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AIDungeon/GPT-3-Encoder.git"
   },
   "author": "",
+  "contributors": [
+    {
+      "name": "Bazyli Brzoska",
+      "email": "npm@invent.life",
+      "url": "https://github.com/niieani"
+    }
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/AIDungeon/GPT-3-Encoder/issues"
   },
   "homepage": "https://github.com/AIDungeon/GPT-3-Encoder#readme",
   "devDependencies": {
-    "jest": "^26.4.2"
+    "@types/jest": "^29.5.0",
+    "@types/node": "^18.15.11",
+    "jest": "^29.5.0",
+    "prettier": "^2.8.7",
+    "typescript": "^5.0.4"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "all"
   }
 }

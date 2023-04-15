@@ -1,6 +1,1 @@
-const { encode, decode } = require("./Encoder");
-
-module.exports = {
-  encode,
-  decode,
-};
+module.exports = require("./encoder");
