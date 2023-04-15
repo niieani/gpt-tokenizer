@@ -165,48 +165,82 @@ function encode(text) {
 }
 
 /**
- * @param {number[]} tokens
+ * @param {number} token
+ * @param {number[]} buffer
+ * @returns {string | undefined}
+ */
+function decodeToken(token, buffer) {
+  const decodedToken = decoder[token];
+  if (typeof decodedToken === "undefined") {
+    return;
+  }
+  const decodedBytes = splitToken(decodedToken).map((x) => byteDecoder.get(x));
+
+  let decodedString = "";
+  for (const byte of decodedBytes) {
+    if (typeof byte === "undefined") {
+      continue;
+    }
+    buffer.push(byte);
+    const utf16str = textDecoder.decode(new Uint8Array(buffer), {
+      stream: true,
+    });
+
+    // Check if the last character is a high surrogate
+    const lastCharCode = utf16str.charCodeAt(utf16str.length - 1);
+    if (
+      utf16str.length > 0 &&
+      lastCharCode >= 0xd8_00 &&
+      lastCharCode <= 0xdb_ff
+    ) {
+      // Keep the high surrogate in the buffer and continue with the next token
+      continue;
+    } else {
+      decodedString += utf16str;
+      // reset buffer
+      buffer.length = 0;
+    }
+  }
+  if (decodedString.length > 0) {
+    return decodedString;
+  }
+}
+
+/**
+ * @param {Iterable<number>} tokens
  * @returns {Generator<string, void, undefined>}
  */
 function* decodeGenerator(tokens) {
   /** @type {number[]} */
-  let buffer = [];
+  const buffer = [];
 
   for (const token of tokens) {
-    const decodedToken = decoder[token];
-    if (typeof decodedToken === "undefined") {
-      continue;
+    const result = decodeToken(token, buffer);
+    if (typeof result !== "undefined") {
+      yield result;
     }
-    const decodedBytes = splitToken(decodedToken).map((x) =>
-      byteDecoder.get(x),
-    );
+  }
 
-    let decodedString = "";
-    for (const byte of decodedBytes) {
-      if (typeof byte === "undefined") {
-        continue;
-      }
-      buffer.push(byte);
-      const utf16str = textDecoder.decode(new Uint8Array(buffer), {
-        stream: true,
-      });
+  // Yield any remaining characters in the buffer
+  if (buffer.length > 0) {
+    yield textDecoder.decode(new Uint8Array(buffer));
+  }
+}
 
-      // Check if the last character is a high surrogate
-      const lastCharCode = utf16str.charCodeAt(utf16str.length - 1);
-      if (
-        utf16str.length > 0 &&
-        lastCharCode >= 0xd8_00 &&
-        lastCharCode <= 0xdb_ff
-      ) {
-        // Keep the high surrogate in the buffer and continue with the next token
-        continue;
-      } else {
-        decodedString += utf16str;
-        buffer = [];
-      }
-    }
-    if (decodedString.length > 0) {
-      yield decodedString;
+/**
+ * Decode tokens asynchronously and yield the decoded strings, one by one.
+ * Will not yield for tokens that include a high surrogate, but wait for the next token.
+ * @param {AsyncIterable<number>} tokens
+ * @returns {AsyncGenerator<string, void, undefined>}
+ */
+async function* decodeAsyncGenerator(tokens) {
+  /** @type {number[]} */
+  const buffer = [];
+
+  for await (const token of tokens) {
+    const result = decodeToken(token, buffer);
+    if (typeof result !== "undefined") {
+      yield result;
     }
   }
 
@@ -228,4 +262,5 @@ module.exports.encode = encode;
 module.exports.decode = decode;
 module.exports.encodeGenerator = encodeGenerator;
 module.exports.decodeGenerator = decodeGenerator;
+module.exports.decodeAsyncGenerator = decodeAsyncGenerator;
 module.exports.isWithinTokenLimit = isWithinTokenLimit;

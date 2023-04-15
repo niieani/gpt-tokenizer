@@ -22,6 +22,11 @@
     /* Completeness */
     "skipLibCheck": true /* Skip type checking all .d.ts files. */
   },
-  "include": ["*.js", "data/*"],
-  "exclude": ["jest.config.js"]
+  "include": [
+    "*.js",
+    "data/*.js"
+  ],
+  "exclude": [
+    "jest.config.js"
+  ]
 }
