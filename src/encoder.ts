@@ -1,8 +1,12 @@
 /* eslint-disable unicorn/prefer-spread */
 /* eslint-disable unicorn/prefer-code-point */
 
-import bpeRanksData from './data/bpeRanks.json'
-import encoderData from './data/encoder.json'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment, @typescript-eslint/prefer-ts-expect-error
+// @ts-ignore
+import bpeRanksData from '../data/bpeRanks.json'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment, @typescript-eslint/prefer-ts-expect-error
+// @ts-ignore
+import encoderData from '../data/encoder.json'
 import {
   dictZip,
   getCharCode,
