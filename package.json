@@ -1,27 +1,31 @@
 {
-  "name": "fast-gpt-3-encoder",
+  "name": "gpt-tokenizer",
   "version": "0.0.0",
-  "description": "Javascript BPE Encoder Decoder for GPT-2 / GPT-3",
+  "description": "BPE Encoder Decoder for GPT-2 / GPT-3",
   "keywords": [
     "BPE",
-    "Encoder",
-    "Decoder",
+    "encoder",
+    "decoder",
+    "tokenizer",
+    "GPT",
     "GPT-2",
     "GPT-3",
     "GPT-3.5",
     "GPT-4",
-    "Natural Language Processing (NLP)",
+    "NLP",
+    "Natural Language Processing",
     "Text Generation",
     "OpenAI",
-    "Machine Learning"
+    "Machine Learning",
+    "ml"
   ],
-  "homepage": "https://github.com/niieani/fast-gpt-3-encoder#readme",
+  "homepage": "https://github.com/niieani/gpt-tokenizer#readme",
   "bugs": {
-    "url": "https://github.com/niieani/fast-gpt-3-encoder/issues"
+    "url": "https://github.com/niieani/gpt-tokenizer/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/niieani/fast-gpt-3-encoder.git"
+    "url": "git+https://github.com/niieani/gpt-tokenizer.git"
   },
   "license": "MIT",
   "author": "Bazyli Brzoska <npm@invent.life> (https://github.com/niieani)",
