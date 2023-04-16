@@ -1,4 +1,6 @@
-# `gpt-tokenizer`
+# gpt-tokenizer
+
+[![Play with gpt-tokenizer](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/gpt-tokenizer-tjcjoz?fontsize=14&hidenavigation=1&theme=dark)
 
 `gpt-tokenizer` is a highly optimized Token Byte Pair Encoder/Decoder for GPT-2, GPT-3, GPT-3.5 and GPT-4 designed for JavaScript applications. OpenAI's GPT models utilize byte pair encoding to transform text into a sequence of integers before feeding them into the model. This package is a JavaScript implementation of OpenAI's original Python encoder/decoder, which can be found [here](https://github.com/openai/gpt-2).
 
@@ -27,6 +29,14 @@ As an UMD module:
 ```html
 <script src="https://unpkg.com/gpt-tokenizer" />
 ```
+
+## Playground
+
+You can play with the package in the browser using the [Playground](https://codesandbox.io/s/gpt-tokenizer-tjcjoz?fontsize=14&hidenavigation=1&theme=dark).
+
+[![GPT Tokenizer Playground](./docs/gpt-tokenizer.png)](https://codesandbox.io/s/gpt-tokenizer-tjcjoz?fontsize=14&hidenavigation=1&theme=dark)
+
+The playground mimics the official [OpenAI Tokenizer](https://platform.openai.com/tokenizer).
 
 ## Usage
 
