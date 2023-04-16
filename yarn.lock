@@ -6857,15 +6857,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-gpt-3-encoder@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "fast-gpt-3-encoder@workspace:."
-  dependencies:
-    "@niieani/scaffold": ^1.6.7
-    tsx: ^3.12.6
-  languageName: unknown
-  linkType: soft
-
 "fast-json-stable-stringify@npm:2.x, fast-json-stable-stringify@npm:^2.0.0":
   version: 2.1.0
   resolution: "fast-json-stable-stringify@npm:2.1.0"
@@ -7481,6 +7472,15 @@ __metadata:
   checksum: a5ccfb8806e0917a94e0b3de2af2ea4979c1da920bc381667c260e00e7cafdbe844e2cb9c5bcfef4e5412e8bf73bab837285bc35c7ba73aaaf0134d4583393a6
   languageName: node
   linkType: hard
+
+"gpt-tokenizer@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "gpt-tokenizer@workspace:."
+  dependencies:
+    "@niieani/scaffold": ^1.6.7
+    tsx: ^3.12.6
+  languageName: unknown
+  linkType: soft
 
 "graceful-fs@npm:*, graceful-fs@npm:^4.1.2, graceful-fs@npm:^4.1.5, graceful-fs@npm:^4.1.6, graceful-fs@npm:^4.2.0, graceful-fs@npm:^4.2.4, graceful-fs@npm:^4.2.6, graceful-fs@npm:^4.2.9":
   version: 4.2.11
