@@ -166,44 +166,30 @@ function encode(text) {
 
 /**
  * @param {number} token
- * @param {number[]} buffer
  * @returns {string | undefined}
  */
-function decodeToken(token, buffer) {
+function decodeToken(token) {
   const decodedToken = decoder[token];
   if (typeof decodedToken === "undefined") {
-    return;
+    return "";
   }
-  const decodedBytes = splitToken(decodedToken).map((x) => byteDecoder.get(x));
+  const decodedBytes = splitToken(decodedToken).map(
+    (x) => /** @type {number} */ (byteDecoder.get(x)),
+  );
+  return textDecoder.decode(new Uint8Array(decodedBytes), {
+    stream: true,
+  });
+}
 
-  let decodedString = "";
-  for (const byte of decodedBytes) {
-    if (typeof byte === "undefined") {
-      continue;
-    }
-    buffer.push(byte);
-    const utf16str = textDecoder.decode(new Uint8Array(buffer), {
-      stream: true,
-    });
-
-    // Check if the last character is a high surrogate
-    const lastCharCode = utf16str.charCodeAt(utf16str.length - 1);
-    if (
-      utf16str.length > 0 &&
-      lastCharCode >= 0xd8_00 &&
-      lastCharCode <= 0xdb_ff
-    ) {
-      // Keep the high surrogate in the buffer and continue with the next token
-      continue;
-    } else {
-      decodedString += utf16str;
-      // reset buffer
-      buffer.length = 0;
-    }
-  }
-  if (decodedString.length > 0) {
-    return decodedString;
-  }
+/**
+ * @param {string} string
+ * @returns {boolean}
+ */
+function endsWithIncompleteUtfPairSurrogate(string) {
+  if (string.length === 0) return false;
+  // Check if the last character is a high surrogate
+  const lastCharCode = string.charCodeAt(string.length - 1);
+  return lastCharCode >= 55296 && lastCharCode <= 56319;
 }
 
 /**
@@ -211,19 +197,25 @@ function decodeToken(token, buffer) {
  * @returns {Generator<string, void, undefined>}
  */
 function* decodeGenerator(tokens) {
-  /** @type {number[]} */
-  const buffer = [];
+  /** @type {string} */
+  let buffer = "";
 
   for (const token of tokens) {
-    const result = decodeToken(token, buffer);
-    if (typeof result !== "undefined") {
-      yield result;
+    buffer += decodeToken(token);
+
+    if (buffer.length === 0 || endsWithIncompleteUtfPairSurrogate(buffer)) {
+      // Keep the high surrogate in the buffer and continue with the next token
+      continue;
+    } else {
+      yield buffer;
+      // reset buffer
+      buffer = "";
     }
   }
 
   // Yield any remaining characters in the buffer
   if (buffer.length > 0) {
-    yield textDecoder.decode(new Uint8Array(buffer));
+    yield buffer;
   }
 }
 
@@ -234,19 +226,25 @@ function* decodeGenerator(tokens) {
  * @returns {AsyncGenerator<string, void, undefined>}
  */
 async function* decodeAsyncGenerator(tokens) {
-  /** @type {number[]} */
-  const buffer = [];
+  /** @type {string} */
+  let buffer = "";
 
   for await (const token of tokens) {
-    const result = decodeToken(token, buffer);
-    if (typeof result !== "undefined") {
-      yield result;
+    buffer += decodeToken(token);
+
+    if (buffer.length === 0 || endsWithIncompleteUtfPairSurrogate(buffer)) {
+      // Keep the high surrogate in the buffer and continue with the next token
+      continue;
+    } else {
+      yield buffer;
+      // reset buffer
+      buffer = "";
     }
   }
 
   // Yield any remaining characters in the buffer
   if (buffer.length > 0) {
-    yield textDecoder.decode(new Uint8Array(buffer));
+    yield buffer;
   }
 }
 
