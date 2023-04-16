@@ -67,7 +67,8 @@
   "files": [
     "src",
     "cjs",
-    "esm"
+    "esm",
+    "data"
   ],
   "scripts": {
     "build": "yarn build:cjs && yarn build:esm && yarn build:umd",
