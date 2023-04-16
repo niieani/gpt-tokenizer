@@ -49,14 +49,12 @@ const byteEncoder = createByteToUnicodeMap();
 /** @type {Map<string, number>} */
 const byteDecoder = new Map(Array.from(byteEncoder, ([k, v]) => [v, k]));
 
-/** @type {Map<string, string>} */
-const cache = new Map();
-
 /**
  * @param {string} token
+ * @param {Map<string, string>} cache
  * @returns {string}
  */
-function bpe(token) {
+function bpe(token, cache = new Map()) {
   if (cache.has(token)) {
     return /** @type {string} */ (cache.get(token));
   }
@@ -122,16 +120,17 @@ function bpe(token) {
 
 /**
  * @param {string} text
+ * @param {Map<string, string>} cache
  * @returns {Generator<number[], void, undefined>}
  */
-function* encodeGenerator(text) {
+function* encodeGenerator(text, cache = new Map()) {
   for (let [token] of text.matchAll(pat)) {
     token = Array.from(
       textEncoder.encode(token),
       (x) => byteEncoder.get(x) ?? "",
     ).join("");
 
-    const new_tokens = bpe(token)
+    const new_tokens = bpe(token, cache)
       .split(" ")
       .map((x) => encoder[x]);
 
@@ -142,10 +141,11 @@ function* encodeGenerator(text) {
 /**
  * @param {string} text
  * @param {number} tokenLimit
+ * @param {Map<string, string>} cache
  * @returns {false | number} false if token limit is exceeded, otherwise the number of tokens
  */
-function isWithinTokenLimit(text, tokenLimit) {
-  const tokenGenerator = encodeGenerator(text);
+function isWithinTokenLimit(text, tokenLimit, cache = new Map()) {
+  const tokenGenerator = encodeGenerator(text, cache);
   let count = 0;
   for (const tokens of tokenGenerator) {
     count += tokens.length;
@@ -158,10 +158,11 @@ function isWithinTokenLimit(text, tokenLimit) {
 
 /**
  * @param {string} text
+ * @param {Map<string, string>} cache
  * @returns {number[]}
  */
-function encode(text) {
-  return Array.from(encodeGenerator(text)).flat(1);
+function encode(text, cache = new Map()) {
+  return Array.from(encodeGenerator(text, cache)).flat(1);
 }
 
 /**
