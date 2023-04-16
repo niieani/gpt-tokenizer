@@ -1,44 +1,112 @@
 {
-  "name": "gpt-3-encoder",
-  "version": "1.1.4",
+  "name": "fast-gpt-3-encoder",
+  "version": "0.0.0",
   "description": "Javascript BPE Encoder Decoder for GPT-2 / GPT-3",
-  "main": "index.js",
-  "files": [
-    "data",
-    "Encoder.js",
-    "index.js",
-    "utils.js"
+  "keywords": [
+    "BPE",
+    "Encoder",
+    "Decoder",
+    "GPT-2",
+    "GPT-3",
+    "GPT-3.5",
+    "GPT-4",
+    "Natural Language Processing (NLP)",
+    "Text Generation",
+    "OpenAI",
+    "Machine Learning"
   ],
-  "scripts": {
-    "test": "jest",
-    "build-types": "tsc -p .",
-    "prettier": "prettier --write ."
+  "homepage": "https://github.com/niieani/fast-gpt-3-encoder#readme",
+  "bugs": {
+    "url": "https://github.com/niieani/fast-gpt-3-encoder/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AIDungeon/GPT-3-Encoder.git"
+    "url": "git+https://github.com/niieani/fast-gpt-3-encoder.git"
   },
-  "author": "",
+  "license": "MIT",
+  "author": "Bazyli Brzoska <npm@invent.life> (https://github.com/niieani)",
   "contributors": [
+    {
+      "name": "Nick Walton",
+      "url": "https://github.com/nickwalton"
+    },
     {
       "name": "Bazyli Brzoska",
       "email": "npm@invent.life",
       "url": "https://github.com/niieani"
     }
   ],
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/AIDungeon/GPT-3-Encoder/issues"
+  "exports": {
+    ".": {
+      "import": "./esm/main.js",
+      "require": "./cjs/main.js"
+    },
+    "./*": {
+      "import": "./esm/*.js",
+      "require": "./cjs/*.js"
+    },
+    "./cjs": {
+      "require": "./cjs/main.js"
+    },
+    "./cjs/*": {
+      "require": "./cjs/*.js"
+    },
+    "./esm/*": {
+      "import": "./esm/*.js"
+    },
+    "./package.json": "./package.json"
   },
-  "homepage": "https://github.com/AIDungeon/GPT-3-Encoder#readme",
+  "main": "esm/main.js",
+  "unpkg": "dist/main.js",
+  "module": "esm/main.js",
+  "source": "src/main.ts",
+  "files": [
+    "src",
+    "cjs",
+    "esm"
+  ],
+  "scripts": {
+    "build": "yarn build:cjs && yarn build:esm && yarn build:umd",
+    "build:cjs": "yarn rrun tsc --outDir cjs --module commonjs --target es2022",
+    "build:esm": "yarn rrun tsc --outDir esm --module esnext --target es2022",
+    "build:umd": "beemo webpack --entry='./src/main.ts' --env 'outDir=dist' --env 'moduleTarget=umd' --env 'engineTarget=web' --env 'codeTarget=es2022' --env 'name=GPT3Encoder' --env 'export=default' --env 'filename=gpt3encoder.js'",
+    "clean": "git clean -dfX --exclude=node_modules src && beemo typescript:sync-project-refs",
+    "format": "yarn rrun prettier --write \"./{src,tests,.config}/**/!(*.d).{.js,jsx,ts,tsx,json,md}\"",
+    "postinstallDev": "yarn prepare",
+    "prepare": "rrun husky install .config/husky && beemo create-config",
+    "release": "beemo run-script release",
+    "test": "yarn test:format && yarn test:types && yarn test:lint && yarn test:code",
+    "test:code": "rrun jest",
+    "test:format": "yarn rrun prettier --check \"./{src,tests,.config}/**/!(*.d).{.js,jsx,ts,tsx,json,md}\"",
+    "test:lint": "rrun eslint 'src/**/*.{js,jsx,ts,tsx}'",
+    "test:types": "yarn rrun tsc --noEmit"
+  },
+  "release": {
+    "branches": [
+      "+([0-9])?(.{+([0-9]),x}).x",
+      "master",
+      {
+        "name": "main",
+        "channel": false
+      },
+      "next",
+      {
+        "name": "beta",
+        "prerelease": true
+      },
+      {
+        "name": "alpha",
+        "prerelease": true
+      }
+    ],
+    "tagFormat": "${version}"
+  },
   "devDependencies": {
-    "@types/jest": "^29.5.0",
-    "@types/node": "^18.15.11",
-    "jest": "^29.5.0",
-    "prettier": "^2.8.7",
-    "typescript": "^5.0.4"
+    "@niieani/scaffold": "^1.6.7",
+    "tsx": "^3.12.6"
   },
-  "prettier": {
-    "trailingComma": "all"
+  "packageManager": "yarn@3.5.0",
+  "publishConfig": {
+    "access": "public"
   }
 }
