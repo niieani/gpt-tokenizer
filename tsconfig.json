@@ -1,32 +1,32 @@
 {
   "compilerOptions": {
-    /* Visit https://aka.ms/tsconfig to read more about this file */
-    "target": "es2016" /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */,
-    /* Modules */
-    "module": "commonjs" /* Specify what module code is generated. */,
-    "rootDir": "./" /* Specify the root folder within your source files. */,
-    "resolveJsonModule": true /* Enable importing .json files. */,
-    /* JavaScript Support */
-    "allowJs": true /* Allow JavaScript files to be a part of your program. Use the 'checkJS' option to get errors from these files. */,
-    "checkJs": true /* Enable error reporting in type-checked JavaScript files. */,
-    "maxNodeModuleJsDepth": 0 /* Specify the maximum folder depth used for checking JavaScript files from 'node_modules'. Only applicable with 'allowJs'. */,
-    /* Emit */
-    "declaration": true /* Generate .d.ts files from TypeScript and JavaScript files in your project. */,
-    "emitDeclarationOnly": true /* Only output d.ts files and not JavaScript files. */,
-    "outDir": "./" /* Specify an output folder for all emitted files. */,
-    /* Interop Constraints */
-    "esModuleInterop": true /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */,
-    "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */,
-    /* Type Checking */
-    "strict": true /* Enable all strict type-checking options. */,
-    /* Completeness */
-    "skipLibCheck": true /* Skip type checking all .d.ts files. */
+    "strict": true,
+    "module": "esnext",
+    "target": "esnext",
+    "esModuleInterop": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "sourceMap": true,
+    "declaration": true,
+    "forceConsistentCasingInFileNames": true,
+    "importsNotUsedAsValues": "error",
+    "moduleResolution": "node",
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noUncheckedIndexedAccess": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true
   },
-  "include": [
-    "*.js",
-    "data/*.js"
-  ],
   "exclude": [
-    "jest.config.js"
+    "node_modules/",
+    "build/",
+    "cjs/",
+    "coverage/",
+    "dist/",
+    "dts/",
+    "esm/",
+    "lib/",
+    "mjs/",
+    "umd/"
   ]
 }
