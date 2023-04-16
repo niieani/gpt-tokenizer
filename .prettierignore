@@ -8,4 +8,4 @@ esm/
 lib/
 mjs/
 umd/
-src/data/*.json
+data/
