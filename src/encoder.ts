@@ -126,7 +126,7 @@ function bpe(token: string, cache: Map<string, string> = new Map()): string {
   return result
 }
 
-function* encodeGenerator(
+export function* encodeGenerator(
   text: string,
   cache: Map<string, string> = new Map(),
 ): Generator<number[], void, undefined> {
