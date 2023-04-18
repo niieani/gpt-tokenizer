@@ -61,7 +61,7 @@
     "./package.json": "./package.json"
   },
   "main": "esm/main.js",
-  "unpkg": "dist/main.js",
+  "unpkg": "dist/gpt3encoder.js",
   "module": "esm/main.js",
   "source": "src/main.ts",
   "files": [
