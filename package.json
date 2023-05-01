@@ -87,7 +87,7 @@
     "test": "yarn test:format && yarn test:types && yarn test:lint && yarn test:code",
     "test:code": "rrun jest",
     "test:format": "yarn rrun prettier --check \"./{src,tests,.config}/**/!(*.d).{.js,jsx,ts,tsx,json,md}\"",
-    "test:lint": "rrun eslint 'src/**/*.{js,jsx,ts,tsx}'",
+    "test:lint": "rrun eslint 'src/*.{js,jsx,ts,tsx}'",
     "test:types": "yarn rrun tsc --noEmit"
   },
   "release": {

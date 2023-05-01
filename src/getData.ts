@@ -16,7 +16,8 @@ const bpeMerges = lines.slice(1, -1).map((x) =>
 )
 
 const bpeRanks = dictZip(bpeMerges, range(0, bpeMerges.length))
-const encoder = require('../data/encoder.json')
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+const encoder: object = require('../data/encoder.json')
 
 fs.mkdirSync(path.join(__dirname, 'data'), { recursive: true })
 fs.writeFileSync(
@@ -31,4 +32,3 @@ fs.writeFileSync(
     encoder,
   )}`,
 )
-
