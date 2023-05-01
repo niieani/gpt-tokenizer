@@ -16,8 +16,19 @@ const bpeMerges = lines.slice(1, -1).map((x) =>
 )
 
 const bpeRanks = dictZip(bpeMerges, range(0, bpeMerges.length))
+const encoder = require('../data/encoder.json')
 
+fs.mkdirSync(path.join(__dirname, 'data'), { recursive: true })
 fs.writeFileSync(
-  path.join(__dirname, '../data/bpeRanks.json'),
-  JSON.stringify(bpeRanks),
+  path.join(__dirname, 'data/bpeRanks.js'),
+  `/* eslint-disable */\n// @ts-nocheck\n// prettier-ignore\nexport default ${JSON.stringify(
+    bpeRanks,
+  )}`,
 )
+fs.writeFileSync(
+  path.join(__dirname, 'data/encoder.js'),
+  `/* eslint-disable */\n// @ts-nocheck\n// prettier-ignore\nexport default ${JSON.stringify(
+    encoder,
+  )}`,
+)
+

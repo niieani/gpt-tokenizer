@@ -5,7 +5,7 @@ import {
   decodeGenerator,
   encode,
   isWithinTokenLimit,
-} from './encoder'
+} from './main'
 
 describe('basic functionality', () => {
   it('empty string', () => {
