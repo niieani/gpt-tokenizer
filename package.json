@@ -72,7 +72,8 @@
     "src",
     "cjs",
     "esm",
-    "data"
+    "data",
+    "dist"
   ],
   "scripts": {
     "build": "yarn build:cjs && yarn build:esm && yarn build:umd",
