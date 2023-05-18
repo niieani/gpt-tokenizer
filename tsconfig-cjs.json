@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "verbatimModuleSyntax": false
+  },
+  "exclude": [
+    "src/generateByModel.ts",
+    "src/generateJsModels.ts"
+  ]
+}

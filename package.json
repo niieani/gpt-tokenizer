@@ -31,10 +31,6 @@
   "author": "Bazyli Brzoska <npm@invent.life> (https://github.com/niieani)",
   "contributors": [
     {
-      "name": "Nick Walton",
-      "url": "https://github.com/nickwalton"
-    },
-    {
       "name": "Bazyli Brzoska",
       "email": "npm@invent.life",
       "url": "https://github.com/niieani"
@@ -65,7 +61,7 @@
     "./package.json": "./package.json"
   },
   "main": "esm/main.js",
-  "unpkg": "dist/gpt3encoder.js",
+  "unpkg": "dist/cl100k_base.js",
   "module": "esm/main.js",
   "source": "src/main.ts",
   "files": [
@@ -77,9 +73,13 @@
   ],
   "scripts": {
     "build": "yarn build:cjs && yarn build:esm && yarn build:umd",
-    "build:cjs": "yarn rrun tsc --outDir cjs --module commonjs --target es2022",
+    "build:cjs": "yarn rrun tsc --outDir cjs --module commonjs --target es2022 --project tsconfig-cjs.json",
     "build:esm": "yarn rrun tsc --outDir esm --module esnext --target es2022 && echo '{\"name\": \"gpt-tokenizer\", \"type\": \"module\"}' > ./esm/package.json",
-    "build:umd": "beemo webpack --entry='./src/main.ts' --env 'outDir=dist' --env 'moduleTarget=umd' --env 'engineTarget=web' --env 'codeTarget=es2022' --env 'name=GPT3Encoder' --env 'export=default' --env 'filename=gpt3encoder.js'",
+    "build:umd": "yarn build:umd:cl100k_base && yarn build:umd:p50k_base && yarn build:umd:p50k_edit && yarn build:umd:r50k_base",
+    "build:umd:cl100k_base": "beemo webpack --entry='./src/main.ts' --env 'outDir=dist' --env 'moduleTarget=umd' --env 'engineTarget=web' --env 'codeTarget=es2022' --env 'name=GPT3Encoder' --env 'export=default' --env 'filename=cl100k_base.js'",
+    "build:umd:p50k_base": "beemo webpack --entry='./src/encoding/p50k_base.ts' --env 'outDir=dist' --env 'moduleTarget=umd' --env 'engineTarget=web' --env 'codeTarget=es2022' --env 'name=GPT3Encoder' --env 'export=default' --env 'filename=p50k_base.js'",
+    "build:umd:p50k_edit": "beemo webpack --entry='./src/encoding/p50k_edit.ts' --env 'outDir=dist' --env 'moduleTarget=umd' --env 'engineTarget=web' --env 'codeTarget=es2022' --env 'name=GPT3Encoder' --env 'export=default' --env 'filename=p50k_edit.js'",
+    "build:umd:r50k_base": "beemo webpack --entry='./src/encoding/r50k_base.ts' --env 'outDir=dist' --env 'moduleTarget=umd' --env 'engineTarget=web' --env 'codeTarget=es2022' --env 'name=GPT3Encoder' --env 'export=default' --env 'filename=r50k_base.js'",
     "clean": "git clean -dfX --exclude=node_modules src && beemo typescript:sync-project-refs",
     "format": "yarn rrun prettier --write \"./{src,tests,.config}/**/!(*.d).{.js,jsx,ts,tsx,json,md}\"",
     "postinstallDev": "yarn prepare",
@@ -112,11 +112,14 @@
     "tagFormat": "${version}"
   },
   "devDependencies": {
-    "@niieani/scaffold": "^1.6.7",
+    "@niieani/scaffold": "^1.7.1",
     "tsx": "^3.12.7"
   },
   "packageManager": "yarn@3.5.0",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "rfc4648": "^1.5.2"
   }
 }

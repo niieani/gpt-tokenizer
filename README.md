@@ -2,18 +2,19 @@
 
 [![Play with gpt-tokenizer](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/gpt-tokenizer-tjcjoz?fontsize=14&hidenavigation=1&theme=dark)
 
-`gpt-tokenizer` is a highly optimized Token Byte Pair Encoder/Decoder for GPT-2, GPT-3, GPT-3.5 and GPT-4 designed for JavaScript applications. OpenAI's GPT models utilize byte pair encoding to transform text into a sequence of integers before feeding them into the model. This package is a JavaScript implementation of OpenAI's original Python encoder/decoder, which can be found [here](https://github.com/openai/gpt-2).
+`gpt-tokenizer` is a highly optimized Token Byte Pair Encoder/Decoder for all OpenAI's models (including those used by GPT-2, GPT-3, GPT-3.5 and GPT-4), written in TypeScript. OpenAI's GPT models utilize byte pair encoding to transform text into a sequence of integers before feeding them into the model.
 
-This package is a fork of [latitudegames/GPT-3-Encoder](https://github.com/latitudegames/GPT-3-Encoder), improving on various aspects, such as:
+This package started off as a fork of [latitudegames/GPT-3-Encoder](https://github.com/latitudegames/GPT-3-Encoder), but then in version 2.0 was rewritten from scratch by porting @dmitry-brazhenko's [SharpToken](https://github.com/dmitry-brazhenko/SharpToken), and adding additional features.
 
-- Adding generator versions of both decoder and encoder
-- Providing the ability to decode an asynchronous stream of data (using `decodeAsyncGenerator` and `decodeGenerator` with any iterable input)
-- Removing the global cache to prevent memory leaks
-- Adding a highly performant `isWithinTokenLimit` function to assess token limit without encoding the entire text
-- Improving overall performance by eliminating transitive arrays
-- Including precomputed `bpeRanks`
-- Adding type-checking
-- Fixing minor bugs (thanks to TypeScript)
+As of 2023, it is the most feature-complete, open-source GPT tokenizer on NPM. It implements some unique features, such as:
+
+- Support for all current OpenAI models (available encodings: `r50k_base`, `p50k_base`, `p50k_edit` and `cl100k_base`)
+- Generator function versions of both the decoder and encoder
+- Provides the ability to decode an asynchronous stream of data (using `decodeAsyncGenerator` and `decodeGenerator` with any iterable input)
+- No global cache (no accidental memory leaks, as with the original GPT-3-Encoder implementation)
+- Includes a highly performant `isWithinTokenLimit` function to assess token limit without encoding the entire text
+- Improves overall performance by eliminating transitive arrays
+- Adds type-checking
 - Works in the browser out-of-the-box
 
 ## Installation
@@ -80,33 +81,74 @@ for await (const textChunk of decodeAsyncGenerator(asyncTokens)) {
 }
 ```
 
-## Caching Between Runs of Encode-related Functions
+By default, importing from `'gpt-tokenizer'` uses `cl100k_base` encoding, used by GPT-3.5 and GPT-4.
 
-You may want to encode multiple pieces of text with similar content or structure. In such cases, using a single cache between runs of encode-related functions can help improve performance. By sharing the cache, you can reuse the results of previously calculated byte pair encodings, thereby reducing redundant computations.
+To get a tokenizer for a different model, import it directly, for example:
 
-However, it's important to be aware of potential memory consumption issues when using a shared cache when encoding lots of higher range unicode characters (non-latin/complex alphabets, emojis), potentially leading to performance degradation or even crashes due to excessive memory usage.
-
-In such a case, it is recommended to use a custom `Map` implementation that uses a LRU cache to limit the size of the cache.
-
-Here's an example of how to use a shared cache between runs of the `encode` function:
-
-```typescript
-import { encode } from 'gpt-tokenizer'
-
-const cache = new Map()
-
-const text1 = 'Hello, world!'
-const text2 = 'Hello, everyone!'
-
-const tokens1 = encode(text1, cache)
-const tokens2 = encode(text2, cache)
+```ts
+import {
+  encode,
+  decode,
+  isWithinTokenLimit,
+} from 'gpt-tokenizer/model/text-davinci-003'
 ```
+
+Supported models and their encodings:
+
+chat:
+
+- gpt-4 (cl100k_base)
+- gpt-3.5-turbo (cl100k_base)
+
+text:
+
+- text-davinci-003 (p50k_base)
+- text-davinci-002 (p50k_base)
+- text-davinci-001 (r50k_base)
+- text-curie-001 (r50k_base)
+- text-babbage-001 (r50k_base)
+- text-ada-001 (r50k_base)
+- davinci (r50k_base)
+- curie (r50k_base)
+- babbage (r50k_base)
+- ada (r50k_base)
+
+code:
+
+- code-davinci-002 (p50k_base)
+- code-davinci-001 (p50k_base)
+- code-cushman-002 (p50k_base)
+- code-cushman-001 (p50k_base)
+- davinci-codex (p50k_base)
+- cushman-codex (p50k_base)
+
+edit:
+
+- text-davinci-edit-001 (p50k_edit)
+- code-davinci-edit-001 (p50k_edit)
+
+embeddings:
+
+- text-embedding-ada-002 (cl100k_base)
+
+old embeddings:
+
+- text-similarity-davinci-001 (r50k_base)
+- text-similarity-curie-001 (r50k_base)
+- text-similarity-babbage-001 (r50k_base)
+- text-similarity-ada-001 (r50k_base)
+- text-search-davinci-doc-001 (r50k_base)
+- text-search-curie-doc-001 (r50k_base)
+- text-search-babbage-doc-001 (r50k_base)
+- text-search-ada-doc-001 (r50k_base)
+- code-search-babbage-code-001 (r50k_base)
+- code-search-ada-code-001 (r50k_base)
 
 ## API
 
-### `encode(text: string, cache?: Map<string, string>): number[]`
+### `encode(text: string): number[]`
 
-Encodes the given text into a sequence of tokens. Use this method when you need to transform a piece of text into the token format that GPT-2 or GPT-3 models can process. You can provide an optional cache to store and reuse byte pair encoding results between multiple calls.
+Encodes the given text into a sequence of tokens. Use this method when you need to transform a piece of text into the token format that GPT-2 or GPT-3 models can process.
 
 Example:
 
@@ -130,7 +172,7 @@ const tokens = [18435, 198, 23132, 328]
 const text = decode(tokens)
 ```
 
-### `isWithinTokenLimit(text: string, tokenLimit: number, cache?: Map<string, string>): false | number`
+### `isWithinTokenLimit(text: string, tokenLimit: number): false | number`
 
 Checks if the text is within the token limit. Returns `false` if the limit is exceeded, otherwise returns the number of tokens. Use this method to quickly check if a given text is within the token limit imposed by GPT-2 or GPT-3 models, without encoding the entire text.
 
@@ -144,7 +186,7 @@ const tokenLimit = 10
 const withinTokenLimit = isWithinTokenLimit(text, tokenLimit)
 ```
 
-### `encodeGenerator(text: string, cache?: Map<string, string>): Generator<number[], void, undefined>`
+### `encodeGenerator(text: string): Generator<number[], void, undefined>`
 
 Encodes the given text using a generator, yielding chunks of tokens.
 Use this method when you want to encode text in chunks, which can be useful for processing large texts or streaming data.

@@ -1,0 +1,7 @@
+{
+  "name": "gpt-tokenizer",
+  "type": "module",
+  "dependencies": {
+    "rfc4648": "^1.5.2"
+  }
+}
