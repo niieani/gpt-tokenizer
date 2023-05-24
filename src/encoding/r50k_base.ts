@@ -3,6 +3,8 @@ import { convertTokenBytePairEncodingFromTuples } from '../convertTokenBytePairE
 import encoder from '../encodings/r50k_base.js'
 import { GptEncoding } from '../GptEncoding.js'
 
+export * from '../specialTokens.js'
+
 const api = GptEncoding.getEncodingApi('r50k_base', () =>
   convertTokenBytePairEncodingFromTuples(encoder),
 )
@@ -22,3 +24,5 @@ export {
   encodeGenerator,
   isWithinTokenLimit,
 }
+// eslint-disable-next-line import/no-default-export
+export default api

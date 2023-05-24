@@ -1,6 +1,13 @@
 /* eslint-disable no-magic-numbers */
 import { EncoderMap } from './EncoderMap.js'
 import type { EncodingName } from './mapping.js'
+import {
+  EndOfPrompt,
+  EndOfText,
+  FimMiddle,
+  FimPrefix,
+  FimSuffix,
+} from './specialTokens.js'
 
 export interface ModelParams {
   /**
@@ -18,12 +25,6 @@ export interface ModelParams {
   mergeableBytePairRanks: EncoderMap
   specialTokenMapping: Map<string, number>
 }
-
-const EndOfText = '<|endoftext|>'
-const FimPrefix = '<|fim_prefix|>'
-const FimMiddle = '<|fim_middle|>'
-const FimSuffix = '<|fim_suffix|>'
-const EndOfPrompt = '<|endofprompt|>'
 
 const tokenSplitRegex =
   /'s|'t|'re|'ve|'m|'ll|'d| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+/gu

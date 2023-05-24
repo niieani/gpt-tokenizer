@@ -1,3 +1,5 @@
+import fs from 'fs'
+import path from 'path'
 import { GptEncoding } from './GptEncoding.js'
 import { type EncodingName, encodingNames } from './mapping.js'
 import { resolveEncoding } from './resolveEncoding.js'
@@ -38,6 +40,9 @@ const results = {
   p50k_edit: sharedResults,
   r50k_base: sharedResults,
 } satisfies Record<EncodingName, unknown>
+
+// eslint-disable-next-line @typescript-eslint/no-use-before-define
+const testPlans = loadTestPlans()
 
 describe.each(encodingNames)('%s', (encodingName: EncodingName) => {
   const encoding = GptEncoding.getEncodingApi(encodingName, resolveEncoding)
@@ -137,4 +142,39 @@ describe.each(encodingNames)('%s', (encodingName: EncodingName) => {
       expect(isWithinTokenLimit(str, 300)).toBe(result[str].length)
     })
   })
+
+  describe('test plan', () => {
+    testPlans[encodingName].forEach(({ sample, encoded }) => {
+      it(`encodes ${sample}`, () => {
+        expect(encode(sample)).toEqual(encoded)
+      })
+      it(`decodes ${sample}`, () => {
+        expect(decode(encoded)).toEqual(sample)
+      })
+    })
+  })
 })
+
+function loadTestPlans() {
+  const testPlanPath = path.join(__dirname, '../data/TestPlans.txt')
+  const testPlanData = fs.readFileSync(testPlanPath, 'utf8')
+  const tests: Record<
+    EncodingName,
+    { sample: string; encoded: readonly number[] }[]
+  > = {
+    cl100k_base: [],
+    p50k_base: [],
+    p50k_edit: [],
+    r50k_base: [],
+  }
+  testPlanData.split('\n\n').forEach((testPlan) => {
+    const [encodingNameLine, sampleLine, encodedLine] = testPlan.split('\n')
+    if (!encodingNameLine || !sampleLine || !encodedLine) return
+    const encodingName = encodingNameLine.split(': ')[1] as EncodingName
+    tests[encodingName].push({
+      sample: sampleLine.split(': ').slice(1).join(': ') ?? '',
+      encoded: JSON.parse(encodedLine.split(': ')[1] ?? '[]'),
+    })
+  })
+  return tests
+}

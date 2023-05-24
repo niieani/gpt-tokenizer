@@ -13,11 +13,24 @@ import {
   getModelParams,
   getModelParamsAsync,
 } from './modelParams.js'
+import {
+  EndOfPrompt,
+  EndOfText,
+  FimMiddle,
+  FimPrefix,
+  FimSuffix,
+} from './specialTokens.js'
 import { endsWithIncompleteUtfPairSurrogate } from './utfUtil.js'
 
 export const DISALLOW_ALL_SPECIAL_TOKENS = 'all'
 
 export class GptEncoding {
+  static EndOfPrompt = EndOfPrompt
+  static EndOfText = EndOfText
+  static FimMiddle = FimMiddle
+  static FimPrefix = FimPrefix
+  static FimSuffix = FimSuffix
+
   decoder = new TextDecoder('utf8')
   private bytePairEncodingCoreProcessor: BytePairEncodingCore
   private specialTokenMapping: Map<string, number>
