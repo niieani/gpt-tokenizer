@@ -2,33 +2,54 @@
 
 [![Play with gpt-tokenizer](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/gpt-tokenizer-tjcjoz?fontsize=14&hidenavigation=1&theme=dark)
 
-`gpt-tokenizer` is a highly optimized Token Byte Pair Encoder/Decoder for GPT-2, GPT-3, GPT-3.5 and GPT-4 designed for JavaScript applications. OpenAI's GPT models utilize byte pair encoding to transform text into a sequence of integers before feeding them into the model. This package is a JavaScript implementation of OpenAI's original Python encoder/decoder, which can be found [here](https://github.com/openai/gpt-2).
+`gpt-tokenizer` is a highly optimized Token Byte Pair Encoder/Decoder for all OpenAI's models (including those used by GPT-2, GPT-3, GPT-3.5 and GPT-4). It's written in TypeScript, and is fully compatible with all modern JavaScript environments.
 
-This package is a fork of [latitudegames/GPT-3-Encoder](https://github.com/latitudegames/GPT-3-Encoder), improving on various aspects, such as:
+OpenAI's GPT models utilize byte pair encoding to transform text into a sequence of integers before feeding them into the model.
 
-- Adding generator versions of both decoder and encoder
-- Providing the ability to decode an asynchronous stream of data (using `decodeAsyncGenerator` and `decodeGenerator` with any iterable input)
-- Removing the global cache to prevent memory leaks
-- Adding a highly performant `isWithinTokenLimit` function to assess token limit without encoding the entire text
-- Improving overall performance by eliminating transitive arrays
-- Including precomputed `bpeRanks`
-- Adding type-checking
-- Fixing minor bugs (thanks to TypeScript)
+As of 2023, it is the most feature-complete, open-source GPT tokenizer on NPM. It implements some unique features, such as:
+
+- Support for all current OpenAI models (available encodings: `r50k_base`, `p50k_base`, `p50k_edit` and `cl100k_base`)
+- Generator function versions of both the decoder and encoder
+- Provides the ability to decode an asynchronous stream of data (using `decodeAsyncGenerator` and `decodeGenerator` with any iterable input)
+- No global cache (no accidental memory leaks, as with the original GPT-3-Encoder implementation)
+- Includes a highly performant `isWithinTokenLimit` function to assess token limit without encoding the entire text
+- Improves overall performance by eliminating transitive arrays
+- Type-safe (written in TypeScript)
 - Works in the browser out-of-the-box
+
+This package is a port of OpenAI's [tiktoken](https://github.com/openai/tiktoken), with some additional features sprinkled on top.
+
+Thanks to @dmitry-brazhenko's [SharpToken](https://github.com/dmitry-brazhenko/SharpToken), whose code was served as a reference for the port.
+
+Historical note: This package started off as a fork of [latitudegames/GPT-3-Encoder](https://github.com/latitudegames/GPT-3-Encoder), but version 2.0 was rewritten from scratch.
 
 ## Installation
 
-As NPM package:
+### As NPM package
 
 ```bash
 npm install gpt-tokenizer
 ```
 
-As an UMD module:
+### As a UMD module
 
 ```html
-<script src="https://unpkg.com/gpt-tokenizer" />
+<script src="https://unpkg.com/gpt-tokenizer"></script>
+
+<script>
+  // the package is now available as a global:
+  const { encode, decode } = GPTTokenizer
+</script>
 ```
+
+If you wish to use a custom encoding, fetch the relevant script:
+
+- https://unpkg.com/gpt-tokenizer/dist/cl100k_base.js
+- https://unpkg.com/gpt-tokenizer/dist/p50k_base.js
+- https://unpkg.com/gpt-tokenizer/dist/p50k_edit.js
+- https://unpkg.com/gpt-tokenizer/dist/r50k_base.js
+
+Refer to [supported models and their encodings](#Supported-models-and-their-encodings) section for more information.
 
 ## Playground
 
@@ -80,33 +101,84 @@ for await (const textChunk of decodeAsyncGenerator(asyncTokens)) {
 }
 ```
 
-## Caching Between Runs of Encode-related Functions
+By default, importing from `gpt-tokenizer` uses `cl100k_base` encoding, used by `gpt-3.5-turbo` and `gpt-4`.
 
-You may want to encode multiple pieces of text with similar content or structure. In such cases, using a single cache between runs of encode-related functions can help improve performance. By sharing the cache, you can reuse the results of previously calculated byte pair encodings, thereby reducing redundant computations.
+To get a tokenizer for a different model, import it directly, for example:
 
-However, it's important to be aware of potential memory consumption issues when using a shared cache when encoding lots of higher range unicode characters (non-latin/complex alphabets, emojis), potentially leading to performance degradation or even crashes due to excessive memory usage.
-
-In such a case, it is recommended to use a custom `Map` implementation that uses a LRU cache to limit the size of the cache.
-
-Here's an example of how to use a shared cache between runs of the `encode` function:
-
-```typescript
-import { encode } from 'gpt-tokenizer'
-
-const cache = new Map()
-
-const text1 = 'Hello, world!'
-const text2 = 'Hello, everyone!'
-
-const tokens1 = encode(text1, cache)
-const tokens2 = encode(text2, cache)
+```ts
+import {
+  encode,
+  decode,
+  isWithinTokenLimit,
+} from 'gpt-tokenizer/model/text-davinci-003'
 ```
+
+If you're dealing with a resolver that doesn't support package.json `exports` resolution, you might need to import from the respective `cjs` or `esm` directory, e.g.:
+
+```ts
+import {
+  encode,
+  decode,
+  isWithinTokenLimit,
+} from 'gpt-tokenizer/cjs/model/text-davinci-003'
+```
+
+### Supported models and their encodings
+
+chat:
+
+- `gpt-4` (`cl100k_base`)
+- `gpt-3.5-turbo` (`cl100k_base`)
+
+text:
+
+- `text-davinci-003` (`p50k_base`)
+- `text-davinci-002` (`p50k_base`)
+- `text-davinci-001` (`r50k_base`)
+- `text-curie-001` (`r50k_base`)
+- `text-babbage-001` (`r50k_base`)
+- `text-ada-001` (`r50k_base`)
+- `davinci` (`r50k_base`)
+- `curie` (`r50k_base`)
+- `babbage` (`r50k_base`)
+- `ada` (`r50k_base`)
+
+code:
+
+- `code-davinci-002` (`p50k_base`)
+- `code-davinci-001` (`p50k_base`)
+- `code-cushman-002` (`p50k_base`)
+- `code-cushman-001` (`p50k_base`)
+- `davinci-codex` (`p50k_base`)
+- `cushman-codex` (`p50k_base`)
+
+edit:
+
+- `text-davinci-edit-001` (`p50k_edit`)
+- `code-davinci-edit-001` (`p50k_edit`)
+
+embeddings:
+
+- `text-embedding-ada-002` (`cl100k_base`)
+
+old embeddings:
+
+- `text-similarity-davinci-001` (`r50k_base`)
+- `text-similarity-curie-001` (`r50k_base`)
+- `text-similarity-babbage-001` (`r50k_base`)
+- `text-similarity-ada-001` (`r50k_base`)
+- `text-search-davinci-doc-001` (`r50k_base`)
+- `text-search-curie-doc-001` (`r50k_base`)
+- `text-search-babbage-doc-001` (`r50k_base`)
+- `text-search-ada-doc-001` (`r50k_base`)
+- `code-search-babbage-code-001` (`r50k_base`)
+- `code-search-ada-code-001` (`r50k_base`)
 
 ## API
 
-### `encode(text: string, cache?: Map<string, string>): number[]`
+### `encode(text: string): number[]`
 
-Encodes the given text into a sequence of tokens. Use this method when you need to transform a piece of text into the token format that GPT-2 or GPT-3 models can process. You can provide an optional cache to store and reuse byte pair encoding results between multiple calls.
+Encodes the given text into a sequence of tokens. Use this method when you need to transform a piece of text into the token format that the GPT models can process.
 
 Example:
 
@@ -119,7 +191,7 @@ const tokens = encode(text)
 
 ### `decode(tokens: number[]): string`
 
-Decodes a sequence of tokens back into text. Use this method when you want to convert the output tokens from GPT-2 or GPT-3 models back into human-readable text.
+Decodes a sequence of tokens back into text. Use this method when you want to convert the output tokens from GPT models back into human-readable text.
 
 Example:
 
@@ -130,9 +202,9 @@ const tokens = [18435, 198, 23132, 328]
 const text = decode(tokens)
 ```
 
-### `isWithinTokenLimit(text: string, tokenLimit: number, cache?: Map<string, string>): false | number`
+### `isWithinTokenLimit(text: string, tokenLimit: number): false | number`
 
-Checks if the text is within the token limit. Returns `false` if the limit is exceeded, otherwise returns the number of tokens. Use this method to quickly check if a given text is within the token limit imposed by GPT-2 or GPT-3 models, without encoding the entire text.
+Checks if the text is within the token limit. Returns `false` if the limit is exceeded, otherwise returns the number of tokens. Use this method to quickly check if a given text is within the token limit imposed by GPT models, without encoding the entire text.
 
 Example:
 
@@ -144,7 +216,7 @@ const tokenLimit = 10
 const withinTokenLimit = isWithinTokenLimit(text, tokenLimit)
 ```
 
-### `encodeGenerator(text: string, cache?: Map<string, string>): Generator<number[], void, undefined>`
+### `encodeGenerator(text: string): Generator<number[], void, undefined>`
 
 Encodes the given text using a generator, yielding chunks of tokens.
 Use this method when you want to encode text in chunks, which can be useful for processing large texts or streaming data.
@@ -195,10 +267,62 @@ async function processTokens(asyncTokensIterator) {
 }
 ```
 
+## Special tokens
+
+There are a few special tokens that are used by the GPT models.
+Not all models support all of these tokens.
+
+### Custom Allowed Sets
+
+`gpt-tokenizer` allows you to specify custom sets of allowed special tokens when encoding text. To do this, pass a
+`Set` containing the allowed special tokens as a parameter to the `encode` function:
+
+```ts
+import {
+  EndOfPrompt,
+  EndOfText,
+  FimMiddle,
+  FimPrefix,
+  FimSuffix,
+  encode,
+} from 'gpt-tokenizer'
+
+const inputText = `Some Text ${EndOfPrompt}`
+const allowedSpecialTokens = new Set([EndOfPrompt])
+const encoded = encode(inputText, allowedSpecialTokens)
+const expectedEncoded = [8538, 2991, 220, 100276]
+
+expect(encoded).toBe(expectedEncoded)
+```
+
+### Custom Disallowed Sets
+
+Similarly, you can specify custom sets of disallowed special tokens when encoding text. Pass a `Set`
+containing the disallowed special tokens as a parameter to the `encode` function:
+
+```ts
+import { encode } from 'gpt-tokenizer'
+
+const inputText = `Some Text`
+const disallowedSpecial = new Set(['Some'])
+// throws an error:
+const encoded = encode(inputText, undefined, disallowedSpecial)
+```
+
+In this example, an Error is thrown, because the input text contains a disallowed special token.
+
+## Testing and Validation
+
+`gpt-tokenizer` includes a set of test cases in the [TestPlans.txt](./data/TestPlans.txt) file to ensure its compatibility with OpenAI's Python `tiktoken` library. These test cases validate the functionality and behavior of `gpt-tokenizer`, providing a reliable reference for developers.
+
+Running the unit tests and verifying the test cases helps maintain consistency between the library and the original Python implementation.
+
 ## License
 
 MIT
 
 ## Contributing
 
-Contributions are welcome! Please open a pull request or an issue to discuss your ideas, bug reports, or any other inquiries.
+Contributions are welcome! Please open a pull request or an issue to discuss your bug reports, or use the discussions feature for ideas or any other inquiries.
+
+Hope you find the `gpt-tokenizer` useful in your projects!
