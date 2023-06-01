@@ -4,7 +4,7 @@
     "verbatimModuleSyntax": false
   },
   "exclude": [
-    "src/generateByModel.ts",
-    "src/generateJsModels.ts"
+    "src/codegen/generateByModel.ts",
+    "src/codegen/generateJsEncodings.ts"
   ]
 }
