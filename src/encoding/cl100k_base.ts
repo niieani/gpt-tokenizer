@@ -5,7 +5,7 @@ import { GptEncoding } from '../GptEncoding.js'
 
 export * from '../specialTokens.js'
 
-export const api = GptEncoding.getEncodingApi('cl100k_base', () =>
+const api = GptEncoding.getEncodingApi('cl100k_base', () =>
   convertTokenBytePairEncodingFromTuples(encoder),
 )
 const {

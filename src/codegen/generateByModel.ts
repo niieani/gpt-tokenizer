@@ -23,7 +23,7 @@ await Promise.all(
           `getEncodingApi('cl100k_base'`,
           `getEncodingApiForModel('${modelName}'`,
         )
-      : `export * from '../encoding/${encoding}.js'\n`
+      : `// eslint-disable-next-line no-restricted-exports, import/no-default-export\nexport { default } from '../encoding/${encoding}.js'\nexport * from '../encoding/${encoding}.js'\n`
     await fs.writeFile(
       path.join(__dirname, `../model/${modelName}.ts`),
       content,
