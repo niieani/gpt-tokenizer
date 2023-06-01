@@ -4,20 +4,21 @@
 
 `gpt-tokenizer` is a highly optimized Token Byte Pair Encoder/Decoder for all OpenAI's models (including those used by GPT-2, GPT-3, GPT-3.5 and GPT-4). It's written in TypeScript, and is fully compatible with all modern JavaScript environments.
 
+This package is a port of OpenAI's [tiktoken](https://github.com/openai/tiktoken), with some additional features sprinkled on top.
+
 OpenAI's GPT models utilize byte pair encoding to transform text into a sequence of integers before feeding them into the model.
 
 As of 2023, it is the most feature-complete, open-source GPT tokenizer on NPM. It implements some unique features, such as:
 
+- Support for easily tokenizing chats thanks to the `encodeChat` function
 - Support for all current OpenAI models (available encodings: `r50k_base`, `p50k_base`, `p50k_edit` and `cl100k_base`)
-- Generator function versions of both the decoder and encoder
+- Generator function versions of both the decoder and encoder functions
 - Provides the ability to decode an asynchronous stream of data (using `decodeAsyncGenerator` and `decodeGenerator` with any iterable input)
 - No global cache (no accidental memory leaks, as with the original GPT-3-Encoder implementation)
-- Includes a highly performant `isWithinTokenLimit` function to assess token limit without encoding the entire text
+- Includes a highly performant `isWithinTokenLimit` function to assess token limit without encoding the entire text/chat
 - Improves overall performance by eliminating transitive arrays
 - Type-safe (written in TypeScript)
 - Works in the browser out-of-the-box
-
-This package is a port of OpenAI's [tiktoken](https://github.com/openai/tiktoken), with some additional features sprinkled on top.
 
 Thanks to @dmitry-brazhenko's [SharpToken](https://github.com/dmitry-brazhenko/SharpToken), whose code was served as a reference for the port.
 
@@ -38,16 +39,18 @@ npm install gpt-tokenizer
 
 <script>
   // the package is now available as a global:
-  const { encode, decode } = GPTTokenizer
+  const { encode, decode } = GPTTokenizer_cl100k_base
 </script>
 ```
 
-If you wish to use a custom encoding, fetch the relevant script:
+If you wish to use a custom encoding, fetch the relevant script.
 
 - https://unpkg.com/gpt-tokenizer/dist/cl100k_base.js
 - https://unpkg.com/gpt-tokenizer/dist/p50k_base.js
 - https://unpkg.com/gpt-tokenizer/dist/p50k_edit.js
 - https://unpkg.com/gpt-tokenizer/dist/r50k_base.js
+
+The global name is a concatenation: `GPTTokenizer_${encoding}`.
 
 Refer to [supported models and their encodings](#Supported-models-and-their-encodings) section for more information.
 
