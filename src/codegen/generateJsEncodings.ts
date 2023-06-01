@@ -28,7 +28,7 @@ const processFilesInDirectory = async (
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 await processFilesInDirectory(
-  path.join(__dirname, '../data'),
+  path.join(__dirname, '../../data'),
   async (filePath) => {
     if (!filePath.endsWith('.tiktoken')) return
 
@@ -40,9 +40,9 @@ await processFilesInDirectory(
       return [token, Number.parseInt(rank!, 10)]
     })
 
-    await fs.mkdir(path.join(__dirname, 'models'), { recursive: true })
+    await fs.mkdir(path.join(__dirname, '../encodings'), { recursive: true })
     await fs.writeFile(
-      path.join(__dirname, `models/${modelName}.js`),
+      path.join(__dirname, `../encodings/${modelName}.js`),
       `/* eslint-disable */\n// @ts-nocheck\n// prettier-ignore\n/** @type {[string, number][]} */\nconst encoder = ${JSON.stringify(
         encoder,
       )};\nexport default encoder;`,

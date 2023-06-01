@@ -1,16 +1,16 @@
 /* eslint-disable no-param-reassign */
 import { BytePairEncodingCore } from './BytePairEncodingCore.js'
-import { escapeRegExp } from './escapeRegExp.js'
 import {
   type EncodingName,
   type ModelName,
+  chatModelParams,
   modelToEncodingMap,
 } from './mapping.js'
 import {
+  type EncodingParams,
   type GetMergeableRanksAsyncFn,
   type GetMergeableRanksFn,
-  type ModelParams,
-  getModelParams,
+  getEncodingParams,
   getModelParamsAsync,
 } from './modelParams.js'
 import {
@@ -19,10 +19,29 @@ import {
   FimMiddle,
   FimPrefix,
   FimSuffix,
+  ImEnd,
+  ImSep,
+  ImStart,
 } from './specialTokens.js'
 import { endsWithIncompleteUtfPairSurrogate } from './utfUtil.js'
+import { getMaxValueFromMap, getSpecialTokenRegex } from './util.js'
 
-export const DISALLOW_ALL_SPECIAL_TOKENS = 'all'
+export const ALL_SPECIAL_TOKENS = 'all'
+
+export interface EncodeOptions {
+  allowedSpecial?: Set<string>
+  disallowedSpecial?: Set<string>
+}
+
+export interface ChatMessage {
+  role?: 'system' | 'user' | 'assistant'
+  name?: string
+  content: string
+}
+
+export interface EncodeChatOptions {
+  primeWithAssistantResponse?: string
+}
 
 export class GptEncoding {
   static EndOfPrompt = EndOfPrompt
@@ -32,6 +51,7 @@ export class GptEncoding {
   static FimSuffix = FimSuffix
 
   decoder = new TextDecoder('utf8')
+  modelName?: ModelName
   private bytePairEncodingCoreProcessor: BytePairEncodingCore
   private specialTokenMapping: Map<string, number>
 
@@ -40,10 +60,11 @@ export class GptEncoding {
     mergeableBytePairRanks,
     specialTokenMapping,
     expectedVocabularySize,
-  }: ModelParams) {
+    modelName,
+  }: EncodingParams) {
     const maxTokenValue = Math.max(
-      GptEncoding.getMaxValueFromMap(mergeableBytePairRanks),
-      GptEncoding.getMaxValueFromMap(specialTokenMapping),
+      getMaxValueFromMap(mergeableBytePairRanks),
+      getMaxValueFromMap(specialTokenMapping),
     )
     this.specialTokenMapping = specialTokenMapping
 
@@ -76,13 +97,14 @@ export class GptEncoding {
     this.decodeGenerator = this.decodeGenerator.bind(this)
     this.decodeAsyncGenerator = this.decodeAsyncGenerator.bind(this)
     this.isWithinTokenLimit = this.isWithinTokenLimit.bind(this)
+    this.modelName = modelName
   }
 
   static getEncodingApi(
     encodingName: EncodingName,
     getMergeableRanks: GetMergeableRanksFn,
   ): GptEncoding {
-    const modelParams = getModelParams(encodingName, getMergeableRanks)
+    const modelParams = getEncodingParams(encodingName, getMergeableRanks)
     return new GptEncoding(modelParams)
   }
 
@@ -91,7 +113,8 @@ export class GptEncoding {
     getMergeableRanks: GetMergeableRanksFn,
   ): GptEncoding {
     const encodingName = modelToEncodingMap[modelName]
-    return GptEncoding.getEncodingApi(encodingName, getMergeableRanks)
+    const modelParams = getEncodingParams(encodingName, getMergeableRanks)
+    return new GptEncoding({ ...modelParams, modelName })
   }
 
   static async getEncodingApiAsync(
@@ -110,43 +133,34 @@ export class GptEncoding {
     getMergeableRanks: GetMergeableRanksAsyncFn,
   ): Promise<GptEncoding> {
     const encodingName = modelToEncodingMap[modelName]
-    return GptEncoding.getEncodingApiAsync(encodingName, getMergeableRanks)
-  }
-
-  private static getMaxValueFromMap(map: Map<unknown, number>): number {
-    let max = 0
-    map.forEach((val) => {
-      max = Math.max(max, val)
-    })
-    return max
-  }
-
-  private static specialTokenRegex(tokens: Set<string>): RegExp {
-    const escapedTokens = [...tokens].map(escapeRegExp)
-    const inner = escapedTokens.join('|')
-    return new RegExp(`(${inner})`)
+    const modelParams = await getModelParamsAsync(
+      encodingName,
+      getMergeableRanks,
+    )
+    return new GptEncoding({ ...modelParams, modelName })
   }
 
   encodeGenerator(
     lineToEncode: string,
-    allowedSpecial = new Set<string>(),
-    disallowedSpecial: Set<string> = new Set<string>([
-      DISALLOW_ALL_SPECIAL_TOKENS,
-    ]),
-  ): Generator<number[], number> {
+    {
+      allowedSpecial = new Set<string>(),
+      disallowedSpecial = new Set<string>([ALL_SPECIAL_TOKENS]),
+    }: EncodeOptions = {},
+  ): Generator<number[], number, undefined> {
     const specialTokensSet = new Set<string>(this.specialTokenMapping.keys())
 
-    if (disallowedSpecial.has(DISALLOW_ALL_SPECIAL_TOKENS)) {
+    if (disallowedSpecial.has(ALL_SPECIAL_TOKENS)) {
       disallowedSpecial = new Set<string>(specialTokensSet)
+      allowedSpecial.forEach((val) => disallowedSpecial.delete(val))
       disallowedSpecial.forEach((val) => allowedSpecial.delete(val))
     }
 
-    if (allowedSpecial.has(DISALLOW_ALL_SPECIAL_TOKENS)) {
+    if (allowedSpecial.has(ALL_SPECIAL_TOKENS)) {
       allowedSpecial = specialTokensSet
     }
 
     if (disallowedSpecial.size > 0) {
-      const regexPattern = GptEncoding.specialTokenRegex(disallowedSpecial)
+      const regexPattern = getSpecialTokenRegex(disallowedSpecial)
       const match = lineToEncode.match(regexPattern)
       if (match !== null) {
         throw new Error(`Disallowed special token found: ${match[0]}`)
@@ -159,23 +173,90 @@ export class GptEncoding {
     )
   }
 
-  encode(
-    lineToEncode: string,
-    allowedSpecial = new Set<string>(),
-    disallowedSpecial: Set<string> = new Set<string>([
-      DISALLOW_ALL_SPECIAL_TOKENS,
-    ]),
-  ): number[] {
-    return [
-      ...this.encodeGenerator(lineToEncode, allowedSpecial, disallowedSpecial),
-    ].flat()
+  encode(lineToEncode: string, encodeOptions: EncodeOptions = {}): number[] {
+    return [...this.encodeGenerator(lineToEncode, encodeOptions)].flat()
+  }
+
+  /**
+   * Progressively tokenizes an OpenAI chat.
+   * Warning: gpt-3.5-turbo and gpt-4 chat format may change over time.
+   * Returns tokens assuming the 'gpt-3.5-turbo-0301' / 'gpt-4-0314' format.
+   * Based on OpenAI's guidelines: https://github.com/openai/openai-python/blob/main/chatml.md
+   * Also mentioned in section 6 of this document: https://github.com/openai/openai-cookbook/blob/main/examples/How_to_count_tokens_with_tiktoken.ipynb
+   */
+  *encodeChatGenerator(
+    chat: Iterable<ChatMessage>,
+    model = this.modelName,
+  ): Generator<number[], void, undefined> {
+    if (!model) {
+      throw new Error(
+        'Model name must be provided either during initialization or passed in to the method.',
+      )
+    }
+    const params = chatModelParams[model]
+    const chatStartToken = this.specialTokenMapping.get(ImStart)
+    const chatEndToken = this.specialTokenMapping.get(ImEnd)
+
+    if (!params || chatStartToken === undefined || chatEndToken === undefined) {
+      throw new Error(`Model '${model}' does not support chat.`)
+    }
+    const allowedSpecial = new Set([ImSep])
+    const { messageSeparator, roleSeparator } = params
+    const encodedMessageSeparator =
+      messageSeparator.length > 0 ? this.encode(messageSeparator) : []
+    const encodedRoleSeparator =
+      roleSeparator.length > 0
+        ? this.encode(roleSeparator, { allowedSpecial })
+        : []
+    const nameCache = new Map<string, number[]>()
+
+    for (const { role = 'system', name = role, content } of chat) {
+      if (content === undefined) {
+        throw new Error('Content must be defined for all messages.')
+      }
+
+      yield [chatStartToken]
+      const encodedName = nameCache.get(name) ?? this.encode(name)
+      nameCache.set(name, encodedName)
+      yield encodedName
+      if (encodedRoleSeparator.length > 0) {
+        yield encodedRoleSeparator
+      }
+      yield* this.encodeGenerator(content)
+      yield [chatEndToken]
+      yield encodedMessageSeparator
+    }
+
+    // every reply is primed with <|start|>assistant<|message|>
+    yield [chatStartToken]
+    yield* this.encodeGenerator('assistant')
+    if (encodedRoleSeparator.length > 0) {
+      yield encodedRoleSeparator
+    }
+  }
+
+  /**
+   * Encodes a chat into a single array of tokens.
+   * Warning: gpt-3.5-turbo and gpt-4 chat format may change over time.
+   * Returns tokens assuming the 'gpt-3.5-turbo-0301' / 'gpt-4-0314' format.
+   * Based on OpenAI's guidelines: https://github.com/openai/openai-python/blob/main/chatml.md
+   * Also mentioned in section 6 of this document: https://github.com/openai/openai-cookbook/blob/main/examples/How_to_count_tokens_with_tiktoken.ipynb
+   */
+  encodeChat(chat: readonly ChatMessage[], model = this.modelName): number[] {
+    return [...this.encodeChatGenerator(chat, model)].flat()
   }
 
   /**
    * @returns {false | number} false if token limit is exceeded, otherwise the number of tokens
    */
-  isWithinTokenLimit(text: string, tokenLimit: number): false | number {
-    const tokenGenerator = this.encodeGenerator(text)
+  isWithinTokenLimit(
+    input: string | Iterable<ChatMessage>,
+    tokenLimit: number,
+  ): false | number {
+    const tokenGenerator =
+      typeof input === 'string'
+        ? this.encodeGenerator(input)
+        : this.encodeChatGenerator(input)
     let count = 0
     for (const tokens of tokenGenerator) {
       count += tokens.length

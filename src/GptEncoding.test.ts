@@ -1,7 +1,12 @@
 import fs from 'fs'
 import path from 'path'
 import { GptEncoding } from './GptEncoding.js'
-import { type EncodingName, encodingNames } from './mapping.js'
+import {
+  type ChatModelName,
+  type EncodingName,
+  chatModelParams,
+  encodingNames,
+} from './mapping.js'
 import { resolveEncoding } from './resolveEncoding.js'
 
 const sharedResults = {
@@ -151,6 +156,78 @@ describe.each(encodingNames)('%s', (encodingName: EncodingName) => {
       it(`decodes ${sample}`, () => {
         expect(decode(encoded)).toEqual(sample)
       })
+    })
+  })
+})
+
+const chatModelNames = Object.keys(chatModelParams) as readonly ChatModelName[]
+
+const exampleMessages = [
+  {
+    role: 'system',
+    content:
+      'You are a helpful, pattern-following assistant that translates corporate jargon into plain English.',
+  },
+  {
+    role: 'system',
+    name: 'example_user',
+    content: 'New synergies will help drive top-line growth.',
+  },
+  {
+    role: 'system',
+    name: 'example_assistant',
+    content: 'Things working well together will increase revenue.',
+  },
+  {
+    role: 'system',
+    name: 'example_user',
+    content:
+      "Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.",
+  },
+  {
+    role: 'system',
+    name: 'example_assistant',
+    content: "Let's talk later when we're less busy about how to do better.",
+  },
+  {
+    role: 'user',
+    content:
+      "This late pivot means we don't have time to boil the ocean for the client deliverable.",
+  },
+] as const
+
+describe.each(chatModelNames)('%s', (modelName) => {
+  const encoding = GptEncoding.getEncodingApiForModel(
+    modelName,
+    resolveEncoding,
+  )
+  const expectedEncodedLength = modelName.startsWith('gpt-3.5-turbo')
+    ? 127
+    : 121
+
+  describe('chat functionality', () => {
+    it('encodes a chat correctly', () => {
+      const encoded = encoding.encodeChat(exampleMessages)
+      expect(encoded).toMatchSnapshot()
+      expect(encoded).toHaveLength(expectedEncodedLength)
+
+      const decoded = encoding.decode(encoded)
+      expect(decoded).toMatchSnapshot()
+    })
+
+    it('isWithinTokenLimit: false', () => {
+      const isWithinTokenLimit = encoding.isWithinTokenLimit(
+        exampleMessages,
+        50,
+      )
+      expect(isWithinTokenLimit).toBe(false)
+    })
+    it('isWithinTokenLimit: true (number)', () => {
+      const isWithinTokenLimit = encoding.isWithinTokenLimit(
+        exampleMessages,
+        150,
+      )
+      expect(isWithinTokenLimit).toBe(expectedEncodedLength)
     })
   })
 })

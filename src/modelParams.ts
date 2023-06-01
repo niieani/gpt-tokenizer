@@ -1,15 +1,18 @@
 /* eslint-disable no-magic-numbers */
 import { EncoderMap } from './EncoderMap.js'
-import type { EncodingName } from './mapping.js'
+import type { EncodingName, ModelName } from './mapping.js'
 import {
   EndOfPrompt,
   EndOfText,
   FimMiddle,
   FimPrefix,
   FimSuffix,
+  ImEnd,
+  ImSep,
+  ImStart,
 } from './specialTokens.js'
 
-export interface ModelParams {
+export interface EncodingParams {
   /**
    * The expected total number of tokens in the vocabulary, including both regular and special tokens.
    * This parameter is used to ensure that the combined number of regular and special tokens matches the expected total.
@@ -24,12 +27,13 @@ export interface ModelParams {
   tokenSplitRegex: RegExp
   mergeableBytePairRanks: EncoderMap
   specialTokenMapping: Map<string, number>
+  modelName?: ModelName
 }
 
 const tokenSplitRegex =
   /'s|'t|'re|'ve|'m|'ll|'d| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+/gu
 
-function R50KBase(mergeableBytePairRanks: EncoderMap): ModelParams {
+function R50KBase(mergeableBytePairRanks: EncoderMap): EncodingParams {
   return {
     expectedVocabularySize: 50_257,
     tokenSplitRegex,
@@ -38,7 +42,7 @@ function R50KBase(mergeableBytePairRanks: EncoderMap): ModelParams {
   }
 }
 
-function P50KBase(mergeableBytePairRanks: EncoderMap): ModelParams {
+function P50KBase(mergeableBytePairRanks: EncoderMap): EncodingParams {
   return {
     expectedVocabularySize: 50_281,
     tokenSplitRegex,
@@ -47,7 +51,7 @@ function P50KBase(mergeableBytePairRanks: EncoderMap): ModelParams {
   }
 }
 
-function P50KEdit(mergeableBytePairRanks: EncoderMap): ModelParams {
+function P50KEdit(mergeableBytePairRanks: EncoderMap): EncodingParams {
   const specialTokenMapping = new Map<string, number>([
     [EndOfText, 50_256],
     [FimPrefix, 50_281],
@@ -62,12 +66,15 @@ function P50KEdit(mergeableBytePairRanks: EncoderMap): ModelParams {
   }
 }
 
-function Cl100KBase(mergeableBytePairRanks: EncoderMap): ModelParams {
+function Cl100KBase(mergeableBytePairRanks: EncoderMap): EncodingParams {
   const specialTokenMapping = new Map<string, number>([
     [EndOfText, 100_257],
     [FimPrefix, 100_258],
     [FimMiddle, 100_259],
     [FimSuffix, 100_260],
+    [ImStart, 100_264],
+    [ImEnd, 100_265],
+    [ImSep, 100_266],
     [EndOfPrompt, 100_276],
   ])
 
@@ -84,10 +91,10 @@ export type GetMergeableRanksAsyncFn = (
   encodingName: EncodingName,
 ) => Promise<EncoderMap>
 
-export function getModelParams(
+export function getEncodingParams(
   encodingName: EncodingName,
   getMergeableRanks: GetMergeableRanksFn,
-): ModelParams {
+): EncodingParams {
   const mergeableBytePairRanks = getMergeableRanks(encodingName)
   switch (encodingName.toLowerCase()) {
     case 'r50k_base':
@@ -110,7 +117,7 @@ export function getModelParams(
 export async function getModelParamsAsync(
   encodingName: EncodingName,
   getMergeableRanks: GetMergeableRanksAsyncFn,
-): Promise<ModelParams> {
+): Promise<EncodingParams> {
   const mergeableBytePairRanks = await getMergeableRanks(encodingName)
-  return getModelParams(encodingName, () => mergeableBytePairRanks)
+  return getEncodingParams(encodingName, () => mergeableBytePairRanks)
 }

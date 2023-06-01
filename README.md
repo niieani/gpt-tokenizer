@@ -56,6 +56,8 @@ Refer to [supported models and their encodings](#Supported-models-and-their-enco
 
 ## Playground
 
+The playground is published under a memorable URL: https://gpt-tokenizer.dev/
+
 You can play with the package in the browser using the [Playground](https://codesandbox.io/s/gpt-tokenizer-tjcjoz?fontsize=14&hidenavigation=1&theme=dark).
 
 [![GPT Tokenizer Playground](./docs/gpt-tokenizer.png)](https://codesandbox.io/s/gpt-tokenizer-tjcjoz?fontsize=14&hidenavigation=1&theme=dark)
@@ -67,6 +69,7 @@ The playground mimics the official [OpenAI Tokenizer](https://platform.openai.co
 ```typescript
 import {
   encode,
+  encodeChat,
   decode,
   isWithinTokenLimit,
   encodeGenerator,
@@ -86,6 +89,18 @@ const decodedText = decode(tokens)
 // Check if text is within the token limit
 // returns false if the limit is exceeded, otherwise returns the actual number of tokens (truthy value)
 const withinTokenLimit = isWithinTokenLimit(text, tokenLimit)
+
+// Example chat:
+const chat = [
+  { role: 'system', content: 'You are a helpful assistant.' },
+  { role: 'assistant', content: 'gpt-tokenizer is awesome.' },
+]
+
+// Encode chat into tokens
+const chatTokens = encodeChat(chat)
+
+// Check if chat is within the token limit
+const chatWithinTokenLimit = isWithinTokenLimit(chat, tokenLimit)
 
 // Encode text using generator
 for (const tokenChunk of encodeGenerator(text)) {
@@ -130,10 +145,13 @@ import {
 
 chat:
 
-- `gpt-4` (`cl100k_base`)
+- `gpt-4-32k` (`cl100k_base`)
+- `gpt-4-0314` (`cl100k_base`)
+- `gpt-4-32k-0314` (`cl100k_base`)
 - `gpt-3.5-turbo` (`cl100k_base`)
+- `gpt-3.5-turbo-0301` (`cl100k_base`)
 
-text:
+text-only:
 
 - `text-davinci-003` (`p50k_base`)
 - `text-davinci-002` (`p50k_base`)
@@ -219,6 +237,24 @@ const tokenLimit = 10
 const withinTokenLimit = isWithinTokenLimit(text, tokenLimit)
 ```
 
+### `encodeChat(chat: ChatMessage[], model?: ModelName): number[]`
+
+Encodes the given chat into a sequence of tokens.
+
+If you didn't import the model version directly, or if `model` wasn't provided during initialization, it must be provided here to correctly tokenize the chat for a given model. Use this method when you need to transform a chat into the token format that the GPT models can process.
+
+Example:
+
+```typescript
+import { encodeChat } from 'gpt-tokenizer'
+
+const chat = [
+  { role: 'system', content: 'You are a helpful assistant.' },
+  { role: 'assistant', content: 'gpt-tokenizer is awesome.' },
+]
+const tokens = encodeChat(chat)
+```
+
 ### `encodeGenerator(text: string): Generator<number[], void, undefined>`
 
 Encodes the given text using a generator, yielding chunks of tokens.
@@ -235,6 +271,10 @@ for (const tokenChunk of encodeGenerator(text)) {
   tokens.push(...tokenChunk)
 }
 ```
+
+### `encodeChatGenerator(chat: Iterator<ChatMessage>, model?: ModelName): Generator<number[], void, undefined>`
+
+Same as `encodeChat`, but uses a generator as output, and may use any iterator as the input `chat`.
 
 ### `decodeGenerator(tokens: Iterable<number>): Generator<string, void, undefined>`
 
@@ -287,6 +327,9 @@ import {
   FimMiddle,
   FimPrefix,
   FimSuffix,
+  ImStart,
+  ImEnd,
+  ImSep,
   encode,
 } from 'gpt-tokenizer'
 

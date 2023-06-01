@@ -15,12 +15,16 @@ const {
   encode,
   encodeGenerator,
   isWithinTokenLimit,
+  encodeChat,
+  encodeChatGenerator,
 } = api
 export {
   decode,
   decodeAsyncGenerator,
   decodeGenerator,
   encode,
+  encodeChat,
+  encodeChatGenerator,
   encodeGenerator,
   isWithinTokenLimit,
 }

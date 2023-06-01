@@ -1,4 +1,7 @@
 /* eslint-disable camelcase */
+
+import { ImSep } from './specialTokens.js'
+
 export const cl100k_base = 'cl100k_base'
 export const p50k_base = 'p50k_base'
 export const p50k_edit = 'p50k_edit'
@@ -14,7 +17,11 @@ export const encodingNames = [
 export const modelToEncodingMap = {
   // chat
   'gpt-4': cl100k_base,
+  'gpt-4-32k': cl100k_base,
+  'gpt-4-0314': cl100k_base,
+  'gpt-4-32k-0314': cl100k_base,
   'gpt-3.5-turbo': cl100k_base,
+  'gpt-3.5-turbo-0301': cl100k_base,
   // text
   'text-davinci-003': p50k_base,
   'text-davinci-002': p50k_base,
@@ -51,5 +58,40 @@ export const modelToEncodingMap = {
   'code-search-ada-code-001': r50k_base,
 } as const
 
+export interface ChatParameters {
+  messageSeparator: string
+  roleSeparator: string
+}
+
+const internalChatModelParams = {
+  'gpt-3.5-turbo': {
+    messageSeparator: '\n',
+    roleSeparator: '\n',
+  },
+  'gpt-3.5-turbo-0301': {
+    messageSeparator: '\n',
+    roleSeparator: '\n',
+  },
+  'gpt-4': {
+    messageSeparator: '',
+    roleSeparator: ImSep,
+  },
+  'gpt-4-0314': {
+    messageSeparator: '',
+    roleSeparator: ImSep,
+  },
+  'gpt-4-32k': {
+    messageSeparator: '',
+    roleSeparator: ImSep,
+  },
+  'gpt-4-32k-0314': {
+    messageSeparator: '',
+    roleSeparator: ImSep,
+  },
+}
+
+export const chatModelParams: Partial<Record<ModelName, ChatParameters>> =
+  internalChatModelParams
 export type ModelName = keyof typeof modelToEncodingMap
+export type ChatModelName = keyof typeof internalChatModelParams
 export type EncodingName = (typeof modelToEncodingMap)[ModelName]
