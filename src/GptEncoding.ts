@@ -97,6 +97,8 @@ export class GptEncoding {
     this.decodeGenerator = this.decodeGenerator.bind(this)
     this.decodeAsyncGenerator = this.decodeAsyncGenerator.bind(this)
     this.isWithinTokenLimit = this.isWithinTokenLimit.bind(this)
+    this.encodeChat = this.encodeChat.bind(this)
+    this.encodeChatGenerator = this.encodeChatGenerator.bind(this)
     this.modelName = modelName
   }
 
