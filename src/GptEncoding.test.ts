@@ -26,6 +26,21 @@ const sharedResults = {
 }
 
 const results = {
+  o200k_base: {
+    space: [220],
+    tab: [197],
+    'This is some text': [2_028, 374, 1_063, 1_495],
+    indivisible: [485, 344, 23_936],
+    'hello 👋 world 🌍': [15_339, 62_904, 233, 1_917, 11_410, 234, 235],
+    decodedHelloWorldTokens: ['hello', ' ', '👋', ' world', ' ', '🌍'],
+    'toString constructor hasOwnProperty valueOf': [
+      6_712, 4_797, 706, 19_964, 907, 2_173,
+    ],
+    'hello, I am a text, and I have commas. a,b,c': [
+      15_339, 11, 358, 1_097, 264, 1_495, 11, 323, 358, 617, 77_702, 13, 264,
+      8_568, 10_317,
+    ],
+  },
   cl100k_base: {
     space: [220],
     tab: [197],
@@ -111,7 +126,7 @@ describe.each(encodingNames)('%s', (encodingName: EncodingName) => {
     it('decode token-by-token via generator', () => {
       const str = 'hello 👋 world 🌍'
       const generator = decodeGenerator(result[str])
-      result.decodedHelloWorldTokens.forEach((token) => {
+      result.decodedHelloWorldTokens.forEach((token: string) => {
         expect(generator.next().value).toBe(token)
       })
     })
@@ -243,6 +258,7 @@ function loadTestPlans() {
     p50k_base: [],
     p50k_edit: [],
     r50k_base: [],
+    o200k_base: [],
   }
   testPlanData.split('\n\n').forEach((testPlan) => {
     const [encodingNameLine, sampleLine, encodedLine] = testPlan.split('\n')

@@ -94,7 +94,7 @@ const internalChatModelParams = {
   'gpt-4o': {
     messageSeparator: '',
     roleSeparator: ImSep,
-  }
+  },
 }
 
 export const chatModelParams: Partial<Record<ModelName, ChatParameters>> =
