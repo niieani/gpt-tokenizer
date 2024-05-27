@@ -2,7 +2,7 @@
 
 [![Play with gpt-tokenizer](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/gpt-tokenizer-tjcjoz?fontsize=14&hidenavigation=1&theme=dark)
 
-`gpt-tokenizer` is a highly optimized Token Byte Pair Encoder/Decoder for all OpenAI's models (including those used by GPT-2, GPT-3, GPT-3.5 and GPT-4). It's written in TypeScript, and is fully compatible with all modern JavaScript environments.
+`gpt-tokenizer` is a highly optimized Token Byte Pair Encoder/Decoder for all OpenAI's models (including those used by GPT-2, GPT-3, GPT-3.5, GPT-4 and GPT-4o). It's written in TypeScript, and is fully compatible with all modern JavaScript environments.
 
 This package is a port of OpenAI's [tiktoken](https://github.com/openai/tiktoken), with some additional features sprinkled on top.
 
