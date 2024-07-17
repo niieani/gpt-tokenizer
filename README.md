@@ -2,7 +2,7 @@
 
 [![Play with gpt-tokenizer](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/gpt-tokenizer-tjcjoz?fontsize=14&hidenavigation=1&theme=dark)
 
-`gpt-tokenizer` is a highly optimized Token Byte Pair Encoder/Decoder for all OpenAI's models (including those used by GPT-2, GPT-3, GPT-3.5 and GPT-4). It's written in TypeScript, and is fully compatible with all modern JavaScript environments.
+`gpt-tokenizer` is a highly optimized Token Byte Pair Encoder/Decoder for all OpenAI's models (including those used by GPT-2, GPT-3, GPT-3.5, GPT-4 and GPT-4o). It's written in TypeScript, and is fully compatible with all modern JavaScript environments.
 
 This package is a port of OpenAI's [tiktoken](https://github.com/openai/tiktoken), with some additional features sprinkled on top.
 
@@ -11,7 +11,7 @@ OpenAI's GPT models utilize byte pair encoding to transform text into a sequence
 As of 2023, it is the most feature-complete, open-source GPT tokenizer on NPM. It implements some unique features, such as:
 
 - Support for easily tokenizing chats thanks to the `encodeChat` function
-- Support for all current OpenAI models (available encodings: `r50k_base`, `p50k_base`, `p50k_edit` and `cl100k_base`)
+- Support for all current OpenAI models (available encodings: `r50k_base`, `p50k_base`, `p50k_edit`, `cl100k_base` and `o200k_base`)
 - Generator function versions of both the decoder and encoder functions
 - Provides the ability to decode an asynchronous stream of data (using `decodeAsyncGenerator` and `decodeGenerator` with any iterable input)
 - No global cache (no accidental memory leaks, as with the original GPT-3-Encoder implementation)
@@ -49,6 +49,7 @@ If you wish to use a custom encoding, fetch the relevant script.
 - https://unpkg.com/gpt-tokenizer/dist/p50k_base.js
 - https://unpkg.com/gpt-tokenizer/dist/p50k_edit.js
 - https://unpkg.com/gpt-tokenizer/dist/r50k_base.js
+- https://unpkg.com/gpt-tokenizer/dist/o200k_base.js
 
 The global name is a concatenation: `GPTTokenizer_${encoding}`.
 
@@ -150,6 +151,7 @@ chat:
 - `gpt-4-32k-0314` (`cl100k_base`)
 - `gpt-3.5-turbo` (`cl100k_base`)
 - `gpt-3.5-turbo-0301` (`cl100k_base`)
+- `gpt-4o` (`o200k_base`)
 
 text-only:
 

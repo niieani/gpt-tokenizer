@@ -26,6 +26,12 @@ export const resolveEncodingAsync = async (
           ({ default: encodingTuples }) => encodingTuples,
         ),
       )
+    case 'o200k_base':
+      return convertTokenBytePairEncodingFromTuples(
+        await import('./encodings/o200k_base.js').then(
+          ({ default: encodingTuples }) => encodingTuples,
+        ),
+      )
     default: {
       throw new Error(`Unknown encoding name: ${encoding}`)
     }

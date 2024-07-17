@@ -6,12 +6,14 @@ export const cl100k_base = 'cl100k_base'
 export const p50k_base = 'p50k_base'
 export const p50k_edit = 'p50k_edit'
 export const r50k_base = 'r50k_base'
+export const o200k_base = 'o200k_base'
 
 export const encodingNames = [
   cl100k_base,
   p50k_base,
   r50k_base,
   p50k_edit,
+  o200k_base,
 ] as const
 
 export const modelToEncodingMap = {
@@ -22,6 +24,7 @@ export const modelToEncodingMap = {
   'gpt-4-32k-0314': cl100k_base,
   'gpt-3.5-turbo': cl100k_base,
   'gpt-3.5-turbo-0301': cl100k_base,
+  'gpt-4o': o200k_base,
   // text
   'text-davinci-003': p50k_base,
   'text-davinci-002': p50k_base,
@@ -85,6 +88,10 @@ const internalChatModelParams = {
     roleSeparator: ImSep,
   },
   'gpt-4-32k-0314': {
+    messageSeparator: '',
+    roleSeparator: ImSep,
+  },
+  'gpt-4o': {
     messageSeparator: '',
     roleSeparator: ImSep,
   },
