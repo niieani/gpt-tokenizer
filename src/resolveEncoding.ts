@@ -2,9 +2,9 @@
 import { convertTokenBytePairEncodingFromTuples } from './convertTokenBytePairEncodingFromTuples.js'
 import type { EncoderMap } from './EncoderMap.js'
 import cl100k from './encodings/cl100k_base.js'
+import o200k from './encodings/o200k_base.js'
 import p50k from './encodings/p50k_base.js'
 import r50k from './encodings/r50k_base.js'
-import o200k from './encodings/o200k_base.js'
 import type { EncodingName } from './mapping.js'
 
 export const resolveEncoding = (encoding: EncodingName): EncoderMap => {
