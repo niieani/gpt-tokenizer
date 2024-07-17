@@ -34,7 +34,7 @@ const results = {
     'hello 👋 world 🌍': [24_912, 61_138, 233, 2_375, 130_321, 235],
     decodedHelloWorldTokens: ['hello', ' ', '👋', ' world', ' ', '🌍'],
     'toString constructor hasOwnProperty valueOf': [
-      935, 916, 9_220, 853, 18_555, 3_895, 1_432, 2_566
+      935, 916, 9_220, 853, 18_555, 3_895, 1_432, 2_566,
     ],
     'hello, I am a text, and I have commas. a,b,c': [
       24_912, 11, 357, 939, 261, 2_201, 11, 326, 357, 679, 179_663, 13, 261,
