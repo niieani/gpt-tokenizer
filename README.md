@@ -95,7 +95,7 @@ const withinTokenLimit = isWithinTokenLimit(text, tokenLimit)
 const chat = [
   { role: 'system', content: 'You are a helpful assistant.' },
   { role: 'assistant', content: 'gpt-tokenizer is awesome.' },
-]
+] as const
 
 // Encode chat into tokens
 const chatTokens = encodeChat(chat)
