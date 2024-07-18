@@ -77,6 +77,8 @@ import {
   decodeGenerator,
   decodeAsyncGenerator,
 } from 'gpt-tokenizer'
+// note: depending on the model, import from the respective file, e.g.:
+// import {...} from 'gpt-tokenizer/model/gpt-4o'
 
 const text = 'Hello, world!'
 const tokenLimit = 10
@@ -152,6 +154,8 @@ chat:
 - `gpt-3.5-turbo` (`cl100k_base`)
 - `gpt-3.5-turbo-0301` (`cl100k_base`)
 - `gpt-4o` (`o200k_base`)
+
+note: if you're using `gpt-3.5-*` or `gpt-4-*` and don't see the model you're looking for, use the `cl100k_base` encoding directly.
 
 text-only:
 
