@@ -19,10 +19,12 @@ await Promise.all(
     const isChatModel = chatModels.includes(modelName)
 
     const content = isChatModel
-      ? template.replace(
-          `getEncodingApi('cl100k_base'`,
-          `getEncodingApiForModel('${modelName}'`,
-        )
+      ? template
+          .replace(
+            `getEncodingApi('cl100k_base'`,
+            `getEncodingApiForModel('${modelName}'`,
+          )
+          .replaceAll(`cl100k_base.js`, `${encoding}.js`)
       : `// eslint-disable-next-line no-restricted-exports, import/no-default-export\nexport { default } from '../encoding/${encoding}.js'\nexport * from '../encoding/${encoding}.js'\n`
     await fs.writeFile(
       path.join(__dirname, `../model/${modelName}.ts`),

@@ -77,6 +77,14 @@ const internalChatModelParams = {
     messageSeparator: '\n',
     roleSeparator: '\n',
   },
+  'gpt-3.5-turbo-0613': {
+    messageSeparator: '\n',
+    roleSeparator: '\n',
+  },
+  'gpt-3.5-turbo-16k-0613': {
+    messageSeparator: '\n',
+    roleSeparator: '\n',
+  },
   'gpt-4': {
     messageSeparator: '',
     roleSeparator: ImSep,
