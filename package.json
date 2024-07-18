@@ -117,7 +117,7 @@
   },
   "devDependencies": {
     "@niieani/scaffold": "^1.7.1",
-    "tsx": "^3.12.7"
+    "tsx": "^3.12.10"
   },
   "packageManager": "yarn@3.5.0",
   "publishConfig": {
