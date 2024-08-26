@@ -116,7 +116,7 @@
     "tagFormat": "${version}"
   },
   "devDependencies": {
-    "@niieani/scaffold": "^1.7.1",
+    "@niieani/scaffold": "^1.7.32",
     "tsx": "^3.12.7"
   },
   "packageManager": "yarn@3.5.0",
