@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import { GptEncoding } from './GptEncoding.js'
+import { type ChatMessage, GptEncoding } from './GptEncoding.js'
 import {
   type ChatModelName,
   type EncodingName,
@@ -177,7 +177,7 @@ describe.each(encodingNames)('%s', (encodingName: EncodingName) => {
 
 const chatModelNames = Object.keys(chatModelParams) as readonly ChatModelName[]
 
-const exampleMessages = [
+const exampleMessages: ChatMessage[] = [
   {
     role: 'system',
     content:
