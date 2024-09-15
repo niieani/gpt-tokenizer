@@ -1,7 +1,8 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "verbatimModuleSyntax": false
+    "verbatimModuleSyntax": false,
+    "moduleResolution": "Node"
   },
   "exclude": [
     "src/codegen/generateByModel.ts",
