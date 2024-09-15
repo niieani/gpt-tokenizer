@@ -7,6 +7,7 @@ const config: TypeScriptConfig & {
     allowJs: true,
     verbatimModuleSyntax: true,
     moduleResolution: 'nodenext',
+    module: 'nodenext',
   },
   include: ['src'],
 }

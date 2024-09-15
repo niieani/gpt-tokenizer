@@ -47,7 +47,7 @@ export class BytePairEncodingCore {
   *encodeNative(
     text: string,
     allowedSpecial: Set<string>,
-  ): Generator<number[], number> {
+  ): Generator<number[], number, undefined> {
     let startIndex = 0
     let lastTokenLength = 0
 

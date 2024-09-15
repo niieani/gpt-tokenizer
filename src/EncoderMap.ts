@@ -48,20 +48,20 @@ export class EncoderMap implements Map<Uint8Array, number> {
     this.encoder.set(key.toString(), value)
     return this
   }
-  *entries(): IterableIterator<[Uint8Array, number]> {
+  *entries(): MapIterator<[Uint8Array, number]> {
     for (const [key, value] of this.encoder.entries()) {
       yield [new Uint8Array(key.split(',').map(Number)), value]
     }
   }
-  *keys(): IterableIterator<Uint8Array> {
+  *keys(): MapIterator<Uint8Array> {
     for (const key of this.encoder.keys()) {
       yield new Uint8Array(key.split(',').map(Number))
     }
   }
-  values(): IterableIterator<number> {
+  values(): MapIterator<number> {
     return this.encoder.values()
   }
-  [Symbol.iterator](): IterableIterator<[Uint8Array, number]> {
+  [Symbol.iterator](): MapIterator<[Uint8Array, number]> {
     return this.entries()
   }
 }

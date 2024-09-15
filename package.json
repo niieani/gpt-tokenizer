@@ -116,14 +116,18 @@
     "tagFormat": "${version}"
   },
   "devDependencies": {
-    "@niieani/scaffold": "^1.7.1",
-    "tsx": "^3.12.7"
+    "@niieani/scaffold": "^1.7.32",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.2"
+  },
+  "resolutions": {
+    "typescript": "5.6.2"
   },
   "packageManager": "yarn@4.5.0",
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "rfc4648": "^1.5.2"
+    "rfc4648": "^1.5.3"
   }
 }
