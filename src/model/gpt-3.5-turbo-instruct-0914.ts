@@ -9,7 +9,6 @@ const {
   decode,
   decodeAsyncGenerator,
   decodeGenerator,
-  toggleDecodeCache,
   encode,
   encodeGenerator,
   isWithinTokenLimit,
@@ -25,7 +24,6 @@ export {
   encodeChatGenerator,
   encodeGenerator,
   isWithinTokenLimit,
-  toggleDecodeCache,
 }
 // eslint-disable-next-line import/no-default-export
 export default api

@@ -1,6 +1,8 @@
 /* eslint-disable no-param-reassign */
 import { BytePairEncodingCore } from './BytePairEncodingCore.js'
 import {
+  type ChatModelName,
+  type ChatParameters,
   type EncodingName,
   type ModelName,
   chatModelParams,
@@ -50,27 +52,38 @@ export class GptEncoding {
   static FimPrefix = FimPrefix
   static FimSuffix = FimSuffix
 
-  decoder = new TextDecoder('utf8')
   modelName?: ModelName
+  private decoder = new TextDecoder('utf8')
   private bytePairEncodingCoreProcessor: BytePairEncodingCore
   private specialTokenMapping: Map<string, number>
+  private specialTokensSet: Set<string>
+  private allSpecialTokenRegex: RegExp
 
   private constructor({
-    tokenSplitRegex,
     mergeableBytePairRanks,
     specialTokenMapping,
     expectedVocabularySize,
     modelName,
+    ...rest
   }: EncodingParams) {
+    this.specialTokenMapping = specialTokenMapping
+    this.specialTokensSet = new Set<string>(this.specialTokenMapping.keys())
+    this.allSpecialTokenRegex = getSpecialTokenRegex(this.specialTokensSet)
+
+    this.bytePairEncodingCoreProcessor = new BytePairEncodingCore({
+      mergeableBytePairRanks,
+      specialTokenMapping,
+      ...rest,
+    })
+
     const maxTokenValue = Math.max(
-      getMaxValueFromMap(mergeableBytePairRanks),
+      mergeableBytePairRanks.length - 1,
       getMaxValueFromMap(specialTokenMapping),
     )
-    this.specialTokenMapping = specialTokenMapping
-
     if (expectedVocabularySize !== undefined) {
       if (
-        mergeableBytePairRanks.size + specialTokenMapping.size !==
+        this.bytePairEncodingCoreProcessor.bytePairEncoderSize +
+          specialTokenMapping.size !==
         expectedVocabularySize
       ) {
         throw new Error(
@@ -80,16 +93,12 @@ export class GptEncoding {
 
       if (maxTokenValue !== expectedVocabularySize - 1) {
         throw new Error(
-          'The maximum token value must be equal to explicit_n_vocab - 1.',
+          `The model encodings are invalid. The maximum token value must be equal to expectedVocabularySize - 1. Currently ${maxTokenValue}, expected ${
+            expectedVocabularySize - 1
+          }`,
         )
       }
     }
-
-    this.bytePairEncodingCoreProcessor = new BytePairEncodingCore({
-      bytePairEncoder: mergeableBytePairRanks,
-      specialTokenEncoder: specialTokenMapping,
-      tokenSplitRegex,
-    })
 
     this.encode = this.encode.bind(this)
     this.decode = this.decode.bind(this)
@@ -144,25 +153,27 @@ export class GptEncoding {
 
   encodeGenerator(
     lineToEncode: string,
-    {
-      allowedSpecial = new Set<string>(),
-      disallowedSpecial = new Set<string>([ALL_SPECIAL_TOKENS]),
-    }: EncodeOptions = {},
+    { allowedSpecial, disallowedSpecial }: EncodeOptions = {},
   ): Generator<number[], number, undefined> {
-    const specialTokensSet = new Set<string>(this.specialTokenMapping.keys())
+    let regexPattern: RegExp | undefined
 
-    if (disallowedSpecial.has(ALL_SPECIAL_TOKENS)) {
-      disallowedSpecial = new Set<string>(specialTokensSet)
-      allowedSpecial.forEach((val) => disallowedSpecial.delete(val))
-      disallowedSpecial.forEach((val) => allowedSpecial.delete(val))
+    if (allowedSpecial?.has(ALL_SPECIAL_TOKENS)) {
+      allowedSpecial = new Set(this.specialTokensSet)
     }
 
-    if (allowedSpecial.has(ALL_SPECIAL_TOKENS)) {
-      allowedSpecial = specialTokensSet
+    if (!disallowedSpecial || disallowedSpecial.has(ALL_SPECIAL_TOKENS)) {
+      // by default, all special tokens are disallowed
+      disallowedSpecial = new Set(this.specialTokensSet)
+      if (allowedSpecial?.size) {
+        allowedSpecial.forEach((val) => disallowedSpecial!.delete(val))
+        disallowedSpecial.forEach((val) => allowedSpecial.delete(val))
+        regexPattern = getSpecialTokenRegex(disallowedSpecial)
+      } else {
+        regexPattern = this.allSpecialTokenRegex
+      }
     }
 
-    if (disallowedSpecial.size > 0) {
-      const regexPattern = getSpecialTokenRegex(disallowedSpecial)
+    if (regexPattern) {
       const match = lineToEncode.match(regexPattern)
       if (match !== null) {
         throw new Error(`Disallowed special token found: ${match[0]}`)
@@ -195,7 +206,9 @@ export class GptEncoding {
         'Model name must be provided either during initialization or passed in to the method.',
       )
     }
-    const params = chatModelParams[model]
+
+    const params: ChatParameters | undefined =
+      chatModelParams[model as ChatModelName]
     const chatStartToken = this.specialTokenMapping.get(ImStart)
     const chatEndToken = this.specialTokenMapping.get(ImEnd)
 
@@ -278,7 +291,10 @@ export class GptEncoding {
     let buffer = ''
 
     for (const decodedPart of decodedByteGenerator) {
-      buffer += this.decoder.decode(decodedPart, { stream: true })
+      buffer +=
+        typeof decodedPart === 'string'
+          ? decodedPart
+          : this.decoder.decode(decodedPart, { stream: true })
 
       if (buffer.length === 0 || endsWithIncompleteUtfPairSurrogate(buffer)) {
         // Keep the high surrogate in the buffer and continue with the next token
@@ -306,7 +322,10 @@ export class GptEncoding {
     let buffer = ''
 
     for await (const decodedPart of decodedByteGenerator) {
-      buffer += this.decoder.decode(decodedPart, { stream: true })
+      buffer +=
+        typeof decodedPart === 'string'
+          ? decodedPart
+          : this.decoder.decode(decodedPart, { stream: true })
 
       if (buffer.length === 0 || endsWithIncompleteUtfPairSurrogate(buffer)) {
         // Keep the high surrogate in the buffer and continue with the next token

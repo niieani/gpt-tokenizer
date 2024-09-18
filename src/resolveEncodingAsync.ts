@@ -1,36 +1,27 @@
 /* eslint-disable import/extensions */
-import { convertTokenBytePairEncodingFromTuples } from './convertTokenBytePairEncodingFromTuples.js'
-import type { EncoderMap } from './EncoderMap.js'
+import type { RawBytePairRanks } from './BytePairEncodingCore.js'
 import type { EncodingName } from './mapping.js'
 
 export const resolveEncodingAsync = async (
   encoding: EncodingName,
-): Promise<EncoderMap> => {
+): Promise<RawBytePairRanks> => {
   switch (encoding) {
     case 'r50k_base':
-      return convertTokenBytePairEncodingFromTuples(
-        await import('./encodings/r50k_base.js').then(
-          ({ default: encodingTuples }) => encodingTuples,
-        ),
+      return import('./encodings/r50k_base.js').then(
+        ({ default: rawBytePairRanks }) => rawBytePairRanks,
       )
     case 'p50k_base':
     case 'p50k_edit':
-      return convertTokenBytePairEncodingFromTuples(
-        await import('./encodings/p50k_base.js').then(
-          ({ default: encodingTuples }) => encodingTuples,
-        ),
+      return import('./encodings/p50k_base.js').then(
+        ({ default: rawBytePairRanks }) => rawBytePairRanks,
       )
     case 'cl100k_base':
-      return convertTokenBytePairEncodingFromTuples(
-        await import('./encodings/cl100k_base.js').then(
-          ({ default: encodingTuples }) => encodingTuples,
-        ),
+      return import('./encodings/cl100k_base.js').then(
+        ({ default: rawBytePairRanks }) => rawBytePairRanks,
       )
     case 'o200k_base':
-      return convertTokenBytePairEncodingFromTuples(
-        await import('./encodings/o200k_base.js').then(
-          ({ default: encodingTuples }) => encodingTuples,
-        ),
+      return import('./encodings/o200k_base.js').then(
+        ({ default: rawBytePairRanks }) => rawBytePairRanks,
       )
     default: {
       throw new Error(`Unknown encoding name: ${encoding}`)

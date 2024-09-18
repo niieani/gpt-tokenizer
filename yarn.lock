@@ -8376,7 +8376,6 @@ __metadata:
   resolution: "gpt-tokenizer@workspace:."
   dependencies:
     "@niieani/scaffold": "npm:^1.7.32"
-    rfc4648: "npm:^1.5.3"
     tsx: "npm:^4.19.1"
     typescript: "npm:^5.6.2"
   languageName: unknown
@@ -12890,13 +12889,6 @@ __metadata:
   version: 1.0.4
   resolution: "reusify@npm:1.0.4"
   checksum: 10/14222c9e1d3f9ae01480c50d96057228a8524706db79cdeb5a2ce5bb7070dd9f409a6f84a02cbef8cdc80d39aef86f2dd03d155188a1300c599b05437dcd2ffb
-  languageName: node
-  linkType: hard
-
-"rfc4648@npm:^1.5.3":
-  version: 1.5.3
-  resolution: "rfc4648@npm:1.5.3"
-  checksum: 10/1ac6fd44bd6c2a8dc1e4ee243bc7acc2c5754cf24d8f864cb2b114b68ce0d1df3e094f7242db6c5a3bf21b8291ba6b5e39d579ebc3c79136b14b80b1cfef029d
   languageName: node
   linkType: hard
 
