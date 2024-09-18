@@ -1,6 +1,7 @@
 import * as fs from 'fs/promises'
 import * as path from 'path'
 import { fileURLToPath } from 'url'
+import { base64 } from 'rfc4648'
 
 type CallbackFunction = (filename: string) => Promise<void> | void
 
@@ -37,15 +38,19 @@ await processFilesInDirectory(
     const lines = bpeFile.split('\n')
     const encoder = lines.slice(0, -1).map((x) => {
       const [token, rank] = x.split(' ')
-      return [token, Number.parseInt(rank!, 10)]
+      if (!token || token.length === 0 || !rank || rank.length === 0) {
+        throw new Error(`Invalid token encoding: ${x}`)
+      }
+      return [base64.parse(token), Number.parseInt(rank, 10)] as const
     })
+    const javaScriptRecreatingEncoderArray = encoder
+      .map(([token, rank]) => `[new U([${token.join(',')}]),${rank}]`)
+      .join(',\n')
 
     await fs.mkdir(path.join(__dirname, '../encodings'), { recursive: true })
     await fs.writeFile(
       path.join(__dirname, `../encodings/${modelName}.js`),
-      `/* eslint-disable */\n// @ts-nocheck\n// prettier-ignore\n/** @type {[string, number][]} */\nconst encoder = ${JSON.stringify(
-        encoder,
-      )};\nexport default encoder;`,
+      `/* eslint-disable */\n// @ts-nocheck\n// prettier-ignore\nconst U = Uint8Array;\n/** @type {[string, number][]} */\nconst encoder = [${javaScriptRecreatingEncoderArray}];\nexport default encoder;`,
     )
 
     // eslint-disable-next-line no-console
