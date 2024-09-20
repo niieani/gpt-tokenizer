@@ -1,13 +1,10 @@
 /* eslint-disable import/extensions */
-import { convertTokenBytePairEncodingFromTuples } from '../convertTokenBytePairEncodingFromTuples.js'
 import encoder from '../encodings/p50k_base.js'
 import { GptEncoding } from '../GptEncoding.js'
 
 export * from '../specialTokens.js'
 
-const api = GptEncoding.getEncodingApi('p50k_base', () =>
-  convertTokenBytePairEncodingFromTuples(encoder),
-)
+const api = GptEncoding.getEncodingApi('p50k_base', () => encoder)
 const {
   decode,
   decodeAsyncGenerator,

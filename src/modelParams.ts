@@ -1,18 +1,15 @@
-/* eslint-disable no-magic-numbers */
-import { EncoderMap } from './EncoderMap.js'
+import type {
+  BytePairEncodingConfig,
+  RawBytePairRanks,
+} from './BytePairEncodingCore.js'
+import { Cl100KBase } from './encodingParams/Cl100KBase.js'
+import { O200KBase } from './encodingParams/O200KBase.js'
+import { P50KBase } from './encodingParams/P50KBase.js'
+import { P50KEdit } from './encodingParams/P50KEdit.js'
+import { R50KBase } from './encodingParams/R50KBase.js'
 import type { EncodingName, ModelName } from './mapping.js'
-import {
-  EndOfPrompt,
-  EndOfText,
-  FimMiddle,
-  FimPrefix,
-  FimSuffix,
-  ImEnd,
-  ImSep,
-  ImStart,
-} from './specialTokens.js'
 
-export interface EncodingParams {
+export interface EncodingParams extends BytePairEncodingConfig {
   /**
    * The expected total number of tokens in the vocabulary, including both regular and special tokens.
    * This parameter is used to ensure that the combined number of regular and special tokens matches the expected total.
@@ -25,91 +22,22 @@ export interface EncodingParams {
    * It's complex due to its need to deal with a wide variety of cases in text processing.
    */
   tokenSplitRegex: RegExp
-  mergeableBytePairRanks: EncoderMap
   specialTokenMapping: Map<string, number>
   modelName?: ModelName
+
+  /** increases memory consumption, but speeds up subsequent decoding */
+  enableCache?: boolean
 }
 
-const tokenSplitRegex =
+export const tokenSplitRegex =
   /'s|'t|'re|'ve|'m|'ll|'d| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+/gu
 
-function R50KBase(mergeableBytePairRanks: EncoderMap): EncodingParams {
-  return {
-    expectedVocabularySize: 50_257,
-    tokenSplitRegex,
-    mergeableBytePairRanks,
-    specialTokenMapping: new Map<string, number>([[EndOfText, 50_256]]),
-  }
-}
-
-function P50KBase(mergeableBytePairRanks: EncoderMap): EncodingParams {
-  return {
-    expectedVocabularySize: 50_281,
-    tokenSplitRegex,
-    mergeableBytePairRanks,
-    specialTokenMapping: new Map<string, number>([[EndOfText, 50_256]]),
-  }
-}
-
-function P50KEdit(mergeableBytePairRanks: EncoderMap): EncodingParams {
-  const specialTokenMapping = new Map<string, number>([
-    [EndOfText, 50_256],
-    [FimPrefix, 50_281],
-    [FimMiddle, 50_282],
-    [FimSuffix, 50_283],
-  ])
-
-  return {
-    tokenSplitRegex,
-    mergeableBytePairRanks,
-    specialTokenMapping,
-  }
-}
-
-function Cl100KBase(mergeableBytePairRanks: EncoderMap): EncodingParams {
-  const specialTokenMapping = new Map<string, number>([
-    [EndOfText, 100_257],
-    [FimPrefix, 100_258],
-    [FimMiddle, 100_259],
-    [FimSuffix, 100_260],
-    [ImStart, 100_264],
-    [ImEnd, 100_265],
-    [ImSep, 100_266],
-    [EndOfPrompt, 100_276],
-  ])
-
-  return {
-    tokenSplitRegex:
-      /(?:'s|'t|'re|'ve|'m|'ll|'d)|[^\r\n\p{L}\p{N}]?\p{L}+|\p{N}{1,3}| ?[^\s\p{L}\p{N}]+[\r\n]*|\s*[\r\n]+|\s+(?!\S)|\s+/giu,
-    mergeableBytePairRanks,
-    specialTokenMapping,
-  }
-}
-
-function O200KBase(mergeableBytePairRanks: EncoderMap): EncodingParams {
-  const specialTokenMapping = new Map<string, number>([
-    [EndOfText, 199_999],
-    [FimPrefix, 200_000],
-    [FimMiddle, 200_001],
-    [FimSuffix, 200_002],
-    [ImStart, 200_003],
-    [ImEnd, 200_004],
-    [ImSep, 200_005],
-    [EndOfPrompt, 200_006],
-  ])
-
-  return {
-    tokenSplitRegex:
-      /(?:'s|'t|'re|'ve|'m|'ll|'d)|[^\r\n\p{L}\p{N}]?\p{L}+|\p{N}{1,3}| ?[^\s\p{L}\p{N}]+[\r\n]*|\s*[\r\n]+|\s+(?!\S)|\s+/giu,
-    mergeableBytePairRanks,
-    specialTokenMapping,
-  }
-}
-
-export type GetMergeableRanksFn = (encodingName: EncodingName) => EncoderMap
+export type GetMergeableRanksFn = (
+  encodingName: EncodingName,
+) => RawBytePairRanks
 export type GetMergeableRanksAsyncFn = (
   encodingName: EncodingName,
-) => Promise<EncoderMap>
+) => Promise<RawBytePairRanks>
 
 export function getEncodingParams(
   encodingName: EncodingName,

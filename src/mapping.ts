@@ -16,17 +16,38 @@ export const encodingNames = [
   o200k_base,
 ] as const
 
-export const modelToEncodingMap = {
-  // chat
+const chatEnabledModelsMap = {
   'gpt-4': cl100k_base,
-  'gpt-4-32k': cl100k_base,
   'gpt-4-0314': cl100k_base,
+  'gpt-4-0613': cl100k_base,
+  'gpt-4-32k': cl100k_base,
   'gpt-4-32k-0314': cl100k_base,
+  'gpt-4-32k-0613': cl100k_base,
+  'gpt-4-turbo': cl100k_base,
+  'gpt-4-turbo-2024-04-09': cl100k_base,
+  'gpt-4-turbo-preview': cl100k_base,
+  'gpt-4-1106-preview': cl100k_base,
+  'gpt-4-0125-preview': cl100k_base,
+  'gpt-4-vision-preview': cl100k_base,
+  'gpt-4o': o200k_base,
+  'gpt-4o-2024-05-13': o200k_base,
+  'gpt-4o-2024-08-06': o200k_base,
+  'gpt-4o-mini-2024-07-18': o200k_base,
+  'gpt-4o-mini': o200k_base,
   'gpt-3.5-turbo': cl100k_base,
   'gpt-3.5-turbo-0301': cl100k_base,
   'gpt-3.5-turbo-0613': cl100k_base,
+  'gpt-3.5-turbo-1106': cl100k_base,
+  'gpt-3.5-turbo-0125': cl100k_base,
+  'gpt-3.5-turbo-16k': cl100k_base,
   'gpt-3.5-turbo-16k-0613': cl100k_base,
-  'gpt-4o': o200k_base,
+  'gpt-3.5-turbo-instruct': cl100k_base,
+  'gpt-3.5-turbo-instruct-0914': cl100k_base,
+} as const
+
+export const modelToEncodingMap = {
+  // chat
+  ...chatEnabledModelsMap,
   // text
   'text-davinci-003': p50k_base,
   'text-davinci-002': p50k_base,
@@ -50,6 +71,8 @@ export const modelToEncodingMap = {
   'code-davinci-edit-001': p50k_edit,
   // embeddings
   'text-embedding-ada-002': cl100k_base,
+  'text-embedding-3-small': cl100k_base,
+  'text-embedding-3-large': cl100k_base,
   // old embeddings
   'text-similarity-davinci-001': r50k_base,
   'text-similarity-curie-001': r50k_base,
@@ -68,47 +91,30 @@ export interface ChatParameters {
   roleSeparator: string
 }
 
-const internalChatModelParams = {
-  'gpt-3.5-turbo': {
-    messageSeparator: '\n',
-    roleSeparator: '\n',
-  },
-  'gpt-3.5-turbo-0301': {
-    messageSeparator: '\n',
-    roleSeparator: '\n',
-  },
-  'gpt-3.5-turbo-0613': {
-    messageSeparator: '\n',
-    roleSeparator: '\n',
-  },
-  'gpt-3.5-turbo-16k-0613': {
-    messageSeparator: '\n',
-    roleSeparator: '\n',
-  },
-  'gpt-4': {
-    messageSeparator: '',
-    roleSeparator: ImSep,
-  },
-  'gpt-4-0314': {
-    messageSeparator: '',
-    roleSeparator: ImSep,
-  },
-  'gpt-4-32k': {
-    messageSeparator: '',
-    roleSeparator: ImSep,
-  },
-  'gpt-4-32k-0314': {
-    messageSeparator: '',
-    roleSeparator: ImSep,
-  },
-  'gpt-4o': {
-    messageSeparator: '',
-    roleSeparator: ImSep,
-  },
+const gpt3params = {
+  messageSeparator: '\n',
+  roleSeparator: '\n',
 }
 
-export const chatModelParams: Partial<Record<ModelName, ChatParameters>> =
-  internalChatModelParams
+const gpt4params = {
+  messageSeparator: '',
+  roleSeparator: ImSep,
+}
+
 export type ModelName = keyof typeof modelToEncodingMap
-export type ChatModelName = keyof typeof internalChatModelParams
+export type ChatModelName = keyof typeof chatEnabledModelsMap
 export type EncodingName = (typeof modelToEncodingMap)[ModelName]
+
+export const chatModelParams = Object.fromEntries(
+  Object.keys(chatEnabledModelsMap).flatMap((modelName) =>
+    modelName.startsWith('gpt-4')
+      ? ([[modelName, gpt4params] as const] as const)
+      : modelName.startsWith('gpt-3.5-turbo')
+      ? ([[modelName, gpt3params] as const] as const)
+      : [],
+  ),
+) as Record<ChatModelName, ChatParameters>
+
+export const chatEnabledModels = Object.keys(
+  chatEnabledModelsMap,
+) as ChatModelName[]
