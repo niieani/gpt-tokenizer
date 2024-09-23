@@ -2,7 +2,8 @@
 
 [![Play with gpt-tokenizer](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/gpt-tokenizer-tjcjoz?fontsize=14&hidenavigation=1&theme=dark)
 
-`gpt-tokenizer` is a highly optimized Token Byte Pair Encoder/Decoder for all OpenAI's models (including those used by GPT-2, GPT-3, GPT-3.5, GPT-4 and GPT-4o). It's written in TypeScript, and is fully compatible with all modern JavaScript environments.
+`gpt-tokenizer` is a Token Byte Pair Encoder/Decoder supporting all OpenAI's models (including those used by GPT-2, GPT-3, GPT-3.5, GPT-4 and GPT-4o).
+It's the [_fastest, smallest and lowest footprint_](#benchmarks) GPT tokenizer available for all JavaScript environments. It's written in TypeScript.
 
 This package is a port of OpenAI's [tiktoken](https://github.com/openai/tiktoken), with some additional features sprinkled on top.
 
@@ -354,6 +355,17 @@ In this example, an Error is thrown, because the input text contains a disallowe
 `gpt-tokenizer` includes a set of test cases in the [TestPlans.txt](./data/TestPlans.txt) file to ensure its compatibility with OpenAI's Python `tiktoken` library. These test cases validate the functionality and behavior of `gpt-tokenizer`, providing a reliable reference for developers.
 
 Running the unit tests and verifying the test cases helps maintain consistency between the library and the original Python implementation.
+
+## [Benchmarks](https://l8j6fv.csb.app/)
+
+Since version 2.4.0, `gpt-tokenizer` is the fastest tokenizer implementation available on NPM. It's even faster than the available WASM/node binding implementations.
+It has the fastest encoding, decoding time and a tiny memory footprint. It also initializes faster than all other implementations.
+
+The encodings themselves are also the smallest in size, due to the compact format they are stored in.
+
+![fastest benchmark](./docs/fastest.png)
+
+![lowest footprint benchmark](./docs/lowest-footprint.png)
 
 ## License
 

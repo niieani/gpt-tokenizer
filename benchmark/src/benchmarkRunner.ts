@@ -16,7 +16,7 @@ const calculateAverage = (numbers: number[]): number => {
 }
 
 // Define the number of executions for performance testing
-const EXECUTIONS = 1000
+const EXECUTIONS = 10000
 
 // Define the number of iterations for averaging
 const ITERATIONS = 3
