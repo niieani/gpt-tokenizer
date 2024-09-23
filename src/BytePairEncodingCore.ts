@@ -11,16 +11,30 @@ export interface BytePairEncodingConfig {
   tokenSplitRegex: RegExp
 }
 
+const emptyBuffer = new Uint8Array(0)
+
+export const decoder = new TextDecoder('utf8')
+
 export class BytePairEncodingCore {
-  readonly bytePairEncoderSize: number
-  private bytePairEncoder: RawBytePairRanks
-  private bytePairEncoderSortedLookup: readonly [Uint8Array, number][]
-  private bytePairRanksDecoder = new Map<number, Uint8Array>()
+  readonly mergeableBytePairRankCount: number
+  /**
+   * an array where the index is the BPE rank,
+   * and the value is the string or the array of bytes that it decodes to
+   * it may contain holes if token is unused
+   */
+  private bytePairRankDecoder: RawBytePairRanks
+  private bytePairNonUtfRankDecoder = new Map<number, Uint8Array>()
+  private bytePairNonUtfSortedEncoder: readonly [Uint8Array, number][]
+  /**
+   * a reverse map of the bytePairRankDecoder,
+   * where the key is the string and the value is the rank
+   * values that cannot be represented as a string are present in `bytePairNonUtfSortedEncoder`
+   */
+  private bytePairStringRankEncoder: Map<string, number>
   private tokenSplitRegex: RegExp
   private specialTokensEncoder: Map<string, number>
   private specialTokensDecoder: Map<number, string>
   private specialTokenPatternRegex: RegExp
-  private stringDecoder: Map<string, number>
   private textEncoder = new TextEncoder()
 
   constructor({
@@ -28,23 +42,23 @@ export class BytePairEncodingCore {
     specialTokenMapping: specialTokenEncoder,
     tokenSplitRegex,
   }: BytePairEncodingConfig) {
-    this.bytePairEncoder = bytePairEncoder
-    this.stringDecoder = new Map<string, number>()
+    this.bytePairRankDecoder = bytePairEncoder
+    this.bytePairStringRankEncoder = new Map<string, number>()
 
     // size without array holes (which may be present in the encoder)
-    this.bytePairEncoderSize = Object.keys(bytePairEncoder).length
+    this.mergeableBytePairRankCount = Object.keys(bytePairEncoder).length
     const binaryLookup: [Uint8Array, number][] = []
     // forEach skips array holes:
     bytePairEncoder.forEach((value, rank) => {
       if (typeof value === 'string') {
-        this.stringDecoder.set(value, rank)
+        this.bytePairStringRankEncoder.set(value, rank)
         return
       }
       const byteArray = new Uint8Array(value)
       binaryLookup.push([byteArray, rank])
-      this.bytePairRanksDecoder.set(rank, byteArray)
+      this.bytePairNonUtfRankDecoder.set(rank, byteArray)
     })
-    this.bytePairEncoderSortedLookup = binaryLookup.sort((a, b) =>
+    this.bytePairNonUtfSortedEncoder = binaryLookup.sort((a, b) =>
       compareUint8Arrays(a[0], b[0]),
     )
     this.specialTokensEncoder = specialTokenEncoder ?? new Map<string, number>()
@@ -53,85 +67,18 @@ export class BytePairEncodingCore {
       : new Map<number, string>()
     this.tokenSplitRegex = tokenSplitRegex
 
-    const parts = [...this.specialTokensEncoder.keys()].map(escapeRegExp)
-    const joinedParts = parts.join('|')
+    const escapedSpecialTokens = [...this.specialTokensEncoder.keys()].map(
+      escapeRegExp,
+    )
+    const allSpecialTokensRegex = escapedSpecialTokens.join('|')
     try {
-      this.specialTokenPatternRegex = new RegExp(joinedParts)
+      this.specialTokenPatternRegex = new RegExp(allSpecialTokensRegex)
     } catch {
       throw new Error('Invalid regular expression pattern.')
     }
   }
 
-  getBpeRankFromString(key: string): number | undefined {
-    return this.stringDecoder.get(key)
-  }
-
-  getBpeRankFromStringOrThrow(key: string): number {
-    const value = this.getBpeRankFromString(key)
-    if (value === undefined) {
-      throw new Error(
-        `The byte-pair encoding does not contain a value for: ${key}`,
-      )
-    }
-    return value
-  }
-
-  getBpeRankFromBytes(key: Uint8Array): number | undefined {
-    const keyAsString = tryConvertToString(key)
-
-    if (keyAsString !== undefined) {
-      return this.getBpeRankFromString(keyAsString)
-    }
-
-    // Perform binary search on the binary keys
-    const index = this.binarySearch(key)
-    if (index !== -1) {
-      return this.bytePairEncoderSortedLookup[index]![1]
-    }
-
-    return undefined
-  }
-
-  getBpeRankFromBytesOrThrow(key: Uint8Array): number {
-    const value = this.getBpeRankFromBytes(key)
-    if (value === undefined) {
-      throw new Error(
-        `The byte-pair encoding does not contain a value for: ${key.toString()}`,
-      )
-    }
-    return value
-  }
-
-  // Binary search on the binary keys
-  binarySearch(key: Uint8Array): number {
-    let low = 0
-    let high = this.bytePairEncoderSortedLookup.length - 1
-
-    while (low <= high) {
-      // eslint-disable-next-line no-bitwise
-      const mid = (low + high) >>> 1
-      const midKey = this.bytePairEncoderSortedLookup[mid]![0]
-      let cmp = 0
-      for (let i = 0; i < Math.min(midKey.length, key.length); i++) {
-        cmp = midKey[i]! - key[i]!
-        if (cmp !== 0) break
-      }
-      if (cmp === 0) {
-        cmp = midKey.length - key.length
-      }
-      if (cmp === 0) {
-        return mid
-      }
-      if (cmp < 0) {
-        low = mid + 1
-      } else {
-        high = mid - 1
-      }
-    }
-    return -1
-  }
-
-  *encodeNative(
+  *encodeNativeGenerator(
     text: string,
     allowedSpecial?: Set<string>,
   ): Generator<number[], number, undefined> {
@@ -143,7 +90,6 @@ export class BytePairEncodingCore {
         text,
         allowedSpecial,
         startIndex,
-        this.specialTokenPatternRegex,
       )
 
       const endIndex =
@@ -186,35 +132,56 @@ export class BytePairEncodingCore {
     return lastTokenLength
   }
 
-  findNextSpecialStartIndex(
-    text: string,
-    allowedSpecial: Set<string> | undefined,
-    startIndex: number,
-    specialRegex: RegExp,
-  ): number | undefined {
-    let searchIndex = startIndex
+  encodeNative(text: string, allowedSpecial?: Set<string>): number[] {
+    let startIndex = 0
+    const tokensArray: number[] = [] // Flat list to collect the tokens
 
     // eslint-disable-next-line no-constant-condition
     while (true) {
-      const nextSpecialMatch = specialRegex.exec(
-        text.slice(Math.max(0, searchIndex)),
+      const nextSpecialStartIndex = this.findNextSpecialStartIndex(
+        text,
+        allowedSpecial,
+        startIndex,
       )
 
-      if (!nextSpecialMatch) {
-        return undefined
+      const endIndex =
+        nextSpecialStartIndex !== undefined
+          ? nextSpecialStartIndex
+          : text.length
+
+      const textSegment = text.slice(startIndex, endIndex - startIndex)
+
+      for (const [match] of textSegment.matchAll(this.tokenSplitRegex)) {
+        const token = this.getBpeRankFromString(match)
+        if (token !== undefined) {
+          tokensArray.push(token)
+
+          continue
+        }
+
+        const tokens = this.bytePairEncode(match)
+        tokensArray.push(...tokens)
       }
 
-      const [specialToken] = nextSpecialMatch
-
-      if (allowedSpecial?.has(specialToken)) {
-        return nextSpecialMatch.index + searchIndex
+      if (nextSpecialStartIndex !== undefined) {
+        const specialToken = text.slice(Math.max(0, nextSpecialStartIndex))
+        const specialTokenValue = this.specialTokensEncoder.get(specialToken)
+        if (specialTokenValue === undefined) {
+          throw new Error(
+            `Special token "${specialToken}" is not in the special token encoder.`,
+          )
+        }
+        tokensArray.push(specialTokenValue)
+        startIndex = nextSpecialStartIndex + specialToken.length
+      } else {
+        break
       }
-
-      searchIndex = nextSpecialMatch.index + searchIndex + 1
     }
+
+    return tokensArray
   }
 
-  *decodeNative(
+  *decodeNativeGenerator(
     tokens: Iterable<number>,
   ): Generator<Uint8Array | string, void, void> {
     for (const token of tokens) {
@@ -225,7 +192,36 @@ export class BytePairEncodingCore {
     }
   }
 
-  async *decodeNativeAsync(
+  decodeNative(tokens: Iterable<number>): string {
+    let decoded = ''
+    let intBuffer = emptyBuffer
+
+    for (const token of tokens) {
+      const tokenBytes = this.tryDecodeToken(token)
+      if (tokenBytes === undefined) {
+        throw new Error(`Token ${token} is not in the byte pair encoder.`)
+      }
+      if (typeof tokenBytes === 'string') {
+        if (intBuffer !== emptyBuffer) {
+          decoded += decoder.decode(intBuffer, { stream: true })
+          intBuffer = emptyBuffer
+        }
+        decoded += tokenBytes
+      } else {
+        const newBuffer = new Uint8Array(intBuffer.length + tokenBytes.length)
+        newBuffer.set(intBuffer)
+        newBuffer.set(tokenBytes, intBuffer.length)
+        intBuffer = newBuffer
+      }
+    }
+
+    if (intBuffer !== emptyBuffer) {
+      decoded += decoder.decode(intBuffer, { stream: true })
+    }
+    return decoded
+  }
+
+  async *decodeNativeAsyncIterable(
     tokens: AsyncIterable<number>,
   ): AsyncGenerator<Uint8Array | string> {
     for await (const token of tokens) {
@@ -236,13 +232,110 @@ export class BytePairEncodingCore {
     }
   }
 
-  tryDecodeToken(tokenRank: number): Uint8Array | string | undefined {
-    const value = this.bytePairEncoder[tokenRank]
+  private getBpeRankFromString(key: string): number | undefined {
+    return this.bytePairStringRankEncoder.get(key)
+  }
+
+  private getBpeRankFromStringOrThrow(key: string): number {
+    const value = this.getBpeRankFromString(key)
+    if (value === undefined) {
+      throw new Error(
+        `The byte-pair encoding does not contain a value for: ${key}`,
+      )
+    }
+    return value
+  }
+
+  private getBpeRankFromBytes(key: Uint8Array): number | undefined {
+    const keyAsString = tryConvertToString(key)
+
+    if (keyAsString !== undefined) {
+      return this.getBpeRankFromString(keyAsString)
+    }
+
+    // Perform binary search on the binary keys
+    const index = this.binarySearch(key)
+    if (index !== -1) {
+      return this.bytePairNonUtfSortedEncoder[index]![1]
+    }
+
+    return undefined
+  }
+
+  private getBpeRankFromBytesOrThrow(key: Uint8Array): number {
+    const value = this.getBpeRankFromBytes(key)
+    if (value === undefined) {
+      throw new Error(
+        `The byte-pair encoding does not contain a value for: ${key.toString()}`,
+      )
+    }
+    return value
+  }
+
+  // Binary search on the binary keys
+  private binarySearch(key: Uint8Array): number {
+    let low = 0
+    let high = this.bytePairNonUtfSortedEncoder.length - 1
+
+    while (low <= high) {
+      // eslint-disable-next-line no-bitwise
+      const mid = (low + high) >>> 1
+      const midKey = this.bytePairNonUtfSortedEncoder[mid]![0]
+      let cmp = 0
+      const maxLength = Math.min(midKey.length, key.length)
+      for (let i = 0; i < maxLength; i++) {
+        cmp = midKey[i]! - key[i]!
+        if (cmp !== 0) break
+      }
+      if (cmp === 0) {
+        cmp = midKey.length - key.length
+      }
+      if (cmp === 0) {
+        return mid
+      }
+      if (cmp < 0) {
+        low = mid + 1
+      } else {
+        high = mid - 1
+      }
+    }
+    return -1
+  }
+
+  private findNextSpecialStartIndex(
+    text: string,
+    allowedSpecial: Set<string> | undefined,
+    startIndex: number,
+  ): number | undefined {
+    let searchIndex = startIndex
+
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      const nextSpecialMatch = this.specialTokenPatternRegex.exec(
+        text.slice(Math.max(0, searchIndex)),
+      )
+
+      if (!nextSpecialMatch) {
+        return undefined
+      }
+
+      const specialToken = nextSpecialMatch[0]
+
+      if (allowedSpecial?.has(specialToken)) {
+        return nextSpecialMatch.index + searchIndex
+      }
+
+      searchIndex = nextSpecialMatch.index + searchIndex + 1
+    }
+  }
+
+  private tryDecodeToken(tokenRank: number): Uint8Array | string | undefined {
+    const value = this.bytePairRankDecoder[tokenRank]
     if (typeof value === 'string') {
       return value
     }
     if (typeof value === 'object') {
-      const fromBinary = this.bytePairRanksDecoder.get(tokenRank)
+      const fromBinary = this.bytePairNonUtfRankDecoder.get(tokenRank)
       if (fromBinary) {
         return fromBinary
       }
@@ -250,108 +343,102 @@ export class BytePairEncodingCore {
     return this.specialTokensDecoder.get(tokenRank)
   }
 
-  bytePairEncode(input: string): number[] {
+  private bytePairEncode(input: string): number[] {
     if (input.length === 1 && isAscii(input.codePointAt(0)!)) {
       return [this.getBpeRankFromStringOrThrow(input)]
     }
 
     const inputBytes = this.textEncoder.encode(input)
 
-    return this.bytePairMerge(inputBytes, (start, end) => {
-      const key = inputBytes.subarray(start, end)
-      return this.getBpeRankFromBytesOrThrow(key)
-    })
+    return this.bytePairMerge(inputBytes)
   }
 
-  bytePairMerge(
+  private bytePairMerge(
     // Input array of bytes to process
     piece: Uint8Array,
-    // Function to apply to each final segment after merging
-    getByteForRange: (start: number, end: number) => number,
   ): number[] {
-    // Create an array of partition objects. Each partition tracks the start index in 'piece'
-    // and a rank value for adjacent pairs (initially set to positive infinity).
-    const partitions = Array.from({ length: piece.length + 1 }, (_, i) => ({
-      start: i,
-      rank: Number.POSITIVE_INFINITY, // Rank starts at infinity (unmerged)
-    }))
+    // 'starts' holds the start indices of each partition
+    const starts: number[] = []
+    // 'ranks' holds the BPE ranks of each partition pair
+    const ranks: number[] = []
 
-    // Helper function to get the rank of a byte pair starting at 'startIndex'.
-    // 'skip' determines how far we look ahead (usually 0, for consecutive pairs).
-    const getRank = (startIndex: number, skip: number): number | undefined => {
-      if (startIndex + skip + 2 >= partitions.length) {
-        // Avoid out-of-bounds errors, return undefined when no valid pair exists
-        return undefined
+    // Helper function to get the rank of a byte pair starting at 'startIndex'
+    const getRank = (
+      startIndex: number,
+      pairStart = starts[startIndex],
+      pairEnd = starts[startIndex + 2],
+    ): number => {
+      if (pairEnd === undefined) {
+        // No valid pair exists
+        return Number.POSITIVE_INFINITY
       }
 
-      // Get the byte pair by extracting a subarray starting at 'startIndex' and ending at
-      // the start of the partition after 'skip + 2'.
-      const key = piece.subarray(
-        partitions[startIndex]!.start,
-        partitions[startIndex + skip + 2]!.start,
-      )
+      // Extract the byte pair
+      const key = piece.subarray(pairStart, pairEnd)
 
-      // Retrieve the rank of this byte pair from the BPE rank function
-      return this.getBpeRankFromBytes(key)
+      // Retrieve the BPE rank of this byte pair (if it exists)
+      const rank = this.getBpeRankFromBytes(key)
+      return rank ?? Number.POSITIVE_INFINITY
     }
 
-    // Initialize the ranks for all adjacent pairs in the array
-    for (let i = 0; i < partitions.length - 2; i++) {
-      // Get the rank for the pair starting at index 'i'
-      const rank = getRank(i, 0)
-      if (rank !== undefined) {
-        // Assign the rank to the partition at index 'i'
-        partitions[i]!.rank = rank
+    // Initialize the 'starts' array with all possible start indices
+    for (let i = 0; i <= piece.length; i++) {
+      starts.push(i)
+      if (i < piece.length - 1) {
+        // Initialize the BPE values for all adjacent pairs
+        ranks.push(getRank(i, i, i + 2))
+      } else {
+        // Initialize BPE values to infinity for the last pair
+        ranks.push(Number.POSITIVE_INFINITY)
       }
     }
 
     // Iteratively merge byte pairs until no more useful merges can be done
-    while (partitions.length > 1) {
-      let minRank = Number.POSITIVE_INFINITY
-      let minRankIdx = 0
+    while (starts.length > 1) {
+      let lowestRank = Number.POSITIVE_INFINITY
+      let lowestPartitionIndex = -1
 
-      // Find the partition with the minimum rank, i.e., the most important pair to merge next
-      let i = 0
-      for (const partition of partitions) {
-        if (partition.rank < minRank) {
-          minRank = partition.rank
-          minRankIdx = i
+      // Find the partition with the minimum rank
+      for (let i = 0; i < ranks.length - 1; i++) {
+        const rank = ranks[i]!
+        if (rank < lowestRank) {
+          lowestRank = rank
+          lowestPartitionIndex = i
         }
-        i++
       }
 
       // If no valid pair is left to merge, exit the loop
-      if (minRank === Number.POSITIVE_INFINITY) {
+      if (
+        lowestRank === Number.POSITIVE_INFINITY ||
+        lowestPartitionIndex === -1
+      ) {
         break
       }
 
-      // Update the rank of the partition after the merged one
-      partitions[minRankIdx]!.rank =
-        getRank(minRankIdx, 1) ?? Number.POSITIVE_INFINITY
+      // Merge the pair at 'lowestPartitionIndex' by removing the next start index
+      starts.splice(lowestPartitionIndex + 1, 1)
+      // Remove the BPE value of the merged pair
+      ranks.splice(lowestPartitionIndex, 1)
 
-      // Update the rank of the partition before the merged one (if exists)
-      if (minRankIdx > 0) {
-        partitions[minRankIdx - 1]!.rank =
-          getRank(minRankIdx - 1, 1) ?? Number.POSITIVE_INFINITY
+      // Update the current merged pair's rank
+      ranks[lowestPartitionIndex] = getRank(lowestPartitionIndex)
+
+      // Update the rank of the previous pair, if it exists
+      if (lowestPartitionIndex > 0) {
+        ranks[lowestPartitionIndex - 1] = getRank(lowestPartitionIndex - 1)
       }
-
-      // Merge by removing the partition after the one we just merged
-      partitions.splice(minRankIdx + 1, 1)
     }
 
     // Create the final output by applying the transform function to each partitioned range
     const output: number[] = []
-    for (let i = 0; i < partitions.length - 1; i++) {
-      output.push(
-        getByteForRange(
-          // start index
-          partitions[i]!.start,
-          // end index
-          partitions[i + 1]!.start,
-        ),
+    for (let i = 0; i < starts.length - 1; i++) {
+      const pairStart = starts[i]
+      const pairEnd = starts[i + 1]
+      const bpeValue = this.getBpeRankFromBytesOrThrow(
+        piece.subarray(pairStart, pairEnd),
       )
+      output.push(bpeValue)
     }
-
     return output
   }
 }
