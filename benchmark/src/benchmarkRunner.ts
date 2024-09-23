@@ -367,7 +367,7 @@ const saveResults = async (results: BenchmarkResult[]) => {
 // Function to find the index of 'gpt-tokenizer' version 3
 const findGptTokenizerV3Index = (): number => {
   return tokenizers.findIndex(
-    (t) => t.packageName === 'gpt-tokenizer' && t.version === '3',
+    (t) => t.packageName === 'gpt-tokenizer' && t.version === 'local',
   )
 }
 

@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/member-ordering */
 /* eslint-disable no-param-reassign */
-import { BytePairEncodingCore } from './BytePairEncodingCore.js'
+import { BytePairEncodingCore, decoder } from './BytePairEncodingCore.js'
 import {
   type ChatModelName,
   type ChatParameters,
@@ -45,6 +46,11 @@ export interface EncodeChatOptions {
   primeWithAssistantResponse?: string
 }
 
+interface SpecialTokenConfig {
+  allowedSpecial: Set<string> | undefined
+  regexPattern: RegExp | undefined
+}
+
 export class GptEncoding {
   static EndOfPrompt = EndOfPrompt
   static EndOfText = EndOfText
@@ -53,11 +59,11 @@ export class GptEncoding {
   static FimSuffix = FimSuffix
 
   modelName?: ModelName
-  private decoder = new TextDecoder('utf8')
   private bytePairEncodingCoreProcessor: BytePairEncodingCore
   private specialTokenMapping: Map<string, number>
   private specialTokensSet: Set<string>
   private allSpecialTokenRegex: RegExp
+  private defaultSpecialTokenConfig: SpecialTokenConfig
 
   private constructor({
     mergeableBytePairRanks,
@@ -75,6 +81,7 @@ export class GptEncoding {
       specialTokenMapping,
       ...rest,
     })
+    this.defaultSpecialTokenConfig = this.processSpecialTokens()
 
     const maxTokenValue = Math.max(
       mergeableBytePairRanks.length - 1,
@@ -82,7 +89,7 @@ export class GptEncoding {
     )
     if (expectedVocabularySize !== undefined) {
       if (
-        this.bytePairEncodingCoreProcessor.bytePairEncoderSize +
+        this.bytePairEncodingCoreProcessor.mergeableBytePairRankCount +
           specialTokenMapping.size !==
         expectedVocabularySize
       ) {
@@ -105,6 +112,7 @@ export class GptEncoding {
     this.encodeGenerator = this.encodeGenerator.bind(this)
     this.decodeGenerator = this.decodeGenerator.bind(this)
     this.decodeAsyncGenerator = this.decodeAsyncGenerator.bind(this)
+    this.decodeAsync = this.decodeAsync.bind(this)
     this.isWithinTokenLimit = this.isWithinTokenLimit.bind(this)
     this.encodeChat = this.encodeChat.bind(this)
     this.encodeChatGenerator = this.encodeChatGenerator.bind(this)
@@ -151,10 +159,10 @@ export class GptEncoding {
     return new GptEncoding({ ...modelParams, modelName })
   }
 
-  encodeGenerator(
-    lineToEncode: string,
-    { allowedSpecial, disallowedSpecial }: EncodeOptions = {},
-  ): Generator<number[], number, undefined> {
+  private processSpecialTokens({
+    allowedSpecial,
+    disallowedSpecial,
+  }: EncodeOptions = {}): SpecialTokenConfig {
     let regexPattern: RegExp | undefined
 
     if (allowedSpecial?.has(ALL_SPECIAL_TOKENS)) {
@@ -173,8 +181,42 @@ export class GptEncoding {
       }
     }
 
-    if (regexPattern) {
-      const match = lineToEncode.match(regexPattern)
+    return { allowedSpecial, regexPattern }
+  }
+
+  encodeGenerator(
+    lineToEncode: string,
+    encodeOptions?: EncodeOptions,
+  ): Generator<number[], number, undefined> {
+    const specialTokenConfig = encodeOptions
+      ? this.processSpecialTokens(encodeOptions)
+      : this.defaultSpecialTokenConfig
+
+    if (specialTokenConfig.regexPattern) {
+      const match = lineToEncode.match(specialTokenConfig.regexPattern)
+      if (match !== null) {
+        throw new Error(`Disallowed special token found: ${match[0]}`)
+      }
+    }
+
+    return this.bytePairEncodingCoreProcessor.encodeNativeGenerator(
+      lineToEncode,
+      specialTokenConfig.allowedSpecial,
+    )
+  }
+
+  encode(lineToEncode: string, encodeOptions?: EncodeOptions): number[] {
+    // const encodedTokens: number[] = []
+    // for (const tokens of this.encodeGenerator(lineToEncode, encodeOptions)) {
+    //   encodedTokens.push(...tokens)
+    // }
+    // return encodedTokens
+    const specialTokenConfig = encodeOptions
+      ? this.processSpecialTokens(encodeOptions)
+      : this.defaultSpecialTokenConfig
+
+    if (specialTokenConfig.regexPattern) {
+      const match = lineToEncode.match(specialTokenConfig.regexPattern)
       if (match !== null) {
         throw new Error(`Disallowed special token found: ${match[0]}`)
       }
@@ -182,12 +224,8 @@ export class GptEncoding {
 
     return this.bytePairEncodingCoreProcessor.encodeNative(
       lineToEncode,
-      allowedSpecial,
+      specialTokenConfig.allowedSpecial,
     )
-  }
-
-  encode(lineToEncode: string, encodeOptions: EncodeOptions = {}): number[] {
-    return [...this.encodeGenerator(lineToEncode, encodeOptions)].flat()
   }
 
   /**
@@ -282,11 +320,17 @@ export class GptEncoding {
     return count
   }
 
+  decode(inputTokensToDecode: Iterable<number>): string {
+    return this.bytePairEncodingCoreProcessor.decodeNative(inputTokensToDecode)
+  }
+
   *decodeGenerator(
     inputTokensToDecode: Iterable<number>,
-  ): Generator<string, void> {
+  ): Generator<string, void, void> {
     const decodedByteGenerator =
-      this.bytePairEncodingCoreProcessor.decodeNative(inputTokensToDecode)
+      this.bytePairEncodingCoreProcessor.decodeNativeGenerator(
+        inputTokensToDecode,
+      )
 
     let buffer = ''
 
@@ -294,7 +338,7 @@ export class GptEncoding {
       buffer +=
         typeof decodedPart === 'string'
           ? decodedPart
-          : this.decoder.decode(decodedPart, { stream: true })
+          : decoder.decode(decodedPart, { stream: true })
 
       if (buffer.length === 0 || endsWithIncompleteUtfPairSurrogate(buffer)) {
         // Keep the high surrogate in the buffer and continue with the next token
@@ -317,7 +361,9 @@ export class GptEncoding {
     inputTokensToDecode: AsyncIterable<number>,
   ): AsyncGenerator<string, void> {
     const decodedByteGenerator =
-      this.bytePairEncodingCoreProcessor.decodeNativeAsync(inputTokensToDecode)
+      this.bytePairEncodingCoreProcessor.decodeNativeAsyncIterable(
+        inputTokensToDecode,
+      )
 
     let buffer = ''
 
@@ -325,7 +371,7 @@ export class GptEncoding {
       buffer +=
         typeof decodedPart === 'string'
           ? decodedPart
-          : this.decoder.decode(decodedPart, { stream: true })
+          : decoder.decode(decodedPart, { stream: true })
 
       if (buffer.length === 0 || endsWithIncompleteUtfPairSurrogate(buffer)) {
         // Keep the high surrogate in the buffer and continue with the next token
@@ -344,7 +390,23 @@ export class GptEncoding {
     }
   }
 
-  decode(inputTokensToDecode: Iterable<number>): string {
-    return [...this.decodeGenerator(inputTokensToDecode)].join('')
+  async decodeAsync(
+    inputTokensToDecode: AsyncIterable<number>,
+  ): Promise<string> {
+    const decodedByteGenerator =
+      this.bytePairEncodingCoreProcessor.decodeNativeAsyncIterable(
+        inputTokensToDecode,
+      )
+
+    let buffer = ''
+
+    for await (const decodedPart of decodedByteGenerator) {
+      buffer +=
+        typeof decodedPart === 'string'
+          ? decodedPart
+          : decoder.decode(decodedPart, { stream: true })
+    }
+
+    return buffer
   }
 }
