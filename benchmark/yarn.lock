@@ -250,7 +250,7 @@ __metadata:
     chalk: "npm:^5.3.0"
     cli-table3: "npm:^0.6.5"
     gpt-3-encoder: "npm:^1.1.4"
-    gpt-tokenizer: "npm:^2.2.3"
+    gpt-tokenizer: "npm:^2.4.0"
     gpt3-tokenizer: "npm:^1.1.5"
     inquirer: "npm:^11.0.2"
     js-tiktoken: "npm:^1.0.14"
@@ -335,12 +335,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"gpt-tokenizer@npm:^2.2.3":
-  version: 2.2.3
-  resolution: "gpt-tokenizer@npm:2.2.3"
-  dependencies:
-    rfc4648: "npm:^1.5.3"
-  checksum: 10/3e090dfce6c9f5f68009798a881fe2bda9a9e926637d349d59a7097a770b126704ce8d92f463cf10c9d42021f9ca62ee59bc69a2f8ccccbdf46003680fca2d5f
+"gpt-tokenizer@npm:^2.4.0":
+  version: 2.4.0
+  resolution: "gpt-tokenizer@npm:2.4.0"
+  checksum: 10/c47ca5c77f3317edd9044ccf1b76c18e93a2081d2817dc44825a98f2734314c8bb740d7d7f9b68c9ac31c8d01b002b8a1243d7ce67caf4835764b67fd6a7fb4b
   languageName: node
   linkType: hard
 
@@ -405,13 +403,6 @@ __metadata:
   version: 1.0.2
   resolution: "os-tmpdir@npm:1.0.2"
   checksum: 10/5666560f7b9f10182548bf7013883265be33620b1c1b4a4d405c25be2636f970c5488ff3e6c48de75b55d02bde037249fe5dbfbb4c0fb7714953d56aed062e6d
-  languageName: node
-  linkType: hard
-
-"rfc4648@npm:^1.5.3":
-  version: 1.5.3
-  resolution: "rfc4648@npm:1.5.3"
-  checksum: 10/1ac6fd44bd6c2a8dc1e4ee243bc7acc2c5754cf24d8f864cb2b114b68ce0d1df3e094f7242db6c5a3bf21b8291ba6b5e39d579ebc3c79136b14b80b1cfef029d
   languageName: node
   linkType: hard
 
