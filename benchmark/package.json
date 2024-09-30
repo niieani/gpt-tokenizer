@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "gpt-3-encoder": "^1.1.4",
-    "gpt-tokenizer": "^2.2.3",
+    "gpt-tokenizer": "^2.4.0",
     "gpt3-tokenizer": "^1.1.5",
     "js-tiktoken": "^1.0.14",
     "tiktoken": "^1.0.16",
