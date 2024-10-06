@@ -174,7 +174,7 @@ export class GptEncoding {
       disallowedSpecial = new Set(this.specialTokensSet)
       if (allowedSpecial?.size) {
         allowedSpecial.forEach((val) => disallowedSpecial!.delete(val))
-        disallowedSpecial.forEach((val) => allowedSpecial.delete(val))
+        disallowedSpecial.forEach((val) => allowedSpecial!.delete(val))
         regexPattern = getSpecialTokenRegex(disallowedSpecial)
       } else {
         regexPattern = this.allSpecialTokenRegex

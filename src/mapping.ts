@@ -17,6 +17,8 @@ export const encodingNames = [
 ] as const
 
 const chatEnabledModelsMap = {
+  'o1-preview': o200k_base,
+  'o1-mini': o200k_base,
   'gpt-4': cl100k_base,
   'gpt-4-0314': cl100k_base,
   'gpt-4-0613': cl100k_base,
