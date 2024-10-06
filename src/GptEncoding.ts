@@ -174,7 +174,7 @@ export class GptEncoding {
       disallowedSpecial = new Set(this.specialTokensSet)
       if (allowedSpecial?.size) {
         allowedSpecial.forEach((val) => disallowedSpecial!.delete(val))
-        disallowedSpecial.forEach((val) => allowedSpecial!.delete(val))
+        disallowedSpecial.forEach((val) => allowedSpecial.delete(val))
         regexPattern = getSpecialTokenRegex(disallowedSpecial)
       } else {
         regexPattern = this.allSpecialTokenRegex
@@ -206,11 +206,6 @@ export class GptEncoding {
   }
 
   encode(lineToEncode: string, encodeOptions?: EncodeOptions): number[] {
-    // const encodedTokens: number[] = []
-    // for (const tokens of this.encodeGenerator(lineToEncode, encodeOptions)) {
-    //   encodedTokens.push(...tokens)
-    // }
-    // return encodedTokens
     const specialTokenConfig = encodeOptions
       ? this.processSpecialTokens(encodeOptions)
       : this.defaultSpecialTokenConfig
