@@ -253,7 +253,7 @@ __metadata:
     gpt-tokenizer: "npm:^2.4.0"
     gpt3-tokenizer: "npm:^1.1.5"
     inquirer: "npm:^11.0.2"
-    js-tiktoken: "npm:^1.0.14"
+    js-tiktoken: "npm:^1.0.15"
     tiktoken: "npm:^1.0.16"
     tiktoken-node: "npm:^0.0.7"
     typescript: "npm:^5.6.2"
@@ -383,12 +383,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"js-tiktoken@npm:^1.0.14":
-  version: 1.0.14
-  resolution: "js-tiktoken@npm:1.0.14"
+"js-tiktoken@npm:^1.0.15":
+  version: 1.0.15
+  resolution: "js-tiktoken@npm:1.0.15"
   dependencies:
     base64-js: "npm:^1.5.1"
-  checksum: 10/143e6799e33dec19a1ef80a0641570fb9e1d336a9a6e28ce531e24a6ffb7726a6d04dffd987b39d2fb2dbadaf128d9229016aee0403f5ecd1622b4242cdd0528
+  checksum: 10/41c86c311cb912b04bd3324bde489f475e726bbb5b66e3dfa1eb7ed639b8f4bd5035401527c6d8df0134b9f05c484933d04ba6e96d7fe45b7c04894b89731424
   languageName: node
   linkType: hard
 
