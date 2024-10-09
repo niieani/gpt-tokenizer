@@ -206,11 +206,6 @@ export class GptEncoding {
   }
 
   encode(lineToEncode: string, encodeOptions?: EncodeOptions): number[] {
-    // const encodedTokens: number[] = []
-    // for (const tokens of this.encodeGenerator(lineToEncode, encodeOptions)) {
-    //   encodedTokens.push(...tokens)
-    // }
-    // return encodedTokens
     const specialTokenConfig = encodeOptions
       ? this.processSpecialTokens(encodeOptions)
       : this.defaultSpecialTokenConfig
