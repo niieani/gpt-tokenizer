@@ -4,8 +4,5 @@
     "verbatimModuleSyntax": false,
     "moduleResolution": "Node"
   },
-  "exclude": [
-    "src/codegen/generateByModel.ts",
-    "src/codegen/generateJsEncodings.ts"
-  ]
+  "exclude": ["src/codegen"]
 }
