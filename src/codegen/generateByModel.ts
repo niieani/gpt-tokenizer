@@ -33,6 +33,6 @@ await Promise.all(
     )
 
     // eslint-disable-next-line no-console
-    console.log(`encoding/${modelName}.ts`)
+    console.log(`wrote encoding/${modelName}.ts`)
   }),
 )

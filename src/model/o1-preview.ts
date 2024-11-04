@@ -1,29 +1,3 @@
-/* eslint-disable import/extensions */
-import encoder from '../encodings/o200k_base.js'
-import { GptEncoding } from '../GptEncoding.js'
-
-export * from '../specialTokens.js'
-// prettier-ignore
-const api = GptEncoding.getEncodingApiForModel('o1-preview', () => encoder)
-const {
-  decode,
-  decodeAsyncGenerator,
-  decodeGenerator,
-  encode,
-  encodeGenerator,
-  isWithinTokenLimit,
-  encodeChat,
-  encodeChatGenerator,
-} = api
-export {
-  decode,
-  decodeAsyncGenerator,
-  decodeGenerator,
-  encode,
-  encodeChat,
-  encodeChatGenerator,
-  encodeGenerator,
-  isWithinTokenLimit,
-}
-// eslint-disable-next-line import/no-default-export
-export default api
+// eslint-disable-next-line no-restricted-exports, import/no-default-export
+export { default } from '../encoding/o200k_base.js'
+export * from '../encoding/o200k_base.js'
