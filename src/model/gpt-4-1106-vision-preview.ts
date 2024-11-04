@@ -4,7 +4,7 @@ import { GptEncoding } from '../GptEncoding.js'
 
 export * from '../specialTokens.js'
 // prettier-ignore
-const api = GptEncoding.getEncodingApiForModel('gpt-4-turbo-preview', () => bpeRanks)
+const api = GptEncoding.getEncodingApiForModel('gpt-4-1106-vision-preview', () => bpeRanks)
 const {
   decode,
   decodeAsyncGenerator,

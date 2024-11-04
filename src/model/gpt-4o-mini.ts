@@ -1,10 +1,10 @@
 /* eslint-disable import/extensions */
-import encoder from '../encodings/o200k_base.js'
+import bpeRanks from '../bpeRanks/o200k_base.js'
 import { GptEncoding } from '../GptEncoding.js'
 
 export * from '../specialTokens.js'
 // prettier-ignore
-const api = GptEncoding.getEncodingApiForModel('gpt-4o-mini', () => encoder)
+const api = GptEncoding.getEncodingApiForModel('gpt-4o-mini', () => bpeRanks)
 const {
   decode,
   decodeAsyncGenerator,

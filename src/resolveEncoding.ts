@@ -1,9 +1,9 @@
 /* eslint-disable import/extensions */
+import cl100k from './bpeRanks/cl100k_base.js'
+import o200k from './bpeRanks/o200k_base.js'
+import p50k from './bpeRanks/p50k_base.js'
+import r50k from './bpeRanks/r50k_base.js'
 import type { RawBytePairRanks } from './BytePairEncodingCore.js'
-import cl100k from './encodings/cl100k_base.js'
-import o200k from './encodings/o200k_base.js'
-import p50k from './encodings/p50k_base.js'
-import r50k from './encodings/r50k_base.js'
 import type { EncodingName } from './mapping.js'
 
 export const resolveEncoding = (encoding: EncodingName): RawBytePairRanks => {
