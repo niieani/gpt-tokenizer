@@ -74,7 +74,7 @@
   ],
   "scripts": {
     "codegen:models": "yarn tsx src/codegen/generateByModel.ts",
-    "codegen:encodings": "yarn tsx src/codegen/generateJsEncodings.ts",
+    "codegen:bpe": "rm -rf src/bpeRanks && yarn tsx src/codegen/generateJsBpe.ts",
     "build": "yarn build:cjs && yarn build:esm && yarn build:umd",
     "build:cjs": "yarn rrun tsc --outDir cjs --module commonjs --target es2022 --project tsconfig-cjs.json",
     "build:esm": "mkdir -p esm && echo '{\"name\": \"gpt-tokenizer\", \"type\": \"module\"}' > ./esm/package.json && yarn rrun tsc --outDir esm --module esnext --target es2022",
