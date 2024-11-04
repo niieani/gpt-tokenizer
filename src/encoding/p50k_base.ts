@@ -1,10 +1,10 @@
 /* eslint-disable import/extensions */
-import encoder from '../encodings/p50k_base.js'
+import bpeRanks from '../bpeRanks/p50k_base.js'
 import { GptEncoding } from '../GptEncoding.js'
 
 export * from '../specialTokens.js'
 
-const api = GptEncoding.getEncodingApi('p50k_base', () => encoder)
+const api = GptEncoding.getEncodingApi('p50k_base', () => bpeRanks)
 const {
   decode,
   decodeAsyncGenerator,
