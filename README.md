@@ -356,6 +356,12 @@ In this example, an Error is thrown, because the input text contains a disallowe
 
 Running the unit tests and verifying the test cases helps maintain consistency between the library and the original Python implementation.
 
+### Model Information
+
+`gpt-tokenizer` provides comprehensive data about all OpenAI models through the `models` export from [`gpt-tokenizer/models`](./src/models.ts). This includes detailed information about context windows, costs, training data cutoffs, and deprecation status.
+
+The data is regularly maintained to match OpenAI's official documentation. Contributions to keep this data up-to-date are welcome - if you notice any discrepancies or have updates, please feel free to open a PR.
+
 ## [Benchmarks](https://l8j6fv.csb.app/)
 
 Since version 2.4.0, `gpt-tokenizer` is the fastest tokenizer implementation available on NPM. It's even faster than the available WASM/node binding implementations.
