@@ -2,14 +2,22 @@
 
 [![Play with gpt-tokenizer](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/gpt-tokenizer-tjcjoz?fontsize=14&hidenavigation=1&theme=dark)
 
-`gpt-tokenizer` is a Token Byte Pair Encoder/Decoder supporting all OpenAI's models (including those used by GPT-2, GPT-3, GPT-3.5, GPT-4 and GPT-4o).
+`gpt-tokenizer` is a Token Byte Pair Encoder/Decoder supporting all OpenAI's models (including GPT-3.5, GPT-4, GPT-4o, and o1).
 It's the [_fastest, smallest and lowest footprint_](#benchmarks) GPT tokenizer available for all JavaScript environments. It's written in TypeScript.
 
-This package is a port of OpenAI's [tiktoken](https://github.com/openai/tiktoken), with some additional features sprinkled on top.
+This library has been trusted by:
 
-OpenAI's GPT models utilize byte pair encoding to transform text into a sequence of integers before feeding them into the model.
+- [CodeRabbit](https://www.coderabbit.ai/) (sponsor 🩷)
+- Microsoft ([Teams](https://github.com/microsoft/teams-ai), [GenAIScript](https://github.com/microsoft/genaiscript/))
+- Elastic ([Kibana](https://github.com/elastic/kibana))
+- [Effect TS](https://effect.website/)
+- [Rivet](https://github.com/Ironclad/rivet) by Ironclad
 
-As of 2023, it is the most feature-complete, open-source GPT tokenizer on NPM. It implements some unique features, such as:
+Please consider [🩷 sponsoring](https://github.com/sponsors/niieani) the project if you find it useful.
+
+#### Features
+
+As of 2023, it is the most feature-complete, open-source GPT tokenizer on NPM. This package is a port of OpenAI's [tiktoken](https://github.com/openai/tiktoken), with some additional, unique features sprinkled on top:
 
 - Support for easily tokenizing chats thanks to the `encodeChat` function
 - Support for all current OpenAI models (available encodings: `r50k_base`, `p50k_base`, `p50k_edit`, `cl100k_base` and `o200k_base`)
@@ -21,10 +29,6 @@ As of 2023, it is the most feature-complete, open-source GPT tokenizer on NPM. I
 - Improves overall performance by eliminating transitive arrays
 - Type-safe (written in TypeScript)
 - Works in the browser out-of-the-box
-
-Thanks to @dmitry-brazhenko's [SharpToken](https://github.com/dmitry-brazhenko/SharpToken), whose code was served as a reference for the port.
-
-Historical note: This package started off as a fork of [latitudegames/GPT-3-Encoder](https://github.com/latitudegames/GPT-3-Encoder), but version 2.0 was rewritten from scratch.
 
 ## Installation
 
@@ -47,7 +51,7 @@ npm install gpt-tokenizer
 
 If you wish to use a custom encoding, fetch the relevant script.
 
-- https://unpkg.com/gpt-tokenizer/dist/o200k_base.js (for `gpt-4o`)
+- https://unpkg.com/gpt-tokenizer/dist/o200k_base.js (for `gpt-4o` and `o1`)
 - https://unpkg.com/gpt-tokenizer/dist/cl100k_base.js (for `gpt-4-*` and `gpt-3.5-turbo`)
 - https://unpkg.com/gpt-tokenizer/dist/p50k_base.js
 - https://unpkg.com/gpt-tokenizer/dist/p50k_edit.js
@@ -61,13 +65,15 @@ Refer to [supported models and their encodings](#Supported-models-and-their-enco
 
 The playground is published under a memorable URL: https://gpt-tokenizer.dev/
 
-You can play with the package in the browser using the [Playground](https://codesandbox.io/s/gpt-tokenizer-tjcjoz?fontsize=14&hidenavigation=1&theme=dark).
+You can play with the package in the browser using the CodeSandbox [Playground](https://codesandbox.io/s/gpt-tokenizer-tjcjoz?fontsize=14&hidenavigation=1&theme=dark).
 
 [![GPT Tokenizer Playground](./docs/gpt-tokenizer.png)](https://codesandbox.io/s/gpt-tokenizer-tjcjoz?fontsize=14&hidenavigation=1&theme=dark)
 
 The playground mimics the official [OpenAI Tokenizer](https://platform.openai.com/tokenizer).
 
 ## Usage
+
+The library provides various functions to transform text into (and from) a sequence of integers (tokens) that can be fed into an LLM model. The transformation is done using a Byte Pair Encoding (BPE) algorithm used by OpenAI.
 
 ```typescript
 import {
@@ -176,13 +182,14 @@ import {
 
 ### Supported models and their encodings
 
+- `o1-*` (`o200k_base`)
 - `gpt-4o` (`o200k_base`)
 - `gpt-4-*` (`cl100k_base`)
 - `gpt-3.5-turbo` (`cl100k_base`)
 - `text-davinci-003` (`p50k_base`)
 - `text-davinci-002` (`p50k_base`)
 - `text-davinci-001` (`r50k_base`)
-- ...and many other models, see [mapping](./src/mapping.ts) for an up-to-date list of supported models and their encodings.
+- ...and many other models, see [models.ts](./src/models.ts) for an up-to-date list of supported models and their encodings.
 
 Note: if you're using `gpt-3.5-*` or `gpt-4-*` and don't see the model you're looking for, use the `cl100k_base` encoding directly.
 
@@ -380,5 +387,9 @@ MIT
 ## Contributing
 
 Contributions are welcome! Please open a pull request or an issue to discuss your bug reports, or use the discussions feature for ideas or any other inquiries.
+
+## Thanks
+
+Thanks to @dmitry-brazhenko's [SharpToken](https://github.com/dmitry-brazhenko/SharpToken), whose code was served as a reference for the port.
 
 Hope you find the `gpt-tokenizer` useful in your projects!
