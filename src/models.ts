@@ -1,4 +1,4 @@
-import type { EncodingName } from './mapping'
+import type { EncodingName } from './mapping.js'
 
 // this data is compiled from:
 // - https://platform.openai.com/docs/models/

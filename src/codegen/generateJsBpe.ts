@@ -119,8 +119,8 @@ await processFilesInDirectory(
     await fs.writeFile(
       path.join(__dirname, `../bpeRanks/${modelName}.js`),
       `/* eslint-disable */\n// @ts-nocheck\n// prettier-ignore
-/** @type {(string | number[])[]} */
 ${jsCodeConstsForEachChunk.join('\n')}
+/** @type {(string | number[])[]} */
 const bpe = ${jsCodeBpeArray};
 ${jsCodeToResetHelperArrays.join('\n')}
 export default bpe;`,
