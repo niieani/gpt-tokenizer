@@ -24,9 +24,6 @@ export interface EncodingParams extends BytePairEncodingConfig {
   tokenSplitRegex: RegExp
   specialTokenMapping: Map<string, number>
   modelName?: ModelName
-
-  /** increases memory consumption, but speeds up subsequent decoding */
-  enableCache?: boolean
 }
 
 export const tokenSplitRegex =

@@ -12,6 +12,7 @@ const {
   encode,
   encodeGenerator,
   isWithinTokenLimit,
+  vocabularySize,
 } = api
 export {
   decode,
@@ -20,6 +21,7 @@ export {
   encode,
   encodeGenerator,
   isWithinTokenLimit,
+  vocabularySize,
 }
 // eslint-disable-next-line import/no-default-export
 export default api

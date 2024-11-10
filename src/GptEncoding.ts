@@ -65,6 +65,8 @@ export class GptEncoding {
   private allSpecialTokenRegex: RegExp
   private defaultSpecialTokenConfig: SpecialTokenConfig
 
+  readonly vocabularySize: number
+
   private constructor({
     mergeableBytePairRanks,
     specialTokenMapping,
@@ -87,14 +89,15 @@ export class GptEncoding {
       mergeableBytePairRanks.length - 1,
       getMaxValueFromMap(specialTokenMapping),
     )
+
+    this.vocabularySize =
+      this.bytePairEncodingCoreProcessor.mergeableBytePairRankCount +
+      specialTokenMapping.size
+
     if (expectedVocabularySize !== undefined) {
-      if (
-        this.bytePairEncodingCoreProcessor.mergeableBytePairRankCount +
-          specialTokenMapping.size !==
-        expectedVocabularySize
-      ) {
+      if (this.vocabularySize !== expectedVocabularySize) {
         throw new Error(
-          'The number of mergeable tokens and special tokens must be equal to explicit_n_vocab.',
+          'The number of mergeable tokens and special tokens must be equal to expectedVocabularySize.',
         )
       }
 
