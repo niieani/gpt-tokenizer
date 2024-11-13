@@ -87,20 +87,18 @@ export class BytePairEncodingCore {
     let lastTokenLength = 0
 
     while (true) {
-      const nextSpecialStartIndex = this.findNextSpecialStartIndex(
+      const nextSpecialMatch = this.findNextSpecialToken(
         text,
         allowedSpecial,
         startIndex,
       )
+      const nextSpecialStartIndex = nextSpecialMatch?.[0]
 
-      const endIndex =
-        nextSpecialStartIndex !== undefined
-          ? nextSpecialStartIndex
-          : text.length
+      const endIndex = nextSpecialStartIndex ?? text.length
 
-      const textSegment = text.slice(startIndex, endIndex - startIndex)
+      const textBeforeSpecial = text.slice(startIndex, endIndex)
 
-      for (const [match] of textSegment.matchAll(this.tokenSplitRegex)) {
+      for (const [match] of textBeforeSpecial.matchAll(this.tokenSplitRegex)) {
         const token = this.getBpeRankFromString(match)
         if (token !== undefined) {
           lastTokenLength = 1
@@ -115,7 +113,7 @@ export class BytePairEncodingCore {
       }
 
       if (nextSpecialStartIndex !== undefined) {
-        const specialToken = text.slice(Math.max(0, nextSpecialStartIndex))
+        const specialToken = nextSpecialMatch![1]
         const specialTokenValue = this.specialTokensEncoder.get(specialToken)
         if (specialTokenValue === undefined) {
           throw new Error(
@@ -124,7 +122,7 @@ export class BytePairEncodingCore {
         }
         yield [specialTokenValue]
         startIndex = nextSpecialStartIndex + specialToken.length
-        lastTokenLength = 0
+        lastTokenLength = 1
       } else {
         break
       }
@@ -139,20 +137,18 @@ export class BytePairEncodingCore {
 
     // eslint-disable-next-line no-constant-condition
     while (true) {
-      const nextSpecialStartIndex = this.findNextSpecialStartIndex(
+      const nextSpecialMatch = this.findNextSpecialToken(
         text,
         allowedSpecial,
         startIndex,
       )
+      const nextSpecialStartIndex = nextSpecialMatch?.[0]
 
-      const endIndex =
-        nextSpecialStartIndex !== undefined
-          ? nextSpecialStartIndex
-          : text.length
+      const endIndex = nextSpecialStartIndex ?? text.length
 
-      const textSegment = text.slice(startIndex, endIndex - startIndex)
+      const textBeforeSpecial = text.slice(startIndex, endIndex)
 
-      for (const [match] of textSegment.matchAll(this.tokenSplitRegex)) {
+      for (const [match] of textBeforeSpecial.matchAll(this.tokenSplitRegex)) {
         const token = this.getBpeRankFromString(match)
         if (token !== undefined) {
           tokensArray.push(token)
@@ -165,7 +161,7 @@ export class BytePairEncodingCore {
       }
 
       if (nextSpecialStartIndex !== undefined) {
-        const specialToken = text.slice(Math.max(0, nextSpecialStartIndex))
+        const specialToken = nextSpecialMatch![1]
         const specialTokenValue = this.specialTokensEncoder.get(specialToken)
         if (specialTokenValue === undefined) {
           throw new Error(
@@ -303,11 +299,11 @@ export class BytePairEncodingCore {
     return -1
   }
 
-  private findNextSpecialStartIndex(
+  private findNextSpecialToken(
     text: string,
     allowedSpecial: Set<string> | undefined,
     startIndex: number,
-  ): number | undefined {
+  ): [startIndex: number, token: string] | undefined {
     let searchIndex = startIndex
 
     // eslint-disable-next-line no-constant-condition
@@ -323,7 +319,8 @@ export class BytePairEncodingCore {
       const specialToken = nextSpecialMatch[0]
 
       if (allowedSpecial?.has(specialToken)) {
-        return nextSpecialMatch.index + searchIndex
+        const specialTokenStartIndex = nextSpecialMatch.index + searchIndex
+        return [specialTokenStartIndex, specialToken]
       }
 
       searchIndex = nextSpecialMatch.index + searchIndex + 1

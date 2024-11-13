@@ -2,6 +2,7 @@
 import bpeRanks from '../bpeRanks/cl100k_base.js'
 import { GptEncoding } from '../GptEncoding.js'
 
+export * from '../constants.js'
 export * from '../specialTokens.js'
 // prettier-ignore
 const api = GptEncoding.getEncodingApiForModel('gpt-4-turbo-2024-04-09', () => bpeRanks)

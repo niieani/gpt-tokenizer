@@ -2,6 +2,7 @@
 import bpeRanks from '../bpeRanks/r50k_base.js'
 import { GptEncoding } from '../GptEncoding.js'
 
+export * from '../constants.js'
 export * from '../specialTokens.js'
 
 const api = GptEncoding.getEncodingApi('r50k_base', () => bpeRanks)

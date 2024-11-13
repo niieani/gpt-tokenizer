@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'path'
+import { ALL_SPECIAL_TOKENS } from './constants.js'
 import { type ChatMessage, GptEncoding } from './GptEncoding.js'
 import {
   type ChatModelName,
@@ -61,6 +62,25 @@ const results = {
   r50k_base: sharedResults,
 } satisfies Record<EncodingName, unknown>
 
+const offsetPrompts = [
+  // Basic prompt with "hello world"
+  'hello world',
+
+  // Basic prompt with special token "<|endoftext|>"
+  'hello world<|endoftext|> green cow',
+
+  // Chinese text: "我非常渴望与人工智能一起工作"
+  '我非常渴望与人工智能一起工作',
+
+  // Contains the interesting tokens b'\xe0\xae\xbf\xe0\xae' and b'\xe0\xaf\x8d\xe0\xae'
+  // in which \xe0 is the start of a 3-byte UTF-8 character
+  'நடிகர் சூர்யா',
+
+  // Contains the interesting token b'\xa0\xe9\x99\xa4'
+  // in which \xe9 is the start of a 3-byte UTF-8 character and \xa0 is a continuation byte
+  ' Ġ除',
+]
+
 // eslint-disable-next-line @typescript-eslint/no-use-before-define
 const testPlans = loadTestPlans()
 
@@ -75,9 +95,16 @@ describe.each(encodingNames)('%s', (encodingName: EncodingName) => {
     isWithinTokenLimit,
   } = encoding
 
-  const result = results[encodingName]
+  describe('encode and decode', () => {
+    it.each(offsetPrompts)('offset prompt: %s', (str) => {
+      expect(
+        decode(encode(str, { allowedSpecial: ALL_SPECIAL_TOKENS })),
+      ).toEqual(str)
+    })
+  })
 
   describe('basic functionality', () => {
+    const result = results[encodingName]
     it('empty string', () => {
       const str = ''
       expect(encode(str)).toEqual([])
@@ -129,6 +156,14 @@ describe.each(encodingNames)('%s', (encodingName: EncodingName) => {
       result.decodedHelloWorldTokens.forEach((token: string) => {
         expect(generator.next().value).toBe(token)
       })
+    })
+
+    it('encodes and decodes special tokens', () => {
+      const str = 'hello <|endoftext|> world'
+      const encoded = encode(str, {
+        allowedSpecial: ALL_SPECIAL_TOKENS,
+      })
+      expect(decode(encoded)).toEqual(str)
     })
 
     async function* getHelloWorldTokensAsync() {

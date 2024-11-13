@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/member-ordering */
 /* eslint-disable no-param-reassign */
 import { BytePairEncodingCore, decoder } from './BytePairEncodingCore.js'
+import { ALL_SPECIAL_TOKENS } from './constants.js'
 import {
   type ChatModelName,
   type ChatParameters,
@@ -29,11 +30,19 @@ import {
 import { endsWithIncompleteUtfPairSurrogate } from './utfUtil.js'
 import { getMaxValueFromMap, getSpecialTokenRegex } from './util.js'
 
-export const ALL_SPECIAL_TOKENS = 'all'
-
 export interface EncodeOptions {
-  allowedSpecial?: Set<string>
-  disallowedSpecial?: Set<string>
+  /**
+   * A list of special tokens that are allowed in the input.
+   * If set to 'all', all special tokens are allowed except those in disallowedSpecial.
+   * @default undefined
+   */
+  allowedSpecial?: Set<string> | typeof ALL_SPECIAL_TOKENS
+  /**
+   * A list of special tokens that are disallowed in the input.
+   * If set to 'all', all special tokens are disallowed except those in allowedSpecial.
+   * @default 'all'
+   */
+  disallowedSpecial?: Set<string> | typeof ALL_SPECIAL_TOKENS
 }
 
 export interface ChatMessage {
@@ -168,15 +177,37 @@ export class GptEncoding {
   }: EncodeOptions = {}): SpecialTokenConfig {
     let regexPattern: RegExp | undefined
 
-    if (allowedSpecial?.has(ALL_SPECIAL_TOKENS)) {
+    if (
+      allowedSpecial === ALL_SPECIAL_TOKENS ||
+      allowedSpecial?.has(ALL_SPECIAL_TOKENS)
+    ) {
       allowedSpecial = new Set(this.specialTokensSet)
+      const allowedSpecialSet = allowedSpecial
+      if (disallowedSpecial === ALL_SPECIAL_TOKENS) {
+        throw new Error(
+          'allowedSpecial and disallowedSpecial cannot both be set to "all".',
+        )
+      }
+      if (typeof disallowedSpecial === 'object') {
+        // remove any special tokens that are disallowed
+        disallowedSpecial.forEach((val) => allowedSpecialSet.delete(val))
+      } else {
+        // all special tokens are allowed, and no 'disallowedSpecial' is provided
+        disallowedSpecial = new Set()
+      }
     }
 
-    if (!disallowedSpecial || disallowedSpecial.has(ALL_SPECIAL_TOKENS)) {
+    if (
+      !disallowedSpecial ||
+      disallowedSpecial === ALL_SPECIAL_TOKENS ||
+      disallowedSpecial.has(ALL_SPECIAL_TOKENS)
+    ) {
       // by default, all special tokens are disallowed
       disallowedSpecial = new Set(this.specialTokensSet)
+      const disallowedSpecialSet = disallowedSpecial
       if (allowedSpecial?.size) {
-        allowedSpecial.forEach((val) => disallowedSpecial!.delete(val))
+        allowedSpecial.forEach((val) => disallowedSpecialSet.delete(val))
+        // disallowed takes precedence over allowed
         disallowedSpecial.forEach((val) => allowedSpecial.delete(val))
         regexPattern = getSpecialTokenRegex(disallowedSpecial)
       } else {
