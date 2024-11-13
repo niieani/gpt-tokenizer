@@ -13,7 +13,7 @@ import {
 } from '../specialTokens.js'
 
 export function O200KBase(
-  mergeableBytePairRanks: RawBytePairRanks,
+  bytePairRankDecoder: RawBytePairRanks,
 ): EncodingParams {
   const specialTokenMapping = new Map<string, number>([
     [EndOfText, 199_999],
@@ -29,7 +29,7 @@ export function O200KBase(
   return {
     tokenSplitRegex:
       /(?:'s|'t|'re|'ve|'m|'ll|'d)|[^\r\n\p{L}\p{N}]?\p{L}+|\p{N}{1,3}| ?[^\s\p{L}\p{N}]+[\r\n]*|\s*[\r\n]+|\s+(?!\S)|\s+/giu,
-    mergeableBytePairRanks,
-    specialTokenMapping,
+    bytePairRankDecoder,
+    specialTokensEncoder: specialTokenMapping,
   }
 }

@@ -6,8 +6,8 @@ import { escapeRegExp } from './util.js'
 export type RawBytePairRanks = readonly (string | readonly number[])[]
 
 export interface BytePairEncodingConfig {
-  mergeableBytePairRanks: RawBytePairRanks
-  specialTokenMapping?: Map<string, number>
+  bytePairRankDecoder: RawBytePairRanks
+  specialTokensEncoder?: Map<string, number>
   tokenSplitRegex: RegExp
 }
 
@@ -38,18 +38,18 @@ export class BytePairEncodingCore {
   private textEncoder = new TextEncoder()
 
   constructor({
-    mergeableBytePairRanks: bytePairEncoder,
-    specialTokenMapping: specialTokenEncoder,
+    bytePairRankDecoder,
+    specialTokensEncoder,
     tokenSplitRegex,
   }: BytePairEncodingConfig) {
-    this.bytePairRankDecoder = bytePairEncoder
+    this.bytePairRankDecoder = bytePairRankDecoder
     this.bytePairStringRankEncoder = new Map<string, number>()
 
     // size without array holes (which may be present in the encoder)
-    this.mergeableBytePairRankCount = Object.keys(bytePairEncoder).length
+    this.mergeableBytePairRankCount = Object.keys(bytePairRankDecoder).length
     const binaryLookup: [Uint8Array, number][] = []
     // forEach skips array holes:
-    bytePairEncoder.forEach((value, rank) => {
+    bytePairRankDecoder.forEach((value, rank) => {
       if (typeof value === 'string') {
         this.bytePairStringRankEncoder.set(value, rank)
         return
@@ -61,9 +61,10 @@ export class BytePairEncodingCore {
     this.bytePairNonUtfSortedEncoder = binaryLookup.sort((a, b) =>
       compareUint8Arrays(a[0], b[0]),
     )
-    this.specialTokensEncoder = specialTokenEncoder ?? new Map<string, number>()
-    this.specialTokensDecoder = specialTokenEncoder
-      ? new Map([...specialTokenEncoder].map(([key, value]) => [value, key]))
+    this.specialTokensEncoder =
+      specialTokensEncoder ?? new Map<string, number>()
+    this.specialTokensDecoder = specialTokensEncoder
+      ? new Map([...specialTokensEncoder].map(([key, value]) => [value, key]))
       : new Map<number, string>()
     this.tokenSplitRegex = tokenSplitRegex
 

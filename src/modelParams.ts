@@ -22,7 +22,7 @@ export interface EncodingParams extends BytePairEncodingConfig {
    * It's complex due to its need to deal with a wide variety of cases in text processing.
    */
   tokenSplitRegex: RegExp
-  specialTokenMapping: Map<string, number>
+  specialTokensEncoder: Map<string, number>
   modelName?: ModelName
 }
 

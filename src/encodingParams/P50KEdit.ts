@@ -4,7 +4,7 @@ import { type EncodingParams, tokenSplitRegex } from '../modelParams.js'
 import { EndOfText, FimMiddle, FimPrefix, FimSuffix } from '../specialTokens.js'
 
 export function P50KEdit(
-  mergeableBytePairRanks: RawBytePairRanks,
+  bytePairRankDecoder: RawBytePairRanks,
 ): EncodingParams {
   const specialTokenMapping = new Map<string, number>([
     [EndOfText, 50_256],
@@ -15,7 +15,7 @@ export function P50KEdit(
 
   return {
     tokenSplitRegex,
-    mergeableBytePairRanks,
-    specialTokenMapping,
+    bytePairRankDecoder,
+    specialTokensEncoder: specialTokenMapping,
   }
 }

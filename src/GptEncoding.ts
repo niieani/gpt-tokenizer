@@ -60,7 +60,7 @@ export class GptEncoding {
 
   modelName?: ModelName
   private bytePairEncodingCoreProcessor: BytePairEncodingCore
-  private specialTokenMapping: Map<string, number>
+  private specialTokensEncoder: Map<string, number>
   private specialTokensSet: Set<string>
   private allSpecialTokenRegex: RegExp
   private defaultSpecialTokenConfig: SpecialTokenConfig
@@ -68,31 +68,31 @@ export class GptEncoding {
   readonly vocabularySize: number
 
   private constructor({
-    mergeableBytePairRanks,
-    specialTokenMapping,
+    bytePairRankDecoder: mergeableBytePairRanks,
+    specialTokensEncoder,
     expectedVocabularySize,
     modelName,
     ...rest
   }: EncodingParams) {
-    this.specialTokenMapping = specialTokenMapping
-    this.specialTokensSet = new Set<string>(this.specialTokenMapping.keys())
+    this.specialTokensEncoder = specialTokensEncoder
+    this.specialTokensSet = new Set<string>(this.specialTokensEncoder.keys())
     this.allSpecialTokenRegex = getSpecialTokenRegex(this.specialTokensSet)
 
     this.bytePairEncodingCoreProcessor = new BytePairEncodingCore({
-      mergeableBytePairRanks,
-      specialTokenMapping,
+      bytePairRankDecoder: mergeableBytePairRanks,
+      specialTokensEncoder,
       ...rest,
     })
     this.defaultSpecialTokenConfig = this.processSpecialTokens()
 
     const maxTokenValue = Math.max(
       mergeableBytePairRanks.length - 1,
-      getMaxValueFromMap(specialTokenMapping),
+      getMaxValueFromMap(specialTokensEncoder),
     )
 
     this.vocabularySize =
       this.bytePairEncodingCoreProcessor.mergeableBytePairRankCount +
-      specialTokenMapping.size
+      specialTokensEncoder.size
 
     if (expectedVocabularySize !== undefined) {
       if (this.vocabularySize !== expectedVocabularySize) {
@@ -245,8 +245,8 @@ export class GptEncoding {
 
     const params: ChatParameters | undefined =
       chatModelParams[model as ChatModelName]
-    const chatStartToken = this.specialTokenMapping.get(ImStart)
-    const chatEndToken = this.specialTokenMapping.get(ImEnd)
+    const chatStartToken = this.specialTokensEncoder.get(ImStart)
+    const chatEndToken = this.specialTokensEncoder.get(ImEnd)
 
     if (!params || chatStartToken === undefined || chatEndToken === undefined) {
       throw new Error(`Model '${model}' does not support chat.`)
