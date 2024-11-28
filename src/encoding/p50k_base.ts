@@ -13,9 +13,11 @@ const {
   encode,
   encodeGenerator,
   isWithinTokenLimit,
+  countTokens,
   vocabularySize,
 } = api
 export {
+  countTokens,
   decode,
   decodeAsyncGenerator,
   decodeGenerator,

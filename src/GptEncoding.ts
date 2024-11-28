@@ -128,6 +128,7 @@ export class GptEncoding {
     this.isWithinTokenLimit = this.isWithinTokenLimit.bind(this)
     this.encodeChat = this.encodeChat.bind(this)
     this.encodeChatGenerator = this.encodeChatGenerator.bind(this)
+    this.countTokens = this.countTokens.bind(this)
     this.modelName = modelName
   }
 
@@ -345,6 +346,22 @@ export class GptEncoding {
       if (count > tokenLimit) {
         return false
       }
+    }
+    return count
+  }
+
+  /**
+   * Counts the number of tokens in the input.
+   * @returns {number} The number of tokens.
+   */
+  countTokens(input: string | Iterable<ChatMessage>): number {
+    const tokenGenerator =
+      typeof input === 'string'
+        ? this.encodeGenerator(input)
+        : this.encodeChatGenerator(input)
+    let count = 0
+    for (const tokens of tokenGenerator) {
+      count += tokens.length
     }
     return count
   }

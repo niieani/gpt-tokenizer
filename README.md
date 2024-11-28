@@ -235,6 +235,19 @@ const tokenLimit = 10
 const withinTokenLimit = isWithinTokenLimit(text, tokenLimit)
 ```
 
+### `countTokens(text: string | Iterable<ChatMessage>): number`
+
+Counts the number of tokens in the input text or chat. Use this method when you need to determine the number of tokens without checking against a limit.
+
+Example:
+
+```typescript
+import { countTokens } from 'gpt-tokenizer'
+
+const text = 'Hello, world!'
+const tokenCount = countTokens(text)
+```
+
 ### `encodeChat(chat: ChatMessage[], model?: ModelName): number[]`
 
 Encodes the given chat into a sequence of tokens.
