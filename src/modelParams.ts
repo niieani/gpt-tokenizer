@@ -2,11 +2,11 @@ import type {
   BytePairEncodingConfig,
   RawBytePairRanks,
 } from './BytePairEncodingCore.js'
-import { Cl100KBase } from './encodingParams/Cl100KBase.js'
-import { O200KBase } from './encodingParams/O200KBase.js'
-import { P50KBase } from './encodingParams/P50KBase.js'
-import { P50KEdit } from './encodingParams/P50KEdit.js'
-import { R50KBase } from './encodingParams/R50KBase.js'
+import { Cl100KBase } from './encodingParams/cl100k_base.js'
+import { O200KBase } from './encodingParams/o200k_base.js'
+import { P50KBase } from './encodingParams/p50k_base.js'
+import { P50KEdit } from './encodingParams/p50k_edit.js'
+import { R50KBase } from './encodingParams/r50k_base.js'
 import type { EncodingName, ModelName } from './mapping.js'
 
 export interface EncodingParams extends BytePairEncodingConfig {
@@ -26,15 +26,9 @@ export interface EncodingParams extends BytePairEncodingConfig {
   modelName?: ModelName
 }
 
-export const tokenSplitRegex =
-  /'s|'t|'re|'ve|'m|'ll|'d| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+/gu
-
 export type GetMergeableRanksFn = (
   encodingName: EncodingName,
 ) => RawBytePairRanks
-export type GetMergeableRanksAsyncFn = (
-  encodingName: EncodingName,
-) => Promise<RawBytePairRanks>
 
 export function getEncodingParams(
   encodingName: EncodingName,
@@ -60,12 +54,4 @@ export function getEncodingParams(
     default:
       throw new Error(`Unknown encoding name: ${encodingName}`)
   }
-}
-
-export async function getModelParamsAsync(
-  encodingName: EncodingName,
-  getMergeableRanks: GetMergeableRanksAsyncFn,
-): Promise<EncodingParams> {
-  const mergeableBytePairRanks = await getMergeableRanks(encodingName)
-  return getEncodingParams(encodingName, () => mergeableBytePairRanks)
 }

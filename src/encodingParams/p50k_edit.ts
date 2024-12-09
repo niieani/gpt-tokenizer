@@ -1,7 +1,8 @@
 /* eslint-disable no-magic-numbers */
 import type { RawBytePairRanks } from '../BytePairEncodingCore.js'
-import { type EncodingParams, tokenSplitRegex } from '../modelParams.js'
+import { type EncodingParams } from '../modelParams.js'
 import { EndOfText, FimMiddle, FimPrefix, FimSuffix } from '../specialTokens.js'
+import { R50K_TOKEN_SPLIT_REGEX } from './constants.js'
 
 export function P50KEdit(
   bytePairRankDecoder: RawBytePairRanks,
@@ -14,7 +15,7 @@ export function P50KEdit(
   ])
 
   return {
-    tokenSplitRegex,
+    tokenSplitRegex: R50K_TOKEN_SPLIT_REGEX,
     bytePairRankDecoder,
     specialTokensEncoder: specialTokenMapping,
   }
