@@ -104,6 +104,10 @@ export class BytePairEncodingCore {
     }
   }
 
+  clearMergeCache(): void {
+    this.mergeCache?.clear()
+  }
+
   *encodeNativeGenerator(
     text: string,
     allowedSpecial?: Set<string>,

@@ -16,8 +16,10 @@ const {
   countTokens,
   vocabularySize,
   setMergeCacheSize,
+  clearMergeCache,
 } = api
 export {
+  clearMergeCache,
   countTokens,
   decode,
   decodeAsyncGenerator,

@@ -393,6 +393,14 @@ setMergeCacheSize(5000)
 setMergeCacheSize(0)
 ```
 
+The cache is persisted between encoding calls. To explicitly clear the cache (e.g. to free up memory), use the `clearMergeCache` function:
+
+```ts
+import { clearMergeCache } from 'gpt-tokenizer'
+
+clearMergeCache()
+```
+
 ## Testing and Validation
 
 `gpt-tokenizer` includes a set of test cases in the [TestPlans.txt](./data/TestPlans.txt) file to ensure its compatibility with OpenAI's Python `tiktoken` library. These test cases validate the functionality and behavior of `gpt-tokenizer`, providing a reliable reference for developers.

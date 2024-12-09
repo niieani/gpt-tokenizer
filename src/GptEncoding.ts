@@ -128,6 +128,7 @@ export class GptEncoding {
     this.encodeChatGenerator = this.encodeChatGenerator.bind(this)
     this.countTokens = this.countTokens.bind(this)
     this.setMergeCacheSize = this.setMergeCacheSize.bind(this)
+    this.clearMergeCache = this.clearMergeCache.bind(this)
     this.modelName = modelName
   }
 
@@ -364,6 +365,10 @@ export class GptEncoding {
 
   setMergeCacheSize(size: number): void {
     this.bytePairEncodingCoreProcessor.setMergeCacheSize(size)
+  }
+
+  clearMergeCache(): void {
+    this.bytePairEncodingCoreProcessor.clearMergeCache()
   }
 
   decode(inputTokensToDecode: Iterable<number>): string {
