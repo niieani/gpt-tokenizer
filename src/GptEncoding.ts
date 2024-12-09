@@ -12,10 +12,8 @@ import {
 } from './mapping.js'
 import {
   type EncodingParams,
-  type GetMergeableRanksAsyncFn,
   type GetMergeableRanksFn,
   getEncodingParams,
-  getModelParamsAsync,
 } from './modelParams.js'
 import {
   EndOfPrompt,
@@ -149,29 +147,6 @@ export class GptEncoding {
     return new GptEncoding({ ...modelParams, modelName })
   }
 
-  static async getEncodingApiAsync(
-    encodingName: EncodingName,
-    getMergeableRanks: GetMergeableRanksAsyncFn,
-  ): Promise<GptEncoding> {
-    const modelParams = await getModelParamsAsync(
-      encodingName,
-      getMergeableRanks,
-    )
-    return new GptEncoding(modelParams)
-  }
-
-  static async getEncodingApiForModelAsync(
-    modelName: ModelName,
-    getMergeableRanks: GetMergeableRanksAsyncFn,
-  ): Promise<GptEncoding> {
-    const encodingName = modelToEncodingMap[modelName]
-    const modelParams = await getModelParamsAsync(
-      encodingName,
-      getMergeableRanks,
-    )
-    return new GptEncoding({ ...modelParams, modelName })
-  }
-
   private processSpecialTokens({
     allowedSpecial,
     disallowedSpecial,
@@ -210,7 +185,9 @@ export class GptEncoding {
         allowedSpecial.forEach((val) => disallowedSpecialSet.delete(val))
         // disallowed takes precedence over allowed
         disallowedSpecial.forEach((val) => allowedSpecial.delete(val))
-        regexPattern = getSpecialTokenRegex(disallowedSpecial)
+        if (disallowedSpecial.size > 0) {
+          regexPattern = getSpecialTokenRegex(disallowedSpecial)
+        }
       } else {
         regexPattern = this.allSpecialTokenRegex
       }
@@ -354,11 +331,29 @@ export class GptEncoding {
    * Counts the number of tokens in the input.
    * @returns {number} The number of tokens.
    */
-  countTokens(input: string | Iterable<ChatMessage>): number {
-    const tokenGenerator =
-      typeof input === 'string'
-        ? this.encodeGenerator(input)
-        : this.encodeChatGenerator(input)
+  countTokens(
+    input: string | Iterable<ChatMessage>,
+    encodeOptions?: EncodeOptions,
+  ): number {
+    if (typeof input === 'string') {
+      const specialTokenConfig = encodeOptions
+        ? this.processSpecialTokens(encodeOptions)
+        : this.defaultSpecialTokenConfig
+
+      if (specialTokenConfig.regexPattern) {
+        const match = input.match(specialTokenConfig.regexPattern)
+        if (match !== null) {
+          throw new Error(`Disallowed special token found: ${match[0]}`)
+        }
+      }
+
+      return this.bytePairEncodingCoreProcessor.countNative(
+        input,
+        specialTokenConfig.allowedSpecial,
+      )
+    }
+
+    const tokenGenerator = this.encodeChatGenerator(input)
     let count = 0
     for (const tokens of tokenGenerator) {
       count += tokens.length

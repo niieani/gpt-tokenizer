@@ -73,7 +73,7 @@ export class BytePairEncodingCore {
     )
     const allSpecialTokensRegex = escapedSpecialTokens.join('|')
     try {
-      this.specialTokenPatternRegex = new RegExp(allSpecialTokensRegex)
+      this.specialTokenPatternRegex = new RegExp(allSpecialTokensRegex, 'y')
     } catch {
       throw new Error('Invalid regular expression pattern.')
     }
@@ -96,7 +96,10 @@ export class BytePairEncodingCore {
 
       const endIndex = nextSpecialStartIndex ?? text.length
 
-      const textBeforeSpecial = text.slice(startIndex, endIndex)
+      const textBeforeSpecial =
+        startIndex === 0 && endIndex === text.length
+          ? text
+          : text.slice(startIndex, endIndex)
 
       for (const [match] of textBeforeSpecial.matchAll(this.tokenSplitRegex)) {
         const token = this.getBpeRankFromString(match)
@@ -146,7 +149,10 @@ export class BytePairEncodingCore {
 
       const endIndex = nextSpecialStartIndex ?? text.length
 
-      const textBeforeSpecial = text.slice(startIndex, endIndex)
+      const textBeforeSpecial =
+        startIndex === 0 && endIndex === text.length
+          ? text
+          : text.slice(startIndex, endIndex)
 
       for (const [match] of textBeforeSpecial.matchAll(this.tokenSplitRegex)) {
         const token = this.getBpeRankFromString(match)
@@ -176,6 +182,56 @@ export class BytePairEncodingCore {
     }
 
     return tokensArray
+  }
+
+  countNative(text: string, allowedSpecial?: Set<string>): number {
+    let startIndex = 0
+    let tokensCount = 0
+
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      const nextSpecialMatch = this.findNextSpecialToken(
+        text,
+        allowedSpecial,
+        startIndex,
+      )
+      const nextSpecialStartIndex = nextSpecialMatch?.[0]
+
+      const endIndex = nextSpecialStartIndex ?? text.length
+
+      const textBeforeSpecial =
+        startIndex === 0 && endIndex === text.length
+          ? text
+          : text.slice(startIndex, endIndex)
+
+      for (const [match] of textBeforeSpecial.matchAll(this.tokenSplitRegex)) {
+        const token = this.getBpeRankFromString(match)
+        if (token !== undefined) {
+          tokensCount++
+
+          continue
+        }
+
+        const tokens = this.bytePairEncode(match)
+        tokensCount += tokens.length
+      }
+
+      if (nextSpecialStartIndex !== undefined) {
+        const specialToken = nextSpecialMatch![1]
+        const specialTokenValue = this.specialTokensEncoder.get(specialToken)
+        if (specialTokenValue === undefined) {
+          throw new Error(
+            `Special token "${specialToken}" is not in the special token encoder.`,
+          )
+        }
+        tokensCount++
+        startIndex = nextSpecialStartIndex + specialToken.length
+      } else {
+        break
+      }
+    }
+
+    return tokensCount
   }
 
   *decodeNativeGenerator(
@@ -308,9 +364,8 @@ export class BytePairEncodingCore {
 
     // eslint-disable-next-line no-constant-condition
     while (true) {
-      const nextSpecialMatch = this.specialTokenPatternRegex.exec(
-        text.slice(Math.max(0, searchIndex)),
-      )
+      this.specialTokenPatternRegex.lastIndex = searchIndex
+      const nextSpecialMatch = this.specialTokenPatternRegex.exec(text)
 
       if (!nextSpecialMatch) {
         return undefined
