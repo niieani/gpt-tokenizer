@@ -5,12 +5,20 @@ export interface TokenizerBenchmark<T extends number[] | Uint8Array = any> {
   load: () => Promise<{
     encode: (input: string) => T
     decode: (tokens: T) => string
+    countTokens: (input: string) => number
   }>
 }
 
 export interface WorkerInput {
   tokenizerIndex: number
-  executions: number
+  executionsMultiplier: number
+}
+
+export interface BenchData {
+  text: string
+  encodeExecutionsCount: number
+  decodeExecutionsCount: number
+  countTokensExecutionsCount: number
 }
 
 export interface WorkerOutput {
@@ -33,6 +41,7 @@ export interface BenchmarkResult {
   datasetsAverage: {
     encodeTimeMs: number
     decodeTimeMs: number
+    countTimeMs: number
   }
   // For re-run rows, keep track of the change
   change?: {
@@ -41,6 +50,7 @@ export interface BenchmarkResult {
     initMemoryRssMb?: number
     encodeTimeMs?: number
     decodeTimeMs?: number
+    countTimeMs?: number
     memoryChangeAfterRunMb?: number
   }
 }
@@ -50,6 +60,9 @@ interface DatasetResult {
     averageTimeMs: number
   }
   decode: {
+    averageTimeMs: number
+  }
+  countTokens: {
     averageTimeMs: number
   }
   memoryChangeAfterExecutionsMb: number

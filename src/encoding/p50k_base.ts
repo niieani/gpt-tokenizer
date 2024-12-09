@@ -15,6 +15,7 @@ const {
   isWithinTokenLimit,
   countTokens,
   vocabularySize,
+  setMergeCacheSize,
 } = api
 export {
   countTokens,
@@ -24,6 +25,7 @@ export {
   encode,
   encodeGenerator,
   isWithinTokenLimit,
+  setMergeCacheSize,
   vocabularySize,
 }
 // eslint-disable-next-line import/no-default-export

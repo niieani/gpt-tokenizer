@@ -1,5 +1,6 @@
 /* eslint-disable no-continue */
 
+import { DEFAULT_MERGE_CACHE_SIZE } from './constants.js'
 import { compareUint8Arrays, isAscii, tryConvertToString } from './utfUtil.js'
 import { escapeRegExp } from './util.js'
 
@@ -9,6 +10,13 @@ export interface BytePairEncodingConfig {
   bytePairRankDecoder: RawBytePairRanks
   specialTokensEncoder?: Map<string, number>
   tokenSplitRegex: RegExp
+  /**
+   * LRU cache for merged tokens pairs.
+   * Increasing this value should make encoding similar strings faster,
+   * but will consume more memory.
+   * @default 100000
+   */
+  mergeCacheSize?: number
 }
 
 const emptyBuffer = new Uint8Array(0)
@@ -36,14 +44,21 @@ export class BytePairEncodingCore {
   private specialTokensDecoder: Map<number, string>
   private specialTokenPatternRegex: RegExp
   private textEncoder = new TextEncoder()
+  private mergeCache?: Map<string, number[]>
+  private mergeCacheSize: number
 
   constructor({
     bytePairRankDecoder,
     specialTokensEncoder,
     tokenSplitRegex,
+    mergeCacheSize = DEFAULT_MERGE_CACHE_SIZE,
   }: BytePairEncodingConfig) {
     this.bytePairRankDecoder = bytePairRankDecoder
     this.bytePairStringRankEncoder = new Map<string, number>()
+    this.mergeCacheSize = mergeCacheSize
+    if (mergeCacheSize > 0) {
+      this.mergeCache = new Map()
+    }
 
     // size without array holes (which may be present in the encoder)
     this.mergeableBytePairRankCount = Object.keys(bytePairRankDecoder).length
@@ -76,6 +91,16 @@ export class BytePairEncodingCore {
       this.specialTokenPatternRegex = new RegExp(allSpecialTokensRegex, 'y')
     } catch {
       throw new Error('Invalid regular expression pattern.')
+    }
+  }
+
+  setMergeCacheSize(newSize: number): void {
+    if (this.mergeCacheSize === 0 && newSize > 0) {
+      this.mergeCache = new Map()
+    }
+    this.mergeCacheSize = newSize
+    if (newSize === 0) {
+      this.mergeCache = undefined
     }
   }
 
@@ -396,14 +421,34 @@ export class BytePairEncodingCore {
     return this.specialTokensDecoder.get(tokenRank)
   }
 
+  private addToMergeCache(key: string, value: number[]): void {
+    if (!this.mergeCache) return
+
+    if (this.mergeCache.size >= this.mergeCacheSize) {
+      // Remove least recently used item (first item)
+      const firstKey = this.mergeCache.keys().next().value!
+      this.mergeCache.delete(firstKey)
+    }
+    this.mergeCache.set(key, value)
+  }
+
   private bytePairEncode(input: string): number[] {
     if (input.length === 1 && isAscii(input.codePointAt(0)!)) {
       return [this.getBpeRankFromStringOrThrow(input)]
     }
 
-    const inputBytes = this.textEncoder.encode(input)
+    if (this.mergeCache?.has(input)) {
+      const result = this.mergeCache.get(input)!
+      // Move to end to mark as recently used
+      this.mergeCache.delete(input)
+      this.mergeCache.set(input, result)
+      return result
+    }
 
-    return this.bytePairMerge(inputBytes)
+    const inputBytes = this.textEncoder.encode(input)
+    const result = this.bytePairMerge(inputBytes)
+    this.addToMergeCache(input, result)
+    return result
   }
 
   private bytePairMerge(

@@ -15,16 +15,16 @@ const calculateAverage = (numbers: number[]): number => {
   return numbers.reduce((a, b) => a + b, 0) / numbers.length
 }
 
-// Define the number of executions for performance testing
-const EXECUTIONS = 10000
-
 // Define the number of iterations for averaging
-const ITERATIONS = 3
+const ITERATIONS = 1
+
+// Define the execution multiplier for performance testing
+const EXECUTIONS_MULTIPLIER = 1
 
 // Function to run a single benchmark iteration in a child process
 const runSingleBenchmark = (
   tokenizerIndex: number,
-  executions: number,
+  executionsMultiplier: number,
 ): Promise<BenchmarkResult> => {
   return new Promise((resolve, reject) => {
     const workerPath = path.resolve(__dirname, 'benchmarkWorker.js')
@@ -36,7 +36,10 @@ const runSingleBenchmark = (
       reject(new Error('Failed to spawn child process'))
       return
     }
-    const message: WorkerInput = { tokenizerIndex, executions }
+    const message: WorkerInput = {
+      tokenizerIndex,
+      executionsMultiplier,
+    }
     child.send(message)
     child.on('message', (msg: any) => {
       // Changed to any to avoid TypeScript issues
@@ -117,12 +120,17 @@ const displayUnifiedResults = (results: BenchmarkResult[]) => {
       label: 'Encode Avg (ms)',
       better: 'lower' as const,
       precision: 4,
-    }, // Increased precision
+    },
     decodeTimeAvg: {
       label: 'Decode Avg (ms)',
       better: 'lower' as const,
       precision: 4,
-    }, // Increased precision
+    },
+    countTokensTimeAvg: {
+      label: 'Count Tokens Avg (ms)',
+      better: 'lower' as const,
+      precision: 4,
+    },
     memoryIncrease: {
       label: 'Memory Increase (MB)',
       better: 'lower' as const,
@@ -146,6 +154,8 @@ const displayUnifiedResults = (results: BenchmarkResult[]) => {
           return r.datasetsAverage?.encodeTimeMs || 0
         case 'decodeTimeAvg':
           return r.datasetsAverage?.decodeTimeMs || 0
+        case 'countTokensTimeAvg':
+          return r.datasetsAverage?.countTimeMs || 0
         case 'memoryIncrease':
           return r.memoryChangeAfterRunMb
         default:
@@ -166,6 +176,7 @@ const displayUnifiedResults = (results: BenchmarkResult[]) => {
       chalk.green('Init\nMem RSS'),
       chalk.yellow('Encode\nAvg (ms)'),
       chalk.yellow('Decode\nAvg (ms)'),
+      chalk.yellow('Count\nAvg (ms)'),
       chalk.red('Memory\nIncrease'),
       chalk.red('Mem\nLeak?'),
     ],
@@ -240,6 +251,13 @@ const displayUnifiedResults = (results: BenchmarkResult[]) => {
     )
     row.push(
       applyHighlight(
+        res.datasetsAverage?.countTimeMs || 0,
+        'countTokensTimeAvg',
+        changes.countTimeMs,
+      ),
+    )
+    row.push(
+      applyHighlight(
         res.memoryChangeAfterRunMb,
         'memoryIncrease',
         changes.memoryChangeAfterRunMb,
@@ -277,7 +295,10 @@ const runBenchmarks = async (
     for (let i = 0; i < ITERATIONS; i++) {
       console.log(`  ${chalk.yellow(`Iteration ${i + 1}/${ITERATIONS}`)}`)
       try {
-        const result = await runSingleBenchmark(tokenizerIndex, EXECUTIONS)
+        const result = await runSingleBenchmark(
+          tokenizerIndex,
+          EXECUTIONS_MULTIPLIER,
+        )
         tokenizerResults.push(result)
       } catch (error) {
         console.error(
@@ -317,6 +338,9 @@ const runBenchmarks = async (
         const decodeTimes = tokenizerResults.map(
           (r) => r.datasets[dataset].decode.averageTimeMs,
         )
+        const countTimes = tokenizerResults.map(
+          (r) => r.datasets[dataset].countTokens.averageTimeMs,
+        )
         const memoryChanges = tokenizerResults.map(
           (r) => r.datasets[dataset].memoryChangeAfterExecutionsMb,
         )
@@ -326,6 +350,9 @@ const runBenchmarks = async (
           },
           decode: {
             averageTimeMs: calculateAverage(decodeTimes),
+          },
+          countTokens: {
+            averageTimeMs: calculateAverage(countTimes),
           },
           memoryChangeAfterExecutionsMb: calculateAverage(memoryChanges),
         }
@@ -342,6 +369,13 @@ const runBenchmarks = async (
           decodeTimeMs: calculateAverage(
             tokenizerResults.flatMap((r) =>
               Object.values(r.datasets).map((d) => d.decode.averageTimeMs),
+            ),
+          ),
+          countTimeMs: calculateAverage(
+            tokenizerResults.flatMap((r) =>
+              Object.values(r.datasets).map(
+                (d) => d.countTokens?.averageTimeMs || 0,
+              ),
             ),
           ),
         },
@@ -406,7 +440,10 @@ const watchMode = async (previousResults: BenchmarkResult[] | null) => {
       for (let i = 0; i < ITERATIONS; i++) {
         console.log(`  ${chalk.yellow(`Iteration ${i + 1}/${ITERATIONS}`)}`)
         try {
-          const result = await runSingleBenchmark(tokenizerIndex, EXECUTIONS)
+          const result = await runSingleBenchmark(
+            tokenizerIndex,
+            EXECUTIONS_MULTIPLIER,
+          )
           tokenizerResults.push(result)
         } catch (error) {
           console.error(
@@ -447,6 +484,13 @@ const watchMode = async (previousResults: BenchmarkResult[] | null) => {
                 Object.values(r.datasets).map((d) => d.decode.averageTimeMs),
               ),
             ),
+            countTimeMs: calculateAverage(
+              tokenizerResults.flatMap((r) =>
+                Object.values(r.datasets).map(
+                  (d) => d.countTokens.averageTimeMs,
+                ),
+              ),
+            ),
           },
         }
         // Aggregate per-dataset results
@@ -458,6 +502,9 @@ const watchMode = async (previousResults: BenchmarkResult[] | null) => {
           const decodeTimes = tokenizerResults.map(
             (r) => r.datasets[dataset].decode.averageTimeMs,
           )
+          const countTimes = tokenizerResults.map(
+            (r) => r.datasets[dataset].countTokens.averageTimeMs,
+          )
           const memoryChanges = tokenizerResults.map(
             (r) => r.datasets[dataset].memoryChangeAfterExecutionsMb,
           )
@@ -467,6 +514,9 @@ const watchMode = async (previousResults: BenchmarkResult[] | null) => {
             },
             decode: {
               averageTimeMs: calculateAverage(decodeTimes),
+            },
+            countTokens: {
+              averageTimeMs: calculateAverage(countTimes),
             },
             memoryChangeAfterExecutionsMb: calculateAverage(memoryChanges),
           }
@@ -505,6 +555,11 @@ const watchMode = async (previousResults: BenchmarkResult[] | null) => {
               (((newAggregated.datasetsAverage?.decodeTimeMs || 0) -
                 (lastResult.datasetsAverage?.decodeTimeMs || 0)) /
                 (lastResult.datasetsAverage?.decodeTimeMs || 1)) *
+              100,
+            countTimeMs:
+              (((newAggregated.datasetsAverage?.countTimeMs || 0) -
+                (lastResult.datasetsAverage?.countTimeMs || 0)) /
+                (lastResult.datasetsAverage?.countTimeMs || 1)) *
               100,
             memoryChangeAfterRunMb:
               ((newAggregated.memoryChangeAfterRunMb -

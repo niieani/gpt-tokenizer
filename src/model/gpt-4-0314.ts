@@ -13,11 +13,14 @@ const {
   encode,
   encodeGenerator,
   isWithinTokenLimit,
+  countTokens,
   encodeChat,
   encodeChatGenerator,
   vocabularySize,
+  setMergeCacheSize,
 } = api
 export {
+  countTokens,
   decode,
   decodeAsyncGenerator,
   decodeGenerator,
@@ -26,6 +29,7 @@ export {
   encodeChatGenerator,
   encodeGenerator,
   isWithinTokenLimit,
+  setMergeCacheSize,
   vocabularySize,
 }
 // eslint-disable-next-line import/no-default-export

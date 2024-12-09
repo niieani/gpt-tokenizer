@@ -235,9 +235,10 @@ const tokenLimit = 10
 const withinTokenLimit = isWithinTokenLimit(text, tokenLimit)
 ```
 
-### `countTokens(text: string | Iterable<ChatMessage>): number`
+### `countTokens(text: string | Iterable<ChatMessage>, encodeOptions?: EncodeOptions): number`
 
 Counts the number of tokens in the input text or chat. Use this method when you need to determine the number of tokens without checking against a limit.
+The optional `encodeOptions` parameter allows you to specify custom sets of allowed or disallowed special tokens.
 
 Example:
 
@@ -369,6 +370,28 @@ const encoded = encode(inputText, undefined, disallowedSpecial)
 ```
 
 In this example, an Error is thrown, because the input text contains a disallowed special token.
+
+## Performance Optimization
+
+### LRU Merge Cache
+
+The tokenizer uses an LRU (Least Recently Used) cache to improve encoding performance for similar strings. By default, it stores up to 100,000 merged token pairs. You can adjust this value to optimize for your specific use case:
+
+- Increasing the cache size will make encoding similar strings faster but consume more memory
+- Setting it to 0 will disable caching completely
+- For applications processing many unique strings, a smaller cache might be more efficient
+
+You can modify the cache size using the `setMergeCacheSize` function:
+
+```ts
+import { setMergeCacheSize } from 'gpt-tokenizer'
+
+// Set to 5000 entries
+setMergeCacheSize(5000)
+
+// Disable caching completely
+setMergeCacheSize(0)
+```
 
 ## Testing and Validation
 
