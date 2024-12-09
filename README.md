@@ -195,9 +195,11 @@ Note: if you're using `gpt-3.5-*` or `gpt-4-*` and don't see the model you're lo
 
 ## API
 
-### `encode(text: string): number[]`
+### `encode(text: string, encodeOptions?: EncodeOptions): number[]`
 
 Encodes the given text into a sequence of tokens. Use this method when you need to transform a piece of text into the token format that the GPT models can process.
+
+The optional `encodeOptions` parameter allows you to specify special token handling (see [special tokens](#special-tokens)).
 
 Example:
 
@@ -327,7 +329,11 @@ async function processTokens(asyncTokensIterator) {
 ## Special tokens
 
 There are a few special tokens that are used by the GPT models.
-Not all models support all of these tokens.
+Note that not all models support all of these tokens.
+
+By default, **all special tokens are disallowed**.
+
+The `encode`, `encodeGenerator` and `countTokens` functions accept an `EncodeOptions` parameter to customize special token handling:
 
 ### Custom Allowed Sets
 
@@ -349,11 +355,13 @@ import {
 
 const inputText = `Some Text ${EndOfPrompt}`
 const allowedSpecialTokens = new Set([EndOfPrompt])
-const encoded = encode(inputText, allowedSpecialTokens)
+const encoded = encode(inputText, { allowedSpecialTokens })
 const expectedEncoded = [8538, 2991, 220, 100276]
 
 expect(encoded).toBe(expectedEncoded)
 ```
+
+You may also use a special shorthand for either disallowing or allowing all special tokens, by passing in the string `'all'`, e.g. `{ allowedSpecial: 'all' }`.
 
 ### Custom Disallowed Sets
 
@@ -366,10 +374,12 @@ import { encode, EndOfText } from 'gpt-tokenizer'
 const inputText = `Some Text ${EndOfText}`
 const disallowedSpecial = new Set([EndOfText])
 // throws an error:
-const encoded = encode(inputText, undefined, disallowedSpecial)
+const encoded = encode(inputText, { disallowedSpecial })
 ```
 
 In this example, an Error is thrown, because the input text contains a disallowed special token.
+
+If both `allowedSpecialTokens` and `disallowedSpecial` are provided, `disallowedSpecial` takes precedence.
 
 ## Performance Optimization
 
