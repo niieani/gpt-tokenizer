@@ -14,9 +14,12 @@ const {
   encodeGenerator,
   isWithinTokenLimit,
   countTokens,
+  encodeChat,
+  encodeChatGenerator,
   vocabularySize,
   setMergeCacheSize,
   clearMergeCache,
+  estimateCost,
 } = api
 export {
   clearMergeCache,
@@ -25,7 +28,10 @@ export {
   decodeAsyncGenerator,
   decodeGenerator,
   encode,
+  encodeChat,
+  encodeChatGenerator,
   encodeGenerator,
+  estimateCost,
   isWithinTokenLimit,
   setMergeCacheSize,
   vocabularySize,

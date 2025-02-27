@@ -17,6 +17,7 @@ const {
   vocabularySize,
   setMergeCacheSize,
   clearMergeCache,
+  estimateCost,
 } = api
 export {
   clearMergeCache,
@@ -26,6 +27,7 @@ export {
   decodeGenerator,
   encode,
   encodeGenerator,
+  estimateCost,
   isWithinTokenLimit,
   setMergeCacheSize,
   vocabularySize,

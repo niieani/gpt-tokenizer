@@ -15,6 +15,7 @@ import {
   type GetMergeableRanksFn,
   getEncodingParams,
 } from './modelParams.js'
+import { type CostEstimate, models } from './models.js'
 import {
   EndOfPrompt,
   EndOfText,
@@ -129,6 +130,7 @@ export class GptEncoding {
     this.countTokens = this.countTokens.bind(this)
     this.setMergeCacheSize = this.setMergeCacheSize.bind(this)
     this.clearMergeCache = this.clearMergeCache.bind(this)
+    this.estimateCost = this.estimateCost.bind(this)
     this.modelName = modelName
   }
 
@@ -459,5 +461,54 @@ export class GptEncoding {
     }
 
     return buffer
+  }
+
+  /**
+   * Estimates the cost of processing a given token count using the model's pricing.
+   *
+   * @param tokenCount - The number of tokens to estimate cost for
+   * @param modelName - Optional model name to use for cost calculation (defaults to this.modelName)
+   * @returns Cost estimate object with applicable price components (input, output, batchInput, batchOutput)
+   */
+  estimateCost(tokenCount: number, modelName = this.modelName): CostEstimate {
+    if (!modelName) {
+      throw new Error(
+        'Model name must be provided either during initialization or passed in to the method.',
+      )
+    }
+
+    const model = models[modelName]
+    if (!model) {
+      throw new Error(`Unknown model: ${modelName}`)
+    }
+
+    if (!model.cost) {
+      throw new Error(`No cost information available for model: ${modelName}`)
+    }
+
+    const costPerMillion = model.cost
+    const result: CostEstimate = {}
+
+    // Calculate cost per token and multiply by token count
+    // eslint-disable-next-line no-magic-numbers
+    const millionTokens = tokenCount / 1_000_000
+
+    if (costPerMillion.input !== undefined) {
+      result.input = costPerMillion.input * millionTokens
+    }
+
+    if (costPerMillion.output !== undefined) {
+      result.output = costPerMillion.output * millionTokens
+    }
+
+    if (costPerMillion.batchInput !== undefined) {
+      result.batchInput = costPerMillion.batchInput * millionTokens
+    }
+
+    if (costPerMillion.batchOutput !== undefined) {
+      result.batchOutput = costPerMillion.batchOutput * millionTokens
+    }
+
+    return result
   }
 }

@@ -5,6 +5,15 @@ import type { EncodingName } from './mapping.js'
 // - https://platform.openai.com/docs/deprecations/
 // - https://openai.com/api/pricing/
 
+export interface CostEstimate {
+  input?: number
+  output?: number
+  /** batch API input cost */
+  batchInput?: number
+  /** batch API output cost */
+  batchOutput?: number
+}
+
 export interface Model {
   humanName: string
   encoding: EncodingName
@@ -20,16 +29,8 @@ export interface Model {
   maxInput?: number
   /** in YYYY-MM, e.g. 2023-10 for "up to Oct 2023" */
   trainingData?: string
-  cost?: {
-    /** input cost per million tokens */
-    input?: number
-    /** output cost per million tokens */
-    output?: number
-    /** batch API input cost per million tokens */
-    batchInput?: number
-    /** batch API output cost per million tokens */
-    batchOutput?: number
-  }
+  /** cost per million tokens in USD */
+  cost?: CostEstimate
 }
 
 const gpt4oAugust2024: Model = {
