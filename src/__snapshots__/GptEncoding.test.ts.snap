@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`gpt-3.5-turbo chat functionality encodes a chat correctly 1`] = `
+exports[`gpt-3.5-turbo > chat functionality > encodes a chat correctly 1`] = `
 [
   100264,
   9125,
@@ -132,7 +132,7 @@ exports[`gpt-3.5-turbo chat functionality encodes a chat correctly 1`] = `
 ]
 `;
 
-exports[`gpt-3.5-turbo chat functionality encodes a chat correctly 2`] = `
+exports[`gpt-3.5-turbo > chat functionality > encodes a chat correctly 2`] = `
 "<|im_start|>system
 You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|>
 <|im_start|>example_user
@@ -149,7 +149,7 @@ This late pivot means we don't have time to boil the ocean for the client delive
 "
 `;
 
-exports[`gpt-3.5-turbo-0125 chat functionality encodes a chat correctly 1`] = `
+exports[`gpt-3.5-turbo-0125 > chat functionality > encodes a chat correctly 1`] = `
 [
   100264,
   9125,
@@ -281,7 +281,7 @@ exports[`gpt-3.5-turbo-0125 chat functionality encodes a chat correctly 1`] = `
 ]
 `;
 
-exports[`gpt-3.5-turbo-0125 chat functionality encodes a chat correctly 2`] = `
+exports[`gpt-3.5-turbo-0125 > chat functionality > encodes a chat correctly 2`] = `
 "<|im_start|>system
 You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|>
 <|im_start|>example_user
@@ -298,7 +298,7 @@ This late pivot means we don't have time to boil the ocean for the client delive
 "
 `;
 
-exports[`gpt-3.5-turbo-0301 chat functionality encodes a chat correctly 1`] = `
+exports[`gpt-3.5-turbo-0301 > chat functionality > encodes a chat correctly 1`] = `
 [
   100264,
   9125,
@@ -430,7 +430,7 @@ exports[`gpt-3.5-turbo-0301 chat functionality encodes a chat correctly 1`] = `
 ]
 `;
 
-exports[`gpt-3.5-turbo-0301 chat functionality encodes a chat correctly 2`] = `
+exports[`gpt-3.5-turbo-0301 > chat functionality > encodes a chat correctly 2`] = `
 "<|im_start|>system
 You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|>
 <|im_start|>example_user
@@ -447,7 +447,7 @@ This late pivot means we don't have time to boil the ocean for the client delive
 "
 `;
 
-exports[`gpt-3.5-turbo-0613 chat functionality encodes a chat correctly 1`] = `
+exports[`gpt-3.5-turbo-0613 > chat functionality > encodes a chat correctly 1`] = `
 [
   100264,
   9125,
@@ -579,7 +579,7 @@ exports[`gpt-3.5-turbo-0613 chat functionality encodes a chat correctly 1`] = `
 ]
 `;
 
-exports[`gpt-3.5-turbo-0613 chat functionality encodes a chat correctly 2`] = `
+exports[`gpt-3.5-turbo-0613 > chat functionality > encodes a chat correctly 2`] = `
 "<|im_start|>system
 You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|>
 <|im_start|>example_user
@@ -596,7 +596,7 @@ This late pivot means we don't have time to boil the ocean for the client delive
 "
 `;
 
-exports[`gpt-3.5-turbo-16k chat functionality encodes a chat correctly 1`] = `
+exports[`gpt-3.5-turbo-16k > chat functionality > encodes a chat correctly 1`] = `
 [
   100264,
   9125,
@@ -728,7 +728,7 @@ exports[`gpt-3.5-turbo-16k chat functionality encodes a chat correctly 1`] = `
 ]
 `;
 
-exports[`gpt-3.5-turbo-16k chat functionality encodes a chat correctly 2`] = `
+exports[`gpt-3.5-turbo-16k > chat functionality > encodes a chat correctly 2`] = `
 "<|im_start|>system
 You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|>
 <|im_start|>example_user
@@ -745,7 +745,7 @@ This late pivot means we don't have time to boil the ocean for the client delive
 "
 `;
 
-exports[`gpt-3.5-turbo-16k-0613 chat functionality encodes a chat correctly 1`] = `
+exports[`gpt-3.5-turbo-16k-0613 > chat functionality > encodes a chat correctly 1`] = `
 [
   100264,
   9125,
@@ -877,7 +877,7 @@ exports[`gpt-3.5-turbo-16k-0613 chat functionality encodes a chat correctly 1`] 
 ]
 `;
 
-exports[`gpt-3.5-turbo-16k-0613 chat functionality encodes a chat correctly 2`] = `
+exports[`gpt-3.5-turbo-16k-0613 > chat functionality > encodes a chat correctly 2`] = `
 "<|im_start|>system
 You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|>
 <|im_start|>example_user
@@ -894,7 +894,7 @@ This late pivot means we don't have time to boil the ocean for the client delive
 "
 `;
 
-exports[`gpt-3.5-turbo-1106 chat functionality encodes a chat correctly 1`] = `
+exports[`gpt-3.5-turbo-1106 > chat functionality > encodes a chat correctly 1`] = `
 [
   100264,
   9125,
@@ -1026,7 +1026,7 @@ exports[`gpt-3.5-turbo-1106 chat functionality encodes a chat correctly 1`] = `
 ]
 `;
 
-exports[`gpt-3.5-turbo-1106 chat functionality encodes a chat correctly 2`] = `
+exports[`gpt-3.5-turbo-1106 > chat functionality > encodes a chat correctly 2`] = `
 "<|im_start|>system
 You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|>
 <|im_start|>example_user
@@ -1043,7 +1043,7 @@ This late pivot means we don't have time to boil the ocean for the client delive
 "
 `;
 
-exports[`gpt-3.5-turbo-finetune chat functionality encodes a chat correctly 1`] = `
+exports[`gpt-3.5-turbo-finetune > chat functionality > encodes a chat correctly 1`] = `
 [
   100264,
   9125,
@@ -1175,7 +1175,7 @@ exports[`gpt-3.5-turbo-finetune chat functionality encodes a chat correctly 1`] 
 ]
 `;
 
-exports[`gpt-3.5-turbo-finetune chat functionality encodes a chat correctly 2`] = `
+exports[`gpt-3.5-turbo-finetune > chat functionality > encodes a chat correctly 2`] = `
 "<|im_start|>system
 You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|>
 <|im_start|>example_user
@@ -1192,7 +1192,7 @@ This late pivot means we don't have time to boil the ocean for the client delive
 "
 `;
 
-exports[`gpt-4 chat functionality encodes a chat correctly 1`] = `
+exports[`gpt-4 > chat functionality > encodes a chat correctly 1`] = `
 [
   100264,
   9125,
@@ -1318,9 +1318,9 @@ exports[`gpt-4 chat functionality encodes a chat correctly 1`] = `
 ]
 `;
 
-exports[`gpt-4 chat functionality encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
+exports[`gpt-4 > chat functionality > encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
 
-exports[`gpt-4-0125-preview chat functionality encodes a chat correctly 1`] = `
+exports[`gpt-4-0125-preview > chat functionality > encodes a chat correctly 1`] = `
 [
   100264,
   9125,
@@ -1446,9 +1446,9 @@ exports[`gpt-4-0125-preview chat functionality encodes a chat correctly 1`] = `
 ]
 `;
 
-exports[`gpt-4-0125-preview chat functionality encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
+exports[`gpt-4-0125-preview > chat functionality > encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
 
-exports[`gpt-4-0314 chat functionality encodes a chat correctly 1`] = `
+exports[`gpt-4-0314 > chat functionality > encodes a chat correctly 1`] = `
 [
   100264,
   9125,
@@ -1574,9 +1574,9 @@ exports[`gpt-4-0314 chat functionality encodes a chat correctly 1`] = `
 ]
 `;
 
-exports[`gpt-4-0314 chat functionality encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
+exports[`gpt-4-0314 > chat functionality > encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
 
-exports[`gpt-4-0613 chat functionality encodes a chat correctly 1`] = `
+exports[`gpt-4-0613 > chat functionality > encodes a chat correctly 1`] = `
 [
   100264,
   9125,
@@ -1702,9 +1702,9 @@ exports[`gpt-4-0613 chat functionality encodes a chat correctly 1`] = `
 ]
 `;
 
-exports[`gpt-4-0613 chat functionality encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
+exports[`gpt-4-0613 > chat functionality > encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
 
-exports[`gpt-4-32k chat functionality encodes a chat correctly 1`] = `
+exports[`gpt-4-32k > chat functionality > encodes a chat correctly 1`] = `
 [
   100264,
   9125,
@@ -1830,9 +1830,9 @@ exports[`gpt-4-32k chat functionality encodes a chat correctly 1`] = `
 ]
 `;
 
-exports[`gpt-4-32k chat functionality encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
+exports[`gpt-4-32k > chat functionality > encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
 
-exports[`gpt-4-32k-0314 chat functionality encodes a chat correctly 1`] = `
+exports[`gpt-4-32k-0314 > chat functionality > encodes a chat correctly 1`] = `
 [
   100264,
   9125,
@@ -1958,9 +1958,9 @@ exports[`gpt-4-32k-0314 chat functionality encodes a chat correctly 1`] = `
 ]
 `;
 
-exports[`gpt-4-32k-0314 chat functionality encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
+exports[`gpt-4-32k-0314 > chat functionality > encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
 
-exports[`gpt-4-32k-0613 chat functionality encodes a chat correctly 1`] = `
+exports[`gpt-4-32k-0613 > chat functionality > encodes a chat correctly 1`] = `
 [
   100264,
   9125,
@@ -2086,9 +2086,9 @@ exports[`gpt-4-32k-0613 chat functionality encodes a chat correctly 1`] = `
 ]
 `;
 
-exports[`gpt-4-32k-0613 chat functionality encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
+exports[`gpt-4-32k-0613 > chat functionality > encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
 
-exports[`gpt-4-1106-preview chat functionality encodes a chat correctly 1`] = `
+exports[`gpt-4-1106-preview > chat functionality > encodes a chat correctly 1`] = `
 [
   100264,
   9125,
@@ -2214,9 +2214,9 @@ exports[`gpt-4-1106-preview chat functionality encodes a chat correctly 1`] = `
 ]
 `;
 
-exports[`gpt-4-1106-preview chat functionality encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
+exports[`gpt-4-1106-preview > chat functionality > encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
 
-exports[`gpt-4-1106-vision-preview chat functionality encodes a chat correctly 1`] = `
+exports[`gpt-4-1106-vision-preview > chat functionality > encodes a chat correctly 1`] = `
 [
   100264,
   9125,
@@ -2342,9 +2342,9 @@ exports[`gpt-4-1106-vision-preview chat functionality encodes a chat correctly 1
 ]
 `;
 
-exports[`gpt-4-1106-vision-preview chat functionality encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
+exports[`gpt-4-1106-vision-preview > chat functionality > encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
 
-exports[`gpt-4-turbo chat functionality encodes a chat correctly 1`] = `
+exports[`gpt-4-turbo > chat functionality > encodes a chat correctly 1`] = `
 [
   100264,
   9125,
@@ -2470,9 +2470,9 @@ exports[`gpt-4-turbo chat functionality encodes a chat correctly 1`] = `
 ]
 `;
 
-exports[`gpt-4-turbo chat functionality encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
+exports[`gpt-4-turbo > chat functionality > encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
 
-exports[`gpt-4-turbo-2024-04-09 chat functionality encodes a chat correctly 1`] = `
+exports[`gpt-4-turbo-2024-04-09 > chat functionality > encodes a chat correctly 1`] = `
 [
   100264,
   9125,
@@ -2598,9 +2598,9 @@ exports[`gpt-4-turbo-2024-04-09 chat functionality encodes a chat correctly 1`] 
 ]
 `;
 
-exports[`gpt-4-turbo-2024-04-09 chat functionality encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
+exports[`gpt-4-turbo-2024-04-09 > chat functionality > encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
 
-exports[`gpt-4-turbo-preview chat functionality encodes a chat correctly 1`] = `
+exports[`gpt-4-turbo-preview > chat functionality > encodes a chat correctly 1`] = `
 [
   100264,
   9125,
@@ -2726,9 +2726,9 @@ exports[`gpt-4-turbo-preview chat functionality encodes a chat correctly 1`] = `
 ]
 `;
 
-exports[`gpt-4-turbo-preview chat functionality encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
+exports[`gpt-4-turbo-preview > chat functionality > encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
 
-exports[`gpt-4-vision-preview chat functionality encodes a chat correctly 1`] = `
+exports[`gpt-4-vision-preview > chat functionality > encodes a chat correctly 1`] = `
 [
   100264,
   9125,
@@ -2854,9 +2854,9 @@ exports[`gpt-4-vision-preview chat functionality encodes a chat correctly 1`] = 
 ]
 `;
 
-exports[`gpt-4-vision-preview chat functionality encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
+exports[`gpt-4-vision-preview > chat functionality > encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
 
-exports[`gpt-4o chat functionality encodes a chat correctly 1`] = `
+exports[`gpt-4o > chat functionality > encodes a chat correctly 1`] = `
 [
   200003,
   17360,
@@ -2981,9 +2981,9 @@ exports[`gpt-4o chat functionality encodes a chat correctly 1`] = `
 ]
 `;
 
-exports[`gpt-4o chat functionality encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
+exports[`gpt-4o > chat functionality > encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
 
-exports[`gpt-4o-2024-05-13 chat functionality encodes a chat correctly 1`] = `
+exports[`gpt-4o-2024-05-13 > chat functionality > encodes a chat correctly 1`] = `
 [
   200003,
   17360,
@@ -3108,9 +3108,9 @@ exports[`gpt-4o-2024-05-13 chat functionality encodes a chat correctly 1`] = `
 ]
 `;
 
-exports[`gpt-4o-2024-05-13 chat functionality encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
+exports[`gpt-4o-2024-05-13 > chat functionality > encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
 
-exports[`gpt-4o-2024-08-06 chat functionality encodes a chat correctly 1`] = `
+exports[`gpt-4o-2024-08-06 > chat functionality > encodes a chat correctly 1`] = `
 [
   200003,
   17360,
@@ -3235,9 +3235,9 @@ exports[`gpt-4o-2024-08-06 chat functionality encodes a chat correctly 1`] = `
 ]
 `;
 
-exports[`gpt-4o-2024-08-06 chat functionality encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
+exports[`gpt-4o-2024-08-06 > chat functionality > encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
 
-exports[`gpt-4o-2024-08-06-finetune chat functionality encodes a chat correctly 1`] = `
+exports[`gpt-4o-2024-08-06-finetune > chat functionality > encodes a chat correctly 1`] = `
 [
   200003,
   17360,
@@ -3362,9 +3362,9 @@ exports[`gpt-4o-2024-08-06-finetune chat functionality encodes a chat correctly 
 ]
 `;
 
-exports[`gpt-4o-2024-08-06-finetune chat functionality encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
+exports[`gpt-4o-2024-08-06-finetune > chat functionality > encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
 
-exports[`gpt-4o-audio-preview chat functionality encodes a chat correctly 1`] = `
+exports[`gpt-4o-audio-preview > chat functionality > encodes a chat correctly 1`] = `
 [
   200003,
   17360,
@@ -3489,9 +3489,9 @@ exports[`gpt-4o-audio-preview chat functionality encodes a chat correctly 1`] = 
 ]
 `;
 
-exports[`gpt-4o-audio-preview chat functionality encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
+exports[`gpt-4o-audio-preview > chat functionality > encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
 
-exports[`gpt-4o-audio-preview-2024-10-01 chat functionality encodes a chat correctly 1`] = `
+exports[`gpt-4o-audio-preview-2024-10-01 > chat functionality > encodes a chat correctly 1`] = `
 [
   200003,
   17360,
@@ -3616,9 +3616,9 @@ exports[`gpt-4o-audio-preview-2024-10-01 chat functionality encodes a chat corre
 ]
 `;
 
-exports[`gpt-4o-audio-preview-2024-10-01 chat functionality encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
+exports[`gpt-4o-audio-preview-2024-10-01 > chat functionality > encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
 
-exports[`gpt-4o-mini chat functionality encodes a chat correctly 1`] = `
+exports[`gpt-4o-mini > chat functionality > encodes a chat correctly 1`] = `
 [
   200003,
   17360,
@@ -3743,9 +3743,9 @@ exports[`gpt-4o-mini chat functionality encodes a chat correctly 1`] = `
 ]
 `;
 
-exports[`gpt-4o-mini chat functionality encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
+exports[`gpt-4o-mini > chat functionality > encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
 
-exports[`gpt-4o-mini-2024-07-18 chat functionality encodes a chat correctly 1`] = `
+exports[`gpt-4o-mini-2024-07-18 > chat functionality > encodes a chat correctly 1`] = `
 [
   200003,
   17360,
@@ -3870,9 +3870,9 @@ exports[`gpt-4o-mini-2024-07-18 chat functionality encodes a chat correctly 1`] 
 ]
 `;
 
-exports[`gpt-4o-mini-2024-07-18 chat functionality encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
+exports[`gpt-4o-mini-2024-07-18 > chat functionality > encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
 
-exports[`gpt-4o-mini-2024-07-18-finetune chat functionality encodes a chat correctly 1`] = `
+exports[`gpt-4o-mini-2024-07-18-finetune > chat functionality > encodes a chat correctly 1`] = `
 [
   200003,
   17360,
@@ -3997,9 +3997,9 @@ exports[`gpt-4o-mini-2024-07-18-finetune chat functionality encodes a chat corre
 ]
 `;
 
-exports[`gpt-4o-mini-2024-07-18-finetune chat functionality encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
+exports[`gpt-4o-mini-2024-07-18-finetune > chat functionality > encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
 
-exports[`gpt-4o-mini-training chat functionality encodes a chat correctly 1`] = `
+exports[`gpt-4o-mini-training > chat functionality > encodes a chat correctly 1`] = `
 [
   200003,
   17360,
@@ -4124,9 +4124,9 @@ exports[`gpt-4o-mini-training chat functionality encodes a chat correctly 1`] = 
 ]
 `;
 
-exports[`gpt-4o-mini-training chat functionality encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
+exports[`gpt-4o-mini-training > chat functionality > encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
 
-exports[`gpt-4o-mini-training-2024-07-18 chat functionality encodes a chat correctly 1`] = `
+exports[`gpt-4o-mini-training-2024-07-18 > chat functionality > encodes a chat correctly 1`] = `
 [
   200003,
   17360,
@@ -4251,9 +4251,9 @@ exports[`gpt-4o-mini-training-2024-07-18 chat functionality encodes a chat corre
 ]
 `;
 
-exports[`gpt-4o-mini-training-2024-07-18 chat functionality encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
+exports[`gpt-4o-mini-training-2024-07-18 > chat functionality > encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
 
-exports[`gpt-4o-realtime-preview chat functionality encodes a chat correctly 1`] = `
+exports[`gpt-4o-realtime-preview > chat functionality > encodes a chat correctly 1`] = `
 [
   200003,
   17360,
@@ -4378,9 +4378,9 @@ exports[`gpt-4o-realtime-preview chat functionality encodes a chat correctly 1`]
 ]
 `;
 
-exports[`gpt-4o-realtime-preview chat functionality encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
+exports[`gpt-4o-realtime-preview > chat functionality > encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
 
-exports[`gpt-4o-realtime-preview-2024-10-01 chat functionality encodes a chat correctly 1`] = `
+exports[`gpt-4o-realtime-preview-2024-10-01 > chat functionality > encodes a chat correctly 1`] = `
 [
   200003,
   17360,
@@ -4505,4 +4505,4 @@ exports[`gpt-4o-realtime-preview-2024-10-01 chat functionality encodes a chat co
 ]
 `;
 
-exports[`gpt-4o-realtime-preview-2024-10-01 chat functionality encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;
+exports[`gpt-4o-realtime-preview-2024-10-01 > chat functionality > encodes a chat correctly 2`] = `"<|im_start|>system<|im_sep|>You are a helpful, pattern-following assistant that translates corporate jargon into plain English.<|im_end|><|im_start|>example_user<|im_sep|>New synergies will help drive top-line growth.<|im_end|><|im_start|>example_assistant<|im_sep|>Things working well together will increase revenue.<|im_end|><|im_start|>example_user<|im_sep|>Let's circle back when we have more bandwidth to touch base on opportunities for increased leverage.<|im_end|><|im_start|>example_assistant<|im_sep|>Let's talk later when we're less busy about how to do better.<|im_end|><|im_start|>user<|im_sep|>This late pivot means we don't have time to boil the ocean for the client deliverable.<|im_end|><|im_start|>assistant<|im_sep|>"`;

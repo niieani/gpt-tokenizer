@@ -90,7 +90,7 @@
     "prepare": "rrun husky install .config/husky && beemo create-config",
     "release": "beemo run-script release",
     "test": "yarn test:format && yarn test:types && yarn test:lint && yarn test:code",
-    "test:code": "rrun jest",
+    "test:code": "vitest",
     "test:format": "yarn rrun prettier --check \"./{src,tests,.config}/**/!(*.d).{.js,jsx,ts,tsx,json,md}\"",
     "test:lint": "rrun eslint 'src/*.{js,jsx,ts,tsx}'",
     "test:types": "yarn rrun tsc --noEmit"
@@ -116,12 +116,16 @@
     "tagFormat": "${version}"
   },
   "devDependencies": {
-    "@niieani/scaffold": "^1.7.37",
+    "@edge-runtime/vm": "^5.0.0",
+    "@niieani/scaffold": "^1.7.39",
+    "@swc/cli": "^0.5.2",
+    "@swc/core": "^1.10.4",
     "tsx": "^4.19.2",
-    "typescript": "^5.6.3"
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
   },
   "resolutions": {
-    "typescript": "5.6.2"
+    "typescript": "5.7.2"
   },
   "packageManager": "yarn@4.5.0",
   "publishConfig": {

@@ -1,5 +1,7 @@
 import fs from 'fs'
 import path from 'path'
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { describe, expect, test } from 'vitest'
 import { ALL_SPECIAL_TOKENS } from './constants.js'
 import { type ChatMessage, GptEncoding } from './GptEncoding.js'
 import {
@@ -9,6 +11,7 @@ import {
   encodingNames,
 } from './mapping.js'
 import { resolveEncoding } from './resolveEncoding.js'
+import { EndOfText } from './specialTokens.js'
 
 const sharedResults = {
   space: [220],
@@ -66,8 +69,8 @@ const offsetPrompts = [
   // Basic prompt with "hello world"
   'hello world',
 
-  // Basic prompt with special token "<|endoftext|>"
-  'hello world<|endoftext|> green cow',
+  // Basic prompt with special token end of text token
+  `hello world${EndOfText} green cow`,
 
   // Chinese text: "我非常渴望与人工智能一起工作"
   '我非常渴望与人工智能一起工作',
@@ -96,7 +99,7 @@ describe.each(encodingNames)('%s', (encodingName: EncodingName) => {
   } = encoding
 
   describe('encode and decode', () => {
-    it.each(offsetPrompts)('offset prompt: %s', (str) => {
+    test.each(offsetPrompts)('offset prompt: %s', (str) => {
       expect(
         decode(encode(str, { allowedSpecial: ALL_SPECIAL_TOKENS })),
       ).toEqual(str)
@@ -105,7 +108,7 @@ describe.each(encodingNames)('%s', (encodingName: EncodingName) => {
 
   describe('basic functionality', () => {
     const result = results[encodingName]
-    it('empty string', () => {
+    test('empty string', () => {
       const str = ''
       expect(encode(str)).toEqual([])
       expect(decode(encode(str))).toEqual(str)
@@ -113,7 +116,7 @@ describe.each(encodingNames)('%s', (encodingName: EncodingName) => {
       expect(isWithinTokenLimit(str, 3)).toBe(0)
     })
 
-    it('space', () => {
+    test('space', () => {
       const str = ' '
       expect(encode(str)).toEqual(result.space)
       expect(decode(encode(str))).toEqual(str)
@@ -121,13 +124,13 @@ describe.each(encodingNames)('%s', (encodingName: EncodingName) => {
       expect(isWithinTokenLimit(str, 0)).toBe(false)
     })
 
-    it('tab', () => {
+    test('tab', () => {
       const str = '\t'
       expect(encode(str)).toEqual(result.tab)
       expect(decode(encode(str))).toEqual(str)
     })
 
-    it('simple text', () => {
+    test('simple text', () => {
       const str = 'This is some text'
       expect(encode(str)).toEqual(result[str])
       expect(decode(encode(str))).toEqual(str)
@@ -135,14 +138,14 @@ describe.each(encodingNames)('%s', (encodingName: EncodingName) => {
       expect(isWithinTokenLimit(str, 5)).toBe(result[str].length)
     })
 
-    it('multi-token word', () => {
+    test('multi-token word', () => {
       const str = 'indivisible'
       expect(encode(str)).toEqual(result.indivisible)
       expect(decode(encode(str))).toEqual(str)
       expect(isWithinTokenLimit(str, 3)).toBe(result.indivisible.length)
     })
 
-    it('emojis', () => {
+    test('emojis', () => {
       const str = 'hello 👋 world 🌍'
       expect(encode(str)).toEqual(result[str])
       expect(decode(encode(str))).toEqual(str)
@@ -150,7 +153,7 @@ describe.each(encodingNames)('%s', (encodingName: EncodingName) => {
       expect(isWithinTokenLimit(str, 400)).toBe(result[str].length)
     })
 
-    it('decode token-by-token via generator', () => {
+    test('decode token-by-token via generator', () => {
       const str = 'hello 👋 world 🌍'
       const generator = decodeGenerator(result[str])
       result.decodedHelloWorldTokens.forEach((token: string) => {
@@ -158,8 +161,8 @@ describe.each(encodingNames)('%s', (encodingName: EncodingName) => {
       })
     })
 
-    it('encodes and decodes special tokens', () => {
-      const str = 'hello <|endoftext|> world'
+    test('encodes and decodes special tokens', () => {
+      const str = `hello ${EndOfText} world`
       const encoded = encode(str, {
         allowedSpecial: ALL_SPECIAL_TOKENS,
       })
@@ -174,7 +177,7 @@ describe.each(encodingNames)('%s', (encodingName: EncodingName) => {
       }
     }
 
-    it('decode token-by-token via async generator', async () => {
+    test('decode token-by-token via async generator', async () => {
       const generator = decodeAsyncGenerator(getHelloWorldTokensAsync())
       const decoded = [...result.decodedHelloWorldTokens]
       for await (const value of generator) {
@@ -182,14 +185,14 @@ describe.each(encodingNames)('%s', (encodingName: EncodingName) => {
       }
     })
 
-    it('properties of Object', () => {
+    test('properties of Object', () => {
       const str = 'toString constructor hasOwnProperty valueOf'
 
       expect(encode(str)).toEqual(result[str])
       expect(decode(encode(str))).toEqual(str)
     })
 
-    it('text with commas', () => {
+    test('text with commas', () => {
       const str = 'hello, I am a text, and I have commas. a,b,c'
       expect(decode(encode(str))).toEqual(str)
       expect(encode(str)).toStrictEqual(result[str])
@@ -200,10 +203,10 @@ describe.each(encodingNames)('%s', (encodingName: EncodingName) => {
 
   describe('test plan', () => {
     testPlans[encodingName].forEach(({ sample, encoded }) => {
-      it(`encodes ${sample}`, () => {
+      test(`encodes ${sample}`, () => {
         expect(encode(sample)).toEqual(encoded)
       })
-      it(`decodes ${sample}`, () => {
+      test(`decodes ${sample}`, () => {
         expect(decode(encoded)).toEqual(sample)
       })
     })
@@ -258,7 +261,7 @@ describe.each(chatModelNames)('%s', (modelName) => {
     : 121
 
   describe('chat functionality', () => {
-    it('encodes a chat correctly', () => {
+    test('encodes a chat correctly', () => {
       const encoded = encoding.encodeChat(exampleMessages)
       expect(encoded).toMatchSnapshot()
       expect(encoded).toHaveLength(expectedEncodedLength)
@@ -267,14 +270,14 @@ describe.each(chatModelNames)('%s', (modelName) => {
       expect(decoded).toMatchSnapshot()
     })
 
-    it('isWithinTokenLimit: false', () => {
+    test('isWithinTokenLimit: false', () => {
       const isWithinTokenLimit = encoding.isWithinTokenLimit(
         exampleMessages,
         50,
       )
       expect(isWithinTokenLimit).toBe(false)
     })
-    it('isWithinTokenLimit: true (number)', () => {
+    test('isWithinTokenLimit: true (number)', () => {
       const isWithinTokenLimit = encoding.isWithinTokenLimit(
         exampleMessages,
         150,
