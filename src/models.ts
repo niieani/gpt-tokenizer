@@ -12,6 +12,10 @@ export interface CostEstimate {
   batchInput?: number
   /** batch API output cost */
   batchOutput?: number
+  /** cached input cost */
+  cachedInput?: number
+  /** training cost per million tokens */
+  training?: number
 }
 
 export interface Model {
@@ -41,7 +45,30 @@ const gpt4oAugust2024: Model = {
   context: 128_000,
   maxOutput: 16_384,
   trainingData: '2023-10',
-  cost: { input: 2.5, output: 10, batchInput: 1.25, batchOutput: 5 },
+  cost: {
+    input: 2.5,
+    output: 10,
+    batchInput: 1.25,
+    batchOutput: 5,
+    cachedInput: 1.25,
+  },
+}
+
+const gpt4oNovember2024: Model = {
+  humanName: 'GPT-4o (Nov 2024)',
+  description:
+    'November 2024 snapshot of the GPT-4o model with enhanced capabilities.',
+  encoding: 'o200k_base',
+  context: 128_000,
+  maxOutput: 16_384,
+  trainingData: '2023-10',
+  cost: {
+    input: 2.5,
+    output: 10,
+    batchInput: 1.25,
+    batchOutput: 5,
+    cachedInput: 1.25,
+  },
 }
 
 const gpt4oMay2024: Model = {
@@ -63,18 +90,46 @@ const gpt4oMiniJuly2024: Model = {
   context: 128_000,
   maxOutput: 16_384,
   trainingData: '2023-10',
-  cost: { input: 0.15, output: 0.6, batchInput: 0.075, batchOutput: 0.3 },
+  cost: {
+    input: 0.15,
+    output: 0.6,
+    batchInput: 0.075,
+    batchOutput: 0.3,
+    cachedInput: 0.075,
+  },
 }
 
-const o1PreviewSeptember2024: Model = {
-  humanName: 'OpenAI o1-preview',
+const o1December2024: Model = {
+  humanName: 'OpenAI o1',
   description:
-    'Points to the most recent snapshot of the o1 model: o1-preview-2024-09-12.',
+    'Our most intelligent model, optimal for complex tasks requiring deep understanding and expertise. Currently points to o1-2024-12-17.',
   encoding: 'o200k_base',
   context: 128_000,
   maxOutput: 32_768,
   trainingData: '2023-10',
-  cost: { input: 15, output: 60 },
+  cost: {
+    input: 15,
+    output: 60,
+    batchInput: 7.5,
+    batchOutput: 30,
+    cachedInput: 7.5,
+  },
+}
+
+const o1PreviewSeptember2024: Model = {
+  humanName: 'OpenAI o1-preview',
+  description: 'Preview version of the o1 model: o1-preview-2024-09-12.',
+  encoding: 'o200k_base',
+  context: 128_000,
+  maxOutput: 32_768,
+  trainingData: '2023-10',
+  cost: {
+    input: 15,
+    output: 60,
+    batchInput: 7.5,
+    batchOutput: 30,
+    cachedInput: 7.5,
+  },
 }
 
 const o1MiniSeptember2024: Model = {
@@ -85,7 +140,30 @@ const o1MiniSeptember2024: Model = {
   context: 128_000,
   maxOutput: 65_536,
   trainingData: '2023-10',
-  cost: { input: 3, output: 12 },
+  cost: {
+    input: 1.1,
+    output: 4.4,
+    batchInput: 0.55,
+    batchOutput: 2.2,
+    cachedInput: 0.55,
+  },
+}
+
+const o3MiniModel: Model = {
+  humanName: 'OpenAI o3-mini',
+  description:
+    "Small cost-efficient reasoning model that's optimized for coding, math, and science, and supports tools and Structured Outputs.",
+  encoding: 'o200k_base',
+  context: 200_000,
+  maxOutput: 65_536,
+  trainingData: '2023-10',
+  cost: {
+    input: 1.1,
+    output: 4.4,
+    batchInput: 0.55,
+    batchOutput: 2.2,
+    cachedInput: 0.55,
+  },
 }
 
 const textEmbedding3Small: Model = {
@@ -121,6 +199,11 @@ const gpt4oRealtimePreview: Model = {
   context: 128_000,
   maxOutput: 4_096,
   trainingData: '2023-10',
+  cost: {
+    input: 5,
+    output: 20,
+    cachedInput: 2.5,
+  },
 }
 
 const gpt4oRealtimePreview20241001: Model = {
@@ -130,6 +213,39 @@ const gpt4oRealtimePreview20241001: Model = {
   context: 128_000,
   maxOutput: 4_096,
   trainingData: '2023-10',
+  cost: {
+    input: 5,
+    output: 20,
+    cachedInput: 2.5,
+  },
+}
+
+const gpt4oRealtimePreviewDecember2024: Model = {
+  humanName: 'GPT-4o Realtime Preview (Dec 2024)',
+  encoding: 'o200k_base',
+  description: 'December 2024 snapshot for the Realtime API model.',
+  context: 128_000,
+  maxOutput: 4_096,
+  trainingData: '2023-10',
+  cost: {
+    input: 5,
+    output: 20,
+    cachedInput: 2.5,
+  },
+}
+
+const gpt4oMiniRealtimePreviewDecember2024: Model = {
+  humanName: 'GPT-4o Mini Realtime Preview (Dec 2024)',
+  encoding: 'o200k_base',
+  description: 'Mini version for the Realtime API with December 2024 snapshot.',
+  context: 128_000,
+  maxOutput: 4_096,
+  trainingData: '2023-10',
+  cost: {
+    input: 0.6,
+    output: 2.4,
+    cachedInput: 0.3,
+  },
 }
 
 const gpt4oAudioPreview: Model = {
@@ -139,6 +255,10 @@ const gpt4oAudioPreview: Model = {
   context: 128_000,
   maxOutput: 16_384,
   trainingData: '2023-10',
+  cost: {
+    input: 2.5,
+    output: 10,
+  },
 }
 
 const gpt4oAudioPreview20241001: Model = {
@@ -148,6 +268,36 @@ const gpt4oAudioPreview20241001: Model = {
   context: 128_000,
   maxOutput: 16_384,
   trainingData: '2023-10',
+  cost: {
+    input: 2.5,
+    output: 10,
+  },
+}
+
+const gpt4oAudioPreviewDecember2024: Model = {
+  humanName: 'GPT-4o Audio Preview (Dec 2024)',
+  encoding: 'o200k_base',
+  description: 'December 2024 snapshot for the Audio API model.',
+  context: 128_000,
+  maxOutput: 16_384,
+  trainingData: '2023-10',
+  cost: {
+    input: 2.5,
+    output: 10,
+  },
+}
+
+const gpt4oMiniAudioPreviewDecember2024: Model = {
+  humanName: 'GPT-4o Mini Audio Preview (Dec 2024)',
+  encoding: 'o200k_base',
+  description: 'Mini version for the Audio API with December 2024 snapshot.',
+  context: 128_000,
+  maxOutput: 16_384,
+  trainingData: '2023-10',
+  cost: {
+    input: 0.15,
+    output: 0.6,
+  },
 }
 
 // finetuning and training
@@ -155,21 +305,41 @@ const gpt4oFinetuning: Model = {
   humanName: 'GPT-4o 2024-08-06 Finetuning',
   description: 'GPT-4o finetuned for custom tasks.',
   encoding: 'o200k_base',
-  cost: { input: 3.75, output: 15, batchInput: 1.875, batchOutput: 7.5 },
+  cost: {
+    input: 3.75,
+    output: 15,
+    batchInput: 1.875,
+    batchOutput: 7.5,
+    cachedInput: 1.875,
+    training: 25,
+  },
 }
 
 const gpt4oMiniFinetuning: Model = {
   humanName: 'GPT-4o Mini 2024-07-18 Finetuning',
   description: 'GPT-4o mini finetuned for custom tasks.',
   encoding: 'o200k_base',
-  cost: { input: 0.3, output: 1.2, batchInput: 0.15, batchOutput: 0.6 },
+  cost: {
+    input: 0.3,
+    output: 1.2,
+    batchInput: 0.15,
+    batchOutput: 0.6,
+    cachedInput: 0.15,
+    training: 3,
+  },
 }
 
 const gpt35TurboFinetune: Model = {
   humanName: 'GPT-3.5 Turbo Finetuning',
   description: 'Finetuning GPT-3.5 Turbo with custom data.',
   encoding: 'cl100k_base',
-  cost: { input: 3, output: 6, batchInput: 1.5, batchOutput: 3 },
+  cost: {
+    input: 3,
+    output: 6,
+    batchInput: 1.5,
+    batchOutput: 3,
+    training: 8,
+  },
 }
 
 const gpt4oMiniTrainingJuly2024: Model = {
@@ -277,6 +447,19 @@ const davinci002: Model = {
   cost: { input: 2, output: 2, batchInput: 1, batchOutput: 1 },
 }
 
+const davinci002Finetune: Model = {
+  humanName: 'Davinci-002 Finetuning',
+  description: 'Davinci-002 finetuned for custom tasks.',
+  encoding: 'p50k_base',
+  cost: {
+    input: 12,
+    output: 12,
+    batchInput: 6,
+    batchOutput: 6,
+    training: 6,
+  },
+}
+
 const babbage002: Model = {
   humanName: 'Babbage 002',
   description: 'Replacement for the GPT-3 ada and babbage base models.',
@@ -284,6 +467,19 @@ const babbage002: Model = {
   context: 16_384,
   trainingData: '2021-09',
   cost: { input: 0.4, output: 0.4, batchInput: 0.2, batchOutput: 0.2 },
+}
+
+const babbage002Finetune: Model = {
+  humanName: 'Babbage-002 Finetuning',
+  description: 'Babbage-002 finetuned for custom tasks.',
+  encoding: 'p50k_base',
+  cost: {
+    input: 1.6,
+    output: 1.6,
+    batchInput: 0.8,
+    batchOutput: 0.8,
+    training: 0.4,
+  },
 }
 
 // deprecated models:
@@ -648,14 +844,18 @@ const textSearchDavinciQuery001: Model = {
 }
 
 export const chatEnabledModels = {
+  o1: o1December2024,
+  'o1-2024-12-17': o1December2024,
   'o1-preview': o1PreviewSeptember2024,
   'o1-preview-2024-09-12': o1PreviewSeptember2024,
   'o1-mini': o1MiniSeptember2024,
   'o1-mini-2024-09-12': o1MiniSeptember2024,
+  'o3-mini': o3MiniModel,
 
   'chatgpt-4o-latest': chatgpt4oLatest,
 
   'gpt-4o': gpt4oAugust2024,
+  'gpt-4o-2024-11-20': gpt4oNovember2024,
   'gpt-4o-2024-08-06': gpt4oAugust2024,
   'gpt-4o-2024-05-13': gpt4oMay2024,
   'gpt-4o-mini': gpt4oMiniJuly2024,
@@ -664,14 +864,23 @@ export const chatEnabledModels = {
   // audio models:
   'gpt-4o-realtime-preview': gpt4oRealtimePreview,
   'gpt-4o-realtime-preview-2024-10-01': gpt4oRealtimePreview20241001,
+  'gpt-4o-realtime-preview-2024-12-17': gpt4oRealtimePreviewDecember2024,
+  'gpt-4o-mini-realtime-preview': gpt4oMiniRealtimePreviewDecember2024,
+  'gpt-4o-mini-realtime-preview-2024-12-17':
+    gpt4oMiniRealtimePreviewDecember2024,
   'gpt-4o-audio-preview': gpt4oAudioPreview,
   'gpt-4o-audio-preview-2024-10-01': gpt4oAudioPreview20241001,
+  'gpt-4o-audio-preview-2024-12-17': gpt4oAudioPreviewDecember2024,
+  'gpt-4o-mini-audio-preview': gpt4oMiniAudioPreviewDecember2024,
+  'gpt-4o-mini-audio-preview-2024-12-17': gpt4oMiniAudioPreviewDecember2024,
 
   // finetune and training:
   'gpt-4o-2024-08-06-finetune': gpt4oFinetuning,
   'gpt-4o-mini-2024-07-18-finetune': gpt4oMiniFinetuning,
   'gpt-4o-mini-training': gpt4oMiniTrainingJuly2024,
   'gpt-4o-mini-training-2024-07-18': gpt4oMiniTrainingJuly2024,
+  'davinci-002-finetune': davinci002Finetune,
+  'babbage-002-finetune': babbage002Finetune,
 
   // older models:
   'gpt-4-turbo': gpt4TurboApril2024,
