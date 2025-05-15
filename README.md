@@ -2,7 +2,7 @@
 
 [![Play with gpt-tokenizer](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/gpt-tokenizer-tjcjoz?fontsize=14&hidenavigation=1&theme=dark)
 
-`gpt-tokenizer` is a Token Byte Pair Encoder/Decoder supporting all OpenAI's models (including GPT-3.5, GPT-4, GPT-4o, and o1).
+`gpt-tokenizer` is a Token Byte Pair Encoder/Decoder supporting all OpenAI's models (including GPT-4o, o1, o3, o4, GPT-4.1 and older models like GPT-3.5, GPT-4).
 It's the [_fastest, smallest and lowest footprint_](#benchmarks) GPT tokenizer available for all JavaScript environments. It's written in TypeScript.
 
 This library has been trusted by:
@@ -17,7 +17,7 @@ Please consider [🩷 sponsoring](https://github.com/sponsors/niieani) the proje
 
 #### Features
 
-As of 2023, it is the most feature-complete, open-source GPT tokenizer on NPM. This package is a port of OpenAI's [tiktoken](https://github.com/openai/tiktoken), with some additional, unique features sprinkled on top:
+It is the most feature-complete, open-source GPT tokenizer on NPM. This package is a port of OpenAI's [tiktoken](https://github.com/openai/tiktoken), with some additional, unique features sprinkled on top:
 
 - Support for easily tokenizing chats thanks to the `encodeChat` function
 - Support for all current OpenAI models (available encodings: `r50k_base`, `p50k_base`, `p50k_edit`, `cl100k_base` and `o200k_base`)
@@ -26,6 +26,8 @@ As of 2023, it is the most feature-complete, open-source GPT tokenizer on NPM. T
 - Provides the ability to decode an asynchronous stream of data (using `decodeAsyncGenerator` and `decodeGenerator` with any iterable input)
 - No global cache (no accidental memory leaks, as with the original GPT-3-Encoder implementation)
 - Includes a highly performant `isWithinTokenLimit` function to assess token limit without encoding the entire text/chat
+- Built-in cost estimation with the `estimateCost` function for calculating API usage costs
+- Full library of OpenAI models with comprehensive pricing information (see [`src/models.ts`](./src/models.ts) and [`src/models.gen.ts`](./src/models.gen.ts))
 - Improves overall performance by eliminating transitive arrays
 - Type-safe (written in TypeScript)
 - Works in the browser out-of-the-box
@@ -51,8 +53,8 @@ npm install gpt-tokenizer
 
 If you wish to use a custom encoding, fetch the relevant script.
 
-- https://unpkg.com/gpt-tokenizer/dist/o200k_base.js (for `gpt-4o` and `o1`)
-- https://unpkg.com/gpt-tokenizer/dist/cl100k_base.js (for `gpt-4-*` and `gpt-3.5-turbo`)
+- https://unpkg.com/gpt-tokenizer/dist/o200k_base.js (for all modern models, such as `gpt-4o`, `gpt-4.1`, `o1` and others)
+- https://unpkg.com/gpt-tokenizer/dist/cl100k_base.js (for `gpt-4` and `gpt-3.5`)
 - https://unpkg.com/gpt-tokenizer/dist/p50k_base.js
 - https://unpkg.com/gpt-tokenizer/dist/p50k_edit.js
 - https://unpkg.com/gpt-tokenizer/dist/r50k_base.js
@@ -130,7 +132,7 @@ for await (const textChunk of decodeAsyncGenerator(asyncTokens)) {
 }
 ```
 
-By default, importing from `gpt-tokenizer` uses `cl100k_base` encoding, used by `gpt-3.5-turbo` and `gpt-4`.
+By default, importing from `gpt-tokenizer` uses `o200k_base` encoding, used by all modern OpenAI models, including `gpt-4o`, `gpt-4.1`, `o1`, etc.
 
 To get a tokenizer for a different model, import it directly, for example:
 
@@ -182,16 +184,18 @@ import {
 
 ### Supported models and their encodings
 
-- `o1-*` (`o200k_base`)
+We support all OpenAI models, including the latest ones, with the following encodings:
+
+- `o`-series models, like `o1-*`, `o3-*` and `o4-*` (`o200k_base`)
 - `gpt-4o` (`o200k_base`)
 - `gpt-4-*` (`cl100k_base`)
-- `gpt-3.5-turbo` (`cl100k_base`)
+- `gpt-3.5-*` (`cl100k_base`)
 - `text-davinci-003` (`p50k_base`)
 - `text-davinci-002` (`p50k_base`)
 - `text-davinci-001` (`r50k_base`)
 - ...and many other models, see [models.ts](./src/models.ts) for an up-to-date list of supported models and their encodings.
 
-Note: if you're using `gpt-3.5-*` or `gpt-4-*` and don't see the model you're looking for, use the `cl100k_base` encoding directly.
+If you don't see the model you're looking for, the default encoding is probably the one you want.
 
 ## API
 
@@ -325,6 +329,31 @@ async function processTokens(asyncTokensIterator) {
   }
 }
 ```
+
+### `estimateCost(tokenCount: number, modelSpec?: ModelSpec): PriceData`
+
+Estimates the cost of processing a given number of tokens using the model's pricing data. This function calculates costs for different API usage types (main API, batch API) and cached tokens when available.
+
+The function returns a `PriceData` object with the following structure:
+- `main`: Main API pricing with `input`, `output`, `cached_input`, and `cached_output` costs
+- `batch`: Batch API pricing with the same cost categories
+
+All costs are calculated in USD based on the token count provided.
+
+Example:
+
+```typescript
+import { estimateCost } from 'gpt-tokenizer/model/gpt-4o'
+
+const tokenCount = 1000
+const costEstimate = estimateCost(tokenCount)
+
+console.log('Main API input cost:', costEstimate.main?.input)
+console.log('Main API output cost:', costEstimate.main?.output)
+console.log('Batch API input cost:', costEstimate.batch?.input)
+```
+
+Note: The model spec must be available either through the model-specific import or by passing it as the second parameter. Cost information may not be available for all models.
 
 ## Special tokens
 

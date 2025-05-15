@@ -73,8 +73,10 @@
     "dist"
   ],
   "scripts": {
-    "codegen:models": "rm -rf src/model && yarn tsx src/codegen/generateByModel.ts",
-    "codegen:bpe": "rm -rf src/bpeRanks && yarn tsx src/codegen/generateJsBpe.ts",
+    "codegen": "yarn codegen:bpe && yarn codegen:chat-enabled && yarn codegen:models",
+    "codegen:models": "rm -rf src/model && node --experimental-transform-types --import node-resolve-ts/register src/codegen/generateByModel.ts",
+    "codegen:bpe": "rm -rf src/bpeRanks && node --experimental-transform-types --import node-resolve-ts/register src/codegen/generateJsBpe.ts",
+    "codegen:chat-enabled": "rm -rf src/chat && node --experimental-transform-types --import node-resolve-ts/register src/codegen/generateChatEnabled.ts",
     "build": "yarn build:cjs && yarn build:esm && yarn build:umd",
     "build:cjs": "yarn rrun tsc --outDir cjs --module commonjs --target es2022 --project tsconfig-cjs.json",
     "build:esm": "mkdir -p esm && echo '{\"name\": \"gpt-tokenizer\", \"type\": \"module\"}' > ./esm/package.json && yarn rrun tsc --outDir esm --target es2022",
@@ -116,18 +118,18 @@
     "tagFormat": "${version}"
   },
   "devDependencies": {
-    "@edge-runtime/vm": "^5.0.0",
-    "@niieani/scaffold": "^1.7.39",
-    "@swc/cli": "^0.5.2",
-    "@swc/core": "^1.10.4",
-    "tsx": "^4.19.2",
-    "typescript": "^5.7.2",
-    "vitest": "^2.1.8"
+    "@niieani/scaffold": "^1.7.49",
+    "@swc/cli": "^0.7.7",
+    "@swc/core": "^1.11.31",
+    "devalue": "^5.1.1",
+    "node-resolve-ts": "^1.0.2",
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.2"
   },
   "resolutions": {
-    "typescript": "5.7.2"
+    "typescript": "5.8.3"
   },
-  "packageManager": "yarn@4.5.0",
+  "packageManager": "yarn@4.9.2",
   "publishConfig": {
     "access": "public"
   }

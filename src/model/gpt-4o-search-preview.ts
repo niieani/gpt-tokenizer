@@ -5,7 +5,7 @@ import { GptEncoding } from '../GptEncoding.js'
 export * from '../constants.js'
 export * from '../specialTokens.js'
 // prettier-ignore
-const api = GptEncoding.getEncodingApiForModel('gpt-4o-mini-2024-07-18-finetune', () => bpeRanks)
+const api = GptEncoding.getEncodingApiForModel('gpt-4o-search-preview', () => bpeRanks, {name:"gpt-4o-search-preview-2025-03-11",slug:"gpt-4o-search-preview-2025-03-11",performance:3,latency:3,modalities:{input:["text"],output:["text"]},context_window:128000,max_output_tokens:16384,knowledge_cutoff:new Date(1696118400000),supported_features:["streaming","structured_outputs","image_input"],supported_endpoints:["chat_completions"],reasoning_tokens:false,price_data:{main:{input:10,output:30},batch:{input:5,output:15}}})
 const {
   decode,
   decodeAsyncGenerator,

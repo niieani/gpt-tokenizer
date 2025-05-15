@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { describe, expect, it } from 'vitest'
-import { type ChatMessage, GptEncoding } from './GptEncoding.js'
-import { resolveEncoding } from './resolveEncoding.js'
+import type { ChatMessage } from './GptEncoding.js'
+import encoding from './model/gpt-3.5-turbo.js'
 
 const sampleText = 'This is a test message.'
 const sampleChat: ChatMessage[] = [
@@ -20,11 +20,6 @@ const sampleChat: ChatMessage[] = [
 ]
 
 describe('countTokens', () => {
-  const encoding = GptEncoding.getEncodingApiForModel(
-    'gpt-3.5-turbo',
-    resolveEncoding,
-  )
-
   describe('text input', () => {
     it('counts tokens in empty string', () => {
       expect(encoding.countTokens('')).toBe(0)

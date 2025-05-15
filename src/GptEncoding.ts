@@ -8,6 +8,7 @@ import {
   type EncodingName,
   type ModelName,
   chatModelParams,
+  DEFAULT_ENCODING,
   modelToEncodingMap,
 } from './mapping.js'
 import {
@@ -15,7 +16,7 @@ import {
   type GetMergeableRanksFn,
   getEncodingParams,
 } from './modelParams.js'
-import { type CostEstimate, models } from './models.js'
+import type { ModelSpec, PriceData } from './modelTypes.js'
 import {
   EndOfPrompt,
   EndOfText,
@@ -28,6 +29,19 @@ import {
 } from './specialTokens.js'
 import { endsWithIncompleteUtfPairSurrogate } from './utfUtil.js'
 import { getMaxValueFromMap, getSpecialTokenRegex } from './util.js'
+
+export interface CostEstimate {
+  input?: number
+  output?: number
+  /** batch API input cost */
+  batchInput?: number
+  /** batch API output cost */
+  batchOutput?: number
+  /** cached input cost */
+  cachedInput?: number
+  /** training cost per million tokens */
+  training?: number
+}
 
 export interface EncodeOptions {
   /**
@@ -67,6 +81,7 @@ export class GptEncoding {
   static FimSuffix = FimSuffix
 
   modelName?: ModelName
+  modelSpec?: ModelSpec
   private bytePairEncodingCoreProcessor: BytePairEncodingCore
   private specialTokensEncoder: Map<string, number>
   private specialTokensSet: Set<string>
@@ -80,6 +95,7 @@ export class GptEncoding {
     specialTokensEncoder,
     expectedVocabularySize,
     modelName,
+    modelSpec,
     ...rest
   }: EncodingParams) {
     this.specialTokensEncoder = specialTokensEncoder
@@ -132,6 +148,7 @@ export class GptEncoding {
     this.clearMergeCache = this.clearMergeCache.bind(this)
     this.estimateCost = this.estimateCost.bind(this)
     this.modelName = modelName
+    this.modelSpec = modelSpec
   }
 
   static getEncodingApi(
@@ -145,10 +162,11 @@ export class GptEncoding {
   static getEncodingApiForModel(
     modelName: ModelName,
     getMergeableRanks: GetMergeableRanksFn,
+    modelSpec: ModelSpec,
   ): GptEncoding {
-    const encodingName = modelToEncodingMap[modelName]
+    const encodingName = modelToEncodingMap[modelName] ?? DEFAULT_ENCODING
     const modelParams = getEncodingParams(encodingName, getMergeableRanks)
-    return new GptEncoding({ ...modelParams, modelName })
+    return new GptEncoding({ ...modelParams, modelName, modelSpec })
   }
 
   private processSpecialTokens({
@@ -467,46 +485,60 @@ export class GptEncoding {
    * Estimates the cost of processing a given token count using the model's pricing.
    *
    * @param tokenCount - The number of tokens to estimate cost for
-   * @param modelName - Optional model name to use for cost calculation (defaults to this.modelName)
    * @returns Cost estimate object with applicable price components (input, output, batchInput, batchOutput)
    */
-  estimateCost(tokenCount: number, modelName = this.modelName): CostEstimate {
-    if (!modelName) {
+  estimateCost(tokenCount: number, modelSpec = this.modelSpec): PriceData {
+    if (!modelSpec) {
       throw new Error(
-        'Model name must be provided either during initialization or passed in to the method.',
+        'Model spec must be provided either during initialization or passed in to the method.',
       )
     }
 
-    const model = models[modelName]
-    if (!model) {
-      throw new Error(`Unknown model: ${modelName}`)
+    if (!modelSpec.price_data) {
+      throw new Error(
+        `No cost information available for model: ${modelSpec.name}`,
+      )
     }
 
-    if (!model.cost) {
-      throw new Error(`No cost information available for model: ${modelName}`)
-    }
-
-    const costPerMillion = model.cost
-    const result: CostEstimate = {}
+    const priceDataPerMillion = modelSpec.price_data
+    const result: PriceData = {}
 
     // Calculate cost per token and multiply by token count
     // eslint-disable-next-line no-magic-numbers
     const millionTokens = tokenCount / 1_000_000
 
-    if (costPerMillion.input !== undefined) {
-      result.input = costPerMillion.input * millionTokens
+    if (priceDataPerMillion.main) {
+      result.main = {
+        input:
+          priceDataPerMillion.main.input &&
+          priceDataPerMillion.main.input * millionTokens,
+        output:
+          priceDataPerMillion.main.output &&
+          priceDataPerMillion.main.output * millionTokens,
+        cached_input:
+          priceDataPerMillion.main.cached_input &&
+          priceDataPerMillion.main.cached_input * millionTokens,
+        cached_output:
+          priceDataPerMillion.main.cached_output &&
+          priceDataPerMillion.main.cached_output * millionTokens,
+      }
     }
 
-    if (costPerMillion.output !== undefined) {
-      result.output = costPerMillion.output * millionTokens
-    }
-
-    if (costPerMillion.batchInput !== undefined) {
-      result.batchInput = costPerMillion.batchInput * millionTokens
-    }
-
-    if (costPerMillion.batchOutput !== undefined) {
-      result.batchOutput = costPerMillion.batchOutput * millionTokens
+    if (priceDataPerMillion.batch) {
+      result.batch = {
+        input:
+          priceDataPerMillion.batch.input &&
+          priceDataPerMillion.batch.input * millionTokens,
+        output:
+          priceDataPerMillion.batch.output &&
+          priceDataPerMillion.batch.output * millionTokens,
+        cached_input:
+          priceDataPerMillion.batch.cached_input &&
+          priceDataPerMillion.batch.cached_input * millionTokens,
+        cached_output:
+          priceDataPerMillion.batch.cached_output &&
+          priceDataPerMillion.batch.cached_output * millionTokens,
+      }
     }
 
     return result
