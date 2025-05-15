@@ -4,7 +4,7 @@ const config: ESLintConfig = {
   rules: {
     'import/no-unresolved': 'off',
   },
-  ignorePatterns: ['**/models/*.js'],
+  ignorePatterns: ['**/models/*.js', 'benchmark/**/*.ts'],
 }
 
 export default config
