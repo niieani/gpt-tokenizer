@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 
-import { chatEnabledModels, models } from './models.js'
+import { chatEnabledModels } from './modelsChatEnabled.gen.js'
+import * as encodingsMap from './modelsMap.js'
 import { ImSep } from './specialTokens.js'
 
 export const cl100k_base = 'cl100k_base'
@@ -9,25 +10,27 @@ export const p50k_edit = 'p50k_edit'
 export const r50k_base = 'r50k_base'
 export const o200k_base = 'o200k_base'
 
+export const DEFAULT_ENCODING = o200k_base
+
+export type EncodingName = keyof typeof encodingsMap
 export const encodingNames = [
   p50k_base,
   r50k_base,
   p50k_edit,
   cl100k_base,
   o200k_base,
-] as const
-export type EncodingName = (typeof encodingNames)[number]
+] as const satisfies EncodingName[]
 
-const chatEnabledModelsMap = Object.fromEntries(
-  Object.entries(chatEnabledModels).map(([modelName, data]) => [
-    modelName,
-    data.encoding,
-  ]),
-) as Record<keyof typeof chatEnabledModels, EncodingName>
-
+/**
+ * maps model names to encoding names
+ * if a model is not listed, it uses the default encoding for new models
+ * which is `o200k_base`
+ */
 export const modelToEncodingMap = Object.fromEntries(
-  Object.entries(models).map(([modelName, data]) => [modelName, data.encoding]),
-) as Record<keyof typeof models, EncodingName>
+  Object.entries(encodingsMap).flatMap(([encodingName, models]) =>
+    models.map((modelName) => [modelName, encodingName]),
+  ),
+) as Record<ModelName, EncodingName>
 
 export interface ChatParameters {
   messageSeparator: string
@@ -44,19 +47,13 @@ const gpt4params = {
   roleSeparator: ImSep,
 }
 
-export type ModelName = keyof typeof modelToEncodingMap
-export type ChatModelName = keyof typeof chatEnabledModelsMap
+export type ModelName = keyof typeof import('./models.js')
+export type ChatModelName = (typeof chatEnabledModels)[number]
 
 export const chatModelParams = Object.fromEntries(
-  Object.keys(chatEnabledModelsMap).flatMap((modelName) =>
-    modelName.startsWith('gpt-4')
-      ? ([[modelName, gpt4params] as const] as const)
-      : modelName.startsWith('gpt-3.5-turbo')
+  chatEnabledModels.flatMap((modelName) =>
+    modelName.startsWith('gpt-3.5')
       ? ([[modelName, gpt3params] as const] as const)
-      : [],
+      : ([[modelName, gpt4params] as const] as const),
   ),
 ) as Record<ChatModelName, ChatParameters>
-
-export const chatEnabledModelsList = Object.keys(
-  chatEnabledModelsMap,
-) as ChatModelName[]

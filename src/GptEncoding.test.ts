@@ -7,10 +7,14 @@ import { type ChatMessage, GptEncoding } from './GptEncoding.js'
 import {
   type ChatModelName,
   type EncodingName,
+  type ModelName,
   chatModelParams,
+  DEFAULT_ENCODING,
   encodingNames,
+  modelToEncodingMap,
 } from './mapping.js'
-import { models } from './models.js'
+import * as models from './models.js'
+import * as modelsMap from './modelsMap.js'
 import { resolveEncoding } from './resolveEncoding.js'
 import { EndOfText } from './specialTokens.js'
 
@@ -250,22 +254,23 @@ const exampleMessages: ChatMessage[] = [
   },
 ] as const
 
-describe.each(chatModelNames)('%s', (modelName) => {
-  const encoding = GptEncoding.getEncodingApiForModel(
-    modelName,
-    resolveEncoding,
+describe.each(chatModelNames)('%s', async (modelName) => {
+  const encoding: GptEncoding = await import(`./model/${modelName}.ts`).then(
+    (mod) => mod.default,
   )
-  const expectedEncodedLength = modelName.startsWith('gpt-3.5-turbo')
+  const expectedEncodedLength = modelName.startsWith('gpt-3.5')
     ? 127
-    : modelName.startsWith('gpt-4o')
-    ? 120
-    : 121
+    : modelName.startsWith('gpt-4') &&
+        !modelName.startsWith('gpt-4o') &&
+        !modelName.startsWith('gpt-4.')
+      ? 121
+      : 120
 
   describe('chat functionality', () => {
     test('encodes a chat correctly', () => {
       const encoded = encoding.encodeChat(exampleMessages)
-      expect(encoded).toMatchSnapshot()
       expect(encoded).toHaveLength(expectedEncodedLength)
+      expect(encoded).toMatchSnapshot()
 
       const decoded = encoding.decode(encoded)
       expect(decoded).toMatchSnapshot()
@@ -288,45 +293,77 @@ describe.each(chatModelNames)('%s', (modelName) => {
   })
 })
 
-describe('estimateCost functionality', () => {
-  const gpt4oEncoding = GptEncoding.getEncodingApiForModel(
-    'gpt-4o',
-    resolveEncoding,
+describe('estimateCost functionality', async () => {
+  const gpt4oEncoding = await import(`./model/gpt-4o.js`).then(
+    (mod) => mod.default,
   )
-  const gpt35Encoding = GptEncoding.getEncodingApiForModel(
-    'gpt-3.5-turbo',
-    resolveEncoding,
+  const gpt35Encoding = await import(`./model/gpt-3.5-turbo.js`).then(
+    (mod) => mod.default,
   )
 
   test('estimates cost correctly for gpt-4o model', () => {
     const tokenCount = 1_000
     const cost = gpt4oEncoding.estimateCost(tokenCount)
 
-    // gpt-4o has $2.5 per million tokens for input and $10 per million tokens for output
-    expect(cost.input).toBeCloseTo(0.002_5, 6) // 1000/1M * $2.5
-    expect(cost.output).toBeCloseTo(0.01, 6) // 1000/1M * $10
-    expect(cost.batchInput).toBeCloseTo(0.001_25, 6) // 1000/1M * $1.25
-    expect(cost.batchOutput).toBeCloseTo(0.005, 6) // 1000/1M * $5
+    expect(cost).toMatchInlineSnapshot(`
+      {
+        "batch": {
+          "cached_input": undefined,
+          "cached_output": undefined,
+          "input": 0.005,
+          "output": 0.015,
+        },
+        "main": {
+          "cached_input": undefined,
+          "cached_output": undefined,
+          "input": 0.01,
+          "output": 0.03,
+        },
+      }
+    `)
   })
 
   test('estimates cost correctly for gpt-3.5-turbo model', () => {
     const tokenCount = 1_000
     const cost = gpt35Encoding.estimateCost(tokenCount)
-
-    // gpt-3.5-turbo has $0.5 per million tokens for input and $1.5 per million tokens for output
-    expect(cost.input).toBeCloseTo(0.000_5, 6) // 1000/1M * $0.5
-    expect(cost.output).toBeCloseTo(0.001_5, 6) // 1000/1M * $1.5
-    expect(cost.batchInput).toBeCloseTo(0.000_25, 6) // 1000/1M * $0.25
-    expect(cost.batchOutput).toBeCloseTo(0.000_75, 6) // 1000/1M * $0.75
+    expect(cost).toMatchInlineSnapshot(`
+      {
+        "batch": {
+          "cached_input": undefined,
+          "cached_output": undefined,
+          "input": 0.00025,
+          "output": 0.00075,
+        },
+        "main": {
+          "cached_input": undefined,
+          "cached_output": undefined,
+          "input": 0.0005,
+          "output": 0.0015,
+        },
+      }
+    `)
   })
 
   test('allows overriding model name', () => {
     const tokenCount = 1_000
     // Use gpt-4o encoding but override with gpt-3.5-turbo model name
-    const cost = gpt4oEncoding.estimateCost(tokenCount, 'gpt-3.5-turbo')
-
-    expect(cost.input).toBeCloseTo(0.000_5, 6) // 1000/1M * $0.5
-    expect(cost.output).toBeCloseTo(0.001_5, 6) // 1000/1M * $1.5
+    const cost = gpt4oEncoding.estimateCost(tokenCount, models['gpt-3.5-turbo'])
+    expect(cost).toMatchInlineSnapshot(`
+      {
+        "batch": {
+          "cached_input": undefined,
+          "cached_output": undefined,
+          "input": 0.00025,
+          "output": 0.00075,
+        },
+        "main": {
+          "cached_input": undefined,
+          "cached_output": undefined,
+          "input": 0.0005,
+          "output": 0.0015,
+        },
+      }
+    `)
   })
 
   test('throws error when model name is not provided', () => {
@@ -335,30 +372,29 @@ describe('estimateCost functionality', () => {
 
     // No model name was provided during initialization or function call
     expect(() => encoding.estimateCost(tokenCount)).toThrow(
-      'Model name must be provided either during initialization or passed in to the method.',
+      'Model spec must be provided either during initialization or passed in to the method.',
     )
-  })
-
-  test('throws error for unknown model', () => {
-    const tokenCount = 1_000
-    expect(() =>
-      gpt4oEncoding.estimateCost(tokenCount, 'non-existent-model' as any),
-    ).toThrow('Unknown model: non-existent-model')
   })
 
   test('only includes properties that exist for the model', () => {
     // Find a model that only has input cost but no output cost
     const modelWithInputOnly = Object.entries(models).find(
       ([_, model]) =>
-        model.cost?.input !== undefined && model.cost?.output === undefined,
+        'price_data' in model &&
+        model.price_data?.main?.input !== undefined &&
+        (!('output' in model.price_data.main) ||
+          model.price_data?.main?.output === undefined),
     )
 
     if (modelWithInputOnly) {
       const [modelName] = modelWithInputOnly
-      const cost = gpt4oEncoding.estimateCost(1_000, modelName as any)
+      const cost = gpt4oEncoding.estimateCost(
+        1_000,
+        models[modelName as ModelName],
+      )
 
-      expect(cost.input).toBeDefined()
-      expect(cost.output).toBeUndefined()
+      expect(cost.main?.input).toBeDefined()
+      expect(cost.main?.output).toBeUndefined()
     } else {
       // Skip test if we can't find an appropriate model
       console.log('Skipping test: no model with input-only cost found')

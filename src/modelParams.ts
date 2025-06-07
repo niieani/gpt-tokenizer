@@ -8,6 +8,7 @@ import { P50KBase } from './encodingParams/p50k_base.js'
 import { P50KEdit } from './encodingParams/p50k_edit.js'
 import { R50KBase } from './encodingParams/r50k_base.js'
 import type { EncodingName, ModelName } from './mapping.js'
+import type { ModelSpec } from './modelTypes.js'
 
 export interface EncodingParams extends BytePairEncodingConfig {
   /**
@@ -24,6 +25,7 @@ export interface EncodingParams extends BytePairEncodingConfig {
   tokenSplitRegex: RegExp
   specialTokensEncoder: Map<string, number>
   modelName?: ModelName
+  modelSpec?: ModelSpec
 }
 
 export type GetMergeableRanksFn = (

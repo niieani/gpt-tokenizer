@@ -8,3 +8,5 @@ esm/
 lib/
 mjs/
 umd/
+**/*.gen.ts
+src/models.ts

@@ -1,4 +1,3 @@
-// benchmarkWorker.ts
 import type {
   BenchmarkResult,
   WorkerInput,
