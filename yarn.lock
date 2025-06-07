@@ -2190,6 +2190,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@edge-runtime/primitives@npm:6.0.0":
+  version: 6.0.0
+  resolution: "@edge-runtime/primitives@npm:6.0.0"
+  checksum: 10/f810fea5c10ec2ae94eb57f8ee588d8c632ff2e73c2d21bb5231b11e7e9863f53fb0b9a834925df2b3462321f2494434ee9b103608135acc424a242c2f85ddc4
+  languageName: node
+  linkType: hard
+
+"@edge-runtime/vm@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "@edge-runtime/vm@npm:5.0.0"
+  dependencies:
+    "@edge-runtime/primitives": "npm:6.0.0"
+  checksum: 10/735fe71d4a107174261caac3d617ddde8fa7c851027aec7c98b9d9a28dba19cb3c9a5e0442712be0086d4f6563acc703b2d5edec0d2f463a2f486d11427362f4
+  languageName: node
+  linkType: hard
+
 "@esbuild/aix-ppc64@npm:0.25.5":
   version: 0.25.5
   resolution: "@esbuild/aix-ppc64@npm:0.25.5"
@@ -9343,6 +9359,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "gpt-tokenizer@workspace:."
   dependencies:
+    "@edge-runtime/vm": "npm:^5.0.0"
     "@niieani/scaffold": "npm:^1.7.49"
     "@swc/cli": "npm:^0.7.7"
     "@swc/core": "npm:^1.11.31"
