@@ -89,11 +89,11 @@
     "clean": "git clean -dfX --exclude=node_modules src && beemo typescript:sync-project-refs",
     "format": "yarn rrun prettier --write \"./{src,tests,.config}/**/!(*.d).{.js,jsx,ts,tsx,json,md}\"",
     "postinstallDev": "yarn prepare",
-    "prepare": "rrun husky install .config/husky && beemo create-config",
+    "prepare": "rrun husky install .config/husky && beemo create-config && echo '\n**/*.gen.ts\nsrc/models.ts' >> .prettierignore",
     "release": "beemo run-script release",
     "test": "yarn test:format && yarn test:types && yarn test:lint && yarn test:code",
     "test:code": "vitest",
-    "test:format": "yarn rrun prettier --check \"./{src,tests,.config}/**/!(*.d).{.js,jsx,ts,tsx,json,md}\"",
+    "test:format": "yarn rrun prettier --check \"./{src,tests,.config}/**/!(*.d).{.js,jsx,ts,tsx,json,md}\" --ignore-path .prettierignore",
     "test:lint": "rrun eslint 'src/*.{js,jsx,ts,tsx}'",
     "test:types": "yarn rrun tsc --noEmit"
   },
@@ -127,7 +127,8 @@
     "vitest": "^3.2.2"
   },
   "resolutions": {
-    "typescript": "5.8.3"
+    "typescript": "5.8.3",
+    "prettier": "^3"
   },
   "packageManager": "yarn@4.9.2",
   "publishConfig": {

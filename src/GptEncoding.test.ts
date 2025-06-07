@@ -261,10 +261,10 @@ describe.each(chatModelNames)('%s', async (modelName) => {
   const expectedEncodedLength = modelName.startsWith('gpt-3.5')
     ? 127
     : modelName.startsWith('gpt-4') &&
-      !modelName.startsWith('gpt-4o') &&
-      !modelName.startsWith('gpt-4.')
-    ? 121
-    : 120
+        !modelName.startsWith('gpt-4o') &&
+        !modelName.startsWith('gpt-4.')
+      ? 121
+      : 120
 
   describe('chat functionality', () => {
     test('encodes a chat correctly', () => {
