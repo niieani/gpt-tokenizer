@@ -3343,6 +3343,98 @@ export {o3_mini_2025_01_31_spec as 'o3-mini-2025-01-31'}
 // alias:
 export { o3_mini_2025_01_31_spec as 'o3-mini' };
 
+const o3_pro_config = {
+  name: 'o3-pro',
+  slug: 'o3-pro',
+  current_snapshot: 'o3-pro-2025-06-10',
+  tagline: 'Version of o3 with more compute for better responses',
+  description: 'The o-series of models are trained with reinforcement learning to think \nbefore they answer and perform complex reasoning. The o3-pro model uses more \ncompute to think harder and provide consistently better answers.\n\no3-pro is available in the [Responses API only](/docs/api-reference/responses)\nto enable support for multi-turn model interactions before responding to API \nrequests, and other advanced API features in the future. Since o3-pro is designed \nto tackle tough problems, some requests may take several minutes to finish. \nTo avoid timeouts, try using [background mode](/docs/guides/background).\n',
+  type: 'reasoning',
+  snapshots: [
+    'o3-pro-2025-06-10',
+  ],
+  compare_prices: [
+    'o3',
+    'o3-mini',
+  ],
+  supported_tools: [
+    'function_calling',
+    'file_search',
+    'image_generation',
+    'mcp',
+  ],
+  rate_limits: {
+    tier_1: {
+      rpm: 500,
+      tpm: 3e4,
+      batch_queue_limit: 9e4,
+    },
+    tier_2: {
+      rpm: 5e3,
+      tpm: 45e4,
+      batch_queue_limit: 135e4,
+    },
+    tier_3: {
+      rpm: 5e3,
+      tpm: 8e5,
+      batch_queue_limit: 5e7,
+    },
+    tier_4: {
+      rpm: 1e4,
+      tpm: 2e6,
+      batch_queue_limit: 2e8,
+    },
+    tier_5: {
+      rpm: 1e4,
+      tpm: 3e7,
+      batch_queue_limit: 5e9,
+    },
+  },
+} as const satisfies ModelConfig
+
+const o3_pro_2025_06_10_spec = {
+  name: 'o3-pro-2025-06-10',
+  slug: 'o3-pro-2025-06-10',
+  performance: 5,
+  latency: 1,
+  modalities: {
+    input: [
+      'text',
+      'image',
+    ],
+    output: [
+      'text',
+    ],
+  },
+  context_window: 2e5,
+  max_output_tokens: 1e5,
+  knowledge_cutoff: new Date(17172e8),
+  supported_features: [
+    'structured_outputs',
+    'function_calling',
+    'image_input',
+  ],
+  supported_endpoints: [
+    'responses',
+    'batch',
+  ],
+  reasoning_tokens: true,
+  price_data: {
+    main: {
+      input: 20,
+      output: 80,
+    },
+    batch: {
+      input: 10,
+      output: 40,
+    },
+  },
+} as const satisfies ModelSpec
+export {o3_pro_2025_06_10_spec as 'o3-pro-2025-06-10'}
+
+// alias:
+export { o3_pro_2025_06_10_spec as 'o3-pro' };
+
 const o3_config = {
   name: 'o3',
   slug: 'o3',
@@ -3429,13 +3521,13 @@ const o3_2025_04_16_spec = {
   reasoning_tokens: true,
   price_data: {
     main: {
-      input: 15,
-      cached_output: 7.5,
-      output: 60,
+      input: 2,
+      cached_output: .5,
+      output: 8,
     },
     batch: {
-      input: 7.5,
-      output: 30,
+      input: 1,
+      output: 4,
     },
   },
 } as const satisfies ModelSpec

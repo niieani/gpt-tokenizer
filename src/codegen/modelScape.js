@@ -1,3 +1,5 @@
+// search for name: "Other models" in https://platform.openai.com/docs/models
+
 /**
  * Converts a string with hyphens and dots into a valid JavaScript variable name.
  * @param {string} name - The input string (e.g., 'gpt-4.1-mini').
