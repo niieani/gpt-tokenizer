@@ -267,6 +267,7 @@ export class GptEncoding {
   *encodeChatGenerator(
     chat: Iterable<ChatMessage>,
     model = this.modelName,
+    encodeOptions?: EncodeOptions,
   ): Generator<number[], void, undefined> {
     if (!model) {
       throw new Error(
@@ -304,14 +305,14 @@ export class GptEncoding {
       if (encodedRoleSeparator.length > 0) {
         yield encodedRoleSeparator
       }
-      yield* this.encodeGenerator(content)
+      yield* this.encodeGenerator(content, encodeOptions)
       yield [chatEndToken]
       yield encodedMessageSeparator
     }
 
     // every reply is primed with <|start|>assistant<|message|>
     yield [chatStartToken]
-    yield* this.encodeGenerator('assistant')
+    yield* this.encodeGenerator('assistant', encodeOptions)
     if (encodedRoleSeparator.length > 0) {
       yield encodedRoleSeparator
     }
@@ -329,16 +330,21 @@ export class GptEncoding {
   }
 
   /**
+   * Checks if the input is within the token limit.
+   * @param input - The input text string or chat messages to check
+   * @param tokenLimit - The maximum number of tokens allowed
+   * @param encodeOptions - Optional encoding options for handling special tokens
    * @returns {false | number} false if token limit is exceeded, otherwise the number of tokens
    */
   isWithinTokenLimit(
     input: string | Iterable<ChatMessage>,
     tokenLimit: number,
+    encodeOptions?: EncodeOptions,
   ): false | number {
     const tokenGenerator =
       typeof input === 'string'
-        ? this.encodeGenerator(input)
-        : this.encodeChatGenerator(input)
+        ? this.encodeGenerator(input, encodeOptions)
+        : this.encodeChatGenerator(input, undefined, encodeOptions)
     let count = 0
     for (const tokens of tokenGenerator) {
       count += tokens.length
@@ -375,7 +381,11 @@ export class GptEncoding {
       )
     }
 
-    const tokenGenerator = this.encodeChatGenerator(input)
+    const tokenGenerator = this.encodeChatGenerator(
+      input,
+      undefined,
+      encodeOptions,
+    )
     let count = 0
     for (const tokens of tokenGenerator) {
       count += tokens.length

@@ -227,9 +227,11 @@ const tokens = [18435, 198, 23132, 328]
 const text = decode(tokens)
 ```
 
-### `isWithinTokenLimit(text: string, tokenLimit: number): false | number`
+### `isWithinTokenLimit(text: string | Iterable<ChatMessage>, tokenLimit: number, encodeOptions?: EncodeOptions): false | number`
 
 Checks if the text is within the token limit. Returns `false` if the limit is exceeded, otherwise returns the number of tokens. Use this method to quickly check if a given text is within the token limit imposed by GPT models, without encoding the entire text.
+
+The optional `encodeOptions` parameter allows you to specify custom sets of allowed or disallowed special tokens, just like with the `countTokens` function.
 
 Example:
 
@@ -239,6 +241,15 @@ import { isWithinTokenLimit } from 'gpt-tokenizer'
 const text = 'Hello, world!'
 const tokenLimit = 10
 const withinTokenLimit = isWithinTokenLimit(text, tokenLimit)
+
+// Or with special tokens allowed:
+import { ALL_SPECIAL_TOKENS, EndOfText } from 'gpt-tokenizer'
+const textWithSpecialToken = `Hello ${EndOfText} world`
+const withinTokenLimitWithSpecial = isWithinTokenLimit(
+  textWithSpecialToken, 
+  tokenLimit, 
+  { allowedSpecial: ALL_SPECIAL_TOKENS }
+)
 ```
 
 ### `countTokens(text: string | Iterable<ChatMessage>, encodeOptions?: EncodeOptions): number`
