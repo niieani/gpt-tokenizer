@@ -104,6 +104,11 @@ await processFilesInDirectory(
         )}]`,
       )
     }
+    if (jsCodeConstsForEachChunk.length === 0) {
+      throw new Error(
+        `Failed to generate any BPE rank chunks for ${modelName}; the source file may be empty or invalid.`,
+      )
+    }
     // now let's create the code that will create a single array from the chunks using .concat
     const jsCodeBpeArray = `c0.concat(${jsCodeConstsForEachChunk
       .slice(1)
