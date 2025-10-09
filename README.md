@@ -86,6 +86,7 @@ import {
   encodeGenerator,
   decodeGenerator,
   decodeAsyncGenerator,
+  ALL_SPECIAL_TOKENS,
 } from 'gpt-tokenizer'
 // note: depending on the model, import from the respective file, e.g.:
 // import {...} from 'gpt-tokenizer/model/gpt-4o'
@@ -103,6 +104,11 @@ const decodedText = decode(tokens)
 // returns false if the limit is exceeded, otherwise returns the actual number of tokens (truthy value)
 const withinTokenLimit = isWithinTokenLimit(text, tokenLimit)
 
+// Allow special tokens when needed
+const withinTokenLimitWithSpecial = isWithinTokenLimit(text, tokenLimit, {
+  allowedSpecial: ALL_SPECIAL_TOKENS,
+})
+
 // Example chat:
 const chat = [
   { role: 'system', content: 'You are a helpful assistant.' },
@@ -114,6 +120,10 @@ const chatTokens = encodeChat(chat)
 
 // Check if chat is within the token limit
 const chatWithinTokenLimit = isWithinTokenLimit(chat, tokenLimit)
+
+const chatWithinTokenLimitWithSpecial = isWithinTokenLimit(chat, tokenLimit, {
+  allowedSpecial: ALL_SPECIAL_TOKENS,
+})
 
 // Encode text using generator
 for (const tokenChunk of encodeGenerator(text)) {
@@ -227,18 +237,22 @@ const tokens = [18435, 198, 23132, 328]
 const text = decode(tokens)
 ```
 
-### `isWithinTokenLimit(text: string, tokenLimit: number): false | number`
+### `isWithinTokenLimit(text: string | Iterable<ChatMessage>, tokenLimit: number, encodeOptions?: EncodeOptions): false | number`
 
-Checks if the text is within the token limit. Returns `false` if the limit is exceeded, otherwise returns the number of tokens. Use this method to quickly check if a given text is within the token limit imposed by GPT models, without encoding the entire text.
+Checks if the input is within the token limit. Returns `false` if the limit is exceeded, otherwise returns the number of tokens. Use this method to quickly check if a given text or chat is within the token limit imposed by GPT models, without encoding the entire input. The optional `encodeOptions` parameter lets you configure special token handling.
 
 Example:
 
 ```typescript
-import { isWithinTokenLimit } from 'gpt-tokenizer'
+import { isWithinTokenLimit, ALL_SPECIAL_TOKENS } from 'gpt-tokenizer'
 
 const text = 'Hello, world!'
 const tokenLimit = 10
 const withinTokenLimit = isWithinTokenLimit(text, tokenLimit)
+
+const withinTokenLimitWithSpecial = isWithinTokenLimit(text, tokenLimit, {
+  allowedSpecial: ALL_SPECIAL_TOKENS,
+})
 ```
 
 ### `countTokens(text: string | Iterable<ChatMessage>, encodeOptions?: EncodeOptions): number`
@@ -255,9 +269,9 @@ const text = 'Hello, world!'
 const tokenCount = countTokens(text)
 ```
 
-### `encodeChat(chat: ChatMessage[], model?: ModelName): number[]`
+### `encodeChat(chat: ChatMessage[], model?: ModelName, encodeOptions?: EncodeOptions): number[]`
 
-Encodes the given chat into a sequence of tokens.
+Encodes the given chat into a sequence of tokens. The optional `encodeOptions` parameter lets you configure special token handling.
 
 If you didn't import the model version directly, or if `model` wasn't provided during initialization, it must be provided here to correctly tokenize the chat for a given model. Use this method when you need to transform a chat into the token format that the GPT models can process.
 
@@ -335,6 +349,7 @@ async function processTokens(asyncTokensIterator) {
 Estimates the cost of processing a given number of tokens using the model's pricing data. This function calculates costs for different API usage types (main API, batch API) and cached tokens when available.
 
 The function returns a `PriceData` object with the following structure:
+
 - `main`: Main API pricing with `input`, `output`, `cached_input`, and `cached_output` costs
 - `batch`: Batch API pricing with the same cost categories
 
@@ -362,7 +377,7 @@ Note that not all models support all of these tokens.
 
 By default, **all special tokens are disallowed**.
 
-The `encode`, `encodeGenerator` and `countTokens` functions accept an `EncodeOptions` parameter to customize special token handling:
+The `encode`, `encodeGenerator`, `encodeChat`, `encodeChatGenerator`, `countTokens`, and `isWithinTokenLimit` functions accept an `EncodeOptions` parameter to customize special token handling:
 
 ### Custom Allowed Sets
 

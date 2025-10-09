@@ -263,10 +263,12 @@ export class GptEncoding {
    * Returns tokens assuming the 'gpt-3.5-turbo-0301' / 'gpt-4-0314' format.
    * Based on OpenAI's guidelines: https://github.com/openai/openai-python/blob/main/chatml.md
    * Also mentioned in section 6 of this document: https://github.com/openai/openai-cookbook/blob/main/examples/How_to_count_tokens_with_tiktoken.ipynb
+   * @param encodeOptions Options controlling how special tokens are handled.
    */
   *encodeChatGenerator(
     chat: Iterable<ChatMessage>,
     model = this.modelName,
+    encodeOptions?: EncodeOptions,
   ): Generator<number[], void, undefined> {
     if (!model) {
       throw new Error(
@@ -304,14 +306,14 @@ export class GptEncoding {
       if (encodedRoleSeparator.length > 0) {
         yield encodedRoleSeparator
       }
-      yield* this.encodeGenerator(content)
+      yield* this.encodeGenerator(content, encodeOptions)
       yield [chatEndToken]
       yield encodedMessageSeparator
     }
 
     // every reply is primed with <|start|>assistant<|message|>
     yield [chatStartToken]
-    yield* this.encodeGenerator('assistant')
+    yield* this.encodeGenerator('assistant', encodeOptions)
     if (encodedRoleSeparator.length > 0) {
       yield encodedRoleSeparator
     }
@@ -323,22 +325,32 @@ export class GptEncoding {
    * Returns tokens assuming the 'gpt-3.5-turbo-0301' / 'gpt-4-0314' format.
    * Based on OpenAI's guidelines: https://github.com/openai/openai-python/blob/main/chatml.md
    * Also mentioned in section 6 of this document: https://github.com/openai/openai-cookbook/blob/main/examples/How_to_count_tokens_with_tiktoken.ipynb
+   * @param encodeOptions Options controlling how special tokens are handled.
    */
-  encodeChat(chat: readonly ChatMessage[], model = this.modelName): number[] {
-    return [...this.encodeChatGenerator(chat, model)].flat()
+  encodeChat(
+    chat: readonly ChatMessage[],
+    model = this.modelName,
+    encodeOptions?: EncodeOptions,
+  ): number[] {
+    return [...this.encodeChatGenerator(chat, model, encodeOptions)].flat()
   }
 
   /**
+   * Checks whether the provided input stays within the provided token limit.
+   * @param input The string or chat messages to evaluate.
+   * @param tokenLimit The maximum allowed number of tokens.
+   * @param encodeOptions Options controlling how special tokens are handled.
    * @returns {false | number} false if token limit is exceeded, otherwise the number of tokens
    */
   isWithinTokenLimit(
     input: string | Iterable<ChatMessage>,
     tokenLimit: number,
+    encodeOptions?: EncodeOptions,
   ): false | number {
     const tokenGenerator =
       typeof input === 'string'
-        ? this.encodeGenerator(input)
-        : this.encodeChatGenerator(input)
+        ? this.encodeGenerator(input, encodeOptions)
+        : this.encodeChatGenerator(input, undefined, encodeOptions)
     let count = 0
     for (const tokens of tokenGenerator) {
       count += tokens.length
@@ -351,6 +363,8 @@ export class GptEncoding {
 
   /**
    * Counts the number of tokens in the input.
+   * @param input The string or chat messages to evaluate.
+   * @param encodeOptions Options controlling how special tokens are handled.
    * @returns {number} The number of tokens.
    */
   countTokens(
@@ -375,7 +389,11 @@ export class GptEncoding {
       )
     }
 
-    const tokenGenerator = this.encodeChatGenerator(input)
+    const tokenGenerator = this.encodeChatGenerator(
+      input,
+      undefined,
+      encodeOptions,
+    )
     let count = 0
     for (const tokens of tokenGenerator) {
       count += tokens.length
