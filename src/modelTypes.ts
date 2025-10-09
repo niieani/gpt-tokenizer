@@ -33,10 +33,18 @@ export type SupportedTool =
   | 'code_interpreter'
   | 'mcp'
 
+export type SupportedFeature =
+  | 'function_calling'
+  | 'file_search'
+  | 'image_generation'
+  | 'mcp'
+  | 'web_search'
+
 export interface ModelConfig {
   name: string
-  slug: string
+  slug?: string
   display_name?: string
+  icon_name?: string
   current_snapshot: string
   tagline?: string
   description?: string
@@ -44,9 +52,11 @@ export interface ModelConfig {
   type: ModelKind
 
   supported_tools?: SupportedTool[]
+  supported_features?: SupportedFeature[]
 
   snapshots: string[]
   compare_prices?: string[]
+  compare_prices_columns?: string[]
   point_to?: string
   examples?: string[] | null
   grouped_models?: string[] | null
@@ -63,7 +73,7 @@ export interface ModelConfig {
   deprecated?: boolean
 }
 
-export type Modality = 'audio' | 'image' | 'text'
+export type Modality = 'audio' | 'image' | 'text' | 'video'
 
 export type Endpoint =
   | 'assistants'
@@ -80,6 +90,7 @@ export type Endpoint =
   | 'speech_generation'
   | 'transcription'
   | 'translation'
+  | 'videos'
 
 export type Feature =
   | 'agents'
@@ -121,12 +132,13 @@ export interface PriceData {
 
 export interface ModelSpec {
   name: string
-  slug: string
+  slug?: string
   performance?: number
   latency?: number
   modalities: Modalities
 
   context_window?: number
+  max_input_tokens?: number
   max_output_tokens?: number
   knowledge_cutoff?: Date
 

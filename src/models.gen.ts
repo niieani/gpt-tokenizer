@@ -12,6 +12,7 @@ const babbage_002_config = {
   tagline: 'Replacement for the GPT-3 ada and babbage base models',
   description: 'GPT base models can understand and generate natural language or code but are not trained with instruction following. These models are made to be replacements for our original GPT-3 base models and use the legacy Completions API. Most customers should use GPT-3.5 or GPT-4.\n',
   type: 'chat',
+  deprecated: true,
   snapshots: [
     'babbage-002',
   ],
@@ -91,7 +92,7 @@ const chatgpt_4o_latest_config = {
   display_name: 'ChatGPT-4o',
   current_snapshot: 'chatgpt-4o-latest',
   tagline: 'GPT-4o model used in ChatGPT',
-  description: 'ChatGPT-4o points to the GPT-4o snapshot currently used in ChatGPT. GPT-4o is our versatile, high-intelligence flagship model.\nIt accepts both text and image inputs, and produces text outputs.\nIt is the best model for most tasks, and is our most capable model outside of our o-series models.\n',
+  description: 'ChatGPT-4o points to the GPT-4o snapshot currently used in ChatGPT. We recommend using an API model like [GPT-5](/docs/models/gpt-5) or [GPT-4o](/docs/models/gpt-4o) for most API integrations, but feel free to use this ChatGPT-4o model to test our latest improvements for chat use cases.\n',
   type: 'chat',
   snapshots: [
     'chatgpt-4o-latest',
@@ -457,6 +458,7 @@ const davinci_002_config = {
   tagline: 'Replacement for the GPT-3 curie and davinci base models',
   description: 'GPT base models can understand and generate natural language or code but are not trained with instruction following. These models are made to be replacements for our original GPT-3 base models and use the legacy Completions API. Most customers should use GPT-3.5 or GPT-4.\n',
   type: 'chat',
+  deprecated: true,
   snapshots: [
     'davinci-002',
   ],
@@ -532,6 +534,7 @@ export {davinci_002_spec as 'davinci-002'}
 const gpt_3_5_turbo_16k_0613_config = {
   name: 'gpt-3.5-turbo-16k-0613',
   slug: 'gpt-3-5-turbo-16k-0613',
+  icon_name: 'gpt-3.5-turbo-16k-0613',
   current_snapshot: 'gpt-3.5-turbo-16k-0613',
   tagline: 'Legacy GPT model for cheaper chat and non-chat tasks',
   description: 'GPT-3.5 Turbo models can understand and generate natural language or code and have been optimized for chat using the Chat Completions API but work well for non-chat tasks as well. As of July 2024, use gpt-4o-mini in place of GPT-3.5 Turbo, as it is cheaper, more capable, multimodal, and just as fast. GPT-3.5 Turbo is still available for use in the API.\n',
@@ -614,10 +617,12 @@ export {gpt_3_5_turbo_16k_0613_spec as 'gpt-3.5-turbo-16k-0613'}
 const gpt_3_5_turbo_instruct_config = {
   name: 'gpt-3.5-turbo-instruct',
   slug: 'gpt-3-5-turbo-instruct',
+  icon_name: 'gpt-3.5-turbo-instruct',
   current_snapshot: 'gpt-3.5-turbo-instruct',
   tagline: 'An older model only compatible with the legacy Completions endpoint',
   description: 'Similar capabilities as GPT-3 era models. Compatible with legacy Completions endpoint and not Chat Completions.\n',
   type: 'chat',
+  deprecated: true,
   snapshots: [
     'gpt-3.5-turbo-instruct',
   ],
@@ -691,6 +696,7 @@ export {gpt_3_5_turbo_instruct_spec as 'gpt-3.5-turbo-instruct'}
 const gpt_3_5_turbo_config = {
   name: 'gpt-3.5-turbo',
   slug: 'gpt-3-5-turbo',
+  icon_name: 'gpt-3.5-turbo',
   display_name: 'GPT-3.5 Turbo',
   current_snapshot: 'gpt-3.5-turbo-0125',
   tagline: 'Legacy GPT model for cheaper chat and non-chat tasks',
@@ -778,6 +784,7 @@ export {gpt_3_5_turbo_0125_spec as 'gpt-3.5-turbo-0125'}
 const gpt_3_5_turbo_1106_spec = {
   name: 'gpt-3.5-turbo-1106',
   slug: 'gpt-3-5-turbo-1106',
+  deprecated: true,
   performance: 1,
   latency: 2,
   modalities: {
@@ -825,6 +832,7 @@ const gpt_4_turbo_preview_config = {
   tagline: 'An older fast GPT model',
   description: 'This is a research preview of the GPT-4 Turbo model, an older high-intelligence GPT model.\n',
   type: 'chat',
+  deprecated: true,
   snapshots: [
     'gpt-4-0125-preview',
     'gpt-4-1106-vision-preview',
@@ -866,6 +874,7 @@ const gpt_4_turbo_preview_config = {
 const gpt_4_0125_preview_spec = {
   name: 'gpt-4-0125-preview',
   slug: 'gpt-4-0125-preview',
+  deprecated: true,
   performance: 2,
   latency: 3,
   modalities: {
@@ -1043,15 +1052,15 @@ const gpt_4_1_mini_config = {
   slug: 'gpt-4.1-mini',
   display_name: 'GPT-4.1 mini',
   current_snapshot: 'gpt-4.1-mini-2025-04-14',
-  tagline: 'Balanced for intelligence, speed, and cost',
-  description: 'GPT-4.1 mini provides a balance between intelligence, speed, and cost that\nmakes it an attractive model for many use cases.\n',
+  tagline: 'Smaller, faster version of GPT-4.1',
+  description: 'GPT-4.1 mini excels at instruction following and tool calling. It features a \n1M token context window, and low latency without a reasoning step.\n\nNote that we recommend starting with [GPT-5 mini](/docs/models/gpt-5-mini) for \nmore complex tasks.\n',
   type: 'chat',
   snapshots: [
     'gpt-4.1-mini-2025-04-14',
   ],
   compare_prices: [
     'gpt-4o-mini',
-    'gpt-4.1',
+    'gpt-5-mini',
   ],
   supported_tools: [
     'function_calling',
@@ -1149,6 +1158,7 @@ const gpt_4_1_mini_2025_04_14_spec = {
   max_output_tokens: 32_768,
   knowledge_cutoff: new Date(17172e8),
   supported_features: [
+    'predicted_outputs',
     'streaming',
     'function_calling',
     'fine_tuning',
@@ -1177,15 +1187,15 @@ const gpt_4_1_nano_config = {
   slug: 'gpt-4.1-nano',
   display_name: 'GPT-4.1 nano',
   current_snapshot: 'gpt-4.1-nano-2025-04-14',
-  tagline: 'Fastest, most cost-effective GPT-4.1 model',
-  description: 'GPT-4.1 nano is the fastest, most cost-effective GPT-4.1 model.\n',
+  tagline: 'Fastest, most cost-efficient version of GPT-4.1',
+  description: 'GPT-4.1 nano excels at instruction following and tool calling. It features a \n1M token context window, and low latency without a reasoning step.\n\nNote that we recommend starting with [GPT-5 nano](/docs/models/gpt-5-nano) for \nmore complex tasks.\n',
   type: 'chat',
   snapshots: [
     'gpt-4.1-nano-2025-04-14',
   ],
   compare_prices: [
     'gpt-4.1-mini',
-    'gpt-4o-mini',
+    'gpt-5-nano',
   ],
   supported_tools: [
     'function_calling',
@@ -1283,6 +1293,7 @@ const gpt_4_1_nano_2025_04_14_spec = {
   max_output_tokens: 32_768,
   knowledge_cutoff: new Date(17172e8),
   supported_features: [
+    'predicted_outputs',
     'streaming',
     'function_calling',
     'file_search',
@@ -1311,8 +1322,8 @@ const gpt_4_1_config = {
   slug: 'gpt-4.1',
   display_name: 'GPT-4.1',
   current_snapshot: 'gpt-4.1-2025-04-14',
-  tagline: 'Flagship GPT model for complex tasks',
-  description: 'GPT-4.1 is our flagship model for complex tasks. It is well suited for problem\nsolving across domains.\n',
+  tagline: 'Smartest non-reasoning model',
+  description: 'GPT-4.1 excels at instruction following and tool calling, with broad \nknowledge across domains. It features a 1M token context window, and\nlow latency without a reasoning step.\n\nNote that we recommend starting with [GPT-5](/docs/models/gpt-5) for complex tasks.\n',
   type: 'chat',
   snapshots: [
     'gpt-4.1-2025-04-14',
@@ -1451,19 +1462,18 @@ export { gpt_4_1_2025_04_14_spec as 'gpt-4.1' };
 const gpt_4_5_preview_config = {
   name: 'gpt-4.5-preview',
   slug: 'gpt-4-5-preview',
-  display_name: 'GPT-4.5 Preview',
+  icon_name: 'gpt-4.5-preview',
+  display_name: 'GPT-4.5 Preview (Deprecated)',
   current_snapshot: 'gpt-4.5-preview-2025-02-27',
-  tagline: 'Largest and most capable GPT model',
-  description: 'This is a research preview of GPT-4.5, our largest and most capable GPT model yet. Its deep world knowledge and better understanding of user intent makes it good at creative tasks and agentic planning. GPT-4.5 excels at tasks that benefit from creative, open-ended thinking and conversation, such as writing, learning, or exploring new ideas. \n',
-  video_url: 'https://www.youtube.com/embed/cfRYp0nItZ8',
-  video_thumbnail: '/images/model-page/GPT-4.5-livestream.jpg',
+  tagline: 'Deprecated large model.',
+  description: 'Deprecated - a research preview of GPT-4.5. We recommend using gpt-4.1 or o3 \nmodels instead for most use cases.\n',
   type: 'chat',
   snapshots: [
     'gpt-4.5-preview-2025-02-27',
   ],
   compare_prices: [
-    'gpt-4o',
-    'o3-mini',
+    'gpt-4.1',
+    'o3',
   ],
   rate_limits: {
     tier_1: {
@@ -1624,6 +1634,7 @@ export {gpt_4_0613_spec as 'gpt-4-0613'}
 const gpt_4_0314_spec = {
   name: 'gpt-4-0314',
   slug: 'gpt-4-0314',
+  deprecated: true,
   performance: 2,
   latency: 3,
   modalities: {
@@ -1667,7 +1678,7 @@ const gpt_4o_audio_preview_config = {
   name: 'gpt-4o-audio-preview',
   slug: 'gpt-4o-audio-preview',
   display_name: 'GPT-4o Audio',
-  current_snapshot: 'gpt-4o-audio-preview-2024-12-17',
+  current_snapshot: 'gpt-4o-audio-preview-2025-06-03',
   tagline: 'GPT-4o models capable of audio inputs and outputs',
   description: 'This is a preview release of the GPT-4o Audio models. These models accept \naudio inputs and outputs, and can be used in the Chat Completions REST API.\n',
   type: 'chat',
@@ -1675,12 +1686,6 @@ const gpt_4o_audio_preview_config = {
     'gpt-4o-audio-preview-2025-06-03',
     'gpt-4o-audio-preview-2024-12-17',
     'gpt-4o-audio-preview-2024-10-01',
-  ],
-  supported_tools: [
-    'web_search',
-    'file_search',
-    'code_interpreter',
-    'mcp',
   ],
   rate_limits: {
     tier_1: {
@@ -1829,7 +1834,7 @@ const gpt_4o_audio_preview_2024_10_01_spec = {
 export {gpt_4o_audio_preview_2024_10_01_spec as 'gpt-4o-audio-preview-2024-10-01'}
 
 // alias:
-export { gpt_4o_audio_preview_2024_12_17_spec as 'gpt-4o-audio-preview' };
+export { gpt_4o_audio_preview_2025_06_03_spec as 'gpt-4o-audio-preview' };
 
 const gpt_4o_mini_audio_preview_config = {
   name: 'gpt-4o-mini-audio-preview',
@@ -1977,7 +1982,7 @@ const gpt_4o_mini_realtime_preview_2024_12_17_spec = {
       'audio',
     ],
   },
-  context_window: 128e3,
+  context_window: 16e3,
   max_output_tokens: 4_096,
   knowledge_cutoff: new Date(16961184e5),
   supported_features: [
@@ -2293,6 +2298,7 @@ const gpt_4o_mini_2024_07_18_spec = {
   max_output_tokens: 16_384,
   knowledge_cutoff: new Date(16961184e5),
   supported_features: [
+    'predicted_outputs',
     'streaming',
     'function_calling',
     'fine_tuning',
@@ -2320,7 +2326,7 @@ const gpt_4o_realtime_preview_config = {
   name: 'gpt-4o-realtime-preview',
   slug: 'gpt-4o-realtime-preview',
   display_name: 'GPT-4o Realtime',
-  current_snapshot: 'gpt-4o-realtime-preview-2024-12-17',
+  current_snapshot: 'gpt-4o-realtime-preview-2025-06-03',
   tagline: 'Model capable of realtime text and audio inputs and outputs',
   description: 'This is a preview release of the GPT-4o Realtime model, capable of responding to audio and text inputs in realtime over WebRTC or a WebSocket interface.\n',
   type: 'other',
@@ -2370,7 +2376,7 @@ const gpt_4o_realtime_preview_2025_06_03_spec = {
       'audio',
     ],
   },
-  context_window: 128e3,
+  context_window: 32e3,
   max_output_tokens: 4_096,
   knowledge_cutoff: new Date(16961184e5),
   supported_features: [
@@ -2409,7 +2415,7 @@ const gpt_4o_realtime_preview_2024_12_17_spec = {
       'audio',
     ],
   },
-  context_window: 128e3,
+  context_window: 16e3,
   max_output_tokens: 4_096,
   knowledge_cutoff: new Date(16961184e5),
   supported_features: [
@@ -2448,7 +2454,7 @@ const gpt_4o_realtime_preview_2024_10_01_spec = {
       'audio',
     ],
   },
-  context_window: 128e3,
+  context_window: 16e3,
   max_output_tokens: 4_096,
   knowledge_cutoff: new Date(16961184e5),
   supported_features: [
@@ -2473,7 +2479,7 @@ const gpt_4o_realtime_preview_2024_10_01_spec = {
 export {gpt_4o_realtime_preview_2024_10_01_spec as 'gpt-4o-realtime-preview-2024-10-01'}
 
 // alias:
-export { gpt_4o_realtime_preview_2024_12_17_spec as 'gpt-4o-realtime-preview' };
+export { gpt_4o_realtime_preview_2025_06_03_spec as 'gpt-4o-realtime-preview' };
 
 const gpt_4o_search_preview_config = {
   name: 'gpt-4o-search-preview',
@@ -2807,6 +2813,7 @@ const gpt_4o_2024_05_13_spec = {
     'file_uploads',
     'image_input',
     'web_search',
+    'predicted_outputs',
   ],
   supported_endpoints: [
     'chat_completions',
@@ -2820,6 +2827,778 @@ export {gpt_4o_2024_05_13_spec as 'gpt-4o-2024-05-13'}
 
 // alias:
 export { gpt_4o_2024_08_06_spec as 'gpt-4o' };
+
+const gpt_5_chat_latest_config = {
+  name: 'gpt-5-chat-latest',
+  slug: 'gpt-5-chat-latest',
+  display_name: 'GPT-5 Chat',
+  current_snapshot: 'gpt-5-chat-latest',
+  tagline: 'GPT-5 model used in ChatGPT',
+  description: 'GPT-5 Chat points to the GPT-5 snapshot currently used in ChatGPT. \nWe recommend [GPT-5](/docs/models/gpt-5) for most API usage, but feel free to use this GPT-5 Chat model to test our latest improvements for chat use cases.\n',
+  type: 'chat',
+  snapshots: [
+    'gpt-5-chat-latest',
+  ],
+  compare_prices: [
+    'gpt-5',
+    'gpt-5-mini',
+  ],
+  supported_tools: [
+    'function_calling',
+    'web_search',
+    'file_search',
+    'image_generation',
+    'code_interpreter',
+    'mcp',
+  ],
+  rate_limits: {
+    tier_1: {
+      rpm: 500,
+      tpm: 3e4,
+      batch_queue_limit: 5e4,
+    },
+    tier_2: {
+      rpm: 5e3,
+      tpm: 45e4,
+      batch_queue_limit: 135e4,
+    },
+    tier_3: {
+      rpm: 5e3,
+      tpm: 8e5,
+      batch_queue_limit: 1e8,
+    },
+    tier_4: {
+      rpm: 1e4,
+      tpm: 2e6,
+      batch_queue_limit: 2e8,
+    },
+    tier_5: {
+      rpm: 15e3,
+      tpm: 4e7,
+      batch_queue_limit: 15e9,
+    },
+  },
+} as const satisfies ModelConfig
+
+const gpt_5_chat_latest_spec = {
+  name: 'gpt-5-chat-latest',
+  slug: 'gpt-5-chat-latest',
+  performance: 3,
+  latency: 3,
+  modalities: {
+    input: [
+      'text',
+      'image',
+    ],
+    output: [
+      'text',
+    ],
+  },
+  context_window: 128e3,
+  max_output_tokens: 16_384,
+  max_input_tokens: 272e3,
+  knowledge_cutoff: new Date(17276544e5),
+  supported_features: [
+    'function_calling',
+    'structured_outputs',
+    'streaming',
+    'image_input',
+  ],
+  supported_endpoints: [
+    'chat_completions',
+    'responses',
+  ],
+  reasoning_tokens: false,
+} as const satisfies ModelSpec
+export {gpt_5_chat_latest_spec as 'gpt-5-chat-latest'}
+
+const gpt_5_codex_config = {
+  name: 'gpt-5-codex',
+  slug: 'gpt-5-codex',
+  display_name: 'GPT-5-Codex',
+  current_snapshot: 'gpt-5-codex',
+  tagline: 'A version of GPT-5 optimized for agentic coding in Codex',
+  description: 'GPT-5-Codex is a version of GPT-5 optimized for agentic coding tasks in [Codex](https://developers.openai.com/codex) or similar environments.\nIt\'s available in the [Responses API](/docs/api-reference/responses) only and the underlying model snapshot will be regularly updated.\nIf you want to learn more about prompting GPT-5-Codex, refer to our [dedicated guide](https://cookbook.openai.com/examples/gpt-5-codex_prompting_guide).\n',
+  type: 'reasoning',
+  playground_url: 'none',
+  snapshots: [
+    'gpt-5-codex',
+  ],
+  compare_prices: [
+    'gpt-5',
+    'codex-mini-latest',
+  ],
+  supported_tools: [
+    'function_calling',
+    'web_search',
+  ],
+  rate_limits: {
+    tier_1: {
+      rpm: 500,
+      tpm: 5e5,
+      batch_queue_limit: 15e5,
+    },
+    tier_2: {
+      rpm: 5e3,
+      tpm: 1e6,
+      batch_queue_limit: 3e6,
+    },
+    tier_3: {
+      rpm: 5e3,
+      tpm: 2e6,
+      batch_queue_limit: 1e8,
+    },
+    tier_4: {
+      rpm: 1e4,
+      tpm: 4e6,
+      batch_queue_limit: 2e8,
+    },
+    tier_5: {
+      rpm: 15e3,
+      tpm: 1e7,
+      batch_queue_limit: 15e9,
+    },
+  },
+} as const satisfies ModelConfig
+
+const gpt_5_codex_spec = {
+  name: 'gpt-5-codex',
+  slug: 'gpt-5-codex',
+  performance: 4,
+  latency: 3,
+  modalities: {
+    input: [
+      'text',
+      'image',
+    ],
+    output: [
+      'text',
+    ],
+  },
+  context_window: 4e5,
+  max_output_tokens: 128e3,
+  max_input_tokens: 272e3,
+  knowledge_cutoff: new Date(17276544e5),
+  supported_features: [
+    'streaming',
+    'structured_outputs',
+    'function_calling',
+    'image_input',
+    'web_search',
+    'prompt_caching',
+  ],
+  supported_endpoints: [
+    'responses',
+  ],
+  reasoning_tokens: true,
+  price_data: {
+    main: {
+      input: 1.25,
+      output: 10,
+    },
+  },
+} as const satisfies ModelSpec
+export {gpt_5_codex_spec as 'gpt-5-codex'}
+
+const gpt_5_mini_config = {
+  name: 'gpt-5-mini',
+  slug: 'gpt-5-mini',
+  display_name: 'GPT-5 mini',
+  current_snapshot: 'gpt-5-mini-2025-08-07',
+  tagline: 'A faster, cost-efficient version of GPT-5 for well-defined tasks',
+  description: 'GPT-5 mini is a faster, more cost-efficient version of GPT-5. It\'s great for\nwell-defined tasks and precise prompts. Learn more in our \n[GPT-5 usage guide](/docs/guides/gpt-5).\n',
+  type: 'reasoning',
+  snapshots: [
+    'gpt-5-mini-2025-08-07',
+  ],
+  compare_prices: [
+    'gpt-5',
+    'gpt-5-nano',
+  ],
+  supported_tools: [
+    'function_calling',
+    'web_search',
+    'file_search',
+    'code_interpreter',
+    'mcp',
+  ],
+  rate_limits: {
+    tier_1: {
+      rpm: 500,
+      tpm: 5e5,
+      batch_queue_limit: 5e6,
+    },
+    tier_2: {
+      rpm: 5e3,
+      tpm: 2e6,
+      batch_queue_limit: 2e7,
+    },
+    tier_3: {
+      rpm: 5e3,
+      tpm: 4e6,
+      batch_queue_limit: 4e7,
+    },
+    tier_4: {
+      rpm: 1e4,
+      tpm: 1e7,
+      batch_queue_limit: 1e9,
+    },
+    tier_5: {
+      rpm: 3e4,
+      tpm: 18e7,
+      batch_queue_limit: 15e9,
+    },
+  },
+} as const satisfies ModelConfig
+
+const gpt_5_mini_2025_08_07_spec = {
+  name: 'gpt-5-mini-2025-08-07',
+  slug: 'gpt-5-mini-2025-08-07',
+  performance: 3,
+  latency: 4,
+  modalities: {
+    input: [
+      'text',
+      'image',
+    ],
+    output: [
+      'text',
+    ],
+  },
+  context_window: 4e5,
+  max_output_tokens: 128e3,
+  max_input_tokens: 272e3,
+  knowledge_cutoff: new Date(17171136e5),
+  supported_features: [
+    'streaming',
+    'function_calling',
+    'file_search',
+    'file_uploads',
+    'web_search',
+    'structured_outputs',
+    'image_input',
+  ],
+  supported_endpoints: [
+    'chat_completions',
+    'responses',
+    'batch',
+  ],
+  reasoning_tokens: true,
+} as const satisfies ModelSpec
+export {gpt_5_mini_2025_08_07_spec as 'gpt-5-mini-2025-08-07'}
+
+// alias:
+export { gpt_5_mini_2025_08_07_spec as 'gpt-5-mini' };
+
+const gpt_5_nano_config = {
+  name: 'gpt-5-nano',
+  slug: 'gpt-5-nano',
+  display_name: 'GPT-5 nano',
+  current_snapshot: 'gpt-5-nano-2025-08-07',
+  tagline: 'Fastest, most cost-efficient version of GPT-5',
+  description: 'GPT-5 Nano is our fastest, cheapest version of GPT-5. It\'s great for summarization and classification tasks.\nLearn more in our [GPT-5 usage guide](/docs/guides/gpt-5).\n',
+  type: 'reasoning',
+  snapshots: [
+    'gpt-5-nano-2025-08-07',
+  ],
+  compare_prices: [
+    'gpt-5-mini',
+    'gpt-5',
+  ],
+  supported_tools: [
+    'function_calling',
+    'file_search',
+    'image_generation',
+    'code_interpreter',
+    'mcp',
+  ],
+  rate_limits: {
+    tier_1: {
+      rpm: 500,
+      tpm: 2e5,
+      batch_queue_limit: 2e6,
+    },
+    tier_2: {
+      rpm: 5e3,
+      tpm: 2e6,
+      batch_queue_limit: 2e7,
+    },
+    tier_3: {
+      rpm: 5e3,
+      tpm: 4e6,
+      batch_queue_limit: 4e7,
+    },
+    tier_4: {
+      rpm: 1e4,
+      tpm: 1e7,
+      batch_queue_limit: 1e9,
+    },
+    tier_5: {
+      rpm: 3e4,
+      tpm: 18e7,
+      batch_queue_limit: 15e9,
+    },
+  },
+} as const satisfies ModelConfig
+
+const gpt_5_nano_2025_08_07_spec = {
+  name: 'gpt-5-nano-2025-08-07',
+  slug: 'gpt-5-nano-2025-08-07',
+  performance: 2,
+  latency: 5,
+  modalities: {
+    input: [
+      'text',
+      'image',
+    ],
+    output: [
+      'text',
+    ],
+  },
+  context_window: 4e5,
+  max_output_tokens: 128e3,
+  max_input_tokens: 272e3,
+  knowledge_cutoff: new Date(17171136e5),
+  supported_features: [
+    'streaming',
+    'function_calling',
+    'file_search',
+    'file_uploads',
+    'structured_outputs',
+    'image_input',
+    'prompt_caching',
+  ],
+  supported_endpoints: [
+    'chat_completions',
+    'responses',
+    'batch',
+  ],
+  reasoning_tokens: true,
+} as const satisfies ModelSpec
+export {gpt_5_nano_2025_08_07_spec as 'gpt-5-nano-2025-08-07'}
+
+// alias:
+export { gpt_5_nano_2025_08_07_spec as 'gpt-5-nano' };
+
+const gpt_5_pro_config = {
+  name: 'gpt-5-pro',
+  current_snapshot: 'gpt-5-pro-2025-10-06',
+  display_name: 'GPT-5 pro',
+  tagline: 'Version of GPT-5 that produces smarter and more precise responses',
+  description: 'GPT-5 pro uses more compute to think harder and provide consistently better answers.\n\n GPT-5 pro is available in the [Responses API only](/docs/api-reference/responses)\n to enable support for multi-turn model interactions before responding to API\n requests, and other advanced API features in the future. Since GPT-5 pro is designed\n to tackle tough problems, some requests may take several minutes to finish.\n To avoid timeouts, try using [background mode](/docs/guides/background). \n As our most advanced reasoning model, GPT-5 pro defaults to (and only supports) `reasoning.effort: high`.\n GPT-5 pro does not support code interpreter.\n',
+  type: 'reasoning',
+  snapshots: [
+    'gpt-5-pro-2025-10-06',
+  ],
+  compare_prices: [
+    'gpt-5',
+    'o3-pro',
+  ],
+  compare_prices_columns: [
+    'input',
+    'output',
+  ],
+  rate_limits: {
+    tier_1: {
+      rpm: 500,
+      tpm: 3e4,
+      batch_queue_limit: 9e4,
+    },
+    tier_2: {
+      rpm: 5e3,
+      tpm: 45e4,
+      batch_queue_limit: 135e4,
+    },
+    tier_3: {
+      rpm: 5e3,
+      tpm: 8e5,
+      batch_queue_limit: 5e7,
+    },
+    tier_4: {
+      rpm: 1e4,
+      tpm: 2e6,
+      batch_queue_limit: 2e8,
+    },
+    tier_5: {
+      rpm: 1e4,
+      tpm: 3e7,
+      batch_queue_limit: 5e9,
+    },
+  },
+  supported_tools: [
+    'function_calling',
+    'file_search',
+    'image_generation',
+    'mcp',
+    'web_search',
+  ],
+  supported_features: [
+    'function_calling',
+    'file_search',
+    'image_generation',
+    'mcp',
+    'web_search',
+  ],
+  playground_url: '/chat/edit?models=gpt-5-pro',
+} as const satisfies ModelConfig
+
+const gpt_5_pro_2025_10_06_spec = {
+  name: 'gpt-5-pro-2025-10-06',
+  slug: 'gpt-5-pro-2025-10-06',
+  performance: 5,
+  latency: 1,
+  modalities: {
+    input: [
+      'text',
+      'image',
+    ],
+    output: [
+      'text',
+    ],
+  },
+  supported_features: [
+    'structured_outputs',
+    'function_calling',
+    'file_search',
+    'file_uploads',
+    'image_input',
+    'web_search',
+  ],
+  supported_endpoints: [
+    'responses',
+    'batch',
+  ],
+  context_window: 4e5,
+  max_output_tokens: 272e3,
+  knowledge_cutoff: new Date(17276544e5),
+  reasoning_tokens: true,
+} as const satisfies ModelSpec
+export {gpt_5_pro_2025_10_06_spec as 'gpt-5-pro-2025-10-06'}
+
+// alias:
+export { gpt_5_pro_2025_10_06_spec as 'gpt-5-pro' };
+
+const gpt_5_config = {
+  name: 'gpt-5',
+  slug: 'gpt-5',
+  display_name: 'GPT-5',
+  current_snapshot: 'gpt-5-2025-08-07',
+  tagline: 'The best model for coding and agentic tasks across domains',
+  description: 'GPT-5 is our flagship model for coding, reasoning, and agentic tasks across domains.\nLearn more in our [GPT-5 usage guide](/docs/guides/gpt-5).\n',
+  type: 'reasoning',
+  snapshots: [
+    'gpt-5-2025-08-07',
+  ],
+  compare_prices: [
+    'gpt-5-mini',
+    'gpt-5-nano',
+  ],
+  supported_tools: [
+    'function_calling',
+    'web_search',
+    'file_search',
+    'image_generation',
+    'code_interpreter',
+    'mcp',
+  ],
+  rate_limits: {
+    tier_1: {
+      rpm: 500,
+      tpm: 5e5,
+      batch_queue_limit: 15e5,
+    },
+    tier_2: {
+      rpm: 5e3,
+      tpm: 1e6,
+      batch_queue_limit: 3e6,
+    },
+    tier_3: {
+      rpm: 5e3,
+      tpm: 2e6,
+      batch_queue_limit: 1e8,
+    },
+    tier_4: {
+      rpm: 1e4,
+      tpm: 4e6,
+      batch_queue_limit: 2e8,
+    },
+    tier_5: {
+      rpm: 15e3,
+      tpm: 4e7,
+      batch_queue_limit: 15e9,
+    },
+  },
+} as const satisfies ModelConfig
+
+const gpt_5_2025_08_07_spec = {
+  name: 'gpt-5-2025-08-07',
+  slug: 'gpt-5-2025-08-07',
+  performance: 4,
+  latency: 3,
+  modalities: {
+    input: [
+      'text',
+      'image',
+    ],
+    output: [
+      'text',
+    ],
+  },
+  context_window: 4e5,
+  max_output_tokens: 128e3,
+  max_input_tokens: 272e3,
+  knowledge_cutoff: new Date(17276544e5),
+  supported_features: [
+    'streaming',
+    'structured_outputs',
+    'distillation',
+    'function_calling',
+    'file_search',
+    'file_uploads',
+    'image_input',
+    'web_search',
+    'prompt_caching',
+  ],
+  supported_endpoints: [
+    'chat_completions',
+    'responses',
+    'batch',
+  ],
+  reasoning_tokens: true,
+  price_data: {
+    main: {
+      input: 10,
+      output: 30,
+    },
+    batch: {
+      input: 5,
+      output: 15,
+    },
+  },
+} as const satisfies ModelSpec
+export {gpt_5_2025_08_07_spec as 'gpt-5-2025-08-07'}
+
+// alias:
+export { gpt_5_2025_08_07_spec as 'gpt-5' };
+
+const gpt_audio_mini_config = {
+  name: 'gpt-audio-mini',
+  current_snapshot: 'gpt-audio-mini-2025-10-06',
+  tagline: 'A cost-efficient version of GPT Audio',
+  description: 'A cost-efficient version of GPT Audio. It accepts audio inputs and outputs, and can be used in the Chat Completions REST API.\n',
+  type: 'chat',
+  snapshots: [
+    'gpt-audio-mini-2025-10-06',
+  ],
+  grouped_models: [
+    'gpt-audio',
+  ],
+  compare_prices: [
+    'gpt-audio',
+  ],
+  compare_prices_columns: [
+    'input',
+    'output',
+  ],
+  rate_limits: {
+    tier_1: {
+      rpm: 500,
+      tpm: 3e4,
+    },
+    tier_2: {
+      rpm: 5e3,
+      tpm: 45e4,
+    },
+    tier_3: {
+      rpm: 5e3,
+      tpm: 8e5,
+    },
+    tier_4: {
+      rpm: 1e4,
+      tpm: 2e6,
+    },
+    tier_5: {
+      rpm: 1e4,
+      tpm: 3e7,
+    },
+  },
+  supported_tools: [
+    'function_calling',
+  ],
+  playground_url: '/playground/realtime',
+} as const satisfies ModelConfig
+
+const gpt_audio_mini_2025_10_06_spec = {
+  name: 'gpt-audio-mini-2025-10-06',
+  performance: 4,
+  latency: 5,
+  modalities: {
+    input: [
+      'text',
+      'audio',
+    ],
+    output: [
+      'text',
+      'audio',
+    ],
+  },
+  supported_endpoints: [
+    'chat_completions',
+  ],
+  supported_features: [
+    'function_calling',
+    'prompt_caching',
+  ],
+  context_window: 128e3,
+  max_output_tokens: 16_384,
+  knowledge_cutoff: new Date(16961184e5),
+  reasoning_tokens: false,
+} as const satisfies ModelSpec
+export {gpt_audio_mini_2025_10_06_spec as 'gpt-audio-mini-2025-10-06'}
+
+// alias:
+export { gpt_audio_mini_2025_10_06_spec as 'gpt-audio-mini' };
+
+const gpt_audio_config = {
+  name: 'gpt-audio',
+  slug: 'gpt-audio',
+  display_name: 'gpt-audio',
+  current_snapshot: 'gpt-audio-2025-08-28',
+  tagline: 'For audio inputs and outputs with Chat Completions API',
+  description: 'The gpt-audio model is our first generally available audio model. It accepts\naudio inputs and outputs, and can be used in the Chat Completions REST API.\n',
+  type: 'chat',
+  snapshots: [
+    'gpt-audio-2025-08-28',
+  ],
+  rate_limits: {
+    tier_1: {
+      rpm: 500,
+      tpm: 3e4,
+      batch_queue_limit: 9e4,
+    },
+    tier_2: {
+      rpm: 5e3,
+      tpm: 45e4,
+      batch_queue_limit: 135e4,
+    },
+    tier_3: {
+      rpm: 5e3,
+      tpm: 8e5,
+      batch_queue_limit: 5e7,
+    },
+    tier_4: {
+      rpm: 1e4,
+      tpm: 2e6,
+      batch_queue_limit: 2e6,
+    },
+    tier_5: {
+      rpm: 1e4,
+      tpm: 3e7,
+      batch_queue_limit: 5e9,
+    },
+  },
+} as const satisfies ModelConfig
+
+const gpt_audio_2025_08_28_spec = {
+  name: 'gpt-audio-2025-08-28',
+  slug: 'gpt-audio-2025-08-28',
+  performance: 4,
+  latency: 3,
+  modalities: {
+    input: [
+      'text',
+      'audio',
+    ],
+    output: [
+      'text',
+      'audio',
+    ],
+  },
+  context_window: 128e3,
+  max_output_tokens: 16_384,
+  knowledge_cutoff: new Date(16961184e5),
+  supported_features: [
+    'streaming',
+    'function_calling',
+  ],
+  supported_endpoints: [
+    'chat_completions',
+  ],
+  reasoning_tokens: false,
+  price_data: {
+    main: {
+      input: 10,
+      output: 30,
+    },
+    batch: {
+      input: 5,
+      output: 15,
+    },
+  },
+} as const satisfies ModelSpec
+export {gpt_audio_2025_08_28_spec as 'gpt-audio-2025-08-28'}
+
+// alias:
+export { gpt_audio_2025_08_28_spec as 'gpt-audio' };
+
+const gpt_image_1_mini_config = {
+  name: 'gpt-image-1-mini',
+  current_snapshot: 'gpt-image-1-mini',
+  tagline: 'A cost-efficient version of GPT Image 1',
+  description: 'A cost-efficient version of GPT Image 1. It is a natively multimodal language model that accepts both text and image inputs, and produces image outputs.\n',
+  type: 'other',
+  snapshots: [
+    'gpt-image-1-mini',
+  ],
+  compare_prices_columns: [
+    'input',
+    'cached_input',
+    'output',
+  ],
+  rate_limits: {
+    tier_1: {
+      ipm: 5,
+      tpm: 1e5,
+    },
+    tier_2: {
+      ipm: 20,
+      tpm: 25e4,
+    },
+    tier_3: {
+      ipm: 50,
+      tpm: 8e5,
+    },
+    tier_4: {
+      ipm: 150,
+      tpm: 3e6,
+    },
+    tier_5: {
+      ipm: 250,
+      tpm: 8e6,
+    },
+  },
+  playground_url: '/playground/images',
+} as const satisfies ModelConfig
+
+const gpt_image_1_mini_spec = {
+  name: 'gpt-image-1-mini',
+  performance: 4,
+  latency: 1,
+  modalities: {
+    input: [
+      'text',
+      'image',
+    ],
+    output: [
+      'image',
+    ],
+  },
+  supported_endpoints: [
+    'image_edit',
+    'image_generation',
+  ],
+} as const satisfies ModelSpec
+export {gpt_image_1_mini_spec as 'gpt-image-1-mini'}
 
 const gpt_image_1_config = {
   name: 'gpt-image-1',
@@ -2881,6 +3660,339 @@ const gpt_image_1_spec = {
   reasoning_tokens: false,
 } as const satisfies ModelSpec
 export {gpt_image_1_spec as 'gpt-image-1'}
+
+const gpt_oss_120b_config = {
+  name: 'gpt-oss-120b',
+  slug: 'gpt-oss-120b',
+  current_snapshot: 'gpt-oss-120b',
+  tagline: 'Most powerful open-weight model, fits into an H100 GPU',
+  description: '`gpt-oss-120b`is our most powerful open-weight model, which fits into a single \nH100 GPU (117B parameters with 5.1B active parameters).\n\n[Download gpt-oss-120b on HuggingFace](https://huggingface.co/openai/gpt-oss-120b).\n\n**Key features**\n\n-   **Permissive Apache 2.0 license:** Build freely without copyleft restrictions or patent risk—ideal for experimentation, customization, and commercial deployment.\n-   **Configurable reasoning effort:** Easily adjust the reasoning effort (low, medium, high) based on your specific use case and latency needs.\n-   **Full chain-of-thought:** Gain complete access to the model\'s reasoning process, facilitating easier debugging and increased trust in outputs.\n-   **Fine-tunable:** Fully customize models to your specific use case through parameter fine-tuning.\n-   **Agentic capabilities:** Use the models\' native capabilities for function calling, web browsing, Python code execution, and structured outputs.\n',
+  type: 'reasoning',
+  snapshots: [
+    'gpt-oss-120b',
+  ],
+  supported_tools: [
+    'function_calling',
+    'code_interpreter',
+    'mcp',
+    'web_search',
+  ],
+  compare_prices: [
+    'o3',
+    'gpt-oss-20b',
+  ],
+  playground_url: 'none',
+  rate_limits: {
+    tier_1: {
+      rpm: 0,
+      tpm: 0,
+      batch_queue_limit: 0,
+    },
+    tier_2: {
+      rpm: 0,
+      tpm: 0,
+      batch_queue_limit: 0,
+    },
+    tier_3: {
+      rpm: 0,
+      tpm: 0,
+      batch_queue_limit: 0,
+    },
+    tier_4: {
+      rpm: 0,
+      tpm: 0,
+      batch_queue_limit: 0,
+    },
+    tier_5: {
+      rpm: 0,
+      tpm: 0,
+      batch_queue_limit: 0,
+    },
+  },
+} as const satisfies ModelConfig
+
+const gpt_oss_120b_spec = {
+  name: 'gpt-oss-120b',
+  slug: 'gpt-oss-120b',
+  performance: 4,
+  latency: 3,
+  modalities: {
+    input: [
+      'text',
+    ],
+    output: [
+      'text',
+    ],
+  },
+  context_window: 131_072,
+  max_output_tokens: 131_072,
+  knowledge_cutoff: new Date(17172e8),
+  supported_features: [
+    'streaming',
+    'structured_outputs',
+    'function_calling',
+  ],
+  supported_endpoints: [
+    'responses',
+    'batch',
+  ],
+  reasoning_tokens: true,
+  price_data: {
+    main: {
+      input: 0.0005,
+      cached_output: 0.0001,
+      output: 0.0015,
+    },
+    batch: {
+      input: 0.0004,
+      output: 0.0012,
+    },
+  },
+} as const satisfies ModelSpec
+export {gpt_oss_120b_spec as 'gpt-oss-120b'}
+
+const gpt_oss_20b_config = {
+  name: 'gpt-oss-20b',
+  slug: 'gpt-oss-20b',
+  current_snapshot: 'gpt-oss-20b',
+  tagline: 'Medium-sized open-weight model for low latency',
+  description: '`gpt-oss-20b` is our medium-sized open-weight model for low latency, local, or \nspecialized use-cases (21B parameters with 3.6B active parameters).\n\n[Download gpt-oss-20b on HuggingFace](https://huggingface.co/openai/gpt-oss-20b).\n\n**Key features**\n\n-   **Permissive Apache 2.0 license:** Build freely without copyleft restrictions or patent risk—ideal for experimentation, customization, and commercial deployment.\n-   **Configurable reasoning effort:** Easily adjust the reasoning effort (low, medium, high) based on your specific use case and latency needs.\n-   **Full chain-of-thought:** Gain complete access to the model\'s reasoning process, facilitating easier debugging and increased trust in outputs.\n-   **Fine-tunable:** Fully customize models to your specific use case through parameter fine-tuning.\n-   **Agentic capabilities:** Use the models\' native capabilities for function calling, web browsing, Python code execution, and structured outputs.\n',
+  type: 'reasoning',
+  snapshots: [
+    'gpt-oss-20b',
+  ],
+  supported_tools: [
+    'function_calling',
+    'code_interpreter',
+    'mcp',
+    'web_search',
+  ],
+  playground_url: 'none',
+  compare_prices: [
+    'o3',
+    'gpt-oss-120b',
+  ],
+  rate_limits: {
+    tier_1: {
+      rpm: 0,
+      tpm: 0,
+      batch_queue_limit: 0,
+    },
+    tier_2: {
+      rpm: 0,
+      tpm: 0,
+      batch_queue_limit: 0,
+    },
+    tier_3: {
+      rpm: 0,
+      tpm: 0,
+      batch_queue_limit: 0,
+    },
+    tier_4: {
+      rpm: 0,
+      tpm: 0,
+      batch_queue_limit: 0,
+    },
+    tier_5: {
+      rpm: 0,
+      tpm: 0,
+      batch_queue_limit: 0,
+    },
+  },
+} as const satisfies ModelConfig
+
+const gpt_oss_20b_spec = {
+  name: 'gpt-oss-20b',
+  slug: 'gpt-oss-20b',
+  performance: 4,
+  latency: 3,
+  modalities: {
+    input: [
+      'text',
+    ],
+    output: [
+      'text',
+    ],
+  },
+  context_window: 131_072,
+  max_output_tokens: 131_072,
+  knowledge_cutoff: new Date(17172e8),
+  supported_features: [
+    'streaming',
+    'structured_outputs',
+    'function_calling',
+  ],
+  supported_endpoints: [
+    'responses',
+    'batch',
+  ],
+  reasoning_tokens: true,
+  price_data: {
+    main: {
+      input: 0.0002,
+      cached_output: 0.00005,
+      output: 0.0006,
+    },
+    batch: {
+      input: 0.00015,
+      output: 0.0005,
+    },
+  },
+} as const satisfies ModelSpec
+export {gpt_oss_20b_spec as 'gpt-oss-20b'}
+
+const gpt_realtime_mini_config = {
+  name: 'gpt-realtime-mini',
+  current_snapshot: 'gpt-realtime-mini-2025-10-06',
+  tagline: 'A cost-efficient version of GPT Realtime',
+  description: 'A cost-efficient version of GPT Realtime - capable of responding to audio and text inputs in realtime over WebRTC, WebSocket, or SIP connections.\n',
+  type: 'other',
+  snapshots: [
+    'gpt-realtime-mini-2025-10-06',
+  ],
+  compare_prices: [
+    'gpt-5',
+  ],
+  compare_prices_columns: [
+    'input',
+    'output',
+  ],
+  rate_limits: {
+    tier_1: {
+      rpm: 200,
+      tpm: 4e4,
+    },
+    tier_2: {
+      rpm: 400,
+      tpm: 2e5,
+    },
+    tier_3: {
+      rpm: 5e3,
+      tpm: 8e5,
+    },
+    tier_4: {
+      rpm: 1e4,
+      tpm: 4e6,
+    },
+    tier_5: {
+      rpm: 2e4,
+      tpm: 15e6,
+    },
+  },
+  playground_url: '/playground/realtime',
+} as const satisfies ModelConfig
+
+const gpt_realtime_mini_2025_10_06_spec = {
+  name: 'gpt-realtime-mini-2025-10-06',
+  performance: 4,
+  latency: 5,
+  modalities: {
+    input: [
+      'text',
+      'image',
+      'audio',
+    ],
+    output: [
+      'text',
+      'audio',
+    ],
+  },
+  supported_endpoints: [
+    'realtime',
+  ],
+  supported_features: [
+    'function_calling',
+    'prompt_caching',
+  ],
+  context_window: 32e3,
+  max_output_tokens: 4_096,
+  knowledge_cutoff: new Date(16961184e5),
+  reasoning_tokens: false,
+} as const satisfies ModelSpec
+export {gpt_realtime_mini_2025_10_06_spec as 'gpt-realtime-mini-2025-10-06'}
+
+// alias:
+export { gpt_realtime_mini_2025_10_06_spec as 'gpt-realtime-mini' };
+
+const gpt_realtime_config = {
+  name: 'gpt-realtime',
+  slug: 'gpt-realtime',
+  display_name: 'gpt-realtime',
+  current_snapshot: 'gpt-realtime-2025-08-28',
+  tagline: 'Model capable of realtime text and audio inputs and outputs',
+  description: 'This is our first general-availability realtime model, capable of responding to audio and text inputs in realtime over WebRTC, WebSocket, or SIP connections.\n',
+  type: 'other',
+  playground_url: '/playground/realtime',
+  snapshots: [
+    'gpt-realtime-2025-08-28',
+  ],
+  rate_limits: {
+    tier_1: {
+      rpm: 200,
+      rpd: 1e3,
+      tpm: 4e4,
+    },
+    tier_2: {
+      rpm: 400,
+      tpm: 2e5,
+    },
+    tier_3: {
+      rpm: 5e3,
+      tpm: 8e5,
+    },
+    tier_4: {
+      rpm: 1e4,
+      tpm: 4e6,
+    },
+    tier_5: {
+      rpm: 2e4,
+      tpm: 15e6,
+    },
+  },
+} as const satisfies ModelConfig
+
+const gpt_realtime_2025_08_28_spec = {
+  name: 'gpt-realtime-2025-08-28',
+  slug: 'gpt-realtime-2025-08-28',
+  performance: 5,
+  latency: 4,
+  modalities: {
+    input: [
+      'text',
+      'audio',
+      'image',
+    ],
+    output: [
+      'text',
+      'audio',
+    ],
+  },
+  context_window: 32e3,
+  max_output_tokens: 4_096,
+  knowledge_cutoff: new Date(16961184e5),
+  supported_features: [
+    'function_calling',
+    'prompt_caching',
+  ],
+  supported_endpoints: [
+    'realtime',
+  ],
+  reasoning_tokens: false,
+  price_data: {
+    main: {
+      input: 10,
+      output: 30,
+    },
+    batch: {
+      input: 5,
+      output: 15,
+    },
+  },
+} as const satisfies ModelSpec
+export {gpt_realtime_2025_08_28_spec as 'gpt-realtime-2025-08-28'}
+
+// alias:
+export { gpt_realtime_2025_08_28_spec as 'gpt-realtime' };
 
 const o1_mini_config = {
   name: 'o1-mini',
@@ -3251,6 +4363,101 @@ export {o1_2024_12_17_spec as 'o1-2024-12-17'}
 // alias:
 export { o1_2024_12_17_spec as 'o1' };
 
+const o3_deep_research_config = {
+  name: 'o3-deep-research',
+  slug: 'o3-deep-research',
+  current_snapshot: 'o3-deep-research-2025-06-26',
+  tagline: 'Our most powerful deep research model',
+  description: 'o3-deep-research is our most advanced model for deep research, \ndesigned to tackle complex, multi-step research tasks. It can \nsearch and synthesize information from across the internet as \nwell as from your own data—brought in through MCP connectors.\n\nLearn more about getting started with this model in our\n[deep research](/docs/guides/deep-research) guide.\n',
+  type: 'reasoning',
+  snapshots: [
+    'o3-deep-research-2025-06-26',
+  ],
+  compare_prices: [
+    'o1',
+    'o4-mini',
+  ],
+  supported_tools: [
+    'web_search',
+    'code_interpreter',
+    'mcp',
+  ],
+  rate_limits: {
+    tier_1: {
+      rpm: 500,
+      tpm: 2e5,
+      batch_queue_limit: 2e5,
+    },
+    tier_2: {
+      rpm: 5e3,
+      tpm: 45e4,
+      batch_queue_limit: 3e5,
+    },
+    tier_3: {
+      rpm: 5e3,
+      tpm: 8e5,
+      batch_queue_limit: 5e5,
+    },
+    tier_4: {
+      rpm: 1e4,
+      tpm: 2e6,
+      batch_queue_limit: 2e6,
+    },
+    tier_5: {
+      rpm: 1e4,
+      tpm: 3e7,
+      batch_queue_limit: 1e7,
+    },
+  },
+} as const satisfies ModelConfig
+
+const o3_deep_research_2025_06_26_spec = {
+  name: 'o3-deep-research-2025-06-26',
+  slug: 'o3-deep-research-2025-06-26',
+  performance: 5,
+  latency: 1,
+  modalities: {
+    input: [
+      'text',
+      'image',
+    ],
+    output: [
+      'text',
+    ],
+  },
+  context_window: 2e5,
+  max_output_tokens: 1e5,
+  knowledge_cutoff: new Date(17172e8),
+  supported_features: [
+    'streaming',
+    'file_uploads',
+    'image_input',
+    'prompt_caching',
+    'evals',
+    'stored_completions',
+  ],
+  supported_endpoints: [
+    'responses',
+    'batch',
+  ],
+  reasoning_tokens: true,
+  price_data: {
+    main: {
+      input: 15,
+      cached_output: 7.5,
+      output: 60,
+    },
+    batch: {
+      input: 7.5,
+      output: 30,
+    },
+  },
+} as const satisfies ModelSpec
+export {o3_deep_research_2025_06_26_spec as 'o3-deep-research-2025-06-26'}
+
+// alias:
+export { o3_deep_research_2025_06_26_spec as 'o3-deep-research' };
+
 const o3_mini_config = {
   name: 'o3-mini',
   slug: 'o3-mini',
@@ -3362,6 +4569,7 @@ const o3_pro_config = {
     'file_search',
     'image_generation',
     'mcp',
+    'web_search',
   ],
   rate_limits: {
     tier_1: {
@@ -3439,8 +4647,8 @@ const o3_config = {
   name: 'o3',
   slug: 'o3',
   current_snapshot: 'o3-2025-04-16',
-  tagline: 'Our most powerful reasoning model',
-  description: 'o3 is a well-rounded and powerful model across domains. It sets a new standard for math, science, coding, and visual reasoning tasks. It also excels at technical writing and instruction-following. Use it to think through multi-step problems that involve analysis across text, code, and images. \n\nLearn more about how to use our reasoning models in our [reasoning](/docs/guides/reasoning?api-mode=responses) guide.\n',
+  tagline: 'Reasoning model for complex tasks, succeeded by GPT-5',
+  description: 'o3 is a well-rounded and powerful model across domains. It sets a new \nstandard for math, science, coding, and visual reasoning tasks. It also \nexcels at technical writing and instruction-following. Use it to think \nthrough multi-step problems that involve analysis across text, code, and images. \n\no3 is succeeded by [GPT-5](/docs/models/gpt-5).\n\nLearn more about how to use our reasoning models in our \n[reasoning](/docs/guides/reasoning?api-mode=responses) guide.\n',
   type: 'reasoning',
   snapshots: [
     'o3-2025-04-16',
@@ -3455,6 +4663,7 @@ const o3_config = {
     'image_generation',
     'code_interpreter',
     'mcp',
+    'web_search',
   ],
   rate_limits: {
     tier_1: {
@@ -3521,13 +4730,13 @@ const o3_2025_04_16_spec = {
   reasoning_tokens: true,
   price_data: {
     main: {
-      input: 2,
-      cached_output: .5,
-      output: 8,
+      input: 15,
+      cached_output: 7.5,
+      output: 60,
     },
     batch: {
-      input: 1,
-      output: 4,
+      input: 7.5,
+      output: 30,
     },
   },
 } as const satisfies ModelSpec
@@ -3536,12 +4745,107 @@ export {o3_2025_04_16_spec as 'o3-2025-04-16'}
 // alias:
 export { o3_2025_04_16_spec as 'o3' };
 
+const o4_mini_deep_research_config = {
+  name: 'o4-mini-deep-research',
+  slug: 'o4-mini-deep-research',
+  current_snapshot: 'o4-mini-deep-research-2025-06-26',
+  tagline: 'Faster, more affordable deep research model',
+  description: 'o4-mini-deep-research is our faster, more affordable deep \nresearch model—ideal for tackling complex, multi-step research \ntasks. It can search and synthesize information from across the \ninternet as well as from your own data, brought in through \nMCP connectors.\n\nLearn more about how to use this model in our\n[deep research](/docs/guides/deep-research) guide.\n',
+  type: 'reasoning',
+  snapshots: [
+    'o4-mini-deep-research-2025-06-26',
+  ],
+  compare_prices: [
+    'o3',
+    'o3-mini',
+  ],
+  supported_tools: [
+    'web_search',
+    'code_interpreter',
+    'mcp',
+  ],
+  rate_limits: {
+    tier_1: {
+      rpm: 1e3,
+      tpm: 2e5,
+      batch_queue_limit: 2e5,
+    },
+    tier_2: {
+      rpm: 2e3,
+      tpm: 2e6,
+      batch_queue_limit: 3e5,
+    },
+    tier_3: {
+      rpm: 5e3,
+      tpm: 4e6,
+      batch_queue_limit: 5e5,
+    },
+    tier_4: {
+      rpm: 1e4,
+      tpm: 1e7,
+      batch_queue_limit: 2e6,
+    },
+    tier_5: {
+      rpm: 3e4,
+      tpm: 15e7,
+      batch_queue_limit: 1e7,
+    },
+  },
+} as const satisfies ModelConfig
+
+const o4_mini_deep_research_2025_06_26_spec = {
+  name: 'o4-mini-deep-research-2025-06-26',
+  slug: 'o4-mini-deep-research-2025-06-26',
+  performance: 4,
+  latency: 3,
+  modalities: {
+    input: [
+      'text',
+      'image',
+    ],
+    output: [
+      'text',
+    ],
+  },
+  context_window: 2e5,
+  max_output_tokens: 1e5,
+  knowledge_cutoff: new Date(17172e8),
+  supported_features: [
+    'streaming',
+    'file_uploads',
+    'image_input',
+    'prompt_caching',
+    'evals',
+    'stored_completions',
+  ],
+  supported_endpoints: [
+    'responses',
+    'batch',
+  ],
+  reasoning_tokens: true,
+  price_data: {
+    main: {
+      input: 8.25,
+      cached_output: 2.0625,
+      output: 33,
+    },
+    batch: {
+      input: 4.125,
+      output: 16.5,
+    },
+  },
+} as const satisfies ModelSpec
+export {o4_mini_deep_research_2025_06_26_spec as 'o4-mini-deep-research-2025-06-26'}
+
+// alias:
+export { o4_mini_deep_research_2025_06_26_spec as 'o4-mini-deep-research' };
+
 const o4_mini_config = {
   name: 'o4-mini',
   slug: 'o4-mini',
   current_snapshot: 'o4-mini-2025-04-16',
-  tagline: 'Faster, more affordable reasoning model',
-  description: 'o4-mini is our latest small o-series model. It\'s optimized for fast, effective reasoning with exceptionally efficient performance in coding and visual tasks. \n\nLearn more about how to use our reasoning models in our [reasoning](/docs/guides/reasoning?api-mode=responses) guide.\n',
+  tagline: 'Fast, cost-efficient reasoning model, succeeded by GPT-5 mini',
+  description: 'o4-mini is our latest small o-series model. It\'s optimized for fast, \neffective reasoning with exceptionally efficient performance in coding and \nvisual tasks. It\'s succeeded by [GPT-5 mini](/docs/models/gpt-5-mini).\n\nLearn more about how to use our reasoning models in our \n[reasoning](/docs/guides/reasoning?api-mode=responses) guide.\n',
   type: 'reasoning',
   snapshots: [
     'o4-mini-2025-04-16',
@@ -3555,6 +4859,7 @@ const o4_mini_config = {
     'file_search',
     'code_interpreter',
     'mcp',
+    'web_search',
   ],
   rate_limits: {
     tier_1: {
@@ -3564,7 +4869,7 @@ const o4_mini_config = {
     },
     tier_2: {
       rpm: 2e3,
-      tpm: 2e5,
+      tpm: 2e6,
       batch_queue_limit: 2e6,
     },
     tier_3: {
@@ -3694,6 +4999,126 @@ export {omni_moderation_2024_09_26_spec as 'omni-moderation-2024-09-26'}
 
 // alias:
 export { omni_moderation_2024_09_26_spec as 'omni-moderation-latest' };
+
+const sora_2_pro_config = {
+  name: 'sora-2-pro',
+  slug: 'sora-2-pro',
+  display_name: 'Sora 2 Pro',
+  current_snapshot: 'sora-2-pro',
+  tagline: 'Most advanced synced-audio video generation',
+  description: 'Sora 2 Pro is our state-of-the-art, most advanced media generation model, generating videos with synced audio.\nIt can create richly detailed, dynamic clips from natural language or images.\n',
+  type: 'other',
+  snapshots: [
+    'sora-2-pro',
+  ],
+  compare_prices: [
+    'sora-2',
+  ],
+  rate_limits: [
+    {
+      name: 'Standard RPM',
+      rate_limits: {
+        tier_1: {
+          rpm: 1,
+        },
+        tier_2: {
+          rpm: 2,
+        },
+        tier_3: {
+          rpm: 5,
+        },
+        tier_4: {
+          rpm: 10,
+        },
+        tier_5: {
+          rpm: 20,
+        },
+      },
+    },
+  ],
+} as const satisfies ModelConfig
+
+const sora_2_pro_spec = {
+  name: 'sora-2-pro',
+  slug: 'sora-2-pro',
+  performance: 5,
+  latency: 1,
+  modalities: {
+    input: [
+      'text',
+      'image',
+    ],
+    output: [
+      'video',
+      'audio',
+    ],
+  },
+  supported_endpoints: [
+    'videos',
+  ],
+  reasoning_tokens: false,
+} as const satisfies ModelSpec
+export {sora_2_pro_spec as 'sora-2-pro'}
+
+const sora_2_config = {
+  name: 'sora-2',
+  slug: 'sora-2',
+  display_name: 'Sora 2',
+  current_snapshot: 'sora-2',
+  tagline: 'Flagship video generation with synced audio',
+  description: 'Sora 2 is our new powerful media generation model, generating videos with synced audio.\nIt can create richly detailed, dynamic clips from natural language or images.\n',
+  type: 'other',
+  snapshots: [
+    'sora-2',
+  ],
+  compare_prices: [
+    'sora-2-pro',
+  ],
+  rate_limits: [
+    {
+      name: 'Standard RPM',
+      rate_limits: {
+        tier_1: {
+          rpm: 2,
+        },
+        tier_2: {
+          rpm: 5,
+        },
+        tier_3: {
+          rpm: 10,
+        },
+        tier_4: {
+          rpm: 25,
+        },
+        tier_5: {
+          rpm: 40,
+        },
+      },
+    },
+  ],
+} as const satisfies ModelConfig
+
+const sora_2_spec = {
+  name: 'sora-2',
+  slug: 'sora-2',
+  performance: 4,
+  latency: 2,
+  modalities: {
+    input: [
+      'text',
+      'image',
+    ],
+    output: [
+      'video',
+      'audio',
+    ],
+  },
+  supported_endpoints: [
+    'videos',
+  ],
+  reasoning_tokens: false,
+} as const satisfies ModelSpec
+export {sora_2_spec as 'sora-2'}
 
 const text_embedding_3_large_config = {
   name: 'text-embedding-3-large',

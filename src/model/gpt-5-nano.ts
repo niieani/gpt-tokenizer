@@ -9,7 +9,7 @@ import { GptEncoding } from '../GptEncoding.js'
 export * from '../constants.js'
 export * from '../specialTokens.js'
 // prettier-ignore
-const api = GptEncoding.getEncodingApiForModel('gpt-4.1-nano', () => bpeRanks, {name:"gpt-4.1-nano-2025-04-14",slug:"gpt-4.1-nano-2025-04-14",performance:2,latency:5,modalities:{input:["text","image"],output:["text"]},context_window:1047576,max_output_tokens:32768,knowledge_cutoff:new Date(1717200000000),supported_features:["predicted_outputs","streaming","function_calling","file_search","file_uploads","structured_outputs","image_input","prompt_caching","fine_tuning"],supported_endpoints:["chat_completions","responses","assistants","batch","fine_tuning"],reasoning_tokens:false})
+const api = GptEncoding.getEncodingApiForModel('gpt-5-nano', () => bpeRanks, {name:"gpt-5-nano-2025-08-07",slug:"gpt-5-nano-2025-08-07",performance:2,latency:5,modalities:{input:["text","image"],output:["text"]},context_window:400000,max_output_tokens:128000,max_input_tokens:272000,knowledge_cutoff:new Date(1717113600000),supported_features:["streaming","function_calling","file_search","file_uploads","structured_outputs","image_input","prompt_caching"],supported_endpoints:["chat_completions","responses","batch"],reasoning_tokens:true})
 const {
   decode,
   decodeAsyncGenerator,
