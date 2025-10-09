@@ -101,6 +101,7 @@ describe.each(encodingNames)('%s', (encodingName: EncodingName) => {
     decodeAsyncGenerator,
     encode,
     isWithinTokenLimit,
+    countTokens,
   } = encoding
 
   describe('encode and decode', () => {
@@ -172,6 +173,32 @@ describe.each(encodingNames)('%s', (encodingName: EncodingName) => {
         allowedSpecial: ALL_SPECIAL_TOKENS,
       })
       expect(decode(encoded)).toEqual(str)
+    })
+
+    test('isWithinTokenLimit handles special tokens when allowed', () => {
+      const str = `hello ${EndOfText} world`
+      expect(() => isWithinTokenLimit(str, 100)).toThrowError(
+        /Disallowed special token found/,
+      )
+
+      const allowedCount = isWithinTokenLimit(str, 100, {
+        allowedSpecial: ALL_SPECIAL_TOKENS,
+      })
+
+      expect(allowedCount).toBe(
+        encode(str, { allowedSpecial: ALL_SPECIAL_TOKENS }).length,
+      )
+    })
+
+    test('countTokens handles special tokens when allowed', () => {
+      const str = `hello ${EndOfText} world`
+      expect(() => countTokens(str)).toThrowError(
+        /Disallowed special token found/,
+      )
+
+      expect(countTokens(str, { allowedSpecial: ALL_SPECIAL_TOKENS })).toBe(
+        encode(str, { allowedSpecial: ALL_SPECIAL_TOKENS }).length,
+      )
     })
 
     async function* getHelloWorldTokensAsync() {
@@ -289,6 +316,46 @@ describe.each(chatModelNames)('%s', async (modelName) => {
         150,
       )
       expect(isWithinTokenLimit).toBe(expectedEncodedLength)
+    })
+
+    test('isWithinTokenLimit allows special tokens in chat when configured', () => {
+      const chatWithSpecial = [
+        { role: 'user', content: `Hello ${EndOfText} world` },
+      ] satisfies ChatMessage[]
+
+      expect(() =>
+        encoding.isWithinTokenLimit(chatWithSpecial, 100),
+      ).toThrowError(/Disallowed special token found/)
+
+      const allowedCount = encoding.isWithinTokenLimit(chatWithSpecial, 100, {
+        allowedSpecial: ALL_SPECIAL_TOKENS,
+      })
+
+      const encoded = encoding.encodeChat(chatWithSpecial, undefined, {
+        allowedSpecial: ALL_SPECIAL_TOKENS,
+      })
+
+      expect(allowedCount).toBe(encoded.length)
+    })
+
+    test('countTokens allows special tokens in chat when configured', () => {
+      const chatWithSpecial = [
+        { role: 'user', content: `Hello ${EndOfText} world` },
+      ] satisfies ChatMessage[]
+
+      expect(() => encoding.countTokens(chatWithSpecial)).toThrowError(
+        /Disallowed special token found/,
+      )
+
+      expect(
+        encoding.countTokens(chatWithSpecial, {
+          allowedSpecial: ALL_SPECIAL_TOKENS,
+        }),
+      ).toBe(
+        encoding.encodeChat(chatWithSpecial, undefined, {
+          allowedSpecial: ALL_SPECIAL_TOKENS,
+        }).length,
+      )
     })
   })
 })
