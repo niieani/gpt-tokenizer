@@ -45,9 +45,6 @@ export function TokenInput({
   const [selectionRange, setSelectionRange] = useState<[number, number] | null>(null)
   const [hoveredTokenIndex, setHoveredTokenIndex] = useState<number | null>(null)
   const [isFocused, setIsFocused] = useState(false)
-  const [lastInteraction, setLastInteraction] = useState<
-    'hover' | 'caret' | null
-  >(null)
 
   const clampCaret = useCallback(
     (index: number) => Math.max(0, Math.min(value.length, index)),
@@ -164,13 +161,9 @@ export function TokenInput({
     const { selectionStart, selectionEnd } = element
     if (selectionStart == null || selectionEnd == null) return
     setSelectionRange((prev) => {
-      if (prev && prev[0] === selectionStart && prev[1] === selectionEnd)
-        return prev
+      if (prev && prev[0] === selectionStart && prev[1] === selectionEnd) return prev
       return [selectionStart, selectionEnd]
     })
-    if (document.activeElement === element) {
-      setLastInteraction('caret')
-    }
   }, [])
 
   useEffect(() => {
@@ -195,7 +188,6 @@ export function TokenInput({
       pointerStateRef.current = { id: event.pointerId, anchor: caretIndex }
 
       setIsFocused(true)
-      setLastInteraction('caret')
       textareaRef.current.focus()
       textareaRef.current.setSelectionRange(caretIndex, caretIndex)
       requestAnimationFrame(() => {
@@ -205,12 +197,7 @@ export function TokenInput({
 
       event.currentTarget.setPointerCapture(event.pointerId)
     },
-    [
-      clampCaret,
-      getTokenElementAtPoint,
-      resolveCaretIndex,
-      syncSelectionFromTextarea,
-    ],
+    [clampCaret, getTokenElementAtPoint, resolveCaretIndex, syncSelectionFromTextarea],
   )
 
   const handleOverlayPointerMove = useCallback(
@@ -220,14 +207,8 @@ export function TokenInput({
       if (tokenElement) {
         const index = Number(tokenElement.dataset.tokenIndex)
         setHoveredTokenIndex(Number.isFinite(index) ? index : null)
-        if (Number.isFinite(index)) {
-          setLastInteraction('hover')
-        }
       } else {
         setHoveredTokenIndex(null)
-        setLastInteraction((current) =>
-          current === 'hover' ? 'caret' : current,
-        )
       }
 
       if (!textareaRef.current) return
@@ -256,25 +237,13 @@ export function TokenInput({
       }
       if (event.type === 'pointercancel' || !isFocused) {
         setHoveredTokenIndex(null)
-        setLastInteraction((current) =>
-          current === 'hover' ? 'caret' : current,
-        )
       } else {
-        const tokenElement = getTokenElementAtPoint(
-          event.clientX,
-          event.clientY,
-        )
+        const tokenElement = getTokenElementAtPoint(event.clientX, event.clientY)
         if (tokenElement) {
           const index = Number(tokenElement.dataset.tokenIndex)
           setHoveredTokenIndex(Number.isFinite(index) ? index : null)
-          if (Number.isFinite(index)) {
-            setLastInteraction('hover')
-          }
         } else {
           setHoveredTokenIndex(null)
-          setLastInteraction((current) =>
-            current === 'hover' ? 'caret' : current,
-          )
         }
       }
       syncSelectionFromTextarea()
@@ -285,15 +254,11 @@ export function TokenInput({
   const handleOverlayPointerLeave = useCallback(() => {
     if (!pointerStateRef.current) {
       setHoveredTokenIndex(null)
-      setLastInteraction((current) =>
-        isFocused && current === 'hover' ? 'caret' : current,
-      )
     }
-  }, [isFocused])
+  }, [])
 
   const handleTextareaFocus = useCallback(() => {
     setIsFocused(true)
-    setLastInteraction('caret')
   }, [])
 
   const handleTextareaBlur = useCallback(() => {
@@ -301,13 +266,11 @@ export function TokenInput({
     setHoveredTokenIndex(null)
     setSelectionRange(null)
     pointerStateRef.current = null
-    setLastInteraction(null)
   }, [])
 
   useEffect(() => {
     if (!isFocused) {
       setHoveredTokenIndex((current) => (current === null ? current : null))
-      setLastInteraction(null)
     }
   }, [isFocused])
 
@@ -319,27 +282,19 @@ export function TokenInput({
         ? selectionRange[0]
         : null
 
-    const caretProbe = caretIndex != null ? caretIndex - 1 : null
     const caretTokenIndexRaw =
-      caretProbe != null && caretProbe >= 0
-        ? segments.findIndex(
-            (segment) =>
-              caretProbe >= segment.start && caretProbe < segment.end,
+      caretIndex == null
+        ? null
+        : segments.findIndex(
+            (segment) => caretIndex >= segment.start && caretIndex < segment.end,
           )
-        : null
-    const caretTokenIndex =
-      caretTokenIndexRaw != null && caretTokenIndexRaw >= 0
-        ? caretTokenIndexRaw
-        : null
+    const caretTokenIndex = caretTokenIndexRaw != null && caretTokenIndexRaw >= 0 ? caretTokenIndexRaw : null
 
-    const allowHover =
-      isFocused && lastInteraction === 'hover' && hoveredTokenIndex != null
-    const effectiveHoverIndex = allowHover ? hoveredTokenIndex : null
-
+    const hoveredActiveIndex = isFocused ? hoveredTokenIndex : null
     const activeTokenIndex =
-      isFocused && effectiveHoverIndex != null
-        ? effectiveHoverIndex
-        : isFocused && caretTokenIndex != null
+      hoveredActiveIndex != null
+        ? hoveredActiveIndex
+        : isFocused
           ? caretTokenIndex
           : null
 
@@ -350,10 +305,9 @@ export function TokenInput({
         ? segment.text.replace(/\n/g, '\\n') || '↵'
         : `Token #${segment.token}`
 
-      const isHovered = effectiveHoverIndex === index
+      const isHovered = hoveredActiveIndex === index
       const isSelected = selectionRange
-        ? Math.max(segment.start, selectionRange[0]) <
-            Math.min(segment.end, selectionRange[1]) && isFocused
+        ? Math.max(segment.start, selectionRange[0]) < Math.min(segment.end, selectionRange[1]) && isFocused
         : false
       const isActive = activeTokenIndex === index
 
@@ -382,27 +336,19 @@ export function TokenInput({
           style={chipStyle}
           title={title}
         >
-          <span
-            className="token-chip__ids font-mono text-[11px] font-semibold tracking-tight"
-            aria-hidden={!showTokenIds}
-          >
-            {segment.token}
-          </span>
           <span className="token-chip__text">{textContent}</span>
+          {showTokenIds ? (
+            <span className="token-chip__ids font-mono text-xs font-semibold tracking-tight">
+              {segment.token}
+            </span>
+          ) : null}
           <span className="token-chip__label pointer-events-none absolute -top-6 left-1/2 -translate-x-1/2 rounded-full bg-slate-900 px-2 py-0.5 text-[10px] font-semibold text-slate-100 opacity-0 shadow-sm transition-opacity group-hover:opacity-100 dark:bg-slate-100 dark:text-slate-900">
             {segment.token}
           </span>
         </span>
       )
     })
-  }, [
-    hoveredTokenIndex,
-    isFocused,
-    lastInteraction,
-    segments,
-    selectionRange,
-    showTokenIds,
-  ])
+  }, [hoveredTokenIndex, isFocused, segments, selectionRange, showTokenIds])
 
   return (
     <div

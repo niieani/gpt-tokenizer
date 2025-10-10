@@ -42,9 +42,7 @@ a {
 
 .token-chip {
   position: relative;
-  display: inline-flex;
-  flex-direction: column;
-  align-items: stretch;
+  display: inline;
   white-space: inherit;
   cursor: text;
   color: var(--token-color, var(--token-foreground));
@@ -54,7 +52,6 @@ a {
 .token-chip__text {
   position: relative;
   z-index: 1;
-  order: 1;
   color: inherit;
   white-space: inherit;
   line-height: inherit;
@@ -73,38 +70,19 @@ a {
 }
 
 .token-chip__ids {
-  order: 0;
-  align-self: stretch;
-  display: inline-flex;
-  justify-content: flex-start;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   z-index: 2;
   pointer-events: none;
   color: inherit;
-  line-height: 1;
-  opacity: 0;
-  max-height: 0;
-  transform: translateY(-0.35em);
-  transition:
-    opacity 160ms ease,
-    transform 160ms ease,
-    max-height 220ms ease,
-    margin-bottom 160ms ease;
-  margin-bottom: 0;
-  overflow: hidden;
-  letter-spacing: 0.06em;
-  font-variant-numeric: tabular-nums;
-  box-shadow:
-    0 0 0 1px var(--token-border, transparent),
-    0 0 0 0.08em var(--token-highlight, transparent);
-  background-color: var(--token-fill, transparent);
+  line-height: inherit;
 }
 
-.token-chip--ids .token-chip__ids {
-  opacity: 0.92;
-  max-height: 1.65em;
-  transform: translateY(0);
-  margin-bottom: 0.18em;
-  padding: 0.12em 0 0.18em;
+.token-chip--ids .token-chip__text {
+  opacity: 0;
 }
 
 .token-chip--hovered .token-chip__text,
@@ -113,15 +91,7 @@ a {
     0 0 0 1.5px var(--token-border, transparent),
     0 0 0 0.16em var(--token-highlight, var(--token-bg, transparent));
   background-color: var(--token-highlight, var(--token-fill, transparent));
-  color: color-mix(in srgb, var(--token-color, currentColor) 88%, currentColor 12%);
-}
-
-.token-chip--hovered .token-chip__ids,
-.token-chip--active .token-chip__ids {
-  box-shadow:
-    0 0 0 1.5px var(--token-border, transparent),
-    0 0 0 0.16em var(--token-highlight, var(--token-bg, transparent));
-  background-color: var(--token-highlight, var(--token-fill, transparent));
+  color: var(--token-color, currentColor);
   color: color-mix(in srgb, var(--token-color, currentColor) 88%, currentColor 12%);
 }
 
@@ -132,15 +102,6 @@ a {
   background-color: var(--token-highlight, var(--token-fill, transparent));
   color: var(--token-color, currentColor);
   font-weight: 600;
-}
-
-.token-chip--selected .token-chip__ids {
-  box-shadow:
-    0 0 0 2px var(--token-border, transparent),
-    0 0 0 0.22em var(--token-highlight, var(--token-bg, transparent));
-  background-color: var(--token-highlight, var(--token-fill, transparent));
-  font-weight: 600;
-  color: var(--token-color, currentColor);
 }
 
 .token-chip--active .token-chip__label,
