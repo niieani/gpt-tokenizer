@@ -255,6 +255,11 @@ export function TokenInput({
   const tokenElements = useMemo(() => {
     if (segments.length === 0) return null
 
+    const caretIndex =
+      selectionRange && selectionRange[0] === selectionRange[1]
+        ? selectionRange[0]
+        : null
+
     return segments.map((segment, index) => {
       const textContent = segment.text === '' ? '\u00A0' : segment.text
       const styles = colorForToken(segment.token)
@@ -266,11 +271,18 @@ export function TokenInput({
       const isSelected = selectionRange
         ? Math.max(segment.start, selectionRange[0]) < Math.min(segment.end, selectionRange[1])
         : false
+      const isActive =
+        caretIndex != null &&
+        caretIndex >= segment.start &&
+        caretIndex < segment.end
 
       const chipStyle = {
         '--token-bg': styles.backgroundColor,
+        '--token-highlight':
+          styles.emphasisBackgroundColor ?? styles.backgroundColor,
         '--token-border': styles.borderColor,
         '--token-color': styles.color,
+        '--token-fill': styles.backgroundColor,
       } as CSSProperties
 
       return (
@@ -284,6 +296,7 @@ export function TokenInput({
             showTokenIds && 'token-chip--ids',
             isHovered && 'token-chip--hovered',
             isSelected && 'token-chip--selected',
+            isActive && 'token-chip--active',
           )}
           style={chipStyle}
           title={title}
@@ -335,11 +348,15 @@ export function TokenInput({
         onPointerLeave={handleOverlayPointerLeave}
       >
         {isLoading ? (
-          <p className="text-sm text-slate-500 dark:text-slate-400">Loading tokenizer…</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400">
+            Loading tokenizer…
+          </p>
         ) : tokenElements ? (
           <div className="whitespace-pre-wrap">{tokenElements}</div>
         ) : value.length === 0 ? (
-          <span className="font-sans text-sm text-slate-400 dark:text-slate-500">{placeholder}</span>
+          <span className="font-sans text-sm text-slate-400 dark:text-slate-500">
+            {placeholder}
+          </span>
         ) : disabled ? (
           <span className="font-sans text-sm text-slate-500 dark:text-slate-400">
             Tokenizer is preparing — highlights will appear shortly.

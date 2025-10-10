@@ -59,9 +59,10 @@ a {
   box-decoration-break: clone;
   border-radius: 0.45em;
   box-shadow:
-    0 0 0 0.09em var(--token-bg, transparent),
-    0 0 0 calc(0.09em + 1px) var(--token-border, transparent);
-  transition: box-shadow 160ms ease, color 160ms ease;
+    0 0 0 1px var(--token-border, transparent),
+    0 0 0 0.08em var(--token-highlight, transparent);
+  background-color: var(--token-fill, transparent);
+  transition: box-shadow 160ms ease, background-color 160ms ease, color 160ms ease;
 }
 
 .token-chip__label {
@@ -85,16 +86,26 @@ a {
 }
 
 .token-chip--hovered .token-chip__text,
+.token-chip--active .token-chip__text,
 .token-chip:hover .token-chip__text {
   box-shadow:
-    0 0 0 0.13em var(--token-bg, transparent),
-    0 0 0 calc(0.13em + 1.2px) var(--token-border, transparent);
+    0 0 0 1.5px var(--token-border, transparent),
+    0 0 0 0.16em var(--token-highlight, var(--token-bg, transparent));
+  background-color: var(--token-highlight, var(--token-fill, transparent));
+  color: var(--token-color, currentColor);
+  color: color-mix(in srgb, var(--token-color, currentColor) 88%, currentColor 12%);
 }
 
 .token-chip--selected .token-chip__text {
   box-shadow:
-    0 0 0 0.17em var(--token-bg, transparent),
-    0 0 0 calc(0.17em + 1.8px) var(--token-border, transparent);
+    0 0 0 2px var(--token-border, transparent),
+    0 0 0 0.22em var(--token-highlight, var(--token-bg, transparent));
+  background-color: var(--token-highlight, var(--token-fill, transparent));
   color: var(--token-color, currentColor);
   font-weight: 600;
+}
+
+.token-chip--active .token-chip__label,
+.token-chip--hovered .token-chip__label {
+  opacity: 1;
 }
