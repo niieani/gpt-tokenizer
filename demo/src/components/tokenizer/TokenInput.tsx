@@ -44,6 +44,7 @@ export function TokenInput({
 
   const [selectionRange, setSelectionRange] = useState<[number, number] | null>(null)
   const [hoveredTokenIndex, setHoveredTokenIndex] = useState<number | null>(null)
+  const [activeTokenSource, setActiveTokenSource] = useState<'hover' | 'caret'>('caret')
   const [isFocused, setIsFocused] = useState(false)
 
   const clampCaret = useCallback(
@@ -178,9 +179,16 @@ export function TokenInput({
       const tokenElement = getTokenElementAtPoint(event.clientX, event.clientY)
       if (tokenElement) {
         const index = Number(tokenElement.dataset.tokenIndex)
-        if (Number.isFinite(index)) setHoveredTokenIndex(index)
+        if (Number.isFinite(index)) {
+          setHoveredTokenIndex(index)
+          setActiveTokenSource('hover')
+        } else {
+          setHoveredTokenIndex(null)
+          setActiveTokenSource('caret')
+        }
       } else {
         setHoveredTokenIndex(null)
+        setActiveTokenSource('caret')
       }
 
       event.preventDefault()
@@ -197,7 +205,7 @@ export function TokenInput({
 
       event.currentTarget.setPointerCapture(event.pointerId)
     },
-    [clampCaret, getTokenElementAtPoint, resolveCaretIndex, syncSelectionFromTextarea],
+    [clampCaret, getTokenElementAtPoint, resolveCaretIndex, setActiveTokenSource, syncSelectionFromTextarea],
   )
 
   const handleOverlayPointerMove = useCallback(
@@ -206,9 +214,16 @@ export function TokenInput({
       const tokenElement = getTokenElementAtPoint(event.clientX, event.clientY)
       if (tokenElement) {
         const index = Number(tokenElement.dataset.tokenIndex)
-        setHoveredTokenIndex(Number.isFinite(index) ? index : null)
+        if (Number.isFinite(index)) {
+          setHoveredTokenIndex(index)
+          setActiveTokenSource('hover')
+        } else {
+          setHoveredTokenIndex(null)
+          setActiveTokenSource('caret')
+        }
       } else {
         setHoveredTokenIndex(null)
+        setActiveTokenSource('caret')
       }
 
       if (!textareaRef.current) return
@@ -225,7 +240,7 @@ export function TokenInput({
         return [start, end]
       })
     },
-    [clampCaret, getTokenElementAtPoint, isFocused, resolveCaretIndex],
+    [clampCaret, getTokenElementAtPoint, isFocused, resolveCaretIndex, setActiveTokenSource],
   )
 
   const handleOverlayPointerUpOrCancel = useCallback(
@@ -237,25 +252,34 @@ export function TokenInput({
       }
       if (event.type === 'pointercancel' || !isFocused) {
         setHoveredTokenIndex(null)
+        setActiveTokenSource('caret')
       } else {
         const tokenElement = getTokenElementAtPoint(event.clientX, event.clientY)
         if (tokenElement) {
           const index = Number(tokenElement.dataset.tokenIndex)
-          setHoveredTokenIndex(Number.isFinite(index) ? index : null)
+          if (Number.isFinite(index)) {
+            setHoveredTokenIndex(index)
+            setActiveTokenSource('hover')
+          } else {
+            setHoveredTokenIndex(null)
+            setActiveTokenSource('caret')
+          }
         } else {
           setHoveredTokenIndex(null)
+          setActiveTokenSource('caret')
         }
       }
       syncSelectionFromTextarea()
     },
-    [getTokenElementAtPoint, isFocused, syncSelectionFromTextarea],
+    [getTokenElementAtPoint, isFocused, setActiveTokenSource, syncSelectionFromTextarea],
   )
 
   const handleOverlayPointerLeave = useCallback(() => {
     if (!pointerStateRef.current) {
       setHoveredTokenIndex(null)
+      setActiveTokenSource('caret')
     }
-  }, [])
+  }, [setActiveTokenSource])
 
   const handleTextareaFocus = useCallback(() => {
     setIsFocused(true)
@@ -267,6 +291,10 @@ export function TokenInput({
     setSelectionRange(null)
     pointerStateRef.current = null
   }, [])
+
+  const handleTextareaKeyDown = useCallback(() => {
+    setActiveTokenSource('caret')
+  }, [setActiveTokenSource])
 
   useEffect(() => {
     if (!isFocused) {
@@ -282,21 +310,25 @@ export function TokenInput({
         ? selectionRange[0]
         : null
 
+    const caretReferenceIndex =
+      caretIndex == null ? null : caretIndex > 0 ? caretIndex - 1 : null
+
     const caretTokenIndexRaw =
-      caretIndex == null
+      caretReferenceIndex == null
         ? null
         : segments.findIndex(
-            (segment) => caretIndex >= segment.start && caretIndex < segment.end,
+            (segment) =>
+              caretReferenceIndex >= segment.start && caretReferenceIndex < segment.end,
           )
-    const caretTokenIndex = caretTokenIndexRaw != null && caretTokenIndexRaw >= 0 ? caretTokenIndexRaw : null
+    const caretTokenIndex =
+      caretTokenIndexRaw != null && caretTokenIndexRaw >= 0 ? caretTokenIndexRaw : null
 
     const hoveredActiveIndex = isFocused ? hoveredTokenIndex : null
+    const caretActiveIndex = isFocused ? caretTokenIndex : null
     const activeTokenIndex =
-      hoveredActiveIndex != null
-        ? hoveredActiveIndex
-        : isFocused
-          ? caretTokenIndex
-          : null
+      activeTokenSource === 'hover'
+        ? hoveredActiveIndex ?? caretActiveIndex
+        : caretActiveIndex ?? hoveredActiveIndex
 
     return segments.map((segment, index) => {
       const textContent = segment.text === '' ? '\u00A0' : segment.text
@@ -348,7 +380,7 @@ export function TokenInput({
         </span>
       )
     })
-  }, [hoveredTokenIndex, isFocused, segments, selectionRange, showTokenIds])
+  }, [activeTokenSource, hoveredTokenIndex, isFocused, segments, selectionRange, showTokenIds])
 
   return (
     <div
@@ -362,13 +394,20 @@ export function TokenInput({
       <textarea
         ref={textareaRef}
         value={value}
-        onChange={(event) => onChange(event.target.value)}
+        onChange={(event) => {
+          setActiveTokenSource('caret')
+          onChange(event.target.value)
+        }}
         onScroll={handleScroll}
         onFocus={handleTextareaFocus}
         onBlur={handleTextareaBlur}
+        onKeyDown={handleTextareaKeyDown}
         onSelect={syncSelectionFromTextarea}
         onKeyUp={syncSelectionFromTextarea}
-        onMouseUp={syncSelectionFromTextarea}
+        onMouseUp={() => {
+          setActiveTokenSource('caret')
+          syncSelectionFromTextarea()
+        }}
         spellCheck={false}
         disabled={disabled}
         className="absolute inset-0 z-10 h-full w-full resize-none rounded-3xl border-none bg-transparent px-6 py-5 font-mono text-[15px] leading-relaxed text-transparent caret-slate-900 selection:bg-sky-200/40 focus:outline-none dark:caret-slate-100 dark:selection:bg-sky-500/30"
