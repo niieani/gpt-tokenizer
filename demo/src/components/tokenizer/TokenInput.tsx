@@ -12,6 +12,35 @@ import { colorForToken } from '../../lib/token-display'
 import { cn } from '../../lib/utils'
 import type { TokenSegment } from '../../types'
 
+const HSLA_REGEX =
+  /hsla?\(\s*([-+]?(?:\d+(?:\.\d+)?|\.\d+))\s*,\s*([-+]?(?:\d+(?:\.\d+)?|\.\d+))%\s*,\s*([-+]?(?:\d+(?:\.\d+)?|\.\d+))%\s*(?:,\s*([-+]?(?:\d+(?:\.\d+)?|\.\d+))\s*)?\)/i
+
+function darkenHslaColor(input: string | undefined, lightnessFactor = 0.45, alphaBoost = 0.22) {
+  if (!input) return undefined
+  const match = input.match(HSLA_REGEX)
+  if (!match) return undefined
+
+  const [, rawHue, rawSat, rawLight, rawAlpha] = match
+  const hue = Number.parseFloat(rawHue)
+  const saturation = Number.parseFloat(rawSat)
+  const lightness = Number.parseFloat(rawLight)
+  const alpha = rawAlpha == null ? 1 : Number.parseFloat(rawAlpha)
+
+  if (
+    Number.isNaN(hue) ||
+    Number.isNaN(saturation) ||
+    Number.isNaN(lightness) ||
+    Number.isNaN(alpha)
+  ) {
+    return undefined
+  }
+
+  const nextLightness = Math.min(100, Math.max(0, lightness * lightnessFactor))
+  const nextAlpha = Math.min(1, Math.max(0, alpha + alphaBoost))
+
+  return `hsla(${hue}, ${saturation}%, ${nextLightness}%, ${nextAlpha})`
+}
+
 interface TokenInputProps {
   value: string
   onChange: (value: string) => void
@@ -343,6 +372,14 @@ export function TokenInput({
         : false
       const isActive = activeTokenIndex === index
 
+      const persistentLabelBackground = showTokenIds
+        ? darkenHslaColor(
+            styles.emphasisBackgroundColor ?? styles.backgroundColor,
+            0.42,
+            0.18,
+          )
+        : undefined
+
       const chipStyle = {
         '--token-bg': styles.backgroundColor,
         '--token-highlight':
@@ -351,6 +388,14 @@ export function TokenInput({
         '--token-color': styles.color,
         '--token-fill': styles.backgroundColor,
       } as CSSProperties
+
+      if (showTokenIds) {
+        chipStyle['--token-label-bg'] =
+          persistentLabelBackground ?? 'rgba(15, 23, 42, 0.82)'
+        chipStyle['--token-label-border'] =
+          styles.borderColor ?? 'rgba(15, 23, 42, 0.32)'
+        chipStyle['--token-label-color'] = styles.color
+      }
 
       return (
         <span
@@ -371,10 +416,10 @@ export function TokenInput({
           <span className="token-chip__text">{textContent}</span>
           <span
             className={cn(
-              'token-chip__label pointer-events-none absolute rounded-full font-semibold transition-all',
+              'token-chip__label pointer-events-none absolute font-semibold transition-all',
               showTokenIds
-                ? 'token-chip__label--persistent text-[9px]'
-                : '-top-6 left-1/2 -translate-x-1/2 bg-slate-900 px-2 py-0.5 text-[10px] text-slate-100 opacity-0 shadow-sm group-hover:opacity-100 dark:bg-slate-100 dark:text-slate-900',
+                ? 'token-chip__label--persistent text-[9px] rounded-none'
+                : 'rounded-full -top-6 left-1/2 -translate-x-1/2 bg-slate-900 px-2 py-0.5 text-[10px] text-slate-100 opacity-0 shadow-sm group-hover:opacity-100 dark:bg-slate-100 dark:text-slate-900',
             )}
           >
             {segment.token}
