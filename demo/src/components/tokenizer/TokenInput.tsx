@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef } from 'react'
+import { useCallback, useMemo, useRef, type CSSProperties } from 'react'
 
 import { colorForToken, formatTokenValue } from '../../lib/token-display'
 import { cn } from '../../lib/utils'
@@ -48,23 +48,33 @@ export function TokenInput({
         ? segment.text.replace(/\n/g, '\\n') || '↵'
         : `Token #${segment.token}`
 
+      const chipStyle = {
+        '--token-bg': styles.backgroundColor,
+        '--token-border': styles.borderColor,
+        '--token-color': styles.color,
+      } as CSSProperties
+
       return (
         <span
           key={`${segment.token}-${segment.start}-${index}`}
           data-token-start={segment.start}
-          className="group relative inline-block cursor-text whitespace-pre"
+          className="token-chip group cursor-text whitespace-pre"
+          style={chipStyle}
+          title={title}
         >
           <span
+            aria-hidden
+            className="token-chip__background pointer-events-none transition-transform group-hover:-translate-y-0.5 group-hover:shadow-[0_6px_18px_rgba(14,116,144,0.18)] dark:group-hover:shadow-none"
+          />
+          <span
             className={cn(
-              'inline-flex whitespace-pre rounded-xl border px-2 py-1 font-mono text-sm leading-relaxed shadow-[0_1px_4px_rgba(15,23,42,0.12)] transition-transform group-hover:-translate-y-0.5 group-hover:shadow-[0_6px_18px_rgba(14,116,144,0.18)] dark:shadow-none',
+              'token-chip__content font-mono text-sm leading-relaxed',
               showTokenIds ? 'font-semibold' : 'font-normal',
             )}
-            style={styles}
-            title={title}
           >
             {display === '' ? '\u00A0' : display}
           </span>
-          <span className="pointer-events-none absolute -top-6 left-1/2 -translate-x-1/2 rounded-full bg-slate-900 px-2 py-0.5 text-[10px] font-semibold text-slate-100 opacity-0 shadow-sm transition-opacity group-hover:opacity-100 dark:bg-slate-100 dark:text-slate-900">
+          <span className="token-chip__label pointer-events-none absolute -top-6 left-1/2 -translate-x-1/2 rounded-full bg-slate-900 px-2 py-0.5 text-[10px] font-semibold text-slate-100 opacity-0 shadow-sm transition-opacity group-hover:opacity-100 dark:bg-slate-100 dark:text-slate-900">
             {segment.token}
           </span>
         </span>
@@ -107,7 +117,7 @@ export function TokenInput({
         {isLoading ? (
           <p className="text-sm text-slate-500 dark:text-slate-400">Loading tokenizer…</p>
         ) : tokenElements ? (
-          <div className="flex flex-wrap gap-x-1.5 gap-y-2 whitespace-pre-wrap">{tokenElements}</div>
+          <div className="whitespace-pre-wrap">{tokenElements}</div>
         ) : value.length === 0 ? (
           <span className="text-sm text-slate-400 dark:text-slate-500">{placeholder}</span>
         ) : disabled ? (

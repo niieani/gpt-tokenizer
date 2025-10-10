@@ -39,3 +39,40 @@ html.dark body {
 a {
   color: inherit;
 }
+
+.token-chip {
+  position: relative;
+  display: inline-block;
+  vertical-align: baseline;
+  white-space: pre;
+  cursor: text;
+  color: var(--token-color, var(--token-foreground));
+}
+
+.token-chip__background {
+  position: absolute;
+  inset: -0.25em -0.55em;
+  border-radius: 999px;
+  border: 1px solid var(--token-border, transparent);
+  background-color: var(--token-bg, transparent);
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.12);
+  pointer-events: none;
+  transform: translate3d(0, 0, 0);
+  transition: transform 150ms ease, box-shadow 200ms ease;
+  z-index: 0;
+}
+
+html.dark .token-chip__background {
+  box-shadow: none;
+}
+
+.token-chip__content {
+  position: relative;
+  z-index: 1;
+  color: inherit;
+  white-space: inherit;
+}
+
+.token-chip__label {
+  z-index: 10;
+}
