@@ -6,5 +6,10 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
     port: 5173,
-  }
+  },
+  optimizeDeps: {
+    esbuildOptions: {
+      target: 'chrome120',
+    },
+  },
 })

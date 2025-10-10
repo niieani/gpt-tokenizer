@@ -7,10 +7,10 @@ import { useModelSpec } from '../lib/models'
 
 const TOKENIZER_IMPORT_PREFIX = 'gpt-tokenizer/model/'
 
-const TOKENIZER_LOADERS: Record<string, () => Promise<TokenizerModule>> = {
-  ...import.meta.glob<TokenizerModule>('./../node_modules/gpt-tokenizer/model/*.js'),
-  ...import.meta.glob<TokenizerModule>('./../node_modules/gpt-tokenizer/model/*.mjs'),
-}
+const TOKENIZER_LOADERS: Record<string, () => Promise<TokenizerModule>> =
+  import.meta.glob<TokenizerModule>(
+    '../../node_modules/gpt-tokenizer/esm/model/*.js',
+  )
 
 export type TokenizerModule = {
   encode: (input: string) => number[]
@@ -30,19 +30,21 @@ export function useTokenizer(modelName: string) {
     setError(null)
     try {
       const loaderEntry = Object.entries(TOKENIZER_LOADERS).find(([key]) =>
-        key.endsWith(`/model/${modelName}.js`) || key.endsWith(`/model/${modelName}.mjs`),
+        key.endsWith(`/model/${modelName}.js`),
       )
 
       const module = loaderEntry
         ? await loaderEntry[1]()
         : ((await import(
-            /* @vite-ignore */ `${TOKENIZER_IMPORT_PREFIX}${modelName}`,
+            /* @vite-ignore */ `${TOKENIZER_IMPORT_PREFIX}${modelName}`
           )) as TokenizerModule)
       setTokenizer(module)
     } catch (loadError) {
       console.error('Failed to load tokenizer', loadError)
       setTokenizer(null)
-      setError('Unable to load tokenizer for this model. Please try another one.')
+      setError(
+        'Unable to load tokenizer for this model. Please try another one.',
+      )
     } finally {
       setIsLoading(false)
     }

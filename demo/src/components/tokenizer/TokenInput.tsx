@@ -65,7 +65,7 @@ export function TokenInput({
             {display === '' ? '\u00A0' : display}
           </span>
           <span className="pointer-events-none absolute -top-6 left-1/2 -translate-x-1/2 rounded-full bg-slate-900 px-2 py-0.5 text-[10px] font-semibold text-slate-100 opacity-0 shadow-sm transition-opacity group-hover:opacity-100 dark:bg-slate-100 dark:text-slate-900">
-            #{segment.token}
+            {segment.token}
           </span>
         </span>
       )
