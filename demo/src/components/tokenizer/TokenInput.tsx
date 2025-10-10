@@ -364,7 +364,6 @@ export function TokenInput({
         '--token-border': styles.borderColor,
         '--token-color': styles.color,
         '--token-fill': styles.backgroundColor,
-        '--token-id-space': showTokenIds ? '1.1em' : '0em',
       } as CSSProperties
 
       return (
@@ -390,11 +389,9 @@ export function TokenInput({
             {segment.token}
           </span>
           <span className="token-chip__text">{textContent}</span>
-          {!showTokenIds ? (
-            <span className="token-chip__label pointer-events-none absolute -top-6 left-1/2 -translate-x-1/2 rounded-full bg-slate-900 px-2 py-0.5 text-[10px] font-semibold text-slate-100 opacity-0 shadow-sm transition-opacity group-hover:opacity-100 dark:bg-slate-100 dark:text-slate-900">
-              {segment.token}
-            </span>
-          ) : null}
+          <span className="token-chip__label pointer-events-none absolute -top-6 left-1/2 -translate-x-1/2 rounded-full bg-slate-900 px-2 py-0.5 text-[10px] font-semibold text-slate-100 opacity-0 shadow-sm transition-opacity group-hover:opacity-100 dark:bg-slate-100 dark:text-slate-900">
+            {segment.token}
+          </span>
         </span>
       )
     })
@@ -428,18 +425,12 @@ export function TokenInput({
         onMouseUp={syncSelectionFromTextarea}
         spellCheck={false}
         disabled={disabled}
-        className={cn(
-          'absolute inset-0 z-10 h-full w-full resize-none rounded-3xl border-none bg-transparent px-6 py-5 font-mono text-[15px] text-transparent caret-slate-900 selection:bg-sky-200/40 focus:outline-none dark:caret-slate-100 dark:selection:bg-sky-500/30',
-          showTokenIds ? 'leading-[2.3]' : 'leading-relaxed',
-        )}
+        className="absolute inset-0 z-10 h-full w-full resize-none rounded-3xl border-none bg-transparent px-6 py-5 font-mono text-[15px] leading-relaxed text-transparent caret-slate-900 selection:bg-sky-200/40 focus:outline-none dark:caret-slate-100 dark:selection:bg-sky-500/30"
         aria-label={ariaLabel}
       />
       <div
         ref={overlayRef}
-        className={cn(
-          'absolute inset-0 z-20 overflow-auto rounded-3xl px-6 py-5 font-mono text-[15px] text-slate-700 select-none cursor-text dark:text-slate-200',
-          showTokenIds ? 'leading-[2.3]' : 'leading-relaxed',
-        )}
+        className="absolute inset-0 z-20 overflow-auto rounded-3xl px-6 py-5 font-mono text-[15px] leading-relaxed text-slate-700 select-none cursor-text dark:text-slate-200"
         onScroll={handleOverlayScroll}
         onPointerDown={handleOverlayPointerDown}
         onPointerMove={handleOverlayPointerMove}

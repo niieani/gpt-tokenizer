@@ -42,10 +42,9 @@ a {
 
 .token-chip {
   position: relative;
-  display: inline-grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: var(--token-id-space, 0) auto;
-  align-items: end;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: stretch;
   white-space: inherit;
   cursor: text;
   color: var(--token-color, var(--token-foreground));
@@ -55,8 +54,7 @@ a {
 .token-chip__text {
   position: relative;
   z-index: 1;
-  display: inline-flex;
-  align-items: center;
+  order: 1;
   color: inherit;
   white-space: inherit;
   line-height: inherit;
@@ -75,37 +73,38 @@ a {
 }
 
 .token-chip__ids {
-  grid-row: 1 / 2;
-  grid-column: 1;
-  display: flex;
-  align-items: center;
+  order: 0;
+  align-self: stretch;
+  display: inline-flex;
   justify-content: flex-start;
-  gap: 0.25em;
-  padding: 0 0.65em;
+  z-index: 2;
   pointer-events: none;
   color: inherit;
+  line-height: 1;
   opacity: 0;
+  max-height: 0;
   transform: translateY(-0.35em);
   transition:
     opacity 160ms ease,
-    transform 160ms ease;
-  font-variant-numeric: tabular-nums;
+    transform 160ms ease,
+    max-height 220ms ease,
+    margin-bottom 160ms ease;
+  margin-bottom: 0;
+  overflow: hidden;
   letter-spacing: 0.06em;
-  z-index: 2;
+  font-variant-numeric: tabular-nums;
   box-shadow:
     0 0 0 1px var(--token-border, transparent),
     0 0 0 0.08em var(--token-highlight, transparent);
   background-color: var(--token-fill, transparent);
-  border-radius: 0;
 }
 
 .token-chip--ids .token-chip__ids {
   opacity: 0.92;
+  max-height: 1.65em;
   transform: translateY(0);
-}
-
-.token-chip--ids .token-chip__text {
-  line-height: 1.2;
+  margin-bottom: 0.18em;
+  padding: 0.12em 0 0.18em;
 }
 
 .token-chip--hovered .token-chip__text,
