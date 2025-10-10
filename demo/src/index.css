@@ -73,9 +73,9 @@ a {
   bottom: 100%;
   left: 50%;
   transform: translateX(-50%);
-  background-color: var(--token-label-bg, var(--token-highlight, var(--token-fill, rgba(15, 23, 42, 0.2))));
-  color: var(--token-label-color, var(--token-color, var(--token-foreground)));
-  border: 1px solid var(--token-label-border, var(--token-border, rgba(15, 23, 42, 0.12)));
+  background-color: var(--token-label-bg-light, var(--token-label-bg, rgba(15, 23, 42, 0.82)));
+  color: var(--token-label-color-light, #f8fafc);
+  border: 1px solid var(--token-label-border-light, var(--token-label-border, rgba(15, 23, 42, 0.32)));
   display: inline-block;
   text-align: center;
   padding: 0.15rem 0.35rem;
@@ -99,6 +99,9 @@ a {
 }
 
 html.dark .token-chip__label--persistent {
+  background-color: var(--token-label-bg-dark, rgba(248, 250, 252, 0.76));
+  color: var(--token-label-color-dark, #020617);
+  border-color: var(--token-label-border-dark, rgba(148, 163, 184, 0.28));
   box-shadow: 0 10px 22px rgba(9, 9, 11, 0.32);
 }
 

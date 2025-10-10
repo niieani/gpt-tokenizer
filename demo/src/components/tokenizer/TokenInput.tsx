@@ -15,7 +15,16 @@ import type { TokenSegment } from '../../types'
 const HSLA_REGEX =
   /hsla?\(\s*([-+]?(?:\d+(?:\.\d+)?|\.\d+))\s*,\s*([-+]?(?:\d+(?:\.\d+)?|\.\d+))%\s*,\s*([-+]?(?:\d+(?:\.\d+)?|\.\d+))%\s*(?:,\s*([-+]?(?:\d+(?:\.\d+)?|\.\d+))\s*)?\)/i
 
-function darkenHslaColor(input: string | undefined, lightnessFactor = 0.45, alphaBoost = 0.22) {
+interface HslaAdjustmentOptions {
+  lightnessMultiplier?: number
+  lightnessOffset?: number
+  alphaOffset?: number
+}
+
+function adjustHslaColor(
+  input: string | undefined,
+  { lightnessMultiplier = 1, lightnessOffset = 0, alphaOffset = 0 }: HslaAdjustmentOptions = {},
+) {
   if (!input) return undefined
   const match = input.match(HSLA_REGEX)
   if (!match) return undefined
@@ -35,8 +44,8 @@ function darkenHslaColor(input: string | undefined, lightnessFactor = 0.45, alph
     return undefined
   }
 
-  const nextLightness = Math.min(100, Math.max(0, lightness * lightnessFactor))
-  const nextAlpha = Math.min(1, Math.max(0, alpha + alphaBoost))
+  const nextLightness = Math.min(100, Math.max(0, lightness * lightnessMultiplier + lightnessOffset))
+  const nextAlpha = Math.min(1, Math.max(0, alpha + alphaOffset))
 
   return `hsla(${hue}, ${saturation}%, ${nextLightness}%, ${nextAlpha})`
 }
@@ -372,12 +381,14 @@ export function TokenInput({
         : false
       const isActive = activeTokenIndex === index
 
-      const persistentLabelBackground = showTokenIds
-        ? darkenHslaColor(
-            styles.emphasisBackgroundColor ?? styles.backgroundColor,
-            0.42,
-            0.18,
-          )
+      const baseLabelBackground = styles.emphasisBackgroundColor ?? styles.backgroundColor
+
+      const persistentLightBackground = showTokenIds
+        ? adjustHslaColor(baseLabelBackground, { lightnessMultiplier: 0.42, alphaOffset: 0.18 })
+        : undefined
+
+      const persistentDarkBackground = showTokenIds
+        ? adjustHslaColor(baseLabelBackground, { lightnessMultiplier: 1.35, alphaOffset: -0.12 })
         : undefined
 
       const chipStyle = {
@@ -387,14 +398,27 @@ export function TokenInput({
         '--token-border': styles.borderColor,
         '--token-color': styles.color,
         '--token-fill': styles.backgroundColor,
+        '--token-label-color': styles.color,
       } as CSSProperties
 
       if (showTokenIds) {
         chipStyle['--token-label-bg'] =
-          persistentLabelBackground ?? 'rgba(15, 23, 42, 0.82)'
-        chipStyle['--token-label-border'] =
-          styles.borderColor ?? 'rgba(15, 23, 42, 0.32)'
-        chipStyle['--token-label-color'] = styles.color
+          persistentLightBackground ?? 'rgba(15, 23, 42, 0.82)'
+        chipStyle['--token-label-bg-light'] = chipStyle['--token-label-bg']
+        chipStyle['--token-label-bg-dark'] =
+          persistentDarkBackground ?? 'rgba(248, 250, 252, 0.76)'
+
+        const labelBorderLight = styles.borderColor ?? 'rgba(15, 23, 42, 0.32)'
+        const labelBorderDark =
+          adjustHslaColor(styles.borderColor, { lightnessMultiplier: 1.25, alphaOffset: -0.18 }) ??
+          'rgba(15, 23, 42, 0.22)'
+
+        chipStyle['--token-label-border'] = labelBorderLight
+        chipStyle['--token-label-border-light'] = labelBorderLight
+        chipStyle['--token-label-border-dark'] = labelBorderDark
+
+        chipStyle['--token-label-color-light'] = '#ffffff'
+        chipStyle['--token-label-color-dark'] = '#020617'
       }
 
       return (
@@ -432,7 +456,7 @@ export function TokenInput({
   return (
     <div
       className={cn(
-        'relative rounded-3xl border border-slate-300/80 bg-white/80 shadow-lg ring-offset-2 transition-colors focus-within:border-sky-400 focus-within:ring-2 focus-within:ring-sky-200/60 dark:border-slate-700/70 dark:bg-slate-900/70 dark:focus-within:border-sky-400/80 dark:focus-within:ring-sky-500/40',
+        'relative rounded-3xl border border-slate-300/70 bg-slate-50/90 shadow-lg ring-offset-2 transition-colors focus-within:border-sky-400 focus-within:ring-2 focus-within:ring-sky-200/60 dark:border-slate-700/70 dark:bg-slate-950/70 dark:focus-within:border-sky-400/80 dark:focus-within:ring-sky-500/40',
         disabled && 'opacity-60',
         className,
       )}
