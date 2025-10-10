@@ -1,7 +1,9 @@
 import {
   useCallback,
+  useEffect,
   useMemo,
   useRef,
+  useState,
   type CSSProperties,
   type PointerEvent as ReactPointerEvent,
 } from 'react'
@@ -37,6 +39,22 @@ export function TokenInput({
 }: TokenInputProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const overlayRef = useRef<HTMLDivElement>(null)
+  // Track the active pointer selection gesture originating from the overlay.
+  const pointerStateRef = useRef<{ id: number; anchor: number } | null>(null)
+
+  const [selectionRange, setSelectionRange] = useState<[number, number] | null>(null)
+  const [hoveredTokenIndex, setHoveredTokenIndex] = useState<number | null>(null)
+
+  const clampCaret = useCallback(
+    (index: number) => Math.max(0, Math.min(value.length, index)),
+    [value.length],
+  )
+
+  const getTokenElementAtPoint = useCallback((clientX: number, clientY: number) => {
+    const doc = overlayRef.current?.ownerDocument ?? document
+    const target = doc.elementFromPoint(clientX, clientY)
+    return (target as Element | null)?.closest('[data-token-index]') as HTMLElement | null
+  }, [])
 
   const handleScroll = useCallback(() => {
     if (!textareaRef.current || !overlayRef.current) return
@@ -58,6 +76,7 @@ export function TokenInput({
     }
   }, [])
 
+  // Map overlay hit positions back to source string offsets for caret/selection syncing.
   const resolveCaretIndex = useCallback(
     (nativeEvent: MouseEvent | PointerEvent) => {
       const computeIndex = (node: Node | null, offset: number, clientX: number): number | null => {
@@ -135,36 +154,103 @@ export function TokenInput({
     [value.length],
   )
 
+  const syncSelectionFromTextarea = useCallback(() => {
+    const element = textareaRef.current
+    if (!element) return
+    const { selectionStart, selectionEnd } = element
+    if (selectionStart == null || selectionEnd == null) return
+    setSelectionRange((prev) => {
+      if (prev && prev[0] === selectionStart && prev[1] === selectionEnd) return prev
+      return [selectionStart, selectionEnd]
+    })
+  }, [])
+
+  useEffect(() => {
+    syncSelectionFromTextarea()
+  }, [value.length, syncSelectionFromTextarea])
+
   const handleOverlayPointerDown = useCallback(
     (event: ReactPointerEvent<HTMLDivElement>) => {
       if (!textareaRef.current) return
       if (event.button !== 0) return
 
-      const caretIndex = resolveCaretIndex(event.nativeEvent)
-      const clampedCaret = Math.max(0, Math.min(value.length, caretIndex))
+      const tokenElement = getTokenElementAtPoint(event.clientX, event.clientY)
+      if (tokenElement) {
+        const index = Number(tokenElement.dataset.tokenIndex)
+        if (Number.isFinite(index)) setHoveredTokenIndex(index)
+      } else {
+        setHoveredTokenIndex(null)
+      }
 
       event.preventDefault()
+      const caretIndex = clampCaret(resolveCaretIndex(event.nativeEvent))
+      pointerStateRef.current = { id: event.pointerId, anchor: caretIndex }
+
       textareaRef.current.focus()
+      textareaRef.current.setSelectionRange(caretIndex, caretIndex)
       requestAnimationFrame(() => {
-        textareaRef.current?.setSelectionRange(clampedCaret, clampedCaret)
+        textareaRef.current?.setSelectionRange(caretIndex, caretIndex)
+        syncSelectionFromTextarea()
       })
 
-      const overlayEl = overlayRef.current
-      if (overlayEl) {
-        overlayEl.style.pointerEvents = 'none'
-
-        const restore = () => {
-          overlayEl.style.pointerEvents = ''
-          window.removeEventListener('pointerup', restore, true)
-          window.removeEventListener('pointercancel', restore, true)
-        }
-
-        window.addEventListener('pointerup', restore, true)
-        window.addEventListener('pointercancel', restore, true)
-      }
+      event.currentTarget.setPointerCapture(event.pointerId)
     },
-    [resolveCaretIndex, value.length],
+    [clampCaret, getTokenElementAtPoint, resolveCaretIndex, syncSelectionFromTextarea],
   )
+
+  const handleOverlayPointerMove = useCallback(
+    (event: ReactPointerEvent<HTMLDivElement>) => {
+      const tokenElement = getTokenElementAtPoint(event.clientX, event.clientY)
+      if (tokenElement) {
+        const index = Number(tokenElement.dataset.tokenIndex)
+        setHoveredTokenIndex(Number.isFinite(index) ? index : null)
+      } else {
+        setHoveredTokenIndex(null)
+      }
+
+      if (!textareaRef.current) return
+      const pointerState = pointerStateRef.current
+      if (!pointerState || pointerState.id !== event.pointerId) return
+
+      const caretIndex = clampCaret(resolveCaretIndex(event.nativeEvent))
+      const start = Math.min(pointerState.anchor, caretIndex)
+      const end = Math.max(pointerState.anchor, caretIndex)
+
+      textareaRef.current.setSelectionRange(start, end)
+      setSelectionRange((prev) => {
+        if (prev && prev[0] === start && prev[1] === end) return prev
+        return [start, end]
+      })
+    },
+    [clampCaret, getTokenElementAtPoint, resolveCaretIndex],
+  )
+
+  const handleOverlayPointerUpOrCancel = useCallback(
+    (event: ReactPointerEvent<HTMLDivElement>) => {
+      const pointerState = pointerStateRef.current
+      if (pointerState && pointerState.id === event.pointerId) {
+        pointerStateRef.current = null
+        event.currentTarget.releasePointerCapture(event.pointerId)
+      }
+      if (event.type === 'pointercancel') {
+        setHoveredTokenIndex(null)
+      } else {
+        const tokenElement = getTokenElementAtPoint(event.clientX, event.clientY)
+        if (tokenElement) {
+          const index = Number(tokenElement.dataset.tokenIndex)
+          setHoveredTokenIndex(Number.isFinite(index) ? index : null)
+        } else {
+          setHoveredTokenIndex(null)
+        }
+      }
+      syncSelectionFromTextarea()
+    },
+    [getTokenElementAtPoint, syncSelectionFromTextarea],
+  )
+
+  const handleOverlayPointerLeave = useCallback(() => {
+    setHoveredTokenIndex(null)
+  }, [])
 
   const tokenElements = useMemo(() => {
     if (segments.length === 0) return null
@@ -175,6 +261,11 @@ export function TokenInput({
       const title = showTokenIds
         ? segment.text.replace(/\n/g, '\\n') || '↵'
         : `Token #${segment.token}`
+
+      const isHovered = hoveredTokenIndex === index
+      const isSelected = selectionRange
+        ? Math.max(segment.start, selectionRange[0]) < Math.min(segment.end, selectionRange[1])
+        : false
 
       const chipStyle = {
         '--token-bg': styles.backgroundColor,
@@ -187,14 +278,16 @@ export function TokenInput({
           key={`${segment.token}-${segment.start}-${index}`}
           data-token-start={segment.start}
           data-token-length={segment.end - segment.start}
-          className={cn('token-chip group whitespace-pre', showTokenIds && 'token-chip--ids')}
+          data-token-index={index}
+          className={cn(
+            'token-chip group whitespace-pre',
+            showTokenIds && 'token-chip--ids',
+            isHovered && 'token-chip--hovered',
+            isSelected && 'token-chip--selected',
+          )}
           style={chipStyle}
           title={title}
         >
-          <span
-            aria-hidden
-            className="token-chip__background pointer-events-none transition-transform group-hover:-translate-y-0.5 group-hover:shadow-[0_6px_18px_rgba(14,116,144,0.18)] dark:group-hover:shadow-none"
-          />
           <span className="token-chip__text">{textContent}</span>
           {showTokenIds ? (
             <span className="token-chip__ids font-mono text-xs font-semibold tracking-tight">
@@ -207,7 +300,7 @@ export function TokenInput({
         </span>
       )
     })
-  }, [segments, showTokenIds])
+  }, [hoveredTokenIndex, segments, selectionRange, showTokenIds])
 
   return (
     <div
@@ -223,27 +316,36 @@ export function TokenInput({
         value={value}
         onChange={(event) => onChange(event.target.value)}
         onScroll={handleScroll}
+        onSelect={syncSelectionFromTextarea}
+        onKeyUp={syncSelectionFromTextarea}
+        onMouseUp={syncSelectionFromTextarea}
         spellCheck={false}
         disabled={disabled}
-        className="absolute inset-0 z-10 h-full w-full resize-none rounded-3xl border-none bg-transparent px-6 py-5 font-sans text-base leading-relaxed text-transparent caret-slate-900 selection:bg-sky-200/40 focus:outline-none dark:caret-slate-100 dark:selection:bg-sky-500/30"
+        className="absolute inset-0 z-10 h-full w-full resize-none rounded-3xl border-none bg-transparent px-6 py-5 font-mono text-[15px] leading-relaxed text-transparent caret-slate-900 selection:bg-sky-200/40 focus:outline-none dark:caret-slate-100 dark:selection:bg-sky-500/30"
         aria-label={ariaLabel}
       />
       <div
         ref={overlayRef}
-        className="absolute inset-0 z-20 overflow-auto rounded-3xl px-6 py-5 font-sans text-base leading-relaxed text-slate-700 dark:text-slate-200"
+        className="absolute inset-0 z-20 overflow-auto rounded-3xl px-6 py-5 font-mono text-[15px] leading-relaxed text-slate-700 select-none dark:text-slate-200"
         onScroll={handleOverlayScroll}
         onPointerDown={handleOverlayPointerDown}
+        onPointerMove={handleOverlayPointerMove}
+        onPointerUp={handleOverlayPointerUpOrCancel}
+        onPointerCancel={handleOverlayPointerUpOrCancel}
+        onPointerLeave={handleOverlayPointerLeave}
       >
         {isLoading ? (
           <p className="text-sm text-slate-500 dark:text-slate-400">Loading tokenizer…</p>
         ) : tokenElements ? (
           <div className="whitespace-pre-wrap">{tokenElements}</div>
         ) : value.length === 0 ? (
-          <span className="text-sm text-slate-400 dark:text-slate-500">{placeholder}</span>
+          <span className="font-sans text-sm text-slate-400 dark:text-slate-500">{placeholder}</span>
         ) : disabled ? (
-          <span className="text-sm text-slate-500 dark:text-slate-400">Tokenizer is preparing — highlights will appear shortly.</span>
+          <span className="font-sans text-sm text-slate-500 dark:text-slate-400">
+            Tokenizer is preparing — highlights will appear shortly.
+          </span>
         ) : (
-          <span className="text-sm text-slate-500 dark:text-slate-400">
+          <span className="font-sans text-sm text-slate-500 dark:text-slate-400">
             No tokens returned. Try adjusting the text or switching models.
           </span>
         )}

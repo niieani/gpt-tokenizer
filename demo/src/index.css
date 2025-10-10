@@ -46,23 +46,7 @@ a {
   white-space: inherit;
   cursor: text;
   color: var(--token-color, var(--token-foreground));
-}
-
-.token-chip__background {
-  position: absolute;
-  inset: -0.25em -0.55em;
-  border-radius: 999px;
-  border: 1px solid var(--token-border, transparent);
-  background-color: var(--token-bg, transparent);
-  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.12);
-  pointer-events: none;
-  transform: translate3d(0, 0, 0);
-  transition: transform 150ms ease, box-shadow 200ms ease;
-  z-index: 0;
-}
-
-html.dark .token-chip__background {
-  box-shadow: none;
+  font-variant-ligatures: none;
 }
 
 .token-chip__text {
@@ -71,6 +55,13 @@ html.dark .token-chip__background {
   color: inherit;
   white-space: inherit;
   line-height: inherit;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  border-radius: 0.45em;
+  box-shadow:
+    0 0 0 0.09em var(--token-bg, transparent),
+    0 0 0 calc(0.09em + 1px) var(--token-border, transparent);
+  transition: box-shadow 160ms ease, color 160ms ease;
 }
 
 .token-chip__label {
@@ -91,4 +82,19 @@ html.dark .token-chip__background {
 
 .token-chip--ids .token-chip__text {
   opacity: 0;
+}
+
+.token-chip--hovered .token-chip__text,
+.token-chip:hover .token-chip__text {
+  box-shadow:
+    0 0 0 0.13em var(--token-bg, transparent),
+    0 0 0 calc(0.13em + 1.2px) var(--token-border, transparent);
+}
+
+.token-chip--selected .token-chip__text {
+  box-shadow:
+    0 0 0 0.17em var(--token-bg, transparent),
+    0 0 0 calc(0.17em + 1.8px) var(--token-border, transparent);
+  color: var(--token-color, currentColor);
+  font-weight: 600;
 }
