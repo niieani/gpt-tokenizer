@@ -42,9 +42,8 @@ a {
 
 .token-chip {
   position: relative;
-  display: inline-block;
-  vertical-align: baseline;
-  white-space: pre;
+  display: inline;
+  white-space: inherit;
   cursor: text;
   color: var(--token-color, var(--token-foreground));
 }
@@ -66,13 +65,30 @@ html.dark .token-chip__background {
   box-shadow: none;
 }
 
-.token-chip__content {
+.token-chip__text {
   position: relative;
   z-index: 1;
   color: inherit;
   white-space: inherit;
+  line-height: inherit;
 }
 
 .token-chip__label {
   z-index: 10;
+}
+
+.token-chip__ids {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  pointer-events: none;
+  color: inherit;
+  line-height: inherit;
+}
+
+.token-chip--ids .token-chip__text {
+  opacity: 0;
 }
