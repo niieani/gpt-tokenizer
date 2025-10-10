@@ -44,6 +44,7 @@ export function TokenInput({
 
   const [selectionRange, setSelectionRange] = useState<[number, number] | null>(null)
   const [hoveredTokenIndex, setHoveredTokenIndex] = useState<number | null>(null)
+  const [isFocused, setIsFocused] = useState(false)
 
   const clampCaret = useCallback(
     (index: number) => Math.max(0, Math.min(value.length, index)),
@@ -186,6 +187,7 @@ export function TokenInput({
       const caretIndex = clampCaret(resolveCaretIndex(event.nativeEvent))
       pointerStateRef.current = { id: event.pointerId, anchor: caretIndex }
 
+      setIsFocused(true)
       textareaRef.current.focus()
       textareaRef.current.setSelectionRange(caretIndex, caretIndex)
       requestAnimationFrame(() => {
@@ -200,6 +202,7 @@ export function TokenInput({
 
   const handleOverlayPointerMove = useCallback(
     (event: ReactPointerEvent<HTMLDivElement>) => {
+      if (!isFocused && !pointerStateRef.current) return
       const tokenElement = getTokenElementAtPoint(event.clientX, event.clientY)
       if (tokenElement) {
         const index = Number(tokenElement.dataset.tokenIndex)
@@ -222,7 +225,7 @@ export function TokenInput({
         return [start, end]
       })
     },
-    [clampCaret, getTokenElementAtPoint, resolveCaretIndex],
+    [clampCaret, getTokenElementAtPoint, isFocused, resolveCaretIndex],
   )
 
   const handleOverlayPointerUpOrCancel = useCallback(
@@ -232,7 +235,7 @@ export function TokenInput({
         pointerStateRef.current = null
         event.currentTarget.releasePointerCapture(event.pointerId)
       }
-      if (event.type === 'pointercancel') {
+      if (event.type === 'pointercancel' || !isFocused) {
         setHoveredTokenIndex(null)
       } else {
         const tokenElement = getTokenElementAtPoint(event.clientX, event.clientY)
@@ -245,12 +248,31 @@ export function TokenInput({
       }
       syncSelectionFromTextarea()
     },
-    [getTokenElementAtPoint, syncSelectionFromTextarea],
+    [getTokenElementAtPoint, isFocused, syncSelectionFromTextarea],
   )
 
   const handleOverlayPointerLeave = useCallback(() => {
-    setHoveredTokenIndex(null)
+    if (!pointerStateRef.current) {
+      setHoveredTokenIndex(null)
+    }
   }, [])
+
+  const handleTextareaFocus = useCallback(() => {
+    setIsFocused(true)
+  }, [])
+
+  const handleTextareaBlur = useCallback(() => {
+    setIsFocused(false)
+    setHoveredTokenIndex(null)
+    setSelectionRange(null)
+    pointerStateRef.current = null
+  }, [])
+
+  useEffect(() => {
+    if (!isFocused) {
+      setHoveredTokenIndex((current) => (current === null ? current : null))
+    }
+  }, [isFocused])
 
   const tokenElements = useMemo(() => {
     if (segments.length === 0) return null
@@ -260,6 +282,22 @@ export function TokenInput({
         ? selectionRange[0]
         : null
 
+    const caretTokenIndexRaw =
+      caretIndex == null
+        ? null
+        : segments.findIndex(
+            (segment) => caretIndex >= segment.start && caretIndex < segment.end,
+          )
+    const caretTokenIndex = caretTokenIndexRaw != null && caretTokenIndexRaw >= 0 ? caretTokenIndexRaw : null
+
+    const hoveredActiveIndex = isFocused ? hoveredTokenIndex : null
+    const activeTokenIndex =
+      hoveredActiveIndex != null
+        ? hoveredActiveIndex
+        : isFocused
+          ? caretTokenIndex
+          : null
+
     return segments.map((segment, index) => {
       const textContent = segment.text === '' ? '\u00A0' : segment.text
       const styles = colorForToken(segment.token)
@@ -267,14 +305,11 @@ export function TokenInput({
         ? segment.text.replace(/\n/g, '\\n') || '↵'
         : `Token #${segment.token}`
 
-      const isHovered = hoveredTokenIndex === index
+      const isHovered = hoveredActiveIndex === index
       const isSelected = selectionRange
-        ? Math.max(segment.start, selectionRange[0]) < Math.min(segment.end, selectionRange[1])
+        ? Math.max(segment.start, selectionRange[0]) < Math.min(segment.end, selectionRange[1]) && isFocused
         : false
-      const isActive =
-        caretIndex != null &&
-        caretIndex >= segment.start &&
-        caretIndex < segment.end
+      const isActive = activeTokenIndex === index
 
       const chipStyle = {
         '--token-bg': styles.backgroundColor,
@@ -313,7 +348,7 @@ export function TokenInput({
         </span>
       )
     })
-  }, [hoveredTokenIndex, segments, selectionRange, showTokenIds])
+  }, [hoveredTokenIndex, isFocused, segments, selectionRange, showTokenIds])
 
   return (
     <div
@@ -329,6 +364,8 @@ export function TokenInput({
         value={value}
         onChange={(event) => onChange(event.target.value)}
         onScroll={handleScroll}
+        onFocus={handleTextareaFocus}
+        onBlur={handleTextareaBlur}
         onSelect={syncSelectionFromTextarea}
         onKeyUp={syncSelectionFromTextarea}
         onMouseUp={syncSelectionFromTextarea}
@@ -339,7 +376,7 @@ export function TokenInput({
       />
       <div
         ref={overlayRef}
-        className="absolute inset-0 z-20 overflow-auto rounded-3xl px-6 py-5 font-mono text-[15px] leading-relaxed text-slate-700 select-none dark:text-slate-200"
+        className="absolute inset-0 z-20 overflow-auto rounded-3xl px-6 py-5 font-mono text-[15px] leading-relaxed text-slate-700 select-none cursor-text dark:text-slate-200"
         onScroll={handleOverlayScroll}
         onPointerDown={handleOverlayPointerDown}
         onPointerMove={handleOverlayPointerMove}

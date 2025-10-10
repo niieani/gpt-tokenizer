@@ -57,7 +57,7 @@ a {
   line-height: inherit;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
-  border-radius: 0.45em;
+  border-radius: 0;
   box-shadow:
     0 0 0 1px var(--token-border, transparent),
     0 0 0 0.08em var(--token-highlight, transparent);
@@ -86,8 +86,7 @@ a {
 }
 
 .token-chip--hovered .token-chip__text,
-.token-chip--active .token-chip__text,
-.token-chip:hover .token-chip__text {
+.token-chip--active .token-chip__text {
   box-shadow:
     0 0 0 1.5px var(--token-border, transparent),
     0 0 0 0.16em var(--token-highlight, var(--token-bg, transparent));
