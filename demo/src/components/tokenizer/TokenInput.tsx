@@ -368,6 +368,8 @@ export function TokenInput({
         ? hoveredActiveIndex ?? caretActiveIndex
         : caretActiveIndex ?? hoveredActiveIndex
 
+    const hasLabelInteraction = showTokenIds && activeTokenIndex != null
+
     return segments.map((segment, index) => {
       const textContent = segment.text === '' ? '\u00A0' : segment.text
       const styles = colorForToken(segment.token)
@@ -384,11 +386,11 @@ export function TokenInput({
       const baseLabelBackground = styles.emphasisBackgroundColor ?? styles.backgroundColor
 
       const persistentLightBackground = showTokenIds
-        ? adjustHslaColor(baseLabelBackground, { lightnessMultiplier: 0.42, alphaOffset: 0.18 })
+        ? adjustHslaColor(baseLabelBackground, { lightnessMultiplier: 0.42, alphaOffset: 1 })
         : undefined
 
       const persistentDarkBackground = showTokenIds
-        ? adjustHslaColor(baseLabelBackground, { lightnessMultiplier: 1.35, alphaOffset: -0.12 })
+        ? adjustHslaColor(baseLabelBackground, { lightnessMultiplier: 1.38, alphaOffset: 1 })
         : undefined
 
       const chipStyle = {
@@ -403,10 +405,10 @@ export function TokenInput({
 
       if (showTokenIds) {
         chipStyle['--token-label-bg'] =
-          persistentLightBackground ?? 'rgba(15, 23, 42, 0.82)'
+          persistentLightBackground ?? '#0f172a'
         chipStyle['--token-label-bg-light'] = chipStyle['--token-label-bg']
         chipStyle['--token-label-bg-dark'] =
-          persistentDarkBackground ?? 'rgba(248, 250, 252, 0.76)'
+          persistentDarkBackground ?? '#f8fafc'
 
         const labelBorderLight = styles.borderColor ?? 'rgba(15, 23, 42, 0.32)'
         const labelBorderDark =
@@ -419,6 +421,26 @@ export function TokenInput({
 
         chipStyle['--token-label-color-light'] = '#ffffff'
         chipStyle['--token-label-color-dark'] = '#020617'
+
+        const labelOpacity =
+          isActive || isHovered
+            ? 1
+            : hasLabelInteraction
+              ? 0.6
+              : 0.92
+        chipStyle['--token-label-opacity'] = String(labelOpacity)
+
+        const labelShadowLight =
+          isActive || isHovered
+            ? '0 14px 32px rgba(15, 23, 42, 0.32)'
+            : '0 8px 22px rgba(15, 23, 42, 0.2)'
+        const labelShadowDark =
+          isActive || isHovered
+            ? '0 18px 40px rgba(2, 6, 23, 0.6)'
+            : '0 12px 28px rgba(2, 6, 23, 0.45)'
+
+        chipStyle['--token-label-shadow-light'] = labelShadowLight
+        chipStyle['--token-label-shadow-dark'] = labelShadowDark
       }
 
       return (
@@ -456,7 +478,7 @@ export function TokenInput({
   return (
     <div
       className={cn(
-        'relative rounded-3xl border border-slate-300/70 bg-slate-50/90 shadow-lg ring-offset-2 transition-colors focus-within:border-sky-400 focus-within:ring-2 focus-within:ring-sky-200/60 dark:border-slate-700/70 dark:bg-slate-950/70 dark:focus-within:border-sky-400/80 dark:focus-within:ring-sky-500/40',
+        'relative rounded-3xl border border-slate-300/70 bg-white shadow-lg ring-offset-2 transition-colors focus-within:border-sky-400 focus-within:ring-2 focus-within:ring-sky-200/60 dark:border-slate-700/70 dark:bg-slate-900 dark:focus-within:border-sky-400/80 dark:focus-within:ring-sky-500/40',
         disabled && 'opacity-60',
         className,
       )}

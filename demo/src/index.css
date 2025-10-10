@@ -73,20 +73,20 @@ a {
   bottom: 100%;
   left: 50%;
   transform: translateX(-50%);
-  background-color: var(--token-label-bg-light, var(--token-label-bg, rgba(15, 23, 42, 0.82)));
+  background-color: var(--token-label-bg-light, var(--token-label-bg, #0f172a));
   color: var(--token-label-color-light, #f8fafc);
   border: 1px solid var(--token-label-border-light, var(--token-label-border, rgba(15, 23, 42, 0.32)));
   display: inline-block;
   text-align: center;
   padding: 0.15rem 0.35rem;
-  opacity: 1;
+  opacity: var(--token-label-opacity, 1);
   min-width: 100%;
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   line-height: 1.15;
-  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.12);
+  box-shadow: var(--token-label-shadow-light, 0 8px 24px rgba(15, 23, 42, 0.22));
   font-variant-numeric: tabular-nums;
   backdrop-filter: saturate(140%);
   border-radius: 0;
@@ -95,14 +95,15 @@ a {
     color 160ms ease,
     max-width 160ms ease,
     padding 160ms ease,
-    box-shadow 160ms ease;
+    box-shadow 160ms ease,
+    opacity 140ms ease;
 }
 
 html.dark .token-chip__label--persistent {
-  background-color: var(--token-label-bg-dark, rgba(248, 250, 252, 0.76));
+  background-color: var(--token-label-bg-dark, #f8fafc);
   color: var(--token-label-color-dark, #020617);
   border-color: var(--token-label-border-dark, rgba(148, 163, 184, 0.28));
-  box-shadow: 0 10px 22px rgba(9, 9, 11, 0.32);
+  box-shadow: var(--token-label-shadow-dark, 0 14px 32px rgba(2, 6, 23, 0.48));
 }
 
 .token-chip--hovered .token-chip__label--persistent,
