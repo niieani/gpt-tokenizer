@@ -12,6 +12,28 @@ import { colorForToken } from '../../lib/token-display'
 import { cn } from '../../lib/utils'
 import type { TokenSegment } from '../../types'
 
+// augment CSSProperties to include custom properties for token styles
+declare module 'csstype' {
+  interface Properties {
+    '--token-bg'?: string
+    '--token-highlight'?: string
+    '--token-border'?: string
+    '--token-color'?: string
+    '--token-fill'?: string
+    '--token-label-bg-light'?: string
+    '--token-label-bg-dark'?: string
+    '--token-label-gradient-light'?: string
+    '--token-label-gradient-dark'?: string
+    '--token-label-border-light'?: string
+    '--token-label-border-dark'?: string
+    '--token-label-color-light'?: string
+    '--token-label-color-dark'?: string
+    '--token-label-opacity'?: string
+    '--token-label-shadow-light'?: string
+    '--token-label-shadow-dark'?: string
+  }
+}
+
 interface TokenInputProps {
   value: string
   onChange: (value: string) => void
@@ -345,14 +367,14 @@ export function TokenInput({
         : false
       const isActive = activeTokenIndex === index
 
-      const chipStyle = {
+      const chipStyle: CSSProperties = {
         '--token-bg': styles.backgroundColor,
         '--token-highlight':
           styles.emphasisBackgroundColor ?? styles.backgroundColor,
         '--token-border': styles.borderColor,
         '--token-color': styles.color,
         '--token-fill': styles.backgroundColor,
-      } as CSSProperties
+      }
 
       if (showTokenIds) {
         chipStyle['--token-label-bg-light'] =
