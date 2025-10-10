@@ -1,0 +1,41 @@
+@import 'tailwindcss';
+
+:root {
+  color-scheme: light;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    sans-serif;
+  background-color: #f8fafc;
+  color: #0f172a;
+  --token-foreground: #0f172a;
+}
+
+html.dark {
+  color-scheme: dark;
+  background-color: #020617;
+  color: #e2e8f0;
+  --token-foreground: #f8fafc;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(180deg, rgba(148, 163, 184, 0.08), transparent 45%),
+    linear-gradient(0deg, rgba(14, 116, 144, 0.05), transparent 65%),
+    #f8fafc;
+  color: inherit;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+html.dark body {
+  background: radial-gradient(circle at top, rgba(59, 130, 246, 0.08), transparent 60%),
+    radial-gradient(circle at bottom, rgba(16, 185, 129, 0.1), transparent 55%),
+    #020617;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: inherit;
+}
