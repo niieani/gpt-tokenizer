@@ -7,6 +7,7 @@
   background-color: #f8fafc;
   color: #0f172a;
   --token-foreground: #0f172a;
+  --token-input-surface: rgba(255, 255, 255, 0.94);
 }
 
 html.dark {
@@ -14,6 +15,7 @@ html.dark {
   background-color: #020617;
   color: #e2e8f0;
   --token-foreground: #f8fafc;
+  --token-input-surface: rgba(2, 6, 23, 0.94);
 }
 
 body {
@@ -59,8 +61,8 @@ a {
   box-decoration-break: clone;
   border-radius: 0;
   box-shadow:
-    0 0 0 1px var(--token-border, transparent),
-    0 0 0 0.08em var(--token-highlight, transparent);
+    inset 0 0 0 1px var(--token-border, transparent),
+    inset 0 0 0 0.08em var(--token-highlight, transparent);
   background-color: var(--token-fill, transparent);
   transition: box-shadow 160ms ease, background-color 160ms ease, color 160ms ease;
 }
