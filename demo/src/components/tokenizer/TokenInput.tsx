@@ -12,44 +12,6 @@ import { colorForToken } from '../../lib/token-display'
 import { cn } from '../../lib/utils'
 import type { TokenSegment } from '../../types'
 
-const HSLA_REGEX =
-  /hsla?\(\s*([-+]?(?:\d+(?:\.\d+)?|\.\d+))\s*,\s*([-+]?(?:\d+(?:\.\d+)?|\.\d+))%\s*,\s*([-+]?(?:\d+(?:\.\d+)?|\.\d+))%\s*(?:,\s*([-+]?(?:\d+(?:\.\d+)?|\.\d+))\s*)?\)/i
-
-interface HslaAdjustmentOptions {
-  lightnessMultiplier?: number
-  lightnessOffset?: number
-  alphaOffset?: number
-}
-
-function adjustHslaColor(
-  input: string | undefined,
-  { lightnessMultiplier = 1, lightnessOffset = 0, alphaOffset = 0 }: HslaAdjustmentOptions = {},
-) {
-  if (!input) return undefined
-  const match = input.match(HSLA_REGEX)
-  if (!match) return undefined
-
-  const [, rawHue, rawSat, rawLight, rawAlpha] = match
-  const hue = Number.parseFloat(rawHue)
-  const saturation = Number.parseFloat(rawSat)
-  const lightness = Number.parseFloat(rawLight)
-  const alpha = rawAlpha == null ? 1 : Number.parseFloat(rawAlpha)
-
-  if (
-    Number.isNaN(hue) ||
-    Number.isNaN(saturation) ||
-    Number.isNaN(lightness) ||
-    Number.isNaN(alpha)
-  ) {
-    return undefined
-  }
-
-  const nextLightness = Math.min(100, Math.max(0, lightness * lightnessMultiplier + lightnessOffset))
-  const nextAlpha = Math.min(1, Math.max(0, alpha + alphaOffset))
-
-  return `hsla(${hue}, ${saturation}%, ${nextLightness}%, ${nextAlpha})`
-}
-
 interface TokenInputProps {
   value: string
   onChange: (value: string) => void
@@ -383,16 +345,6 @@ export function TokenInput({
         : false
       const isActive = activeTokenIndex === index
 
-      const baseLabelBackground = styles.emphasisBackgroundColor ?? styles.backgroundColor
-
-      const persistentLightBackground = showTokenIds
-        ? adjustHslaColor(baseLabelBackground, { lightnessMultiplier: 0.42, alphaOffset: 1 })
-        : undefined
-
-      const persistentDarkBackground = showTokenIds
-        ? adjustHslaColor(baseLabelBackground, { lightnessMultiplier: 1.38, alphaOffset: 1 })
-        : undefined
-
       const chipStyle = {
         '--token-bg': styles.backgroundColor,
         '--token-highlight':
@@ -400,27 +352,29 @@ export function TokenInput({
         '--token-border': styles.borderColor,
         '--token-color': styles.color,
         '--token-fill': styles.backgroundColor,
-        '--token-label-color': styles.color,
       } as CSSProperties
 
       if (showTokenIds) {
-        chipStyle['--token-label-bg'] =
-          persistentLightBackground ?? '#0f172a'
-        chipStyle['--token-label-bg-light'] = chipStyle['--token-label-bg']
+        chipStyle['--token-label-bg-light'] =
+          styles.labelBackgroundLight ?? '#0f172a'
         chipStyle['--token-label-bg-dark'] =
-          persistentDarkBackground ?? '#f8fafc'
+          styles.labelBackgroundDark ?? '#f8fafc'
 
-        const labelBorderLight = styles.borderColor ?? 'rgba(15, 23, 42, 0.32)'
-        const labelBorderDark =
-          adjustHslaColor(styles.borderColor, { lightnessMultiplier: 1.25, alphaOffset: -0.18 }) ??
-          'rgba(15, 23, 42, 0.22)'
+        if (styles.labelGradientLight) {
+          chipStyle['--token-label-gradient-light'] = styles.labelGradientLight
+        }
+        if (styles.labelGradientDark) {
+          chipStyle['--token-label-gradient-dark'] = styles.labelGradientDark
+        }
 
-        chipStyle['--token-label-border'] = labelBorderLight
+        const labelBorderLight = styles.labelBorderLight ?? 'rgba(15, 23, 42, 0.32)'
+        const labelBorderDark = styles.labelBorderDark ?? 'rgba(15, 23, 42, 0.22)'
+
         chipStyle['--token-label-border-light'] = labelBorderLight
         chipStyle['--token-label-border-dark'] = labelBorderDark
 
-        chipStyle['--token-label-color-light'] = '#ffffff'
-        chipStyle['--token-label-color-dark'] = '#020617'
+        chipStyle['--token-label-color-light'] = styles.labelTextLight ?? '#f8fafc'
+        chipStyle['--token-label-color-dark'] = styles.labelTextDark ?? '#020617'
 
         const labelOpacity =
           isActive || isHovered
@@ -432,12 +386,12 @@ export function TokenInput({
 
         const labelShadowLight =
           isActive || isHovered
-            ? '0 14px 32px rgba(15, 23, 42, 0.32)'
-            : '0 8px 22px rgba(15, 23, 42, 0.2)'
+            ? styles.labelShadowLightActive ?? '0 16px 34px rgba(15, 23, 42, 0.36), inset 0 1px 0 rgba(255, 255, 255, 0.25)'
+            : styles.labelShadowLight ?? '0 8px 22px rgba(15, 23, 42, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.18)'
         const labelShadowDark =
           isActive || isHovered
-            ? '0 18px 40px rgba(2, 6, 23, 0.6)'
-            : '0 12px 28px rgba(2, 6, 23, 0.45)'
+            ? styles.labelShadowDarkActive ?? '0 20px 44px rgba(2, 6, 23, 0.68), inset 0 1px 0 rgba(255, 255, 255, 0.35)'
+            : styles.labelShadowDark ?? '0 12px 28px rgba(2, 6, 23, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.25)'
 
         chipStyle['--token-label-shadow-light'] = labelShadowLight
         chipStyle['--token-label-shadow-dark'] = labelShadowDark
@@ -504,11 +458,12 @@ export function TokenInput({
         spellCheck={false}
         disabled={disabled}
         className={cn(
-          'absolute inset-0 z-10 h-full w-full resize-none rounded-3xl border-none bg-transparent px-6 py-5 font-mono text-[15px] text-transparent caret-slate-900 selection:bg-sky-200/40 focus:outline-none dark:caret-slate-100 dark:selection:bg-sky-500/30',
+          'absolute inset-0 z-10 h-full w-full resize-none rounded-3xl border-none bg-transparent px-6 py-5 font-mono text-[15px] text-transparent selection:bg-sky-200/40 focus:outline-none dark:selection:bg-sky-500/30',
           showTokenIds ? 'leading-[2.8]' : 'leading-relaxed',
           'transition-[line-height] duration-200 ease-out',
         )}
         aria-label={ariaLabel}
+        style={{ caretColor: 'var(--token-caret-color)' }}
       />
       <div
         ref={overlayRef}

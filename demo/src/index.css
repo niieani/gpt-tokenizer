@@ -8,6 +8,7 @@
   color: #0f172a;
   --token-foreground: #0f172a;
   --token-input-surface: rgba(255, 255, 255, 0.94);
+  --token-caret-color: #0f172a;
 }
 
 html.dark {
@@ -16,6 +17,7 @@ html.dark {
   color: #e2e8f0;
   --token-foreground: #f8fafc;
   --token-input-surface: rgba(2, 6, 23, 0.94);
+  --token-caret-color: #e0f2fe;
 }
 
 body {
@@ -76,6 +78,10 @@ a {
   left: 50%;
   transform: translateX(-50%);
   background-color: var(--token-label-bg-light, var(--token-label-bg, #0f172a));
+  background-image: var(--token-label-gradient-light, var(--token-label-gradient, none));
+  background-size: 160% 160%;
+  background-position: center;
+  background-repeat: no-repeat;
   color: var(--token-label-color-light, #f8fafc);
   border: 1px solid var(--token-label-border-light, var(--token-label-border, rgba(15, 23, 42, 0.32)));
   display: inline-block;
@@ -103,6 +109,7 @@ a {
 
 html.dark .token-chip__label--persistent {
   background-color: var(--token-label-bg-dark, #f8fafc);
+  background-image: var(--token-label-gradient-dark, var(--token-label-gradient-light, var(--token-label-gradient, none)));
   color: var(--token-label-color-dark, #020617);
   border-color: var(--token-label-border-dark, rgba(148, 163, 184, 0.28));
   box-shadow: var(--token-label-shadow-dark, 0 14px 32px rgba(2, 6, 23, 0.48));
