@@ -67,10 +67,46 @@ a {
 
 .token-chip__label {
   z-index: 10;
+  color: var(--token-color, var(--token-foreground));
 }
 
-.token-chip--ids .token-chip__label {
+.token-chip__label--persistent {
+  bottom: calc(100% + 0.35rem);
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--token-highlight, var(--token-fill, rgba(15, 23, 42, 0.2)));
+  color: var(--token-color, var(--token-foreground));
+  border: 1px solid var(--token-border, rgba(15, 23, 42, 0.12));
+  display: inline-block;
+  text-align: center;
+  padding: 0.15rem 0.35rem;
   opacity: 1;
+  min-width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.15;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.12);
+  font-variant-numeric: tabular-nums;
+  backdrop-filter: saturate(140%);
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    max-width 160ms ease,
+    padding 160ms ease,
+    box-shadow 160ms ease;
+}
+
+html.dark .token-chip__label--persistent {
+  box-shadow: 0 10px 22px rgba(9, 9, 11, 0.32);
+}
+
+.token-chip--hovered .token-chip__label--persistent,
+.token-chip--active .token-chip__label--persistent {
+  max-width: min(16rem, 90vw);
+  padding-left: 0.45rem;
+  padding-right: 0.45rem;
 }
 
 .token-chip--hovered .token-chip__text,

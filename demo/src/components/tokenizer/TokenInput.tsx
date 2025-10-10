@@ -371,8 +371,10 @@ export function TokenInput({
           <span className="token-chip__text">{textContent}</span>
           <span
             className={cn(
-              'token-chip__label pointer-events-none absolute -top-6 left-1/2 -translate-x-1/2 rounded-full bg-slate-900 px-2 py-0.5 text-[10px] font-semibold text-slate-100 opacity-0 shadow-sm transition-opacity group-hover:opacity-100 dark:bg-slate-100 dark:text-slate-900',
-              showTokenIds && 'opacity-100',
+              'token-chip__label pointer-events-none absolute rounded-full font-semibold transition-all',
+              showTokenIds
+                ? 'token-chip__label--persistent text-[9px]'
+                : '-top-6 left-1/2 -translate-x-1/2 bg-slate-900 px-2 py-0.5 text-[10px] text-slate-100 opacity-0 shadow-sm group-hover:opacity-100 dark:bg-slate-100 dark:text-slate-900',
             )}
           >
             {segment.token}
