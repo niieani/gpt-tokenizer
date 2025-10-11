@@ -10,7 +10,7 @@ export function CostBreakdown({ cost }: CostBreakdownProps) {
   if (!cost) return null
 
   return (
-    <div className="rounded-2xl border border-slate-200/80 bg-white/90 p-5 shadow-sm dark:border-slate-700/70 dark:bg-slate-900/70">
+    <div className="rounded-2xl border border-slate-200/80 bg-white/90 p-5 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/70">
       <h3 className="mb-3 text-sm font-semibold text-slate-800 dark:text-slate-100">
         Cost breakdown (per request)
       </h3>

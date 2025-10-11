@@ -16,7 +16,7 @@ html.dark {
   background-color: #020617;
   color: #e2e8f0;
   --token-foreground: #f8fafc;
-  --token-input-surface: rgba(2, 6, 23, 0.94);
+  --token-input-surface: rgba(2, 6, 23, 0.88);
   --token-caret-color: #e0f2fe;
 }
 

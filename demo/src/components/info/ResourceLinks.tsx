@@ -10,7 +10,7 @@ export function ResourceLinks() {
         </CardDescription>
       </CardHeader>
       <CardContent className="gap-5">
-        <div className="rounded-2xl border border-slate-200/80 bg-white/90 p-4 text-sm text-slate-600 shadow-sm dark:border-slate-700/70 dark:bg-slate-900/70 dark:text-slate-300">
+        <div className="rounded-2xl border border-slate-200/80 bg-white/90 p-4 text-sm text-slate-600 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/70 dark:text-slate-300">
           <p>
             • Read the{' '}
             <a
@@ -44,7 +44,7 @@ export function ResourceLinks() {
           </p>
         </div>
 
-        <div className="rounded-2xl border border-slate-200/80 bg-white/90 p-4 text-sm text-slate-600 shadow-sm dark:border-slate-700/70 dark:bg-slate-900/70 dark:text-slate-300">
+        <div className="rounded-2xl border border-slate-200/80 bg-white/90 p-4 text-sm text-slate-600 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/70 dark:text-slate-300">
           <p>
             Every interaction here runs fully client-side thanks to <strong>lazy loaded token bundles</strong>. Swap models as often as you like — token data is streamed straight from the{' '}
             <code className="rounded bg-slate-100 px-1 py-0.5 text-xs text-indigo-700 dark:bg-slate-800/80 dark:text-indigo-200">gpt-tokenizer</code> package.

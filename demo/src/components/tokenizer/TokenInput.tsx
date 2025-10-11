@@ -39,6 +39,7 @@ interface TokenInputProps {
   onChange: (value: string) => void
   segments: TokenSegment[]
   placeholder?: string
+  size?: 'default' | 'prominent'
   showTokenIds: boolean
   disabled?: boolean
   isLoading?: boolean
@@ -52,6 +53,7 @@ export function TokenInput({
   onChange,
   segments,
   placeholder = 'Type or paste text to tokenize…',
+  size = 'default',
   showTokenIds,
   disabled = false,
   isLoading = false,
@@ -454,7 +456,7 @@ export function TokenInput({
   return (
     <div
       className={cn(
-        'relative rounded-3xl border border-slate-300/70 shadow-lg ring-offset-2 transition-colors focus-within:border-sky-400 focus-within:ring-2 focus-within:ring-sky-200/60 dark:border-slate-700/70 dark:focus-within:border-sky-400/80 dark:focus-within:ring-sky-500/40',
+        'relative rounded-3xl border border-slate-300/70 shadow-lg ring-offset-2 transition-colors focus-within:border-sky-400 focus-within:ring-2 focus-within:ring-sky-200/60 dark:border-slate-800/70 dark:focus-within:border-sky-400/80 dark:focus-within:ring-sky-500/40',
         disabled && 'opacity-60',
         className,
       )}
@@ -480,17 +482,19 @@ export function TokenInput({
         spellCheck={false}
         disabled={disabled}
         className={cn(
-          'absolute inset-0 z-10 h-full w-full resize-none rounded-3xl border-none bg-transparent px-6 py-5 font-mono text-[15px] text-transparent selection:bg-sky-200/40 focus:outline-none dark:selection:bg-sky-500/30',
+          'absolute inset-0 z-10 h-full w-full resize-none rounded-3xl border-none bg-transparent font-mono text-transparent selection:bg-sky-200/40 focus:outline-none dark:selection:bg-sky-500/30',
+          size === 'prominent' ? 'px-7 py-7 text-[17px] leading-relaxed md:px-8 md:py-8 md:text-[18px]' : 'px-6 py-5 text-[15px]',
           showTokenIds ? 'leading-[2.8]' : 'leading-relaxed',
           'transition-[line-height] duration-200 ease-out',
         )}
         aria-label={ariaLabel}
-        style={{ caretColor: 'var(--token-caret-color)' }}
+        style={{ caretColor: 'var(--token-caret-color)', scrollbarGutter: 'stable both-edges' }}
       />
       <div
         ref={overlayRef}
         className={cn(
-          'absolute inset-0 z-20 overflow-auto rounded-3xl px-6 py-5 font-mono text-[15px] text-slate-700 select-none cursor-text dark:text-slate-200',
+          'absolute inset-0 z-20 overflow-auto rounded-3xl font-mono text-slate-700 select-none cursor-text dark:text-slate-200',
+          size === 'prominent' ? 'px-7 py-7 text-[17px] leading-relaxed md:px-8 md:py-8 md:text-[18px]' : 'px-6 py-5 text-[15px]',
           showTokenIds ? 'leading-[2.8]' : 'leading-relaxed',
           'transition-[line-height] duration-200 ease-out',
         )}
@@ -500,6 +504,7 @@ export function TokenInput({
         onPointerUp={handleOverlayPointerUpOrCancel}
         onPointerCancel={handleOverlayPointerUpOrCancel}
         onPointerLeave={handleOverlayPointerLeave}
+        style={{ scrollbarGutter: 'stable both-edges' }}
       >
         {isLoading ? (
           <p className="text-sm text-slate-500 dark:text-slate-400">
