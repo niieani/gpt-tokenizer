@@ -72,7 +72,7 @@ Refer to [supported models and their encodings](#Supported-models-and-their-enco
 
 The playground is published under a memorable URL: https://gpt-tokenizer.dev/
 
-[![GPT Tokenizer Playground](./docs/gpt-tokenizer.png)](https://codesandbox.io/s/gpt-tokenizer-tjcjoz?fontsize=14&hidenavigation=1&theme=dark)
+[![GPT Tokenizer Playground](./docs/gpt-tokenizer.png)](https://gpt-tokenizer.dev/)
 
 ## Usage
 
