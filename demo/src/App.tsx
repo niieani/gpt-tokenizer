@@ -7,6 +7,7 @@ import { ResourceLinks } from './components/info/ResourceLinks'
 import { HeroSection } from './components/layout/HeroSection'
 import { SiteFooter } from './components/layout/SiteFooter'
 import { TokenizerPlayground } from './components/tokenizer/TokenizerPlayground'
+import { TokenizerControls } from './components/tokenizer/TokenizerControls'
 import { useChatAnalysis } from './hooks/useChatAnalysis'
 import { useTokenAnalysis } from './hooks/useTokenAnalysis'
 import { useTokenizer } from './hooks/useTokenizer'
@@ -20,9 +21,18 @@ export default function App() {
   const [messages, setMessages] = useState<ChatMessageWithId[]>(DEFAULT_CHAT)
   const [activeTab, setActiveTab] = useState<'prompt' | 'chat'>('prompt')
 
-  const { tokenizer, isLoading, error: tokenizerError, modelSpec } = useTokenizer(selectedModel)
+  const {
+    tokenizer,
+    isLoading,
+    error: tokenizerError,
+    modelSpec,
+  } = useTokenizer(selectedModel)
 
-  const tokenAnalysis = useTokenAnalysis({ tokenizer, prompt, error: tokenizerError })
+  const tokenAnalysis = useTokenAnalysis({
+    tokenizer,
+    prompt,
+    error: tokenizerError,
+  })
 
   const tokensPerHundredChars = useMemo(() => {
     if (!tokenAnalysis.tokens.length || prompt.length === 0) return 0
@@ -41,11 +51,22 @@ export default function App() {
     [messages],
   )
 
-  const chatAnalysis = useChatAnalysis({ tokenizer, messages: sanitizedChat, error: tokenizerError })
+  const chatAnalysis = useChatAnalysis({
+    tokenizer,
+    messages: sanitizedChat,
+    error: tokenizerError,
+  })
 
-  const handleMessageChange = useCallback((id: string, partial: Partial<ChatMessage>) => {
-    setMessages((current) => current.map((message) => (message.id === id ? { ...message, ...partial } : message)))
-  }, [])
+  const handleMessageChange = useCallback(
+    (id: string, partial: Partial<ChatMessage>) => {
+      setMessages((current) =>
+        current.map((message) =>
+          message.id === id ? { ...message, ...partial } : message,
+        ),
+      )
+    },
+    [],
+  )
 
   const handleAddMessage = useCallback(() => {
     setMessages((current) => [
@@ -65,11 +86,21 @@ export default function App() {
   const tokenizerReady = Boolean(tokenizer)
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-6xl flex-col gap-8 px-4 pb-16 pt-10 sm:px-6 lg:px-8">
+    <main className="mx-auto flex min-h-screen max-w-7xl flex-col gap-4 px-4 pb-16 pt-5 sm:px-6 lg:px-8">
       <HeroSection />
 
       <section className="grid gap-8 xl:grid-cols-[2.1fr_1fr]">
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-2">
+          <TokenizerControls
+            modelName={selectedModel}
+            onModelChange={setSelectedModel}
+            modelOptions={MODEL_OPTIONS}
+            isLoading={isLoading}
+            tokenizerReady={tokenizerReady}
+            showTokenIds={showTokenIds}
+            onToggleTokenIds={setShowTokenIds}
+            loadError={tokenizerError}
+          />
           <nav
             className="inline-flex w-full items-center justify-start gap-2 rounded-full border border-slate-200/70 bg-white/95 p-1 text-sm font-medium text-slate-600 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/70 dark:text-slate-200"
             role="tablist"
@@ -86,7 +117,7 @@ export default function App() {
                   : 'flex-1 rounded-full px-4 py-2 transition-colors hover:bg-slate-100 dark:hover:bg-slate-800/80'
               }
             >
-              Prompt tokenizer
+              Single prompt
             </button>
             <button
               type="button"
@@ -99,25 +130,20 @@ export default function App() {
                   : 'flex-1 rounded-full px-4 py-2 transition-colors hover:bg-slate-100 dark:hover:bg-slate-800/80'
               }
             >
-              Chat tokenizer
+              Chat conversation tokens
             </button>
           </nav>
 
           {activeTab === 'prompt' ? (
             <TokenizerPlayground
-              modelName={selectedModel}
-              onModelChange={setSelectedModel}
-              modelOptions={MODEL_OPTIONS}
               modelSpec={modelSpec}
               prompt={prompt}
               onPromptChange={setPrompt}
               showTokenIds={showTokenIds}
-              onToggleTokenIds={setShowTokenIds}
               tokenAnalysis={tokenAnalysis}
               tokensPerHundredChars={tokensPerHundredChars}
               isLoading={isLoading}
               tokenizerReady={tokenizerReady}
-              loadError={tokenizerError}
             />
           ) : (
             <ChatPlayground

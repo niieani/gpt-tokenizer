@@ -442,7 +442,7 @@ export function TokenInput({
             className={cn(
               'token-chip__label pointer-events-none absolute font-semibold transition-all',
               showTokenIds
-                ? 'token-chip__label--persistent text-[9px] rounded-none'
+                ? 'token-chip__label--persistent text-[11px] rounded-none'
                 : 'rounded-full -top-6 left-1/2 -translate-x-1/2 bg-slate-900 px-2 py-0.5 text-[10px] text-slate-100 opacity-0 shadow-sm group-hover:opacity-100 dark:bg-slate-100 dark:text-slate-900',
             )}
           >
