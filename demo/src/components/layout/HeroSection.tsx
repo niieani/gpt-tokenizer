@@ -2,7 +2,7 @@ import { ThemeToggle } from '../theme/ThemeToggle'
 
 export function HeroSection() {
   return (
-    <header className="flex flex-col gap-6 rounded-3xl border border-slate-200/70 bg-white/95 px-8 py-10 shadow-lg backdrop-blur-sm dark:border-slate-800/70 dark:bg-slate-950/80">
+    <header className="flex flex-col gap-6 rounded-3xl border border-slate-200/70 bg-white/95 px-8 py-10 shadow-lg backdrop-blur-sm dark:border-slate-800/60 dark:bg-slate-900/75">
       <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
         <div className="flex flex-col gap-5">
           <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:gap-4">
