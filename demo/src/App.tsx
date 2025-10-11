@@ -167,9 +167,10 @@ export default function App() {
         </div>
       </section>
 
-      <section>
+      {/* TBD */}
+      {/* <section>
         <ResourceLinks />
-      </section>
+      </section> */}
 
       <SiteFooter />
     </main>

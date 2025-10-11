@@ -46,8 +46,9 @@ export function HeroSection() {
         </div>
       </div>
       <p className="text-lg text-slate-600 dark:text-slate-300">
-        Explore OpenAI-compatible models with instant token highlighting, live
-        pricing estimates and chat-aware encoding — all powered by the{' '}
+        Try out the demo of the fastest, smallest and lowest footprint GPT
+        tokenizer available for all JS environments. Instant token highlighting,
+        live pricing estimates and chat-aware encoding — all powered by the{' '}
         <a
           href="https://www.npmjs.com/package/gpt-tokenizer"
           target="_blank"

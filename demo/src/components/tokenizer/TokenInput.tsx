@@ -359,13 +359,11 @@ export function TokenInput({
     return segments.map((segment, index) => {
       const textContent = segment.text === '' ? '\u00A0' : segment.text
       const styles = colorForToken(segment.token)
-      const title = showTokenIds
-        ? segment.text.replace(/\n/g, '\\n') || '↵'
-        : `Token #${segment.token}`
 
       const isHovered = hoveredActiveIndex === index
       const isSelected = selectionRange
-        ? Math.max(segment.start, selectionRange[0]) < Math.min(segment.end, selectionRange[1]) && isFocused
+        ? Math.max(segment.start, selectionRange[0]) <
+            Math.min(segment.end, selectionRange[1]) && isFocused
         : false
       const isActive = activeTokenIndex === index
 
@@ -391,31 +389,35 @@ export function TokenInput({
           chipStyle['--token-label-gradient-dark'] = styles.labelGradientDark
         }
 
-        const labelBorderLight = styles.labelBorderLight ?? 'rgba(15, 23, 42, 0.32)'
-        const labelBorderDark = styles.labelBorderDark ?? 'rgba(15, 23, 42, 0.22)'
+        const labelBorderLight =
+          styles.labelBorderLight ?? 'rgba(15, 23, 42, 0.32)'
+        const labelBorderDark =
+          styles.labelBorderDark ?? 'rgba(15, 23, 42, 0.22)'
 
         chipStyle['--token-label-border-light'] = labelBorderLight
         chipStyle['--token-label-border-dark'] = labelBorderDark
 
-        chipStyle['--token-label-color-light'] = styles.labelTextLight ?? '#f8fafc'
-        chipStyle['--token-label-color-dark'] = styles.labelTextDark ?? '#020617'
+        chipStyle['--token-label-color-light'] =
+          styles.labelTextLight ?? '#f8fafc'
+        chipStyle['--token-label-color-dark'] =
+          styles.labelTextDark ?? '#020617'
 
         const labelOpacity =
-          isActive || isHovered
-            ? 1
-            : hasLabelInteraction
-              ? 0.6
-              : 0.92
+          isActive || isHovered ? 1 : hasLabelInteraction ? 0.6 : 0.92
         chipStyle['--token-label-opacity'] = String(labelOpacity)
 
         const labelShadowLight =
           isActive || isHovered
-            ? styles.labelShadowLightActive ?? '0 16px 34px rgba(15, 23, 42, 0.36), inset 0 1px 0 rgba(255, 255, 255, 0.25)'
-            : styles.labelShadowLight ?? '0 8px 22px rgba(15, 23, 42, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.18)'
+            ? (styles.labelShadowLightActive ??
+              '0 16px 34px rgba(15, 23, 42, 0.36), inset 0 1px 0 rgba(255, 255, 255, 0.25)')
+            : (styles.labelShadowLight ??
+              '0 8px 22px rgba(15, 23, 42, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.18)')
         const labelShadowDark =
           isActive || isHovered
-            ? styles.labelShadowDarkActive ?? '0 20px 44px rgba(2, 6, 23, 0.68), inset 0 1px 0 rgba(255, 255, 255, 0.35)'
-            : styles.labelShadowDark ?? '0 12px 28px rgba(2, 6, 23, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.25)'
+            ? (styles.labelShadowDarkActive ??
+              '0 20px 44px rgba(2, 6, 23, 0.68), inset 0 1px 0 rgba(255, 255, 255, 0.35)')
+            : (styles.labelShadowDark ??
+              '0 12px 28px rgba(2, 6, 23, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.25)')
 
         chipStyle['--token-label-shadow-light'] = labelShadowLight
         chipStyle['--token-label-shadow-dark'] = labelShadowDark
@@ -435,7 +437,6 @@ export function TokenInput({
             isActive && 'token-chip--active',
           )}
           style={chipStyle}
-          title={title}
         >
           <span className="token-chip__text">{textContent}</span>
           <span

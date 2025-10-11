@@ -26,14 +26,17 @@ export function TokenVisualizer({ segments, showTokenIds, error }: TokenVisualiz
             const color = colorForToken(segment.token)
             const display = formatTokenValue(segment.token, showTokenIds, segment.text)
             return (
-              <span key={`${segment.token}-${segment.start}-${index}`} className="group relative inline-block whitespace-pre">
+              <span
+                key={`${segment.token}-${segment.start}-${index}`}
+                className="group relative inline-block whitespace-pre"
+              >
                 <span
                   className="inline-flex whitespace-pre rounded-xl border px-2 py-1 font-mono text-xs leading-relaxed shadow-[0_1px_4px_rgba(15,23,42,0.12)] transition-transform group-hover:-translate-y-0.5 group-hover:shadow-[0_6px_18px_rgba(14,116,144,0.18)] dark:shadow-none"
                   style={color}
                   title={
                     showTokenIds
                       ? segment.text.replace(/\n/g, '\\n') || '↵'
-                      : `Token #${segment.token}`
+                      : `Token ${segment.token}`
                   }
                 >
                   {display === '' ? '\u00A0' : display}
