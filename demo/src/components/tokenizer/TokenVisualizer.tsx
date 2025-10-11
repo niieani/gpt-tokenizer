@@ -11,7 +11,9 @@ export function TokenVisualizer({ segments, showTokenIds, error }: TokenVisualiz
   return (
     <div className="rounded-2xl border border-slate-200/70 bg-white/95 p-5 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/70">
       <div className="mb-3 flex items-center justify-between">
-        <h3 className="text-sm font-semibold text-slate-800 dark:text-slate-100">Tokenised conversation preview</h3>
+        <h3 className="text-sm font-semibold text-slate-800 dark:text-slate-100">
+          Tokenized conversation preview
+        </h3>
         <span className="text-xs text-slate-500 dark:text-slate-400">
           Hover to reveal {showTokenIds ? 'decoded text' : 'token IDs'}
         </span>
@@ -24,7 +26,11 @@ export function TokenVisualizer({ segments, showTokenIds, error }: TokenVisualiz
         ) : (
           segments.map((segment, index) => {
             const color = colorForToken(segment.token)
-            const display = formatTokenValue(segment.token, showTokenIds, segment.text)
+            const display = formatTokenValue(
+              segment.token,
+              showTokenIds,
+              segment.text,
+            )
             return (
               <span
                 key={`${segment.token}-${segment.start}-${index}`}
@@ -42,7 +48,7 @@ export function TokenVisualizer({ segments, showTokenIds, error }: TokenVisualiz
                   {display === '' ? '\u00A0' : display}
                 </span>
                 <span className="pointer-events-none absolute -top-6 left-1/2 -translate-x-1/2 rounded-full bg-slate-900 px-2 py-0.5 text-[10px] font-semibold text-slate-100 opacity-0 shadow-sm transition-opacity group-hover:opacity-100 dark:bg-slate-100 dark:text-slate-900">
-                  #{segment.token}
+                  {segment.token}
                 </span>
               </span>
             )
