@@ -35,14 +35,16 @@ export function ModelInsights({ modelSpec }: ModelInsightsProps) {
   const toLabel = (value: string) =>
     value
       .split(/[_-]/g)
-      .map((segment) =>
-        segment.length <= 3 ? segment.toUpperCase() : segment[0].toUpperCase() + segment.slice(1).toLowerCase(),
+      .map(
+        (segment) => segment[0].toUpperCase() + segment.slice(1).toLowerCase(),
       )
       .join(' ')
 
   const renderPills = (items: string[] | undefined, keyPrefix: string) => {
     if (!items || items.length === 0) {
-      return <span className="text-sm text-slate-400 dark:text-slate-500">—</span>
+      return (
+        <span className="text-sm text-slate-400 dark:text-slate-500">—</span>
+      )
     }
 
     return items.map((item, index) => (
@@ -58,13 +60,22 @@ export function ModelInsights({ modelSpec }: ModelInsightsProps) {
     ))
   }
 
-  const renderMetricIcons = (count: number | undefined, icon: string, label: string) => {
+  const renderMetricIcons = (
+    count: number | undefined,
+    icon: string,
+    label: string,
+  ) => {
     if (!count) {
-      return <span className="text-sm text-slate-400 dark:text-slate-500">—</span>
+      return (
+        <span className="text-sm text-slate-400 dark:text-slate-500">—</span>
+      )
     }
     const safeCount = Math.max(0, Math.floor(count))
     return (
-      <span className="inline-flex items-center gap-1 text-xl text-slate-700 dark:text-slate-100" aria-label={`${count} ${label}`}>
+      <span
+        className="inline-flex items-center gap-1 text-xl text-slate-700 dark:text-slate-100"
+        aria-label={`${count} ${label}`}
+      >
         <span className="sr-only">
           {safeCount} out of 3 {label}
         </span>
@@ -77,28 +88,46 @@ export function ModelInsights({ modelSpec }: ModelInsightsProps) {
     )
   }
 
-  const renderPriceGroup = (heading: string, data: PriceSegment | undefined) => {
+  const renderPriceGroup = (
+    heading: string,
+    data: PriceSegment | undefined,
+  ) => {
     if (!data) return null
     const entries = [
       data.input != null && { label: 'In', value: formatCurrency(data.input) },
-      data.output != null && { label: 'Out', value: formatCurrency(data.output) },
-      data.cached_input != null && { label: 'Cached In', value: formatCurrency(data.cached_input) },
-      data.cached_output != null && { label: 'Cached Out', value: formatCurrency(data.cached_output) },
+      data.output != null && {
+        label: 'Out',
+        value: formatCurrency(data.output),
+      },
+      data.cached_input != null && {
+        label: 'Cached In',
+        value: formatCurrency(data.cached_input),
+      },
+      data.cached_output != null && {
+        label: 'Cached Out',
+        value: formatCurrency(data.cached_output),
+      },
     ].filter(Boolean) as Array<{ label: string; value: string }>
 
     if (entries.length === 0) return null
 
     return (
       <div className="rounded-2xl border border-slate-200/70 bg-white/95 p-4 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/70">
-        <div className="text-sm font-semibold text-slate-700 dark:text-slate-100">{heading}</div>
+        <div className="text-sm font-semibold text-slate-700 dark:text-slate-100">
+          {heading}
+        </div>
         <dl className="mt-3 grid grid-cols-1 gap-3 text-sm text-slate-600 dark:text-slate-300 sm:grid-cols-2">
           {entries.map((entry) => (
             <div
               key={`${heading}-${entry.label}`}
               className="rounded-xl border border-slate-200/70 bg-white/95 px-3 py-2 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/70"
             >
-              <dt className="text-xs font-medium leading-tight text-slate-500 dark:text-slate-300 whitespace-nowrap">{entry.label}</dt>
-              <dd className="mt-1 font-semibold leading-tight text-slate-800 dark:text-slate-100">{entry.value}</dd>
+              <dt className="text-xs font-medium leading-tight text-slate-500 dark:text-slate-300 whitespace-nowrap">
+                {entry.label}
+              </dt>
+              <dd className="mt-1 font-semibold leading-tight text-slate-800 dark:text-slate-100">
+                {entry.value}
+              </dd>
             </div>
           ))}
         </dl>
@@ -117,21 +146,20 @@ export function ModelInsights({ modelSpec }: ModelInsightsProps) {
 
   const priceGroups: ReactNode[] = modelSpec?.price_data
     ? [
-        renderPriceGroup('On-demand pricing', modelSpec.price_data.main),
-        renderPriceGroup('Batch pricing', modelSpec.price_data.batch),
+        renderPriceGroup('On-demand', modelSpec.price_data.main),
+        renderPriceGroup('Batch', modelSpec.price_data.batch),
       ].filter(Boolean)
     : []
 
   const knowledgeCutoff = modelSpec?.knowledge_cutoff
-  const knowledgeCutoffDisplay = knowledgeCutoff ? knowledgeCutoffFormatter.format(knowledgeCutoff) : null
+  const knowledgeCutoffDisplay = knowledgeCutoff
+    ? knowledgeCutoffFormatter.format(knowledgeCutoff)
+    : null
 
   return (
     <Card>
       <CardHeader className="gap-3">
         <CardTitle>Model insights</CardTitle>
-        <p className="text-sm text-slate-500 dark:text-slate-400">
-          Understand capabilities, modalities and pricing pulled directly from gpt-tokenizer metadata.
-        </p>
       </CardHeader>
       <CardContent className="gap-5">
         {modelSpec ? (
@@ -139,20 +167,28 @@ export function ModelInsights({ modelSpec }: ModelInsightsProps) {
             {knowledgeCutoffDisplay && (
               <section>
                 <div className="rounded-2xl border border-slate-200/70 bg-white/95 px-4 py-3 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/70">
-                  <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Knowledge cutoff</p>
-                  <p className="mt-1 text-lg font-semibold text-slate-900 dark:text-slate-100">{knowledgeCutoffDisplay}</p>
+                  <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                    Knowledge cutoff
+                  </p>
+                  <p className="mt-1 text-lg font-semibold text-slate-900 dark:text-slate-100">
+                    {knowledgeCutoffDisplay}
+                  </p>
                 </div>
               </section>
             )}
 
             <dl className="grid grid-cols-1 gap-4 text-sm text-slate-600 dark:text-slate-300 sm:grid-cols-2">
               <div className="rounded-2xl border border-slate-200/70 bg-white/95 px-4 py-3 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/70">
-                <dt className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Context window</dt>
+                <dt className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                  Context window
+                </dt>
                 <dd className="mt-1 text-lg font-semibold text-slate-900 dark:text-slate-100">
                   {modelSpec.context_window ? (
                     <>
                       {formatNumber(modelSpec.context_window, 0)}
-                      <span className="ml-1 text-xs font-medium text-slate-500 dark:text-slate-400">tok</span>
+                      <span className="ml-1 text-xs font-medium text-slate-500 dark:text-slate-400">
+                        tok
+                      </span>
                     </>
                   ) : (
                     '—'
@@ -160,12 +196,16 @@ export function ModelInsights({ modelSpec }: ModelInsightsProps) {
                 </dd>
               </div>
               <div className="rounded-2xl border border-slate-200/70 bg-white/95 px-4 py-3 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/70">
-                <dt className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Max output tokens</dt>
+                <dt className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                  Max output
+                </dt>
                 <dd className="mt-1 text-lg font-semibold text-slate-900 dark:text-slate-100">
                   {modelSpec.max_output_tokens ? (
                     <>
                       {formatNumber(modelSpec.max_output_tokens, 0)}
-                      <span className="ml-1 text-xs font-medium text-slate-500 dark:text-slate-400">tok</span>
+                      <span className="ml-1 text-xs font-medium text-slate-500 dark:text-slate-400">
+                        tok
+                      </span>
                     </>
                   ) : (
                     '—'
@@ -173,50 +213,87 @@ export function ModelInsights({ modelSpec }: ModelInsightsProps) {
                 </dd>
               </div>
               <div className="rounded-2xl border border-slate-200/70 bg-white/95 px-4 py-3 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/70">
-                <dt className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Performance</dt>
-                <dd className="mt-1">{renderMetricIcons(modelSpec.performance, '⚡', 'performance')}</dd>
+                <dt className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                  Performance
+                </dt>
+                <dd className="mt-1">
+                  {renderMetricIcons(
+                    modelSpec.performance,
+                    '⚡',
+                    'performance',
+                  )}
+                </dd>
               </div>
               <div className="rounded-2xl border border-slate-200/70 bg-white/95 px-4 py-3 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/70">
-                <dt className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Latency</dt>
-                <dd className="mt-1">{renderMetricIcons(modelSpec.latency, '🕒', 'latency')}</dd>
+                <dt className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                  Latency
+                </dt>
+                <dd className="mt-1">
+                  {renderMetricIcons(modelSpec.latency, '🕒', 'latency')}
+                </dd>
               </div>
             </dl>
 
             <section className="flex flex-col gap-4 text-sm text-slate-600 dark:text-slate-300">
               <div>
-                <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Input modalities</p>
-                <div className="mt-2 flex flex-wrap gap-2">{renderPills(modelSpec.modalities.input, 'input')}</div>
+                <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                  Input modalities
+                </p>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {renderPills(modelSpec.modalities.input, 'input')}
+                </div>
               </div>
               <div>
-                <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Output modalities</p>
-                <div className="mt-2 flex flex-wrap gap-2">{renderPills(modelSpec.modalities.output, 'output')}</div>
+                <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                  Output modalities
+                </p>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {renderPills(modelSpec.modalities.output, 'output')}
+                </div>
               </div>
               <div>
-                <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Supported features</p>
-                <div className="mt-2 flex flex-wrap gap-2">{renderPills(featureItems, 'feature')}</div>
+                <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                  Supported features
+                </p>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {renderPills(featureItems, 'feature')}
+                </div>
               </div>
               <div>
-                <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Supported endpoints</p>
-                <div className="mt-2 flex flex-wrap gap-2">{renderPills(endpointItems, 'endpoint')}</div>
+                <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                  Supported endpoints
+                </p>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {renderPills(endpointItems, 'endpoint')}
+                </div>
               </div>
             </section>
 
             <section className="flex flex-col gap-4 text-sm text-slate-600 dark:text-slate-300">
-              <h4 className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Pricing (per 1M tokens)</h4>
+              <h4 className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                Pricing (per 1M tokens)
+              </h4>
               <div className="grid gap-4 lg:grid-cols-2">
                 {priceGroups.length > 0 ? (
                   priceGroups
                 ) : (
-                  <p className="col-span-full text-sm text-slate-500 dark:text-slate-400">Pricing data not available.</p>
+                  <p className="col-span-full text-sm text-slate-500 dark:text-slate-400">
+                    Pricing data not available.
+                  </p>
                 )}
               </div>
             </section>
           </>
         ) : (
           <p className="text-sm text-slate-500 dark:text-slate-400">
-            We could not locate metadata for this model. Try selecting another model.
+            We could not locate metadata for this model. Try selecting another
+            model.
           </p>
         )}
+
+        <p className="text-sm text-slate-500 dark:text-slate-400">
+          All above data exported in the <strong>gpt-tokenizer</strong> package.
+        </p>
       </CardContent>
     </Card>
   )

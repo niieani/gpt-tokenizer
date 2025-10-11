@@ -1,6 +1,6 @@
 export function colorForToken(token: number) {
   const hue = (token * 55) % 360
-  const baseAlpha = 0.3
+  const baseAlpha = 0.2
   const emphasisAlpha = 0.6
   const labelLightBase = `hsl(${hue}, 82%, 26%)`
   const labelLightHighlight = `hsl(${hue}, 90%, 34%)`

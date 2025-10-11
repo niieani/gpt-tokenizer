@@ -69,9 +69,6 @@ export function ChatPlayground({
       <CardHeader className="gap-4 md:flex md:flex-row md:items-center md:justify-between">
         <div>
           <CardTitle>Chat prompt builder</CardTitle>
-          <CardDescription>
-            Compose multi-turn conversations, inspect token usage per message and estimate pricing instantly.
-          </CardDescription>
         </div>
         <Button variant="subtle" onClick={onAddMessage}>
           + Add message
@@ -80,7 +77,10 @@ export function ChatPlayground({
       <CardContent className="gap-6">
         <div className="flex flex-col gap-4">
           {messages.map((message) => {
-            const analysis = messageAnalyses.get(message.id) ?? { tokens: [], segments: [] }
+            const analysis = messageAnalyses.get(message.id) ?? {
+              tokens: [],
+              segments: [],
+            }
             return (
               <ChatMessageCard
                 key={message.id}
@@ -103,23 +103,45 @@ export function ChatPlayground({
 
         <div className="grid gap-4 md:grid-cols-3">
           <div className="rounded-2xl border border-slate-200/70 bg-white/95 p-4 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/70">
-            <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Chat tokens</p>
-            <p className="mt-2 text-2xl font-semibold text-slate-800 dark:text-slate-100">{formatNumber(tokens.length, 0)}</p>
-            <p className="text-xs text-slate-500 dark:text-slate-400">Across {sanitizedCount} messages</p>
+            <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">
+              Chat tokens
+            </p>
+            <p className="mt-2 text-2xl font-semibold text-slate-800 dark:text-slate-100">
+              {formatNumber(tokens.length, 0)}
+            </p>
+            <p className="text-xs text-slate-500 dark:text-slate-400">
+              Across {sanitizedCount} messages
+            </p>
           </div>
           <div className="rounded-2xl border border-slate-200/70 bg-white/95 p-4 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/70">
-            <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Estimated input cost</p>
-            <p className="mt-2 text-2xl font-semibold text-emerald-600 dark:text-emerald-200">{formatCurrency(cost?.main?.input)}</p>
-            <p className="text-xs text-slate-500 dark:text-slate-400">Main API</p>
+            <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">
+              Estimated input cost
+            </p>
+            <p className="mt-2 text-2xl font-semibold text-emerald-600 dark:text-emerald-200">
+              {formatCurrency(cost?.main?.input)}
+            </p>
+            <p className="text-xs text-slate-500 dark:text-slate-400">
+              Main API
+            </p>
           </div>
           <div className="rounded-2xl border border-slate-200/70 bg-white/95 p-4 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/70">
-            <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Batch estimate</p>
-            <p className="mt-2 text-2xl font-semibold text-slate-800 dark:text-slate-100">{formatCurrency(cost?.batch?.input)}</p>
-            <p className="text-xs text-slate-500 dark:text-slate-400">Batch endpoint</p>
+            <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">
+              Batch estimate
+            </p>
+            <p className="mt-2 text-2xl font-semibold text-slate-800 dark:text-slate-100">
+              {formatCurrency(cost?.batch?.input)}
+            </p>
+            <p className="text-xs text-slate-500 dark:text-slate-400">
+              Batch endpoint
+            </p>
           </div>
         </div>
 
-        <TokenVisualizer segments={segments} showTokenIds={showTokenIds} error={error} />
+        <TokenVisualizer
+          segments={segments}
+          showTokenIds={showTokenIds}
+          error={error}
+        />
       </CardContent>
     </Card>
   )

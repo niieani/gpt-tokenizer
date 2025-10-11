@@ -3,7 +3,7 @@ import { useCallback, useMemo, useState } from 'react'
 import { DEFAULT_CHAT, DEFAULT_PROMPT } from './constants'
 import { ChatPlayground } from './components/chat/ChatPlayground'
 import { ModelInsights } from './components/info/ModelInsights'
-import { ResourceLinks } from './components/info/ResourceLinks'
+import { TokenizationPrimer } from './components/info/TokenizationPrimer'
 import { HeroSection } from './components/layout/HeroSection'
 import { SiteFooter } from './components/layout/SiteFooter'
 import { TokenizerPlayground } from './components/tokenizer/TokenizerPlayground'
@@ -167,10 +167,15 @@ export default function App() {
         </div>
       </section>
 
-      {/* TBD */}
-      {/* <section>
-        <ResourceLinks />
-      </section> */}
+      <section>
+        <TokenizationPrimer
+          modelName={selectedModel}
+          tokenizer={tokenizer}
+          tokenizerReady={tokenizerReady}
+          isLoading={isLoading}
+          modelSpec={modelSpec}
+        />
+      </section>
 
       <SiteFooter />
     </main>

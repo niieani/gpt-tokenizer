@@ -364,7 +364,6 @@ export function TokenInput({
 
   const handleOverlayPointerMove = useCallback(
     (event: ReactPointerEvent<HTMLDivElement>) => {
-      if (!isFocused && !pointerStateRef.current) return
       const tokenElement = getTokenElementAtPoint(event.clientX, event.clientY)
       if (tokenElement) {
         const index = Number(tokenElement.dataset.tokenIndex)
@@ -394,7 +393,7 @@ export function TokenInput({
         return [start, end]
       })
     },
-    [clampCaret, getTokenElementAtPoint, isFocused, resolveCaretIndex, setActiveTokenSource],
+    [clampCaret, getTokenElementAtPoint, resolveCaretIndex, setActiveTokenSource],
   )
 
   const handleOverlayPointerUpOrCancel = useCallback(
@@ -450,12 +449,6 @@ export function TokenInput({
     setActiveTokenSource('caret')
   }, [setActiveTokenSource])
 
-  useEffect(() => {
-    if (!isFocused) {
-      setHoveredTokenIndex((current) => (current === null ? current : null))
-    }
-  }, [isFocused])
-
   const tokenElements = useMemo(() => {
     if (segments.length === 0) return null
 
@@ -477,7 +470,7 @@ export function TokenInput({
     const caretTokenIndex =
       caretTokenIndexRaw != null && caretTokenIndexRaw >= 0 ? caretTokenIndexRaw : null
 
-    const hoveredActiveIndex = isFocused ? hoveredTokenIndex : null
+    const hoveredActiveIndex = hoveredTokenIndex
     const caretActiveIndex = isFocused ? caretTokenIndex : null
     const activeTokenIndex =
       activeTokenSource === 'hover'

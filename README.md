@@ -1,9 +1,14 @@
 # gpt-tokenizer
 
-[![Play with gpt-tokenizer](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/gpt-tokenizer-tjcjoz?fontsize=14&hidenavigation=1&theme=dark)
+[![NPM version](https://img.shields.io/npm/v/gpt-tokenizer?style=flat-square)](https://www.npmjs.com/package/gpt-tokenizer)
+[![NPM downloads](https://img.shields.io/npm/dm/gpt-tokenizer?style=flat-square)](https://www.npmjs.com/package/gpt-tokenizer)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/niieani/gpt-tokenizer/ci-cd.yml?branch=main&style=flat-square)](https://github.com/niieani/gpt-tokenizer/actions)
 
 `gpt-tokenizer` is a Token Byte Pair Encoder/Decoder supporting all OpenAI's models (including GPT-5, GPT-4o, o1, o3, o4, GPT-4.1 and older models like GPT-3.5, GPT-4).
-It's the [_fastest, smallest and lowest footprint_](#benchmarks) GPT tokenizer available for all JavaScript environments. It's written in TypeScript.
+It's the [_fastest, smallest and lowest footprint_](#benchmarks) GPT tokenizer available for all JavaScript environments and is written in TypeScript.
+
+> Try it out in the **[playground](https://gpt-tokenizer.dev/)**!
 
 This library has been trusted by:
 
@@ -53,7 +58,7 @@ npm install gpt-tokenizer
 
 If you wish to use a custom encoding, fetch the relevant script.
 
-- https://unpkg.com/gpt-tokenizer/dist/o200k_base.js (for all modern models, such as `gpt-4o`, `gpt-4.1`, `o1` and others)
+- https://unpkg.com/gpt-tokenizer/dist/o200k_base.js (for all modern models, such as `gpt-5`, `gpt-4o`, `gpt-4.1`, `o1` and others)
 - https://unpkg.com/gpt-tokenizer/dist/cl100k_base.js (for `gpt-4` and `gpt-3.5`)
 - https://unpkg.com/gpt-tokenizer/dist/p50k_base.js
 - https://unpkg.com/gpt-tokenizer/dist/p50k_edit.js
@@ -67,12 +72,7 @@ Refer to [supported models and their encodings](#Supported-models-and-their-enco
 
 The playground is published under a memorable URL: https://gpt-tokenizer.dev/
 
-
-You can play with the package in the browser using the CodeSandbox [Playground](https://codesandbox.io/s/gpt-tokenizer-tjcjoz?fontsize=14&hidenavigation=1&theme=dark).
-
 [![GPT Tokenizer Playground](./docs/gpt-tokenizer.png)](https://codesandbox.io/s/gpt-tokenizer-tjcjoz?fontsize=14&hidenavigation=1&theme=dark)
-
-The playground mimics the official [OpenAI Tokenizer](https://platform.openai.com/tokenizer).
 
 ## Usage
 
