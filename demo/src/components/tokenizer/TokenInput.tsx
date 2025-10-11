@@ -483,7 +483,7 @@ export function TokenInput({
         disabled={disabled}
         className={cn(
           'absolute inset-0 z-10 h-full w-full resize-none rounded-3xl border-none bg-transparent font-mono text-transparent selection:bg-sky-200/40 focus:outline-none dark:selection:bg-sky-500/30',
-          size === 'prominent' ? 'px-7 py-7 text-[17px] leading-relaxed md:px-8 md:py-8 md:text-[18px]' : 'px-6 py-5 text-[15px]',
+          size === 'prominent' ? 'px-7 py-7 text-[17px] md:px-8 md:py-8 md:text-[18px]' : 'px-6 py-5 text-[15px]',
           showTokenIds ? 'leading-[2.8]' : 'leading-relaxed',
           'transition-[line-height] duration-200 ease-out',
         )}
@@ -494,7 +494,7 @@ export function TokenInput({
         ref={overlayRef}
         className={cn(
           'absolute inset-0 z-20 overflow-auto rounded-3xl font-mono text-slate-700 select-none cursor-text dark:text-slate-200',
-          size === 'prominent' ? 'px-7 py-7 text-[17px] leading-relaxed md:px-8 md:py-8 md:text-[18px]' : 'px-6 py-5 text-[15px]',
+          size === 'prominent' ? 'px-7 py-7 text-[17px] md:px-8 md:py-8 md:text-[18px]' : 'px-6 py-5 text-[15px]',
           showTokenIds ? 'leading-[2.8]' : 'leading-relaxed',
           'transition-[line-height] duration-200 ease-out',
         )}
