@@ -77,30 +77,28 @@ export function ModelInsights({ modelSpec }: ModelInsightsProps) {
     )
   }
 
-  const renderPriceGroup = (heading: string, icon: string, data: PriceSegment | undefined) => {
+  const renderPriceGroup = (heading: string, data: PriceSegment | undefined) => {
     if (!data) return null
     const entries = [
-      data.input != null && { label: 'Input', value: formatCurrency(data.input), symbol: '⬅️' },
-      data.output != null && { label: 'Output', value: formatCurrency(data.output), symbol: '➡️' },
-      data.cached_input != null && { label: 'Cached input', value: formatCurrency(data.cached_input), symbol: '🗃️' },
-      data.cached_output != null && { label: 'Cached output', value: formatCurrency(data.cached_output), symbol: '🗂️' },
-    ].filter(Boolean) as Array<{ label: string; value: string; symbol: string }>
+      data.input != null && { label: 'Input tokens', value: formatCurrency(data.input) },
+      data.output != null && { label: 'Output tokens', value: formatCurrency(data.output) },
+      data.cached_input != null && { label: 'Cached input', value: formatCurrency(data.cached_input) },
+      data.cached_output != null && { label: 'Cached output', value: formatCurrency(data.cached_output) },
+    ].filter(Boolean) as Array<{ label: string; value: string }>
 
     if (entries.length === 0) return null
 
     return (
-      <div className="rounded-2xl border border-slate-200/80 bg-white/90 p-4 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/70">
-        <div className="flex items-center gap-2 text-sm font-semibold text-slate-700 dark:text-slate-100">
-          <span aria-hidden="true">{icon}</span>
-          {heading}
-        </div>
+      <div className="rounded-2xl border border-slate-200/70 bg-white/95 p-4 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/60">
+        <div className="text-sm font-semibold text-slate-700 dark:text-slate-100">{heading}</div>
         <dl className="mt-3 grid grid-cols-1 gap-3 text-sm text-slate-600 dark:text-slate-300 sm:grid-cols-2">
           {entries.map((entry) => (
-            <div key={`${heading}-${entry.label}`} className="rounded-xl border border-slate-200/70 bg-white/80 px-3 py-2 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/80">
-              <dt className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">
-                {entry.symbol} {entry.label}
-              </dt>
-              <dd className="mt-1 font-semibold text-slate-800 dark:text-slate-100">{entry.value}</dd>
+            <div
+              key={`${heading}-${entry.label}`}
+              className="rounded-xl border border-slate-200/70 bg-white/95 px-3 py-2 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/60"
+            >
+              <dt className="text-xs font-medium leading-tight text-slate-500 dark:text-slate-400 break-words">{entry.label}</dt>
+              <dd className="mt-1 font-semibold leading-tight text-slate-800 dark:text-slate-100">{entry.value}</dd>
             </div>
           ))}
         </dl>
@@ -119,8 +117,8 @@ export function ModelInsights({ modelSpec }: ModelInsightsProps) {
 
   const priceGroups: ReactNode[] = modelSpec?.price_data
     ? [
-        renderPriceGroup('On-demand', '💡', modelSpec.price_data.main),
-        renderPriceGroup('Batch', '📦', modelSpec.price_data.batch),
+        renderPriceGroup('On-demand pricing', modelSpec.price_data.main),
+        renderPriceGroup('Batch pricing', modelSpec.price_data.batch),
       ].filter(Boolean)
     : []
 
@@ -140,7 +138,7 @@ export function ModelInsights({ modelSpec }: ModelInsightsProps) {
           <>
             {knowledgeCutoffDisplay && (
               <section>
-                <div className="rounded-2xl border border-slate-200/80 bg-white/90 px-4 py-3 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/70">
+                <div className="rounded-2xl border border-slate-200/70 bg-white/95 px-4 py-3 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/60">
                   <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Knowledge cutoff</p>
                   <p className="mt-1 text-lg font-semibold text-slate-900 dark:text-slate-100">{knowledgeCutoffDisplay}</p>
                 </div>
@@ -148,7 +146,7 @@ export function ModelInsights({ modelSpec }: ModelInsightsProps) {
             )}
 
             <dl className="grid grid-cols-1 gap-4 text-sm text-slate-600 dark:text-slate-300 sm:grid-cols-2">
-              <div className="rounded-2xl border border-slate-200/80 bg-white/90 px-4 py-3 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/70">
+              <div className="rounded-2xl border border-slate-200/70 bg-white/95 px-4 py-3 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/60">
                 <dt className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Context window</dt>
                 <dd className="mt-1 text-lg font-semibold text-slate-900 dark:text-slate-100">
                   {modelSpec.context_window ? (
@@ -161,7 +159,7 @@ export function ModelInsights({ modelSpec }: ModelInsightsProps) {
                   )}
                 </dd>
               </div>
-              <div className="rounded-2xl border border-slate-200/80 bg-white/90 px-4 py-3 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/70">
+              <div className="rounded-2xl border border-slate-200/70 bg-white/95 px-4 py-3 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/60">
                 <dt className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Max output tokens</dt>
                 <dd className="mt-1 text-lg font-semibold text-slate-900 dark:text-slate-100">
                   {modelSpec.max_output_tokens ? (
@@ -174,11 +172,11 @@ export function ModelInsights({ modelSpec }: ModelInsightsProps) {
                   )}
                 </dd>
               </div>
-              <div className="rounded-2xl border border-slate-200/80 bg-white/90 px-4 py-3 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/70">
+              <div className="rounded-2xl border border-slate-200/70 bg-white/95 px-4 py-3 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/60">
                 <dt className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Performance</dt>
                 <dd className="mt-1">{renderMetricIcons(modelSpec.performance, '⚡', 'performance')}</dd>
               </div>
-              <div className="rounded-2xl border border-slate-200/80 bg-white/90 px-4 py-3 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/70">
+              <div className="rounded-2xl border border-slate-200/70 bg-white/95 px-4 py-3 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/60">
                 <dt className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Latency</dt>
                 <dd className="mt-1">{renderMetricIcons(modelSpec.latency, '🕒', 'latency')}</dd>
               </div>

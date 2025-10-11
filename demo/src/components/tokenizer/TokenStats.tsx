@@ -25,7 +25,7 @@ export function TokenStats({ tokenCount, tokensPerHundredChars, cost, isLoading,
 
   return (
     <div className="grid gap-4 md:grid-cols-3">
-      <div className="rounded-2xl border border-slate-200/80 bg-white/90 p-4 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/70">
+      <div className="rounded-2xl border border-slate-200/70 bg-white/95 p-4 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/60">
         <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Tokens</p>
         <p className="mt-2 text-3xl font-semibold text-slate-800 dark:text-slate-100">
           {isLoading ? '—' : formatNumber(tokenCount, 0)}
@@ -34,7 +34,7 @@ export function TokenStats({ tokenCount, tokensPerHundredChars, cost, isLoading,
           {tokensPerHundredChars.toFixed(2)} tokens / 100 chars
         </p>
       </div>
-      <div className="rounded-2xl border border-slate-200/80 bg-white/90 p-4 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/70">
+      <div className="rounded-2xl border border-slate-200/70 bg-white/95 p-4 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/60">
         <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Tokens used</p>
         <p className="mt-2 text-3xl font-semibold text-slate-800 dark:text-slate-100">
           {isLoading || rawPercentUsed === undefined ? '—' : `${percentDisplay}%`}
@@ -45,7 +45,7 @@ export function TokenStats({ tokenCount, tokensPerHundredChars, cost, isLoading,
             : 'Context window unavailable'}
         </p>
       </div>
-      <div className="rounded-2xl border border-slate-200/80 bg-white/90 p-4 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/70">
+      <div className="rounded-2xl border border-slate-200/70 bg-white/95 p-4 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/60">
         <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Estimated cost</p>
         <p className="mt-2 text-3xl font-semibold text-emerald-600 dark:text-emerald-200">
           {formatCurrency(cost?.main?.input)}

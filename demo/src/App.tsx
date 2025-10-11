@@ -71,7 +71,7 @@ export default function App() {
       <section className="grid gap-8 xl:grid-cols-[2.1fr_1fr]">
         <div className="flex flex-col gap-4">
           <nav
-            className="inline-flex w-full items-center justify-start gap-2 rounded-full border border-slate-200/80 bg-white/90 p-1 text-sm font-medium text-slate-600 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/70 dark:text-slate-300"
+            className="inline-flex w-full items-center justify-start gap-2 rounded-full border border-slate-200/70 bg-white/95 p-1 text-sm font-medium text-slate-600 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/70 dark:text-slate-300"
             role="tablist"
             aria-label="Tokenizer modes"
           >
