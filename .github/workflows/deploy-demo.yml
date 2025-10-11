@@ -47,7 +47,7 @@ jobs:
 
       - name: Link local gpt-tokenizer build
         working-directory: demo
-        run: npm install .. --no-save
+        run: npm install --no-save
 
       - name: Set deployment base path
         run: echo "VITE_BASE_PATH=/${GITHUB_REPOSITORY#*/}/" >> "$GITHUB_ENV"
