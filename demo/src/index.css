@@ -95,7 +95,7 @@ a {
   text-overflow: ellipsis;
   white-space: nowrap;
   line-height: 1.15;
-  box-shadow: var(--token-label-shadow-light, 0 8px 24px rgba(15, 23, 42, 0.22));
+  /* box-shadow: var(--token-label-shadow-light, 0 8px 24px rgba(15, 23, 42, 0.22)); */
   font-variant-numeric: tabular-nums;
   backdrop-filter: saturate(140%);
   border-radius: 0;
@@ -113,7 +113,7 @@ html.dark .token-chip__label--persistent {
   background-image: var(--token-label-gradient-dark, var(--token-label-gradient-light, var(--token-label-gradient, none)));
   color: var(--token-label-color-dark, #020617);
   border-color: var(--token-label-border-dark, rgba(148, 163, 184, 0.28));
-  box-shadow: var(--token-label-shadow-dark, 0 14px 32px rgba(2, 6, 23, 0.48));
+  /* box-shadow: var(--token-label-shadow-dark, 0 14px 32px rgba(2, 6, 23, 0.48)); */
 }
 
 .token-chip--hovered .token-chip__label--persistent,
