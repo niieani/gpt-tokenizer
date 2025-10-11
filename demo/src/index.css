@@ -75,9 +75,12 @@ a {
 }
 
 .token-chip__label--persistent {
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
+  top: var(--token-label-top, 0);
+  bottom: auto;
+  left: var(--token-label-left, 50%);
+  transform:
+    translateX(var(--token-label-translate-x, -50%))
+    translateY(var(--token-label-translate-y, calc(-100% - var(--token-label-gap, 4px))));
   background-color: var(--token-label-bg-light, var(--token-label-bg, #0f172a));
   background-image: var(--token-label-gradient-light, var(--token-label-gradient, none));
   background-size: 160% 160%;
@@ -89,8 +92,8 @@ a {
   text-align: center;
   padding: 0.15rem 0.35rem;
   opacity: var(--token-label-opacity, 1);
-  min-width: 100%;
-  max-width: 100%;
+  min-width: var(--token-label-fit-width, 100%);
+  max-width: var(--token-label-fit-width, 100%);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -118,7 +121,7 @@ html.dark .token-chip__label--persistent {
 
 .token-chip--hovered .token-chip__label--persistent,
 .token-chip--active .token-chip__label--persistent {
-  max-width: min(16rem, 90vw);
+  max-width: max(var(--token-label-fit-width, 0px), min(16rem, 90vw));
   padding-left: 0.45rem;
   padding-right: 0.45rem;
   z-index: 30;

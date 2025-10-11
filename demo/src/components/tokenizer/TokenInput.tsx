@@ -1,6 +1,7 @@
 import {
   useCallback,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -65,6 +66,7 @@ export function TokenInput({
   const overlayRef = useRef<HTMLDivElement>(null)
   // Track the active pointer selection gesture originating from the overlay.
   const pointerStateRef = useRef<{ id: number; anchor: number } | null>(null)
+  const tokenRefs = useRef<(HTMLSpanElement | null)[]>([])
 
   const [selectionRange, setSelectionRange] = useState<[number, number] | null>(null)
   const [hoveredTokenIndex, setHoveredTokenIndex] = useState<number | null>(null)
@@ -194,6 +196,108 @@ export function TokenInput({
   useEffect(() => {
     syncSelectionFromTextarea()
   }, [value.length, syncSelectionFromTextarea])
+
+  useEffect(() => {
+    tokenRefs.current.length = segments.length
+  }, [segments.length])
+
+  const updateTokenLabelPositions = useCallback(() => {
+    if (typeof window === 'undefined') return
+
+    tokenRefs.current.forEach((tokenElement) => {
+      if (!tokenElement) return
+
+      const labelElement = tokenElement.querySelector<HTMLElement>('.token-chip__label--persistent')
+      if (!labelElement) return
+
+      const clearMeasurements = () => {
+        labelElement.style.removeProperty('--token-label-left')
+        labelElement.style.removeProperty('--token-label-translate-x')
+        labelElement.style.removeProperty('--token-label-translate-y')
+        labelElement.style.removeProperty('--token-label-fit-width')
+        labelElement.style.removeProperty('--token-label-top')
+        labelElement.style.removeProperty('--token-label-gap')
+      }
+
+      if (!showTokenIds) {
+        clearMeasurements()
+        return
+      }
+
+      const textElement = tokenElement.querySelector<HTMLElement>('.token-chip__text')
+      if (!textElement) {
+        clearMeasurements()
+        return
+      }
+
+      const textRects = textElement.getClientRects()
+      if (textRects.length === 0) {
+        clearMeasurements()
+        return
+      }
+
+      const hostRect = tokenElement.getBoundingClientRect()
+      const firstRect = textRects[0]
+      const lastRect = textRects[textRects.length - 1]
+
+      const originLeft = firstRect?.left ?? hostRect.left
+      const originTop = firstRect?.top ?? hostRect.top
+      const offsetLeft = lastRect.left - originLeft
+      const offsetTop = lastRect.top - originTop
+      const fitWidth = Math.max(lastRect.width, 1)
+      const gap = 4
+
+      labelElement.style.setProperty('--token-label-left', `${offsetLeft}px`)
+      labelElement.style.setProperty('--token-label-translate-x', '0')
+      labelElement.style.setProperty('--token-label-translate-y', `calc(-100% - ${gap}px)`)
+      labelElement.style.setProperty('--token-label-fit-width', `${fitWidth}px`)
+      labelElement.style.setProperty('--token-label-top', `${offsetTop}px`)
+      labelElement.style.setProperty('--token-label-gap', `${gap}px`)
+    })
+  }, [showTokenIds])
+
+  useLayoutEffect(() => {
+    updateTokenLabelPositions()
+  }, [segments, updateTokenLabelPositions])
+
+  useLayoutEffect(() => {
+    if (typeof window === 'undefined') return
+
+    if (!showTokenIds) {
+      updateTokenLabelPositions()
+      return
+    }
+
+    let animationFrame: number | null = null
+    const scheduleUpdate = () => {
+      if (animationFrame != null) {
+        cancelAnimationFrame(animationFrame)
+      }
+      animationFrame = requestAnimationFrame(() => {
+        animationFrame = null
+        updateTokenLabelPositions()
+      })
+    }
+
+    scheduleUpdate()
+
+    window.addEventListener('resize', scheduleUpdate)
+
+    const overlayElement = overlayRef.current
+    let resizeObserver: ResizeObserver | null = null
+    if (overlayElement && 'ResizeObserver' in window) {
+      resizeObserver = new ResizeObserver(scheduleUpdate)
+      resizeObserver.observe(overlayElement)
+    }
+
+    return () => {
+      if (animationFrame != null) {
+        cancelAnimationFrame(animationFrame)
+      }
+      window.removeEventListener('resize', scheduleUpdate)
+      resizeObserver?.disconnect()
+    }
+  }, [showTokenIds, updateTokenLabelPositions])
 
   const handleOverlayPointerDown = useCallback(
     (event: ReactPointerEvent<HTMLDivElement>) => {
@@ -425,6 +529,9 @@ export function TokenInput({
 
       return (
         <span
+          ref={(node) => {
+            tokenRefs.current[index] = node
+          }}
           key={`${segment.token}-${segment.start}-${index}`}
           data-token-start={segment.start}
           data-token-length={segment.end - segment.start}
