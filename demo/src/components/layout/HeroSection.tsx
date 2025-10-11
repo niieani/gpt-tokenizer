@@ -14,6 +14,7 @@ export function HeroSection() {
             width="150"
             height="30"
             frameBorder="0"
+            loading="lazy"
             style={{ backgroundColor: 'transparent' }}
           />
         </div>
