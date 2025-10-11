@@ -41,24 +41,24 @@ export function TokenizerPlayground({
   tokenizerReady,
   loadError,
 }: TokenizerPlaygroundProps) {
-  const statusLabel = isLoading ? 'Loading' : tokenizerReady ? 'Ready' : 'Offline'
+  const statusState = isLoading ? 'Loading' : tokenizerReady ? 'Ready' : 'Offline'
   const statusColor =
-    statusLabel === 'Ready'
+    statusState === 'Ready'
       ? 'bg-emerald-400/90 dark:bg-emerald-400/70'
-      : statusLabel === 'Loading'
+      : statusState === 'Loading'
         ? 'bg-amber-400/90 dark:bg-amber-400/70'
         : 'bg-rose-500/80 dark:bg-rose-500/70'
 
   return (
-    <Card className="gap-6 p-0">
-      <CardContent className="gap-6 p-6">
-        <div className="flex flex-col gap-4">
+    <Card className="p-5 md:p-6">
+      <CardContent className="gap-6 p-0">
+        <div className="flex flex-col gap-4 text-sm text-slate-600 dark:text-slate-300">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex flex-wrap items-center gap-3 text-sm text-slate-600 dark:text-slate-300">
-              <label htmlFor="model" className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">
+            <div className="flex flex-col gap-2">
+              <label htmlFor="model" className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
                 Model
               </label>
-              <div className="flex items-center gap-3 rounded-2xl border border-slate-200/80 bg-white/90 px-3 py-2 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/70">
+              <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-slate-200/80 bg-white/95 px-3 py-2 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/70">
                 <Select
                   id="model"
                   value={modelName}
@@ -72,19 +72,19 @@ export function TokenizerPlayground({
                     </option>
                   ))}
                 </Select>
-                <span className="flex items-center gap-2 text-xs font-medium text-slate-500 dark:text-slate-400">
+                <span className="flex items-center" role="status" aria-live="polite" aria-label={`Tokenizer status: ${statusState.toLowerCase()}`}>
                   <span className={cn('h-2.5 w-2.5 rounded-full', statusColor)} aria-hidden="true" />
-                  {statusLabel}
+                  <span className="sr-only">{statusState}</span>
                 </span>
               </div>
-              <div className="flex items-center gap-2 rounded-2xl border border-slate-200/80 bg-white/90 px-3 py-2 font-medium shadow-sm transition-colors dark:border-slate-800/70 dark:bg-slate-950/70">
-                <Switch
-                  checked={showTokenIds}
-                  onChange={(event) => onToggleTokenIds(event.target.checked)}
-                  aria-label="Show all tokens"
-                />
-                <span className="text-sm">Show all tokens</span>
-              </div>
+            </div>
+            <div className="flex items-center gap-2 self-start rounded-2xl border border-slate-200/80 bg-white/95 px-3 py-2 font-medium shadow-sm transition-colors dark:border-slate-800/70 dark:bg-slate-950/70">
+              <Switch
+                checked={showTokenIds}
+                onChange={(event) => onToggleTokenIds(event.target.checked)}
+                aria-label="Show all tokens"
+              />
+              <span className="text-sm">Show all tokens</span>
             </div>
           </div>
           {loadError && (
@@ -110,6 +110,7 @@ export function TokenizerPlayground({
           tokensPerHundredChars={tokensPerHundredChars}
           cost={tokenAnalysis.cost}
           isLoading={isLoading}
+          contextWindow={modelSpec?.context_window}
         />
 
         <CostBreakdown cost={tokenAnalysis.cost} />

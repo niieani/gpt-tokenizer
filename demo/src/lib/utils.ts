@@ -12,7 +12,11 @@ export function formatNumber(value: number | undefined, fractionDigits = 2) {
 
 export function formatCurrency(value: number | undefined, fractionDigits = 4) {
   if (value === undefined) return '—'
-  return `$${formatNumber(value, fractionDigits)}`
+  const maximumFractionDigits = Math.abs(value) < 1 ? Math.max(fractionDigits, 6) : fractionDigits
+  return `$${Intl.NumberFormat('en-US', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits,
+  }).format(value)}`
 }
 
 export function chunkArray<T>(input: T[], size: number) {
