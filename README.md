@@ -2,7 +2,7 @@
 
 [![Play with gpt-tokenizer](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/gpt-tokenizer-tjcjoz?fontsize=14&hidenavigation=1&theme=dark)
 
-`gpt-tokenizer` is a Token Byte Pair Encoder/Decoder supporting all OpenAI's models (including GPT-4o, o1, o3, o4, GPT-4.1 and older models like GPT-3.5, GPT-4).
+`gpt-tokenizer` is a Token Byte Pair Encoder/Decoder supporting all OpenAI's models (including GPT-5, GPT-4o, o1, o3, o4, GPT-4.1 and older models like GPT-3.5, GPT-4).
 It's the [_fastest, smallest and lowest footprint_](#benchmarks) GPT tokenizer available for all JavaScript environments. It's written in TypeScript.
 
 This library has been trusted by:
@@ -66,6 +66,7 @@ Refer to [supported models and their encodings](#Supported-models-and-their-enco
 ## Playground
 
 The playground is published under a memorable URL: https://gpt-tokenizer.dev/
+
 
 You can play with the package in the browser using the CodeSandbox [Playground](https://codesandbox.io/s/gpt-tokenizer-tjcjoz?fontsize=14&hidenavigation=1&theme=dark).
 

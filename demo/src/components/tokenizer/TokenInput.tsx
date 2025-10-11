@@ -1,0 +1,665 @@
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+  type CSSProperties,
+  type PointerEvent as ReactPointerEvent,
+} from 'react'
+
+import { colorForToken } from '../../lib/token-display'
+import { cn } from '../../lib/utils'
+import type { TokenSegment } from '../../types'
+
+// augment CSSProperties to include custom properties for token styles
+declare module 'csstype' {
+  interface Properties {
+    '--token-bg'?: string
+    '--token-highlight'?: string
+    '--token-border'?: string
+    '--token-color'?: string
+    '--token-fill'?: string
+    '--token-label-bg-light'?: string
+    '--token-label-bg-dark'?: string
+    '--token-label-gradient-light'?: string
+    '--token-label-gradient-dark'?: string
+    '--token-label-border-light'?: string
+    '--token-label-border-dark'?: string
+    '--token-label-color-light'?: string
+    '--token-label-color-dark'?: string
+    '--token-label-opacity'?: string
+    '--token-label-shadow-light'?: string
+    '--token-label-shadow-dark'?: string
+  }
+}
+
+interface TokenInputProps {
+  value: string
+  onChange: (value: string) => void
+  segments: TokenSegment[]
+  placeholder?: string
+  size?: 'default' | 'prominent'
+  showTokenIds: boolean
+  disabled?: boolean
+  isLoading?: boolean
+  className?: string
+  minHeight?: number
+  ariaLabel?: string
+}
+
+export function TokenInput({
+  value,
+  onChange,
+  segments,
+  placeholder = 'Type or paste text to tokenize…',
+  size = 'default',
+  showTokenIds,
+  disabled = false,
+  isLoading = false,
+  className,
+  minHeight = 220,
+  ariaLabel = 'Text input',
+}: TokenInputProps) {
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const overlayRef = useRef<HTMLDivElement>(null)
+  // Track the active pointer selection gesture originating from the overlay.
+  const pointerStateRef = useRef<{ id: number; anchor: number } | null>(null)
+  const tokenRefs = useRef<(HTMLSpanElement | null)[]>([])
+
+  const [selectionRange, setSelectionRange] = useState<[number, number] | null>(null)
+  const [hoveredTokenIndex, setHoveredTokenIndex] = useState<number | null>(null)
+  const [activeTokenSource, setActiveTokenSource] = useState<'hover' | 'caret'>('caret')
+  const [isFocused, setIsFocused] = useState(false)
+
+  const clampCaret = useCallback(
+    (index: number) => Math.max(0, Math.min(value.length, index)),
+    [value.length],
+  )
+
+  const getTokenElementAtPoint = useCallback((clientX: number, clientY: number) => {
+    const doc = overlayRef.current?.ownerDocument ?? document
+    const target = doc.elementFromPoint(clientX, clientY)
+    return (target as Element | null)?.closest('[data-token-index]') as HTMLElement | null
+  }, [])
+
+  const handleScroll = useCallback(() => {
+    if (!textareaRef.current || !overlayRef.current) return
+    if (overlayRef.current.scrollTop !== textareaRef.current.scrollTop) {
+      overlayRef.current.scrollTop = textareaRef.current.scrollTop
+    }
+    if (overlayRef.current.scrollLeft !== textareaRef.current.scrollLeft) {
+      overlayRef.current.scrollLeft = textareaRef.current.scrollLeft
+    }
+  }, [])
+
+  const handleOverlayScroll = useCallback(() => {
+    if (!textareaRef.current || !overlayRef.current) return
+    if (textareaRef.current.scrollTop !== overlayRef.current.scrollTop) {
+      textareaRef.current.scrollTop = overlayRef.current.scrollTop
+    }
+    if (textareaRef.current.scrollLeft !== overlayRef.current.scrollLeft) {
+      textareaRef.current.scrollLeft = overlayRef.current.scrollLeft
+    }
+  }, [])
+
+  // Map overlay hit positions back to source string offsets for caret/selection syncing.
+  const resolveCaretIndex = useCallback(
+    (nativeEvent: MouseEvent | PointerEvent) => {
+      const computeIndex = (node: Node | null, offset: number, clientX: number): number | null => {
+        if (!node) return null
+
+        if (node.nodeType === Node.TEXT_NODE) {
+          const parentElement = (node.parentElement ?? (node.parentNode as Element | null)) as HTMLElement | null
+          if (!parentElement) return null
+          const tokenElement = parentElement.closest('[data-token-start]') as HTMLElement | null
+          if (!tokenElement) return null
+          const tokenStart = Number(tokenElement.dataset.tokenStart)
+          const tokenLength = Number(tokenElement.dataset.tokenLength ?? 0)
+          if (!Number.isFinite(tokenStart)) return null
+          const safeLength = Number.isFinite(tokenLength) ? tokenLength : 0
+          const safeOffset = Math.max(0, Math.min(offset, safeLength))
+          return tokenStart + safeOffset
+        }
+
+        if (node.nodeType === Node.ELEMENT_NODE) {
+          const element = node as Element
+          if (element.classList.contains('token-chip__text') && element.firstChild) {
+            return computeIndex(element.firstChild, offset, clientX)
+          }
+          const tokenElement = element.closest('[data-token-start]') as HTMLElement | null
+          if (tokenElement) {
+            const tokenStart = Number(tokenElement.dataset.tokenStart)
+            const tokenLength = Number(tokenElement.dataset.tokenLength ?? 0)
+            if (!Number.isFinite(tokenStart)) return null
+            if (Number.isFinite(tokenLength) && tokenLength > 0) {
+              const rect = tokenElement.getBoundingClientRect()
+              const midpoint = rect.left + rect.width / 2
+              return tokenStart + (clientX > midpoint ? tokenLength : 0)
+            }
+            return tokenStart
+          }
+        }
+
+        return null
+      }
+
+      const doc = nativeEvent.view?.document ?? document
+      const extendedDoc = doc as Document & {
+        caretRangeFromPoint?: (x: number, y: number) => Range | null
+        caretPositionFromPoint?: (x: number, y: number) => { offsetNode: Node; offset: number } | null
+      }
+
+      const tryRange = extendedDoc.caretRangeFromPoint?.(nativeEvent.clientX, nativeEvent.clientY)
+      if (tryRange) {
+        const index = computeIndex(tryRange.startContainer, tryRange.startOffset, nativeEvent.clientX)
+        if (typeof index === 'number') return index
+      }
+
+      const tryPosition = extendedDoc.caretPositionFromPoint?.(nativeEvent.clientX, nativeEvent.clientY)
+      if (tryPosition) {
+        const index = computeIndex(tryPosition.offsetNode, tryPosition.offset, nativeEvent.clientX)
+        if (typeof index === 'number') return index
+      }
+
+      const fallbackToken = (nativeEvent.target as Element | null)?.closest('[data-token-start]') as HTMLElement | null
+      if (fallbackToken) {
+        const tokenStart = Number(fallbackToken.dataset.tokenStart)
+        const tokenLength = Number(fallbackToken.dataset.tokenLength ?? 0)
+        if (Number.isFinite(tokenStart)) {
+          if (Number.isFinite(tokenLength) && tokenLength > 0) {
+            const rect = fallbackToken.getBoundingClientRect()
+            const midpoint = rect.left + rect.width / 2
+            return tokenStart + (nativeEvent.clientX > midpoint ? tokenLength : 0)
+          }
+          return tokenStart
+        }
+      }
+
+      return value.length
+    },
+    [value.length],
+  )
+
+  const syncSelectionFromTextarea = useCallback(() => {
+    const element = textareaRef.current
+    if (!element) return
+    const { selectionStart, selectionEnd } = element
+    if (selectionStart == null || selectionEnd == null) return
+    setSelectionRange((prev) => {
+      if (prev && prev[0] === selectionStart && prev[1] === selectionEnd) return prev
+      return [selectionStart, selectionEnd]
+    })
+  }, [])
+
+  useEffect(() => {
+    syncSelectionFromTextarea()
+  }, [value.length, syncSelectionFromTextarea])
+
+  useEffect(() => {
+    tokenRefs.current.length = segments.length
+  }, [segments.length])
+
+  const updateTokenLabelPositions = useCallback(() => {
+    if (typeof window === 'undefined') return
+
+    tokenRefs.current.forEach((tokenElement) => {
+      if (!tokenElement) return
+
+      const labelElement = tokenElement.querySelector<HTMLElement>('.token-chip__label--persistent')
+      if (!labelElement) return
+
+      const clearMeasurements = () => {
+        labelElement.style.removeProperty('--token-label-left')
+        labelElement.style.removeProperty('--token-label-translate-x')
+        labelElement.style.removeProperty('--token-label-translate-y')
+        labelElement.style.removeProperty('--token-label-fit-width')
+        labelElement.style.removeProperty('--token-label-top')
+        labelElement.style.removeProperty('--token-label-gap')
+      }
+
+      if (!showTokenIds) {
+        clearMeasurements()
+        return
+      }
+
+      const textElement = tokenElement.querySelector<HTMLElement>('.token-chip__text')
+      if (!textElement) {
+        clearMeasurements()
+        return
+      }
+
+      const textRects = textElement.getClientRects()
+      if (textRects.length === 0) {
+        clearMeasurements()
+        return
+      }
+
+      const hostRect = tokenElement.getBoundingClientRect()
+      const firstRect = textRects[0]
+      const lastRect = textRects[textRects.length - 1]
+
+      const originLeft = firstRect?.left ?? hostRect.left
+      const originTop = firstRect?.top ?? hostRect.top
+      const offsetLeft = lastRect.left - originLeft
+      const offsetTop = lastRect.top - originTop
+      const fitWidth = Math.max(lastRect.width, 1)
+      const gap = 4
+
+      labelElement.style.setProperty('--token-label-left', `${offsetLeft}px`)
+      labelElement.style.setProperty('--token-label-translate-x', '0')
+      labelElement.style.setProperty('--token-label-translate-y', `calc(-100% - ${gap}px)`)
+      labelElement.style.setProperty('--token-label-fit-width', `${fitWidth}px`)
+      labelElement.style.setProperty('--token-label-top', `${offsetTop}px`)
+      labelElement.style.setProperty('--token-label-gap', `${gap}px`)
+    })
+  }, [showTokenIds])
+
+  useLayoutEffect(() => {
+    updateTokenLabelPositions()
+  }, [segments, updateTokenLabelPositions])
+
+  useLayoutEffect(() => {
+    if (typeof window === 'undefined') return
+
+    if (!showTokenIds) {
+      updateTokenLabelPositions()
+      return
+    }
+
+    let animationFrame: number | null = null
+    const scheduleUpdate = () => {
+      if (animationFrame != null) {
+        cancelAnimationFrame(animationFrame)
+      }
+      animationFrame = requestAnimationFrame(() => {
+        animationFrame = null
+        updateTokenLabelPositions()
+      })
+    }
+
+    scheduleUpdate()
+
+    window.addEventListener('resize', scheduleUpdate)
+
+    const overlayElement = overlayRef.current
+    let resizeObserver: ResizeObserver | null = null
+    if (overlayElement && 'ResizeObserver' in window) {
+      resizeObserver = new ResizeObserver(scheduleUpdate)
+      resizeObserver.observe(overlayElement)
+    }
+
+    return () => {
+      if (animationFrame != null) {
+        cancelAnimationFrame(animationFrame)
+      }
+      window.removeEventListener('resize', scheduleUpdate)
+      resizeObserver?.disconnect()
+    }
+  }, [showTokenIds, updateTokenLabelPositions])
+
+  useEffect(() => {
+    const overlayElement = overlayRef.current
+    if (!overlayElement) return
+
+    let animationFrame: number | null = null
+    const handleTransitionEnd = (event: TransitionEvent) => {
+      if (event.propertyName !== 'line-height') return
+      if (animationFrame != null) {
+        cancelAnimationFrame(animationFrame)
+      }
+      animationFrame = requestAnimationFrame(() => {
+        animationFrame = null
+        updateTokenLabelPositions()
+      })
+    }
+
+    overlayElement.addEventListener('transitionend', handleTransitionEnd)
+
+    return () => {
+      overlayElement.removeEventListener('transitionend', handleTransitionEnd)
+      if (animationFrame != null) {
+        cancelAnimationFrame(animationFrame)
+      }
+    }
+  }, [updateTokenLabelPositions])
+
+  const handleOverlayPointerDown = useCallback(
+    (event: ReactPointerEvent<HTMLDivElement>) => {
+      if (!textareaRef.current) return
+      if (event.button !== 0) return
+
+      const tokenElement = getTokenElementAtPoint(event.clientX, event.clientY)
+      if (tokenElement) {
+        const index = Number(tokenElement.dataset.tokenIndex)
+        if (Number.isFinite(index)) {
+          setHoveredTokenIndex(index)
+          setActiveTokenSource('hover')
+        } else {
+          setHoveredTokenIndex(null)
+          setActiveTokenSource('caret')
+        }
+      } else {
+        setHoveredTokenIndex(null)
+        setActiveTokenSource('caret')
+      }
+
+      event.preventDefault()
+      const caretIndex = clampCaret(resolveCaretIndex(event.nativeEvent))
+      pointerStateRef.current = { id: event.pointerId, anchor: caretIndex }
+
+      setIsFocused(true)
+      textareaRef.current.focus()
+      textareaRef.current.setSelectionRange(caretIndex, caretIndex)
+      requestAnimationFrame(() => {
+        textareaRef.current?.setSelectionRange(caretIndex, caretIndex)
+        syncSelectionFromTextarea()
+      })
+
+      event.currentTarget.setPointerCapture(event.pointerId)
+    },
+    [clampCaret, getTokenElementAtPoint, resolveCaretIndex, setActiveTokenSource, syncSelectionFromTextarea],
+  )
+
+  const handleOverlayPointerMove = useCallback(
+    (event: ReactPointerEvent<HTMLDivElement>) => {
+      if (!isFocused && !pointerStateRef.current) return
+      const tokenElement = getTokenElementAtPoint(event.clientX, event.clientY)
+      if (tokenElement) {
+        const index = Number(tokenElement.dataset.tokenIndex)
+        if (Number.isFinite(index)) {
+          setHoveredTokenIndex(index)
+          setActiveTokenSource('hover')
+        } else {
+          setHoveredTokenIndex(null)
+          setActiveTokenSource('caret')
+        }
+      } else {
+        setHoveredTokenIndex(null)
+        setActiveTokenSource('caret')
+      }
+
+      if (!textareaRef.current) return
+      const pointerState = pointerStateRef.current
+      if (!pointerState || pointerState.id !== event.pointerId) return
+
+      const caretIndex = clampCaret(resolveCaretIndex(event.nativeEvent))
+      const start = Math.min(pointerState.anchor, caretIndex)
+      const end = Math.max(pointerState.anchor, caretIndex)
+
+      textareaRef.current.setSelectionRange(start, end)
+      setSelectionRange((prev) => {
+        if (prev && prev[0] === start && prev[1] === end) return prev
+        return [start, end]
+      })
+    },
+    [clampCaret, getTokenElementAtPoint, isFocused, resolveCaretIndex, setActiveTokenSource],
+  )
+
+  const handleOverlayPointerUpOrCancel = useCallback(
+    (event: ReactPointerEvent<HTMLDivElement>) => {
+      const pointerState = pointerStateRef.current
+      if (pointerState && pointerState.id === event.pointerId) {
+        pointerStateRef.current = null
+        event.currentTarget.releasePointerCapture(event.pointerId)
+      }
+      if (event.type === 'pointercancel' || !isFocused) {
+        setHoveredTokenIndex(null)
+        setActiveTokenSource('caret')
+      } else {
+        const tokenElement = getTokenElementAtPoint(event.clientX, event.clientY)
+        if (tokenElement) {
+          const index = Number(tokenElement.dataset.tokenIndex)
+          if (Number.isFinite(index)) {
+            setHoveredTokenIndex(index)
+            setActiveTokenSource('hover')
+          } else {
+            setHoveredTokenIndex(null)
+            setActiveTokenSource('caret')
+          }
+        } else {
+          setHoveredTokenIndex(null)
+          setActiveTokenSource('caret')
+        }
+      }
+      syncSelectionFromTextarea()
+    },
+    [getTokenElementAtPoint, isFocused, setActiveTokenSource, syncSelectionFromTextarea],
+  )
+
+  const handleOverlayPointerLeave = useCallback(() => {
+    if (!pointerStateRef.current) {
+      setHoveredTokenIndex(null)
+      setActiveTokenSource('caret')
+    }
+  }, [setActiveTokenSource])
+
+  const handleTextareaFocus = useCallback(() => {
+    setIsFocused(true)
+  }, [])
+
+  const handleTextareaBlur = useCallback(() => {
+    setIsFocused(false)
+    setHoveredTokenIndex(null)
+    setSelectionRange(null)
+    pointerStateRef.current = null
+  }, [])
+
+  const handleTextareaKeyDown = useCallback(() => {
+    setActiveTokenSource('caret')
+  }, [setActiveTokenSource])
+
+  useEffect(() => {
+    if (!isFocused) {
+      setHoveredTokenIndex((current) => (current === null ? current : null))
+    }
+  }, [isFocused])
+
+  const tokenElements = useMemo(() => {
+    if (segments.length === 0) return null
+
+    const caretIndex =
+      selectionRange && selectionRange[0] === selectionRange[1]
+        ? selectionRange[0]
+        : null
+
+    const caretReferenceIndex =
+      caretIndex == null ? null : caretIndex > 0 ? caretIndex - 1 : null
+
+    const caretTokenIndexRaw =
+      caretReferenceIndex == null
+        ? null
+        : segments.findIndex(
+            (segment) =>
+              caretReferenceIndex >= segment.start && caretReferenceIndex < segment.end,
+          )
+    const caretTokenIndex =
+      caretTokenIndexRaw != null && caretTokenIndexRaw >= 0 ? caretTokenIndexRaw : null
+
+    const hoveredActiveIndex = isFocused ? hoveredTokenIndex : null
+    const caretActiveIndex = isFocused ? caretTokenIndex : null
+    const activeTokenIndex =
+      activeTokenSource === 'hover'
+        ? hoveredActiveIndex ?? caretActiveIndex
+        : caretActiveIndex ?? hoveredActiveIndex
+
+    const hasLabelInteraction = showTokenIds && activeTokenIndex != null
+
+    return segments.map((segment, index) => {
+      const textContent = segment.text === '' ? '\u00A0' : segment.text
+      const styles = colorForToken(segment.token)
+
+      const isHovered = hoveredActiveIndex === index
+      const isSelected = selectionRange
+        ? Math.max(segment.start, selectionRange[0]) <
+            Math.min(segment.end, selectionRange[1]) && isFocused
+        : false
+      const isActive = activeTokenIndex === index
+
+      const chipStyle: CSSProperties = {
+        '--token-bg': styles.backgroundColor,
+        '--token-highlight':
+          styles.emphasisBackgroundColor ?? styles.backgroundColor,
+        '--token-border': styles.borderColor,
+        '--token-color': styles.color,
+        '--token-fill': styles.backgroundColor,
+      }
+
+      if (showTokenIds) {
+        chipStyle['--token-label-bg-light'] =
+          styles.labelBackgroundLight ?? '#0f172a'
+        chipStyle['--token-label-bg-dark'] =
+          styles.labelBackgroundDark ?? '#f8fafc'
+
+        if (styles.labelGradientLight) {
+          chipStyle['--token-label-gradient-light'] = styles.labelGradientLight
+        }
+        if (styles.labelGradientDark) {
+          chipStyle['--token-label-gradient-dark'] = styles.labelGradientDark
+        }
+
+        const labelBorderLight =
+          styles.labelBorderLight ?? 'rgba(15, 23, 42, 0.32)'
+        const labelBorderDark =
+          styles.labelBorderDark ?? 'rgba(15, 23, 42, 0.22)'
+
+        chipStyle['--token-label-border-light'] = labelBorderLight
+        chipStyle['--token-label-border-dark'] = labelBorderDark
+
+        chipStyle['--token-label-color-light'] =
+          styles.labelTextLight ?? '#f8fafc'
+        chipStyle['--token-label-color-dark'] =
+          styles.labelTextDark ?? '#020617'
+
+        const labelOpacity =
+          isActive || isHovered ? 1 : hasLabelInteraction ? 0.6 : 0.92
+        chipStyle['--token-label-opacity'] = String(labelOpacity)
+
+        const labelShadowLight =
+          isActive || isHovered
+            ? (styles.labelShadowLightActive ??
+              '0 16px 34px rgba(15, 23, 42, 0.36), inset 0 1px 0 rgba(255, 255, 255, 0.25)')
+            : (styles.labelShadowLight ??
+              '0 8px 22px rgba(15, 23, 42, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.18)')
+        const labelShadowDark =
+          isActive || isHovered
+            ? (styles.labelShadowDarkActive ??
+              '0 20px 44px rgba(2, 6, 23, 0.68), inset 0 1px 0 rgba(255, 255, 255, 0.35)')
+            : (styles.labelShadowDark ??
+              '0 12px 28px rgba(2, 6, 23, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.25)')
+
+        chipStyle['--token-label-shadow-light'] = labelShadowLight
+        chipStyle['--token-label-shadow-dark'] = labelShadowDark
+      }
+
+      return (
+        <span
+          ref={(node) => {
+            tokenRefs.current[index] = node
+          }}
+          key={`${segment.token}-${segment.start}-${index}`}
+          data-token-start={segment.start}
+          data-token-length={segment.end - segment.start}
+          data-token-index={index}
+          className={cn(
+            'token-chip group whitespace-pre',
+            showTokenIds && 'token-chip--ids',
+            isHovered && 'token-chip--hovered',
+            isSelected && 'token-chip--selected',
+            isActive && 'token-chip--active',
+          )}
+          style={chipStyle}
+        >
+          <span className="token-chip__text">{textContent}</span>
+          <span
+            className={cn(
+              'token-chip__label pointer-events-none absolute font-semibold transition-all',
+              showTokenIds
+                ? 'token-chip__label--persistent text-[11px] rounded-none'
+                : 'rounded-full -top-6 left-1/2 -translate-x-1/2 bg-slate-900 px-2 py-0.5 text-[10px] text-slate-100 opacity-0 shadow-sm group-hover:opacity-100 dark:bg-slate-100 dark:text-slate-900',
+            )}
+          >
+            {segment.token}
+          </span>
+        </span>
+      )
+    })
+  }, [activeTokenSource, hoveredTokenIndex, isFocused, segments, selectionRange, showTokenIds])
+
+  return (
+    <div
+      className={cn(
+        'relative rounded-3xl border border-slate-300/70 shadow-lg ring-offset-2 transition-colors focus-within:border-sky-400 focus-within:ring-2 focus-within:ring-sky-200/60 dark:border-slate-800/70 dark:focus-within:border-sky-400/80 dark:focus-within:ring-sky-500/40',
+        disabled && 'opacity-60',
+        className,
+      )}
+      style={{ minHeight, backgroundColor: 'var(--token-input-surface)' }}
+    >
+      <textarea
+        ref={textareaRef}
+        value={value}
+        onChange={(event) => {
+          setActiveTokenSource('caret')
+          onChange(event.target.value)
+        }}
+        onScroll={handleScroll}
+        onFocus={handleTextareaFocus}
+        onBlur={handleTextareaBlur}
+        onKeyDown={handleTextareaKeyDown}
+        onSelect={syncSelectionFromTextarea}
+        onKeyUp={syncSelectionFromTextarea}
+        onMouseUp={() => {
+          setActiveTokenSource('caret')
+          syncSelectionFromTextarea()
+        }}
+        spellCheck={false}
+        disabled={disabled}
+        className={cn(
+          'absolute inset-0 z-10 h-full w-full resize-none rounded-3xl border-none bg-transparent font-mono text-transparent selection:bg-sky-200/40 focus:outline-none dark:selection:bg-sky-500/30',
+          size === 'prominent' ? 'px-4 py-5 text-[18px] md:px-5 md:py-6 md:text-[19px]' : 'px-3 py-4 text-[16px]',
+          showTokenIds ? 'leading-[2.8]' : 'leading-relaxed',
+          'transition-[line-height] duration-200 ease-out',
+        )}
+        aria-label={ariaLabel}
+        style={{ caretColor: 'var(--token-caret-color)', scrollbarGutter: 'stable both-edges' }}
+      />
+      <div
+        ref={overlayRef}
+        className={cn(
+          'absolute inset-0 z-20 overflow-auto rounded-3xl font-mono text-slate-700 select-none cursor-text dark:text-slate-200',
+          size === 'prominent' ? 'px-4 py-5 text-[18px] md:px-5 md:py-6 md:text-[19px]' : 'px-3 py-4 text-[16px]',
+          showTokenIds ? 'leading-[2.8]' : 'leading-relaxed',
+          'transition-[line-height] duration-200 ease-out',
+        )}
+        onScroll={handleOverlayScroll}
+        onPointerDown={handleOverlayPointerDown}
+        onPointerMove={handleOverlayPointerMove}
+        onPointerUp={handleOverlayPointerUpOrCancel}
+        onPointerCancel={handleOverlayPointerUpOrCancel}
+        onPointerLeave={handleOverlayPointerLeave}
+        style={{ scrollbarGutter: 'stable both-edges' }}
+      >
+        {isLoading ? (
+          <p className="text-sm text-slate-500 dark:text-slate-400">
+            Loading tokenizer…
+          </p>
+        ) : tokenElements ? (
+          <div className="whitespace-pre-wrap">{tokenElements}</div>
+        ) : value.length === 0 ? (
+          <span className="font-sans text-sm text-slate-400 dark:text-slate-500">
+            {placeholder}
+          </span>
+        ) : disabled ? (
+          <span className="font-sans text-sm text-slate-500 dark:text-slate-400">
+            Tokenizer is preparing — highlights will appear shortly.
+          </span>
+        ) : (
+          <span className="font-sans text-sm text-slate-500 dark:text-slate-400">
+            No tokens returned. Try adjusting the text or switching models.
+          </span>
+        )}
+      </div>
+    </div>
+  )
+}

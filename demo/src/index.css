@@ -1,0 +1,156 @@
+@import 'tailwindcss';
+@custom-variant dark (&:where(.dark, .dark *, [data-theme=dark], [data-theme=dark] *));
+
+:root {
+  color-scheme: light;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    sans-serif;
+  background-color: #f8fafc;
+  color: #0f172a;
+  --token-foreground: #0f172a;
+  --token-input-surface: rgba(255, 255, 255, 0.94);
+  --token-caret-color: #0f172a;
+}
+
+html.dark {
+  color-scheme: dark;
+  background-color: #020617;
+  color: #e2e8f0;
+  --token-foreground: #ffffff;
+    --token-input-surface: rgba(1, 22, 44, 0.88);
+  --token-caret-color: #e0f2fe;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(180deg, rgba(148, 163, 184, 0.08), transparent 45%),
+    linear-gradient(0deg, rgba(14, 116, 144, 0.05), transparent 65%),
+    #f8fafc;
+  color: inherit;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+html.dark body {
+  background: radial-gradient(circle at top, rgba(59, 130, 246, 0.08), transparent 60%),
+    radial-gradient(circle at bottom, rgba(16, 185, 129, 0.1), transparent 55%),
+    #020617;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: inherit;
+}
+
+.token-chip {
+  position: relative;
+  display: inline;
+  white-space: inherit;
+  cursor: text;
+  color: var(--token-color, var(--token-foreground));
+  font-variant-ligatures: none;
+}
+
+.token-chip__text {
+  position: relative;
+  z-index: 1;
+  color: inherit;
+  white-space: inherit;
+  line-height: inherit;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  border-radius: 0;
+  box-shadow:
+    inset 0 0 0 1px var(--token-border, transparent),
+    inset 0 0 0 0.08em var(--token-highlight, transparent);
+  background-color: var(--token-fill, transparent);
+  transition: box-shadow 160ms ease, background-color 160ms ease, color 160ms ease;
+}
+
+.token-chip__label {
+  z-index: 10;
+}
+
+.token-chip__label--persistent {
+  top: var(--token-label-top, 0);
+  bottom: auto;
+  left: var(--token-label-left, 50%);
+  transform:
+    translateX(var(--token-label-translate-x, -50%))
+    translateY(var(--token-label-translate-y, calc(-100% - var(--token-label-gap, 4px))));
+  background-color: var(--token-label-bg-light, var(--token-label-bg, #0f172a));
+  background-image: var(--token-label-gradient-light, var(--token-label-gradient, none));
+  background-size: 160% 160%;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: var(--token-label-color-light, #f8fafc);
+  border: 1px solid var(--token-label-border-light, var(--token-label-border, rgba(15, 23, 42, 0.32)));
+  display: inline-block;
+  text-align: center;
+  padding: 0.15rem 0.35rem;
+  opacity: var(--token-label-opacity, 1);
+  min-width: var(--token-label-fit-width, 100%);
+  max-width: var(--token-label-fit-width, 100%);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.15;
+  /* box-shadow: var(--token-label-shadow-light, 0 8px 24px rgba(15, 23, 42, 0.22)); */
+  font-variant-numeric: tabular-nums;
+  backdrop-filter: saturate(140%);
+  border-radius: 0;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    max-width 160ms ease,
+    padding 160ms ease,
+    box-shadow 160ms ease,
+    opacity 140ms ease;
+}
+
+html.dark .token-chip__label--persistent {
+  background-color: var(--token-label-bg-dark, #f8fafc);
+  background-image: var(--token-label-gradient-dark, var(--token-label-gradient-light, var(--token-label-gradient, none)));
+  color: var(--token-label-color-dark, #020617);
+  border-color: var(--token-label-border-dark, rgba(148, 163, 184, 0.28));
+  /* box-shadow: var(--token-label-shadow-dark, 0 14px 32px rgba(2, 6, 23, 0.48)); */
+}
+
+.token-chip--hovered .token-chip__label--persistent,
+.token-chip--active .token-chip__label--persistent {
+  max-width: max(var(--token-label-fit-width, 0px), min(16rem, 90vw));
+  padding-left: 0.45rem;
+  padding-right: 0.45rem;
+  z-index: 30;
+}
+
+.token-chip--active .token-chip__label--persistent {
+  z-index: 40;
+}
+
+.token-chip--hovered .token-chip__text,
+.token-chip--active .token-chip__text {
+  box-shadow:
+    0 0 0 1.5px var(--token-border, transparent),
+    0 0 0 0.16em var(--token-highlight, var(--token-bg, transparent));
+  background-color: var(--token-highlight, var(--token-fill, transparent));
+  color: var(--token-color, currentColor);
+  color: color-mix(in srgb, var(--token-color, currentColor) 88%, currentColor 12%);
+}
+
+.token-chip--selected .token-chip__text {
+  box-shadow:
+    0 0 0 2px var(--token-border, transparent),
+    0 0 0 0.22em var(--token-highlight, var(--token-bg, transparent));
+  background-color: var(--token-highlight, var(--token-fill, transparent));
+  color: var(--token-color, currentColor);
+  font-weight: 600;
+}
+
+.token-chip--active .token-chip__label,
+.token-chip--hovered .token-chip__label {
+  opacity: 1;
+}
