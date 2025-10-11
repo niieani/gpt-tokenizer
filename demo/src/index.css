@@ -72,6 +72,12 @@ a {
 
 .token-chip__label {
   z-index: 10;
+  transition:
+    transform 160ms ease,
+    left 160ms ease,
+    top 160ms ease,
+    min-width 160ms ease,
+    max-width 160ms ease;
 }
 
 .token-chip__label--persistent {

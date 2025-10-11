@@ -299,6 +299,32 @@ export function TokenInput({
     }
   }, [showTokenIds, updateTokenLabelPositions])
 
+  useEffect(() => {
+    const overlayElement = overlayRef.current
+    if (!overlayElement) return
+
+    let animationFrame: number | null = null
+    const handleTransitionEnd = (event: TransitionEvent) => {
+      if (event.propertyName !== 'line-height') return
+      if (animationFrame != null) {
+        cancelAnimationFrame(animationFrame)
+      }
+      animationFrame = requestAnimationFrame(() => {
+        animationFrame = null
+        updateTokenLabelPositions()
+      })
+    }
+
+    overlayElement.addEventListener('transitionend', handleTransitionEnd)
+
+    return () => {
+      overlayElement.removeEventListener('transitionend', handleTransitionEnd)
+      if (animationFrame != null) {
+        cancelAnimationFrame(animationFrame)
+      }
+    }
+  }, [updateTokenLabelPositions])
+
   const handleOverlayPointerDown = useCallback(
     (event: ReactPointerEvent<HTMLDivElement>) => {
       if (!textareaRef.current) return
