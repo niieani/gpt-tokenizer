@@ -80,24 +80,24 @@ export function ModelInsights({ modelSpec }: ModelInsightsProps) {
   const renderPriceGroup = (heading: string, data: PriceSegment | undefined) => {
     if (!data) return null
     const entries = [
-      data.input != null && { label: 'Input tokens', value: formatCurrency(data.input) },
-      data.output != null && { label: 'Output tokens', value: formatCurrency(data.output) },
-      data.cached_input != null && { label: 'Cached input', value: formatCurrency(data.cached_input) },
-      data.cached_output != null && { label: 'Cached output', value: formatCurrency(data.cached_output) },
+      data.input != null && { label: 'In', value: formatCurrency(data.input) },
+      data.output != null && { label: 'Out', value: formatCurrency(data.output) },
+      data.cached_input != null && { label: 'Cached In', value: formatCurrency(data.cached_input) },
+      data.cached_output != null && { label: 'Cached Out', value: formatCurrency(data.cached_output) },
     ].filter(Boolean) as Array<{ label: string; value: string }>
 
     if (entries.length === 0) return null
 
     return (
-      <div className="rounded-2xl border border-slate-200/70 bg-white/95 p-4 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/60">
+      <div className="rounded-2xl border border-slate-200/70 bg-white/95 p-4 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/80">
         <div className="text-sm font-semibold text-slate-700 dark:text-slate-100">{heading}</div>
         <dl className="mt-3 grid grid-cols-1 gap-3 text-sm text-slate-600 dark:text-slate-300 sm:grid-cols-2">
           {entries.map((entry) => (
             <div
               key={`${heading}-${entry.label}`}
-              className="rounded-xl border border-slate-200/70 bg-white/95 px-3 py-2 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/60"
+              className="rounded-xl border border-slate-200/70 bg-white/95 px-3 py-2 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/80"
             >
-              <dt className="text-xs font-medium leading-tight text-slate-500 dark:text-slate-400 break-words">{entry.label}</dt>
+              <dt className="text-xs font-medium leading-tight text-slate-500 dark:text-slate-400 whitespace-nowrap">{entry.label}</dt>
               <dd className="mt-1 font-semibold leading-tight text-slate-800 dark:text-slate-100">{entry.value}</dd>
             </div>
           ))}
@@ -138,7 +138,7 @@ export function ModelInsights({ modelSpec }: ModelInsightsProps) {
           <>
             {knowledgeCutoffDisplay && (
               <section>
-                <div className="rounded-2xl border border-slate-200/70 bg-white/95 px-4 py-3 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/60">
+                <div className="rounded-2xl border border-slate-200/70 bg-white/95 px-4 py-3 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/80">
                   <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Knowledge cutoff</p>
                   <p className="mt-1 text-lg font-semibold text-slate-900 dark:text-slate-100">{knowledgeCutoffDisplay}</p>
                 </div>
@@ -146,37 +146,37 @@ export function ModelInsights({ modelSpec }: ModelInsightsProps) {
             )}
 
             <dl className="grid grid-cols-1 gap-4 text-sm text-slate-600 dark:text-slate-300 sm:grid-cols-2">
-              <div className="rounded-2xl border border-slate-200/70 bg-white/95 px-4 py-3 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/60">
+              <div className="rounded-2xl border border-slate-200/70 bg-white/95 px-4 py-3 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/80">
                 <dt className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Context window</dt>
                 <dd className="mt-1 text-lg font-semibold text-slate-900 dark:text-slate-100">
                   {modelSpec.context_window ? (
                     <>
                       {formatNumber(modelSpec.context_window, 0)}
-                      <span className="ml-1 text-xs font-medium text-slate-500 dark:text-slate-400">tokens</span>
+                      <span className="ml-1 text-xs font-medium text-slate-500 dark:text-slate-400">tok</span>
                     </>
                   ) : (
                     '—'
                   )}
                 </dd>
               </div>
-              <div className="rounded-2xl border border-slate-200/70 bg-white/95 px-4 py-3 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/60">
+              <div className="rounded-2xl border border-slate-200/70 bg-white/95 px-4 py-3 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/80">
                 <dt className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Max output tokens</dt>
                 <dd className="mt-1 text-lg font-semibold text-slate-900 dark:text-slate-100">
                   {modelSpec.max_output_tokens ? (
                     <>
                       {formatNumber(modelSpec.max_output_tokens, 0)}
-                      <span className="ml-1 text-xs font-medium text-slate-500 dark:text-slate-400">tokens</span>
+                      <span className="ml-1 text-xs font-medium text-slate-500 dark:text-slate-400">tok</span>
                     </>
                   ) : (
                     '—'
                   )}
                 </dd>
               </div>
-              <div className="rounded-2xl border border-slate-200/70 bg-white/95 px-4 py-3 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/60">
+              <div className="rounded-2xl border border-slate-200/70 bg-white/95 px-4 py-3 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/80">
                 <dt className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Performance</dt>
                 <dd className="mt-1">{renderMetricIcons(modelSpec.performance, '⚡', 'performance')}</dd>
               </div>
-              <div className="rounded-2xl border border-slate-200/70 bg-white/95 px-4 py-3 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/60">
+              <div className="rounded-2xl border border-slate-200/70 bg-white/95 px-4 py-3 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/80">
                 <dt className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Latency</dt>
                 <dd className="mt-1">{renderMetricIcons(modelSpec.latency, '🕒', 'latency')}</dd>
               </div>

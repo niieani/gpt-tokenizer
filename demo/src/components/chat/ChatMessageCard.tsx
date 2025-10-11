@@ -24,7 +24,7 @@ export function ChatMessageCard({
   disabled = false,
 }: ChatMessageCardProps) {
   return (
-    <div className="rounded-2xl border border-slate-200/70 bg-white/95 p-4 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/60">
+    <div className="rounded-2xl border border-slate-200/70 bg-white/95 p-4 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/80">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
           <Label htmlFor={`role-${message.id}`} className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">
@@ -60,6 +60,7 @@ export function ChatMessageCard({
           segments={segments}
           showTokenIds={showTokenIds}
           disabled={disabled}
+          size="prominent"
           minHeight={160}
           placeholder={`Compose a ${message.role ?? 'user'} message…`}
           ariaLabel={`${message.role ?? 'user'} message input`}

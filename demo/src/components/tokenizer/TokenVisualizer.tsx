@@ -9,7 +9,7 @@ interface TokenVisualizerProps {
 
 export function TokenVisualizer({ segments, showTokenIds, error }: TokenVisualizerProps) {
   return (
-    <div className="rounded-2xl border border-slate-200/70 bg-white/95 p-5 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/60">
+    <div className="rounded-2xl border border-slate-200/70 bg-white/95 p-5 shadow-sm dark:border-slate-800/70 dark:bg-slate-950/80">
       <div className="mb-3 flex items-center justify-between">
         <h3 className="text-sm font-semibold text-slate-800 dark:text-slate-100">Tokenised conversation preview</h3>
         <span className="text-xs text-slate-500 dark:text-slate-400">

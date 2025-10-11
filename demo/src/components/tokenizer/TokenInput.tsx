@@ -456,7 +456,7 @@ export function TokenInput({
   return (
     <div
       className={cn(
-        'relative rounded-3xl border border-slate-300/70 shadow-lg ring-offset-2 transition-colors focus-within:border-sky-400 focus-within:ring-2 focus-within:ring-sky-200/60 dark:border-slate-800/60 dark:focus-within:border-sky-400/80 dark:focus-within:ring-sky-500/40',
+        'relative rounded-3xl border border-slate-300/70 shadow-lg ring-offset-2 transition-colors focus-within:border-sky-400 focus-within:ring-2 focus-within:ring-sky-200/60 dark:border-slate-800/70 dark:focus-within:border-sky-400/80 dark:focus-within:ring-sky-500/40',
         disabled && 'opacity-60',
         className,
       )}
