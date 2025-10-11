@@ -49,8 +49,8 @@ jobs:
         working-directory: demo
         run: npm install --no-save
 
-      - name: Set deployment base path
-        run: echo "VITE_BASE_PATH=/${GITHUB_REPOSITORY#*/}/" >> "$GITHUB_ENV"
+      # - name: Set deployment base path
+      #   run: echo "VITE_BASE_PATH=/${GITHUB_REPOSITORY#*/}/" >> "$GITHUB_ENV"
 
       - name: Build demo site
         working-directory: demo
