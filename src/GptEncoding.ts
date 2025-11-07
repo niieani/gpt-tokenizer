@@ -37,6 +37,32 @@ import {
 } from './specialTokens.js'
 import { endsWithIncompleteUtfPairSurrogate } from './utfUtil.js'
 import { getMaxValueFromMap, getSpecialTokenRegex } from './util.js'
+import {
+  computeChatCompletionTokenCount,
+  type ChatCompletionRequest,
+  type ChatMessage,
+  type EncodeChatOptions,
+  type HarmonyTerminator,
+} from './functionCalling.js'
+
+export type {
+  ChatCompletionArrayProperty,
+  ChatCompletionBooleanProperty,
+  ChatCompletionFunctionCallOption,
+  ChatCompletionFunctionDefinition,
+  ChatCompletionFunctionParameters,
+  ChatCompletionFunctionProperty,
+  ChatCompletionFunctionType,
+  ChatCompletionNullProperty,
+  ChatCompletionNumberProperty,
+  ChatCompletionObjectProperty,
+  ChatCompletionStringProperty,
+  ChatMessageFunctionCall,
+  ChatMessage,
+  ChatCompletionRequest,
+  EncodeChatOptions,
+  HarmonyTerminator,
+} from './functionCalling.js'
 
 export interface CostEstimate {
   input?: number
@@ -66,28 +92,6 @@ export interface EncodeOptions {
   disallowedSpecial?: Set<string> | typeof ALL_SPECIAL_TOKENS
 }
 
-export type HarmonyTerminator = '<|end|>' | '<|return|>' | '<|call|>'
-
-export interface ChatMessage {
-  role?: 'system' | 'user' | 'assistant' | 'developer' | (string & {})
-  name?: string
-  content: string
-  /** Harmony-only: channel label such as `analysis`, `commentary`, or `final`. */
-  channel?: string
-  /** Harmony-only: recipient metadata, e.g. `functions.get_weather` or `assistant`. */
-  recipient?: string
-  /** Controls where the recipient metadata is rendered in Harmony headers. Defaults to `channel`. */
-  recipientPlacement?: 'role' | 'channel'
-  /** Harmony-only: constraint label, e.g. `json`. */
-  constraint?: string
-  /** Harmony-only: overrides the closing token, defaults to `<|end|>`. */
-  terminator?: HarmonyTerminator
-}
-
-export interface EncodeChatOptions {
-  primeWithAssistantResponse?: string
-}
-
 interface SpecialTokenConfig {
   allowedSpecial: Set<string> | undefined
   regexPattern: RegExp | undefined
@@ -108,6 +112,8 @@ export class GptEncoding {
   private allSpecialTokenRegex: RegExp
   private defaultSpecialTokenConfig: SpecialTokenConfig
   private chatFormatter: ChatFormatter
+
+  countChatCompletionTokens?: (request: ChatCompletionRequest) => number
 
   readonly vocabularySize: number
 
@@ -169,6 +175,10 @@ export class GptEncoding {
     this.setMergeCacheSize = this.setMergeCacheSize.bind(this)
     this.clearMergeCache = this.clearMergeCache.bind(this)
     this.estimateCost = this.estimateCost.bind(this)
+    if (modelSpec?.supported_features?.includes('function_calling')) {
+      this.countChatCompletionTokens =
+        this.countChatCompletionTokensInternal.bind(this)
+    }
     this.modelName = modelName
     this.modelSpec = modelSpec
     this.chatFormatter = chatFormatter ?? 'chatml'
@@ -520,6 +530,22 @@ export class GptEncoding {
       count += tokens.length
     }
     return count
+  }
+
+  private countStringTokens(text: string): number {
+    if (!text) {
+      return 0
+    }
+
+    return this.bytePairEncodingCoreProcessor.countNative(text)
+  }
+
+  private countChatCompletionTokensInternal(
+    request: ChatCompletionRequest,
+  ): number {
+    return computeChatCompletionTokenCount(request, (text) =>
+      this.countStringTokens(text),
+    )
   }
 
   setMergeCacheSize(size: number): void {

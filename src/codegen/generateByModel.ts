@@ -71,7 +71,12 @@ await Promise.all(
       '',
     ]
 
-    const baseContent = isChatModel
+    const supportsFunctionCalling = Boolean(
+      'supported_features' in modelData &&
+        modelData.supported_features?.includes('function_calling'),
+    )
+
+    let baseContent = isChatModel
       ? template
           .replace(
             `getEncodingApi('cl100k_base', () => bpeRanks)`,
@@ -89,6 +94,14 @@ await Promise.all(
 export { default } from '../encoding/${encoding}.js'
 export * from '../encoding/${encoding}.js'
 `
+
+    if (isChatModel && supportsFunctionCalling) {
+      const snippet = '  encodeChat,\n  encodeChatGenerator,\n'
+      const replacement =
+        '  encodeChat,\n  encodeChatCompletionTokens,\n  encodeChatGenerator,\n'
+      baseContent = baseContent.replace(snippet, replacement)
+      baseContent = baseContent.replace(snippet, replacement)
+    }
 
     const content = insertHeaderAfterDirectives(baseContent, headerLines)
     await fs.writeFile(
