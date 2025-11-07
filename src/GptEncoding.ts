@@ -3,6 +3,13 @@
 import { BytePairEncodingCore, decoder } from './BytePairEncodingCore.js'
 import { ALL_SPECIAL_TOKENS } from './constants.js'
 import {
+  type ChatCompletionRequest,
+  type ChatMessage,
+  type EncodeChatOptions,
+  type HarmonyTerminator,
+  computeChatCompletionTokenCount,
+} from './functionCalling.js'
+import {
   type ChatModelName,
   type ChatParameters,
   type EncodingName,
@@ -37,13 +44,6 @@ import {
 } from './specialTokens.js'
 import { endsWithIncompleteUtfPairSurrogate } from './utfUtil.js'
 import { getMaxValueFromMap, getSpecialTokenRegex } from './util.js'
-import {
-  computeChatCompletionTokenCount,
-  type ChatCompletionRequest,
-  type ChatMessage,
-  type EncodeChatOptions,
-  type HarmonyTerminator,
-} from './functionCalling.js'
 
 export type {
   ChatCompletionArrayProperty,
@@ -56,10 +56,10 @@ export type {
   ChatCompletionNullProperty,
   ChatCompletionNumberProperty,
   ChatCompletionObjectProperty,
-  ChatCompletionStringProperty,
-  ChatMessageFunctionCall,
-  ChatMessage,
   ChatCompletionRequest,
+  ChatCompletionStringProperty,
+  ChatMessage,
+  ChatMessageFunctionCall,
   EncodeChatOptions,
   HarmonyTerminator,
 } from './functionCalling.js'

@@ -131,8 +131,7 @@ export function countMessageTokens(
   }
 
   if (message.name) {
-    tokens +=
-      countStringTokens(message.name) + MESSAGE_NAME_TOKEN_OVERHEAD
+    tokens += countStringTokens(message.name) + MESSAGE_NAME_TOKEN_OVERHEAD
   }
 
   if (message.function_call) {
@@ -158,6 +157,7 @@ export function countMessageTokens(
 export function formatObjectProperties(
   obj: ChatCompletionObjectProperty,
   indent: number,
+  formatType: (param: ChatCompletionFunctionProperty, indent: number) => string,
 ): string {
   if (!obj.properties) {
     return ''
@@ -173,7 +173,7 @@ export function formatObjectProperties(
     }
 
     const isRequired = requiredParams.has(name)
-    const formattedType = formatFunctionType(param, indent)
+    const formattedType = formatType(param, indent)
     lines.push(
       `${indentString}${name}${isRequired ? '' : '?'}: ${formattedType},`,
     )
@@ -189,7 +189,8 @@ export function formatFunctionType(
   switch (param.type) {
     case 'string':
       return (
-        param.enum?.map((value) => JSON.stringify(value)).join(' | ') ?? 'string'
+        param.enum?.map((value) => JSON.stringify(value)).join(' | ') ??
+        'string'
       )
     case 'integer':
     case 'number':
@@ -203,7 +204,11 @@ export function formatFunctionType(
         ? `${formatFunctionType(param.items, indent)}[]`
         : 'any[]'
     case 'object': {
-      const inner = formatObjectProperties(param, indent + 2)
+      const inner = formatObjectProperties(
+        param,
+        indent + 2,
+        formatFunctionType,
+      )
       const closingIndent = ' '.repeat(indent)
       return `{
 ${inner}
@@ -224,14 +229,18 @@ export function formatFunctionDefinitions(
       lines.push(`// ${fn.description}`)
     }
 
-    const parameters = fn.parameters
+    const { parameters } = fn
     const properties = parameters?.properties
 
     if (!parameters || !properties || Object.keys(properties).length === 0) {
       lines.push(`type ${fn.name} = () => any;`)
     } else {
       lines.push(`type ${fn.name} = (_: {`)
-      const formattedProperties = formatObjectProperties(parameters, 0)
+      const formattedProperties = formatObjectProperties(
+        parameters,
+        0,
+        formatFunctionType,
+      )
       if (formattedProperties.length > 0) {
         lines.push(formattedProperties)
       }
@@ -311,11 +320,9 @@ export function computeChatCompletionTokenCount(
       total += FUNCTION_CALL_NONE_TOKEN_OVERHEAD
     } else if (typeof functionCall === 'object' && functionCall.name) {
       total +=
-        countStringTokens(functionCall.name) +
-        FUNCTION_CALL_NAME_TOKEN_OVERHEAD
+        countStringTokens(functionCall.name) + FUNCTION_CALL_NAME_TOKEN_OVERHEAD
     }
   }
 
   return total
 }
-

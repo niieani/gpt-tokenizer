@@ -1,10 +1,9 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { describe, expect, it } from 'vitest'
-
-import encoding from './model/gpt-4o.js'
 import { functionCallingTestCases } from './fixtures/functionCallingTestCases.js'
+import encoding from './model/gpt-4o.js'
 
-const countChatCompletionTokens = encoding.countChatCompletionTokens
+const { countChatCompletionTokens } = encoding
 
 if (!countChatCompletionTokens) {
   throw new Error('Function calling token counting is not available for gpt-4o')
