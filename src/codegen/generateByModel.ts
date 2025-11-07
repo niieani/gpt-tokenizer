@@ -10,6 +10,7 @@ import {
   DEFAULT_ENCODING,
   modelToEncodingMap,
 } from '../mapping.js'
+import type { Feature } from '../modelTypes.js'
 import * as models from '../models.js'
 
 // eslint-disable-next-line no-underscore-dangle
@@ -71,10 +72,13 @@ await Promise.all(
       '',
     ]
 
-    const supportsFunctionCalling = Boolean(
-      'supported_features' in modelData &&
-        modelData.supported_features?.includes('function_calling'),
-    )
+    const supportedFeatures = (
+      modelData as { supported_features?: readonly Feature[] }
+    ).supported_features
+
+    const supportsFunctionCalling =
+      Array.isArray(supportedFeatures) &&
+      supportedFeatures.includes('function_calling')
 
     let baseContent = isChatModel
       ? template
