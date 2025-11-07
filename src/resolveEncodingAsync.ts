@@ -20,6 +20,7 @@ export const resolveEncodingAsync = async (
         ({ default: rawBytePairRanks }) => rawBytePairRanks,
       )
     case 'o200k_base':
+    case 'o200k_harmony':
       return import('./bpeRanks/o200k_base.js').then(
         ({ default: rawBytePairRanks }) => rawBytePairRanks,
       )

@@ -4,11 +4,14 @@ import type {
 } from './BytePairEncodingCore.js'
 import { Cl100KBase } from './encodingParams/cl100k_base.js'
 import { O200KBase } from './encodingParams/o200k_base.js'
+import { O200KHarmony } from './encodingParams/o200k_harmony.js'
 import { P50KBase } from './encodingParams/p50k_base.js'
 import { P50KEdit } from './encodingParams/p50k_edit.js'
 import { R50KBase } from './encodingParams/r50k_base.js'
 import type { EncodingName, ModelName } from './mapping.js'
 import type { ModelSpec } from './modelTypes.js'
+
+export type ChatFormatter = 'chatml' | 'harmony'
 
 export interface EncodingParams extends BytePairEncodingConfig {
   /**
@@ -26,6 +29,7 @@ export interface EncodingParams extends BytePairEncodingConfig {
   specialTokensEncoder: Map<string, number>
   modelName?: ModelName
   modelSpec?: ModelSpec
+  chatFormatter?: ChatFormatter
 }
 
 export type GetMergeableRanksFn = (
@@ -52,6 +56,9 @@ export function getEncodingParams(
 
     case 'o200k_base':
       return O200KBase(mergeableBytePairRanks)
+
+    case 'o200k_harmony':
+      return O200KHarmony(mergeableBytePairRanks)
 
     default:
       throw new Error(`Unknown encoding name: ${encodingName}`)

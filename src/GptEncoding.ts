@@ -12,6 +12,7 @@ import {
   modelToEncodingMap,
 } from './mapping.js'
 import {
+  type ChatFormatter,
   type EncodingParams,
   type GetMergeableRanksFn,
   getEncodingParams,
@@ -23,6 +24,13 @@ import {
   FimMiddle,
   FimPrefix,
   FimSuffix,
+  HarmonyCall,
+  HarmonyChannel,
+  HarmonyConstrain,
+  HarmonyEnd,
+  HarmonyMessage,
+  HarmonyReturn,
+  HarmonyStart,
   ImEnd,
   ImSep,
   ImStart,
@@ -58,10 +66,22 @@ export interface EncodeOptions {
   disallowedSpecial?: Set<string> | typeof ALL_SPECIAL_TOKENS
 }
 
+export type HarmonyTerminator = '<|end|>' | '<|return|>' | '<|call|>'
+
 export interface ChatMessage {
-  role?: 'system' | 'user' | 'assistant'
+  role?: 'system' | 'user' | 'assistant' | 'developer' | (string & {})
   name?: string
   content: string
+  /** Harmony-only: channel label such as `analysis`, `commentary`, or `final`. */
+  channel?: string
+  /** Harmony-only: recipient metadata, e.g. `functions.get_weather` or `assistant`. */
+  recipient?: string
+  /** Controls where the recipient metadata is rendered in Harmony headers. Defaults to `channel`. */
+  recipientPlacement?: 'role' | 'channel'
+  /** Harmony-only: constraint label, e.g. `json`. */
+  constraint?: string
+  /** Harmony-only: overrides the closing token, defaults to `<|end|>`. */
+  terminator?: HarmonyTerminator
 }
 
 export interface EncodeChatOptions {
@@ -87,6 +107,7 @@ export class GptEncoding {
   private specialTokensSet: Set<string>
   private allSpecialTokenRegex: RegExp
   private defaultSpecialTokenConfig: SpecialTokenConfig
+  private chatFormatter: ChatFormatter
 
   readonly vocabularySize: number
 
@@ -96,6 +117,7 @@ export class GptEncoding {
     expectedVocabularySize,
     modelName,
     modelSpec,
+    chatFormatter,
     ...rest
   }: EncodingParams) {
     this.specialTokensEncoder = specialTokensEncoder
@@ -149,6 +171,92 @@ export class GptEncoding {
     this.estimateCost = this.estimateCost.bind(this)
     this.modelName = modelName
     this.modelSpec = modelSpec
+    this.chatFormatter = chatFormatter ?? 'chatml'
+  }
+
+  private *encodeHarmonyChatGenerator(
+    chat: Iterable<ChatMessage>,
+    encodeOptions?: EncodeOptions & EncodeChatOptions,
+  ): Generator<number[], void, undefined> {
+    const harmonyStart = this.specialTokensEncoder.get(HarmonyStart)
+    const harmonyMessage = this.specialTokensEncoder.get(HarmonyMessage)
+    const harmonyEnd = this.specialTokensEncoder.get(HarmonyEnd)
+    const harmonyReturn = this.specialTokensEncoder.get(HarmonyReturn)
+    const harmonyCall = this.specialTokensEncoder.get(HarmonyCall)
+    const harmonyChannel = this.specialTokensEncoder.get(HarmonyChannel)
+    const harmonyConstrain = this.specialTokensEncoder.get(HarmonyConstrain)
+
+    if (
+      harmonyStart === undefined ||
+      harmonyMessage === undefined ||
+      harmonyEnd === undefined ||
+      harmonyReturn === undefined ||
+      harmonyCall === undefined ||
+      harmonyChannel === undefined ||
+      harmonyConstrain === undefined
+    ) {
+      throw new Error('Harmony chat format requires dedicated special tokens.')
+    }
+
+    const encodeHeaderText = (text: string): number[] =>
+      text.length > 0 ? this.encode(text) : []
+
+    const resolveTerminatorToken = (terminator?: HarmonyTerminator): number => {
+      switch (terminator) {
+        case '<|return|>':
+          return harmonyReturn
+        case '<|call|>':
+          return harmonyCall
+        // eslint-disable-next-line unicorn/no-useless-switch-case
+        case '<|end|>':
+        default:
+          return harmonyEnd
+      }
+    }
+
+    for (const message of chat) {
+      if (message.content === undefined) {
+        throw new Error('Content must be defined for all messages.')
+      }
+
+      const roleOrName = message.name ?? message.role ?? 'user'
+      yield [harmonyStart]
+      yield encodeHeaderText(roleOrName)
+
+      const recipientInRole =
+        message.recipient &&
+        (message.recipientPlacement === 'role' || !message.channel)
+      const recipientInChannel = message.recipient && !recipientInRole
+
+      if (recipientInRole) {
+        yield encodeHeaderText(` to=${message.recipient}`)
+      }
+
+      if (message.channel) {
+        yield [harmonyChannel]
+        yield encodeHeaderText(message.channel)
+        if (recipientInChannel) {
+          yield encodeHeaderText(` to=${message.recipient}`)
+        }
+      }
+
+      if (message.constraint) {
+        yield [harmonyConstrain]
+        yield encodeHeaderText(message.constraint)
+      }
+
+      yield [harmonyMessage]
+      yield* this.encodeGenerator(message.content, encodeOptions)
+      yield [resolveTerminatorToken(message.terminator)]
+    }
+
+    const assistantPrime =
+      encodeOptions?.primeWithAssistantResponse ?? 'assistant'
+
+    if (assistantPrime.length > 0) {
+      yield [harmonyStart]
+      yield encodeHeaderText(assistantPrime)
+    }
   }
 
   static getEncodingApi(
@@ -268,7 +376,7 @@ export class GptEncoding {
   *encodeChatGenerator(
     chat: Iterable<ChatMessage>,
     model = this.modelName,
-    encodeOptions?: EncodeOptions,
+    encodeOptions?: EncodeOptions & EncodeChatOptions,
   ): Generator<number[], void, undefined> {
     if (!model) {
       throw new Error(
@@ -278,10 +386,19 @@ export class GptEncoding {
 
     const params: ChatParameters | undefined =
       chatModelParams[model as ChatModelName]
+    if (!params) {
+      throw new Error(`Model '${model}' does not support chat.`)
+    }
+
+    if (this.chatFormatter === 'harmony') {
+      yield* this.encodeHarmonyChatGenerator(chat, encodeOptions)
+      return
+    }
+
     const chatStartToken = this.specialTokensEncoder.get(ImStart)
     const chatEndToken = this.specialTokensEncoder.get(ImEnd)
 
-    if (!params || chatStartToken === undefined || chatEndToken === undefined) {
+    if (chatStartToken === undefined || chatEndToken === undefined) {
       throw new Error(`Model '${model}' does not support chat.`)
     }
     const allowedSpecial = new Set([ImSep])
@@ -312,8 +429,12 @@ export class GptEncoding {
     }
 
     // every reply is primed with <|start|>assistant<|message|>
-    yield [chatStartToken]
-    yield* this.encodeGenerator('assistant', encodeOptions)
+    const assistantPrime =
+      encodeOptions?.primeWithAssistantResponse ?? 'assistant'
+    if (assistantPrime.length > 0) {
+      yield [chatStartToken]
+      yield* this.encodeGenerator(assistantPrime, encodeOptions)
+    }
     if (encodedRoleSeparator.length > 0) {
       yield encodedRoleSeparator
     }
@@ -330,7 +451,7 @@ export class GptEncoding {
   encodeChat(
     chat: readonly ChatMessage[],
     model = this.modelName,
-    encodeOptions?: EncodeOptions,
+    encodeOptions?: EncodeOptions & EncodeChatOptions,
   ): number[] {
     return [...this.encodeChatGenerator(chat, model, encodeOptions)].flat()
   }

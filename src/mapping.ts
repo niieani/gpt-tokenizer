@@ -9,6 +9,7 @@ export const p50k_base = 'p50k_base'
 export const p50k_edit = 'p50k_edit'
 export const r50k_base = 'r50k_base'
 export const o200k_base = 'o200k_base'
+export const o200k_harmony = 'o200k_harmony'
 
 export const DEFAULT_ENCODING = o200k_base
 
@@ -19,6 +20,7 @@ export const encodingNames = [
   p50k_edit,
   cl100k_base,
   o200k_base,
+  o200k_harmony,
 ] as const satisfies EncodingName[]
 
 /**

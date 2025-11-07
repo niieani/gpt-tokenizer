@@ -11,25 +11,28 @@ import {
   ImSep,
   ImStart,
 } from '../specialTokens.js'
-import { CL_AND_O_TOKEN_SPLIT_PATTERN } from './constants.js'
+import { O200K_TOKEN_SPLIT_REGEX } from './constants.js'
+
+const O200K_BASE_SPECIAL_TOKEN_ENTRIES = [
+  [EndOfText, 199_999],
+  [FimPrefix, 200_000],
+  [FimMiddle, 200_001],
+  [FimSuffix, 200_002],
+  [ImStart, 200_003],
+  [ImEnd, 200_004],
+  [ImSep, 200_005],
+  [EndOfPrompt, 200_006],
+] as const satisfies readonly (readonly [string, number])[]
+
+export const createO200KSpecialTokenMap = () =>
+  new Map<string, number>(O200K_BASE_SPECIAL_TOKEN_ENTRIES)
 
 export function O200KBase(
   bytePairRankDecoder: RawBytePairRanks,
 ): EncodingParams {
-  const specialTokenMapping = new Map<string, number>([
-    [EndOfText, 199_999],
-    [FimPrefix, 200_000],
-    [FimMiddle, 200_001],
-    [FimSuffix, 200_002],
-    [ImStart, 200_003],
-    [ImEnd, 200_004],
-    [ImSep, 200_005],
-    [EndOfPrompt, 200_006],
-  ])
-
   return {
-    tokenSplitRegex: CL_AND_O_TOKEN_SPLIT_PATTERN,
+    tokenSplitRegex: O200K_TOKEN_SPLIT_REGEX,
     bytePairRankDecoder,
-    specialTokensEncoder: specialTokenMapping,
+    specialTokensEncoder: createO200KSpecialTokenMap(),
   }
 }

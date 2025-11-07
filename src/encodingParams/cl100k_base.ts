@@ -11,7 +11,7 @@ import {
   ImSep,
   ImStart,
 } from '../specialTokens.js'
-import { CL_AND_O_TOKEN_SPLIT_PATTERN } from './constants.js'
+import { CL100K_TOKEN_SPLIT_REGEX } from './constants.js'
 
 export function Cl100KBase(
   bytePairRankDecoder: RawBytePairRanks,
@@ -28,7 +28,7 @@ export function Cl100KBase(
   ])
 
   return {
-    tokenSplitRegex: CL_AND_O_TOKEN_SPLIT_PATTERN,
+    tokenSplitRegex: CL100K_TOKEN_SPLIT_REGEX,
     bytePairRankDecoder,
     specialTokensEncoder: specialTokenMapping,
   }

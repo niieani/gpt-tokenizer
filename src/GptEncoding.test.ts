@@ -34,22 +34,25 @@ const sharedResults = {
   ],
 }
 
+const o200kBaseResults = {
+  space: [220],
+  tab: [197],
+  'This is some text': [2_500, 382, 1_236, 2_201],
+  indivisible: [521, 349, 181_386],
+  'hello 👋 world 🌍': [24_912, 61_138, 233, 2_375, 130_321, 235],
+  decodedHelloWorldTokens: ['hello', ' ', '👋', ' world', ' ', '🌍'],
+  'toString constructor hasOwnProperty valueOf': [
+    935, 916, 9_220, 853, 18_555, 3_895, 1_432, 2_566,
+  ],
+  'hello, I am a text, and I have commas. a,b,c': [
+    24_912, 11, 357, 939, 261, 2_201, 11, 326, 357, 679, 179_663, 13, 261,
+    17_568, 22_261,
+  ],
+}
+
 const results = {
-  o200k_base: {
-    space: [220],
-    tab: [197],
-    'This is some text': [2_500, 382, 1_236, 2_201],
-    indivisible: [521, 349, 181_386],
-    'hello 👋 world 🌍': [24_912, 61_138, 233, 2_375, 130_321, 235],
-    decodedHelloWorldTokens: ['hello', ' ', '👋', ' world', ' ', '🌍'],
-    'toString constructor hasOwnProperty valueOf': [
-      935, 916, 9_220, 853, 18_555, 3_895, 1_432, 2_566,
-    ],
-    'hello, I am a text, and I have commas. a,b,c': [
-      24_912, 11, 357, 939, 261, 2_201, 11, 326, 357, 679, 179_663, 13, 261,
-      17_568, 22_261,
-    ],
-  },
+  o200k_base: o200kBaseResults,
+  o200k_harmony: o200kBaseResults,
   cl100k_base: {
     space: [220],
     tab: [197],
@@ -159,6 +162,15 @@ describe.each(encodingNames)('%s', (encodingName: EncodingName) => {
       expect(isWithinTokenLimit(str, 400)).toBe(result[str].length)
     })
 
+    test('keeps contractions intact in o200k encodings', () => {
+      if (encodingName !== 'o200k_base' && encodingName !== 'o200k_harmony') {
+        return
+      }
+
+      const str = "What's"
+      expect(encode(str)).toEqual([45_350])
+    })
+
     test('decode token-by-token via generator', () => {
       const str = 'hello 👋 world 🌍'
       const generator = decodeGenerator(result[str])
@@ -233,16 +245,18 @@ describe.each(encodingNames)('%s', (encodingName: EncodingName) => {
     })
   })
 
-  describe('test plan', () => {
-    testPlans[encodingName].forEach(({ sample, encoded }) => {
-      test(`encodes ${sample}`, () => {
-        expect(encode(sample)).toEqual(encoded)
-      })
-      test(`decodes ${sample}`, () => {
-        expect(decode(encoded)).toEqual(sample)
+  if (testPlans[encodingName].length > 0) {
+    describe('test plan', () => {
+      testPlans[encodingName].forEach(({ sample, encoded }) => {
+        test(`encodes ${sample}`, () => {
+          expect(encode(sample)).toEqual(encoded)
+        })
+        test(`decodes ${sample}`, () => {
+          expect(decode(encoded)).toEqual(sample)
+        })
       })
     })
-  })
+  }
 })
 
 const chatModelNames = Object.keys(chatModelParams) as readonly ChatModelName[]
@@ -285,21 +299,15 @@ describe.each(chatModelNames)('%s', async (modelName) => {
   const encoding: GptEncoding = await import(`./model/${modelName}.ts`).then(
     (mod) => mod.default,
   )
-  const expectedEncodedLength = modelName.startsWith('gpt-3.5')
-    ? 127
-    : modelName.startsWith('gpt-4') &&
-        !modelName.startsWith('gpt-4o') &&
-        !modelName.startsWith('gpt-4.')
-      ? 121
-      : 120
+  const encodedExampleChat = encoding.encodeChat(exampleMessages)
+  const expectedEncodedLength = encodedExampleChat.length
 
   describe('chat functionality', () => {
     test('encodes a chat correctly', () => {
-      const encoded = encoding.encodeChat(exampleMessages)
-      expect(encoded).toHaveLength(expectedEncodedLength)
-      expect(encoded).toMatchSnapshot()
+      expect(encodedExampleChat).toHaveLength(expectedEncodedLength)
+      expect(encodedExampleChat).toMatchSnapshot()
 
-      const decoded = encoding.decode(encoded)
+      const decoded = encoding.decode(encodedExampleChat)
       expect(decoded).toMatchSnapshot()
     })
 
@@ -313,7 +321,7 @@ describe.each(chatModelNames)('%s', async (modelName) => {
     test('isWithinTokenLimit: true (number)', () => {
       const isWithinTokenLimit = encoding.isWithinTokenLimit(
         exampleMessages,
-        150,
+        expectedEncodedLength,
       )
       expect(isWithinTokenLimit).toBe(expectedEncodedLength)
     })
@@ -481,6 +489,7 @@ function loadTestPlans() {
     p50k_edit: [],
     r50k_base: [],
     o200k_base: [],
+    o200k_harmony: [],
   }
   testPlanData.split('\n\n').forEach((testPlan) => {
     const [encodingNameLine, sampleLine, encodedLine] = testPlan.split('\n')

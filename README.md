@@ -25,7 +25,7 @@ Please consider [🩷 sponsoring](https://github.com/sponsors/niieani) the proje
 It is the most feature-complete, open-source GPT tokenizer on NPM. This package is a port of OpenAI's [tiktoken](https://github.com/openai/tiktoken), with some additional, unique features sprinkled on top:
 
 - Support for easily tokenizing chats thanks to the `encodeChat` function
-- Support for all current OpenAI models (available encodings: `r50k_base`, `p50k_base`, `p50k_edit`, `cl100k_base` and `o200k_base`)
+- Support for all current OpenAI models (available encodings: `r50k_base`, `p50k_base`, `p50k_edit`, `cl100k_base`, `o200k_base`, and `o200k_harmony`)
 - Can be loaded and work synchronously! (i.e. in non async/await contexts)
 - Generator function versions of both the decoder and encoder functions
 - Provides the ability to decode an asynchronous stream of data (using `decodeAsyncGenerator` and `decodeGenerator` with any iterable input)
@@ -59,6 +59,7 @@ npm install gpt-tokenizer
 If you wish to use a custom encoding, fetch the relevant script.
 
 - https://unpkg.com/gpt-tokenizer/dist/o200k_base.js (for all modern models, such as `gpt-5`, `gpt-4o`, `gpt-4.1`, `o1` and others)
+- https://unpkg.com/gpt-tokenizer/dist/o200k_harmony.js (for open-weight Harmony models such as `gpt-oss-20b` and `gpt-oss-120b`)
 - https://unpkg.com/gpt-tokenizer/dist/cl100k_base.js (for `gpt-4` and `gpt-3.5`)
 - https://unpkg.com/gpt-tokenizer/dist/p50k_base.js
 - https://unpkg.com/gpt-tokenizer/dist/p50k_edit.js
@@ -199,6 +200,7 @@ We support all OpenAI models, including the latest ones, with the following enco
 
 - `o`-series models, like `o1-*`, `o3-*` and `o4-*` (`o200k_base`)
 - `gpt-4o` (`o200k_base`)
+- `gpt-oss-*` (`o200k_harmony`)
 - `gpt-4-*` (`cl100k_base`)
 - `gpt-3.5-*` (`cl100k_base`)
 - `text-davinci-003` (`p50k_base`)

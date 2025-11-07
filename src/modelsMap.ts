@@ -83,7 +83,13 @@ export const cl100k_base: readonly string[] = [
   'davinci-002',
 ] as const satisfies ModelName[]
 
-// all new models use o200k_base, hence we don't need to list them here
-// (e.g. chatgpt-4o-latest, gpt-4o-2024-05-13, o1, etc.)
+// all new proprietary models use o200k_base, hence we don't need to list them here
+// (e.g. chatgpt-4o-latest, gpt-5, o1, etc.)
 // --- o200k_base models ---
 export const o200k_base: readonly string[] = [] as const satisfies ModelName[]
+
+// --- o200k_harmony models ---
+export const o200k_harmony: readonly string[] = [
+  'gpt-oss-20b',
+  'gpt-oss-120b',
+] as const satisfies ModelName[]

@@ -16,6 +16,7 @@ export const resolveEncoding = (encoding: EncodingName): RawBytePairRanks => {
     case 'cl100k_base':
       return cl100k
     case 'o200k_base':
+    case 'o200k_harmony':
       return o200k
     default: {
       throw new Error(`Unknown encoding name: ${encoding}`)
