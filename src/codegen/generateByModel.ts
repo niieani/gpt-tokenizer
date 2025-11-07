@@ -10,6 +10,7 @@ import {
   DEFAULT_ENCODING,
   modelToEncodingMap,
 } from '../mapping.js'
+import type { Feature } from '../modelTypes.js'
 import * as models from '../models.js'
 
 // eslint-disable-next-line no-underscore-dangle
@@ -71,7 +72,15 @@ await Promise.all(
       '',
     ]
 
-    const baseContent = isChatModel
+    const supportedFeatures = (
+      modelData as { supported_features?: readonly Feature[] }
+    ).supported_features
+
+    const supportsFunctionCalling =
+      Array.isArray(supportedFeatures) &&
+      supportedFeatures.includes('function_calling')
+
+    let baseContent = isChatModel
       ? template
           .replace(
             `getEncodingApi('cl100k_base', () => bpeRanks)`,
@@ -89,6 +98,14 @@ await Promise.all(
 export { default } from '../encoding/${encoding}.js'
 export * from '../encoding/${encoding}.js'
 `
+
+    if (isChatModel && supportsFunctionCalling) {
+      const snippet = '  encodeChat,\n  encodeChatGenerator,\n'
+      const replacement =
+        '  encodeChat,\n  countChatCompletionTokens,\n  encodeChatGenerator,\n'
+      baseContent = baseContent.replace(snippet, replacement)
+      baseContent = baseContent.replace(snippet, replacement)
+    }
 
     const content = insertHeaderAfterDirectives(baseContent, headerLines)
     await fs.writeFile(

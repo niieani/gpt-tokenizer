@@ -272,6 +272,51 @@ const text = 'Hello, world!'
 const tokenCount = countTokens(text)
 ```
 
+### `countChatCompletionTokens(request: ChatCompletionRequest): number`
+
+Counts the tokens that a function-calling chat completion request will consume, including message overhead, optional function definitions, and pinned function calls. This helper is only available on models that support the `function_calling` feature.
+
+Example:
+
+```typescript
+import {
+  countChatCompletionTokens,
+  type ChatCompletionRequest,
+} from 'gpt-tokenizer/model/gpt-4o'
+
+const request: ChatCompletionRequest = {
+  messages: [
+    { role: 'system', content: 'You are a helpful assistant.' },
+    { role: 'user', content: 'Find the weather for San Francisco.' },
+  ],
+  functions: [
+    {
+      name: 'get_weather',
+      description: 'Look up the weather for a city.',
+      parameters: {
+        type: 'object',
+        required: ['city'],
+        properties: {
+          city: { type: 'string' },
+          unit: { type: 'string', enum: ['celsius', 'fahrenheit'] },
+        },
+      },
+    },
+  ],
+}
+
+const promptTokenEstimate = countChatCompletionTokens(request)
+```
+
+You can also access the helper from the module's default export:
+
+```typescript
+import gpt4o from 'gpt-tokenizer/model/gpt-4o'
+
+// Reuse the `request` defined above
+const tokenCount = gpt4o.countChatCompletionTokens?.(request)
+```
+
 ### `encodeChat(chat: ChatMessage[], model?: ModelName, encodeOptions?: EncodeOptions): number[]`
 
 Encodes the given chat into a sequence of tokens. The optional `encodeOptions` parameter lets you configure special token handling.

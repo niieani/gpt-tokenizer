@@ -18,6 +18,24 @@ import * as modelsMap from './modelsMap.js'
 import { resolveEncoding } from './resolveEncoding.js'
 import { EndOfText } from './specialTokens.js'
 
+describe('generated model exports', () => {
+  test('gpt-5 re-exports the chat token counter helper', async () => {
+    const mod = await import('./model/gpt-5.js')
+    const encoding = mod.default
+
+    expect('countChatCompletionTokens' in mod).toBe(true)
+    expect(mod.countChatCompletionTokens).toBe(
+      encoding.countChatCompletionTokens,
+    )
+  })
+
+  test('gpt-3.5-turbo-0613 omits the chat token counter helper', async () => {
+    const mod = await import('./model/gpt-3.5-turbo-0613.js')
+
+    expect('countChatCompletionTokens' in mod).toBe(false)
+  })
+})
+
 const sharedResults = {
   space: [220],
   tab: [197],
