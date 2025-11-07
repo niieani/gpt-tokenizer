@@ -98,7 +98,7 @@ export * from '../encoding/${encoding}.js'
     if (isChatModel && supportsFunctionCalling) {
       const snippet = '  encodeChat,\n  encodeChatGenerator,\n'
       const replacement =
-        '  encodeChat,\n  encodeChatCompletionTokens,\n  encodeChatGenerator,\n'
+        '  encodeChat,\n  countChatCompletionTokens,\n  encodeChatGenerator,\n'
       baseContent = baseContent.replace(snippet, replacement)
       baseContent = baseContent.replace(snippet, replacement)
     }
