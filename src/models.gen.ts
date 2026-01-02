@@ -3174,6 +3174,18 @@ const gpt_5_nano_2025_08_07_spec = {
     'batch',
   ],
   reasoning_tokens: true,
+  price_data: {
+    main: {
+      input: 0.05,
+      output: 0.4,
+      cached_input: 0.005,
+    },
+    batch: {
+      input: 0.025,
+      output: 0.2,
+      cached_input: 0.003,
+    },
+  },
 } as const satisfies ModelSpec
 export {gpt_5_nano_2025_08_07_spec as 'gpt-5-nano-2025-08-07'}
 
