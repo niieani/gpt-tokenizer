@@ -13,7 +13,9 @@ on:
 
 permissions:
   id-token: write  # Required for OIDC
-  contents: read
+  contents: write  # SemRel
+  issues: write  # SemRel
+  pull-requests: write  # SemRel
 
 jobs:
   test:
