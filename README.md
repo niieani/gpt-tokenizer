@@ -12,10 +12,10 @@ It's the [_fastest, smallest and lowest footprint_](#benchmarks) GPT tokenizer a
 
 This library has been trusted by:
 
-- [CodeRabbit](https://www.coderabbit.ai/) (sponsor 🩷)
 - Microsoft ([Teams](https://github.com/microsoft/teams-ai), [GenAIScript](https://github.com/microsoft/genaiscript/))
 - Elastic ([Kibana](https://github.com/elastic/kibana))
 - [Effect TS](https://effect.website/)
+- [CodeRabbit](https://www.coderabbit.ai/)
 - [Rivet](https://github.com/Ironclad/rivet) by Ironclad
 
 Please consider [🩷 sponsoring](https://github.com/sponsors/niieani) the project if you find it useful.
