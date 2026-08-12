@@ -101,6 +101,55 @@ const gpt_4_32k_spec = {
 export { gpt_4_32k_spec as 'gpt-4-32k' }
 
 //
+// --- BELOW ARE MODELS RELEASED AFTER THE LAST DATASET SCRAPE ---
+//
+//  - gpt-5.6-luna
+// https://developers.openai.com/api/docs/models/gpt-5.6-luna
+// Uses `o200k_base`, like the rest of the GPT-5 family, so no entry in
+// `modelsMap.ts` is required (it is the default encoding).
+const gpt_5_6_luna_config = {
+  name: 'gpt-5.6-luna',
+  slug: 'gpt-5-6-luna',
+  display_name: 'GPT-5.6 Luna',
+  current_snapshot: 'gpt-5.6-luna',
+  tagline: 'Fastest, most cost-efficient tier of GPT-5.6',
+  description:
+    'GPT-5.6 Luna is the smallest and cheapest model of the GPT-5.6 family.\nIt is optimized for cost-sensitive, high-volume workloads such as classification,\nsummarization, routing and other latency-sensitive tasks.\n',
+  type: 'reasoning',
+  snapshots: ['gpt-5.6-luna'],
+  supported_tools: ['function_calling', 'file_search', 'web_search'],
+} as const satisfies ModelConfig
+
+const gpt_5_6_luna_spec = {
+  name: 'gpt-5.6-luna',
+  slug: 'gpt-5-6-luna',
+  performance: 3,
+  latency: 5,
+  modalities: { input: ['text', 'image'], output: ['text'] },
+  context_window: 1_050_000,
+  max_input_tokens: 922_000,
+  max_output_tokens: 128_000,
+  knowledge_cutoff: new Date(Date.UTC(2_026, 2 - 1, 16)), // 2026-02-16
+  supported_features: [
+    'streaming',
+    'structured_outputs',
+    'function_calling',
+    'file_search',
+    'image_input',
+    'web_search',
+    'prompt_caching',
+  ],
+  supported_endpoints: ['chat_completions', 'responses', 'batch'],
+  reasoning_tokens: true,
+  price_data: {
+    main: { input: 0.2, output: 1.2, cached_input: 0.02 },
+    batch: { input: 0.1, output: 0.6 },
+  },
+} as const satisfies ModelSpec
+
+export { gpt_5_6_luna_spec as 'gpt-5.6-luna' }
+
+//
 // --- BELOW ARE LEGACY, NO LONGER SUPPORTED MODELS ---
 //
 // --- text-ada-001 ---

@@ -199,6 +199,8 @@ import {
 We support all OpenAI models, including the latest ones, with the following encodings:
 
 - `o`-series models, like `o1-*`, `o3-*` and `o4-*` (`o200k_base`)
+- `gpt-5.6-*`, like `gpt-5.6-luna` (`o200k_base`)
+- `gpt-5-*` (`o200k_base`)
 - `gpt-4o` (`o200k_base`)
 - `gpt-oss-*` (`o200k_harmony`)
 - `gpt-4-*` (`cl100k_base`)

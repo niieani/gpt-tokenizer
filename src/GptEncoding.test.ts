@@ -34,6 +34,22 @@ describe('generated model exports', () => {
 
     expect('countChatCompletionTokens' in mod).toBe(false)
   })
+
+  test('gpt-5.6-luna uses o200k_base and exposes the chat helpers', async () => {
+    const mod = await import('./model/gpt-5.6-luna.js')
+    const encoding = mod.default
+
+    // gpt-5.6 is not listed in modelsMap.ts, so it falls back to the default
+    // encoding, which is what OpenAI uses for the whole GPT-5 family:
+    expect(modelToEncodingMap['gpt-5.6-luna']).toBeUndefined()
+    expect(DEFAULT_ENCODING).toBe('o200k_base')
+
+    expect('countChatCompletionTokens' in mod).toBe(true)
+    expect(encoding.encode('hello 👋 world 🌍')).toEqual(
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      o200kBaseResults['hello 👋 world 🌍'],
+    )
+  })
 })
 
 const sharedResults = {
