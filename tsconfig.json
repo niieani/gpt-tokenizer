@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "module": "esnext",
+    "target": "es2022",
+    "types": ["node"],
+    "esModuleInterop": true,
+    "rootDir": "src",
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "bundler",
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noUncheckedIndexedAccess": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "allowJs": true,
+    "noEmit": true,
+    "verbatimModuleSyntax": true
+  },
+  "exclude": [
+    "node_modules/",
+    "build/",
+    "cjs/",
+    "coverage/",
+    "dist/",
+    "dts/",
+    "esm/",
+    "lib/",
+    "mjs/",
+    "umd/"
+  ],
+  "include": ["src"]
+}

@@ -77,26 +77,19 @@
     "codegen:models": "rm -rf src/model && node --experimental-transform-types --import node-resolve-ts/register src/codegen/generateByModel.ts",
     "codegen:bpe": "rm -rf src/bpeRanks && node --experimental-transform-types --import node-resolve-ts/register src/codegen/generateJsBpe.ts",
     "codegen:chat-enabled": "rm -rf src/chat && node --experimental-transform-types --import node-resolve-ts/register src/codegen/generateChatEnabled.ts",
-    "build": "yarn build:cjs && yarn build:esm && yarn build:umd",
-    "build:cjs": "yarn rrun tsc --outDir cjs --module commonjs --target es2022 --project tsconfig-cjs.json",
-    "build:esm": "mkdir -p esm && echo '{\"name\": \"gpt-tokenizer\", \"type\": \"module\"}' > ./esm/package.json && yarn rrun tsc --outDir esm --target es2022",
-    "build:umd": "yarn build:umd:cl100k_base && yarn build:umd:p50k_base && yarn build:umd:p50k_edit && yarn build:umd:r50k_base && yarn build:umd:o200k_base && yarn build:umd:o200k_harmony",
-    "build:umd:cl100k_base": "beemo webpack --entry='./src/main.ts' --env 'outDir=dist' --env 'moduleTarget=umd' --env 'engineTarget=web' --env 'codeTarget=es2022' --env 'name=GPTTokenizer_cl100k_base' --env 'filename=cl100k_base.js'",
-    "build:umd:p50k_base": "beemo webpack --entry='./src/encoding/p50k_base.ts' --env 'outDir=dist' --env 'moduleTarget=umd' --env 'engineTarget=web' --env 'codeTarget=es2022' --env 'name=GPTTokenizer_p50k_base' --env 'filename=p50k_base.js'",
-    "build:umd:p50k_edit": "beemo webpack --entry='./src/encoding/p50k_edit.ts' --env 'outDir=dist' --env 'moduleTarget=umd' --env 'engineTarget=web' --env 'codeTarget=es2022' --env 'name=GPTTokenizer_p50k_edit' --env 'filename=p50k_edit.js'",
-    "build:umd:r50k_base": "beemo webpack --entry='./src/encoding/r50k_base.ts' --env 'outDir=dist' --env 'moduleTarget=umd' --env 'engineTarget=web' --env 'codeTarget=es2022' --env 'name=GPTTokenizer_r50k_base' --env 'filename=r50k_base.js'",
-    "build:umd:o200k_base": "beemo webpack --entry='./src/encoding/o200k_base.ts' --env 'outDir=dist' --env 'moduleTarget=umd' --env 'engineTarget=web' --env 'codeTarget=es2022' --env 'name=GPTTokenizer_o200k_base' --env 'filename=o200k_base.js'",
-    "build:umd:o200k_harmony": "beemo webpack --entry='./src/encoding/o200k_harmony.ts' --env 'outDir=dist' --env 'moduleTarget=umd' --env 'engineTarget=web' --env 'codeTarget=es2022' --env 'name=GPTTokenizer_o200k_harmony' --env 'filename=o200k_harmony.js'",
-    "clean": "git clean -dfX --exclude=node_modules src && beemo typescript:sync-project-refs",
-    "format": "yarn rrun prettier --write \"./{src,tests,.config}/**/!(*.d).{.js,jsx,ts,tsx,json,md}\"",
-    "postinstallDev": "yarn prepare",
-    "prepare": "rrun husky install .config/husky && beemo create-config && echo '\n**/*.gen.ts\nsrc/models.ts' >> .prettierignore",
-    "release": "beemo run-script release",
+    "build": "yarn clean && yarn build:cjs && yarn build:esm && yarn build:umd",
+    "build:cjs": "tsc --project tsconfig-cjs.json && node scripts/write-build-metadata.mjs",
+    "build:esm": "tsc --project tsconfig.esm.json && node scripts/write-build-metadata.mjs",
+    "build:umd": "rollup --config rollup.config.mjs",
+    "clean": "node scripts/clean.mjs",
+    "format": "prettier --write \"src/**/*.{js,ts,json,md}\" \"scripts/**/*.{js,mjs}\" \"*.{js,mjs,json,md}\" \".github/**/*.yml\"",
+    "prepare": "husky",
+    "release": "semantic-release",
     "test": "yarn test:format && yarn test:types && yarn test:lint && yarn test:code",
     "test:code": "vitest",
-    "test:format": "yarn rrun prettier --check \"./{src,tests,.config}/**/!(*.d).{.js,jsx,ts,tsx,json,md}\" --ignore-path .prettierignore",
-    "test:lint": "rrun eslint 'src/*.{js,jsx,ts,tsx}'",
-    "test:types": "yarn rrun tsc --noEmit"
+    "test:format": "prettier --check \"src/**/*.{js,ts,json,md}\" \"scripts/**/*.{js,mjs}\" \"*.{js,mjs,json,md}\" \".github/**/*.yml\"",
+    "test:lint": "eslint \"src/*.{js,ts}\"",
+    "test:types": "tsc --noEmit"
   },
   "release": {
     "branches": [
@@ -119,20 +112,26 @@
     "tagFormat": "${version}"
   },
   "devDependencies": {
+    "@commitlint/cli": "^21.2.2",
+    "@commitlint/config-conventional": "^21.2.2",
     "@edge-runtime/vm": "^5.0.0",
-    "@niieani/scaffold": "^1.7.54",
-    "@swc/cli": "^0.7.8",
-    "@swc/core": "1.13.5",
+    "@eslint/js": "^10.0.1",
+    "@rollup/plugin-terser": "^1.0.0",
+    "@types/node": "^24.13.3",
     "devalue": "^5.3.2",
+    "eslint": "^10.8.1",
+    "eslint-plugin-import-x": "^4.17.1",
+    "eslint-plugin-unicorn": "^73.0.0",
+    "husky": "^9.1.7",
     "node-resolve-ts": "^1.0.2",
-    "typescript": "^5.9.3",
-    "vitest": "^3.2.4"
+    "prettier": "^3.9.6",
+    "rollup": "^4.62.4",
+    "semantic-release": "^25.0.9",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.67.0",
+    "vitest": "^4.1.10"
   },
-  "resolutions": {
-    "typescript": "5.8.3",
-    "prettier": "^3"
-  },
-  "packageManager": "yarn@4.10.3",
+  "packageManager": "yarn@4.12.0",
   "publishConfig": {
     "access": "public"
   }

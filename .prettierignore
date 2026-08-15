@@ -9,4 +9,7 @@ lib/
 mjs/
 umd/
 **/*.gen.ts
+src/bpeRanks/
+src/chat/
+src/model/
 src/models.ts

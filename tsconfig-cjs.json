@@ -1,8 +1,14 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "verbatimModuleSyntax": false,
-    "moduleResolution": "Node"
+    "declaration": true,
+    "ignoreDeprecations": "6.0",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noEmit": false,
+    "outDir": "cjs",
+    "sourceMap": true,
+    "verbatimModuleSyntax": false
   },
-  "exclude": ["src/codegen"]
+  "exclude": ["src/**/*.test.ts", "src/codegen"]
 }

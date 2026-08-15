@@ -27,13 +27,7 @@ export interface EncodeChatOptions {
 }
 
 export type ChatCompletionFunctionType =
-  | 'string'
-  | 'integer'
-  | 'number'
-  | 'boolean'
-  | 'null'
-  | 'array'
-  | 'object'
+  'string' | 'integer' | 'number' | 'boolean' | 'null' | 'array' | 'object'
 
 export interface ChatCompletionStringProperty {
   type: Extract<ChatCompletionFunctionType, 'string'>
@@ -80,8 +74,7 @@ export type ChatCompletionFunctionProperty =
   | ChatCompletionArrayProperty
   | ChatCompletionObjectProperty
 
-export interface ChatCompletionFunctionParameters
-  extends ChatCompletionObjectProperty {}
+export interface ChatCompletionFunctionParameters extends ChatCompletionObjectProperty {}
 
 export interface ChatCompletionFunctionDefinition {
   name: string

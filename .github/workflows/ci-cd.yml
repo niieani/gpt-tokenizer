@@ -12,10 +12,7 @@ on:
       - '**'
 
 permissions:
-  id-token: write  # Required for OIDC
-  contents: write  # SemRel
-  issues: write  # SemRel
-  pull-requests: write  # SemRel
+  contents: read
 
 jobs:
   test:
@@ -26,8 +23,8 @@ jobs:
       matrix:
         node: [22, 24]
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node }}
           cache: 'yarn'
@@ -44,20 +41,22 @@ jobs:
     name: Publish package to NPM
     needs: test
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+      issues: write
+      pull-requests: write
     if: github.actor != 'github-actions[bot]' && github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/next' || github.ref == 'refs/heads/beta')
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
           node-version: 24
-          cache: 'yarn'
-          cache-dependency-path: |
-            **/package.json
-            yarn.lock
+          package-manager-cache: false
       - name: Build and release
         run: |
           yarn install --immutable
           yarn build
           yarn release
         env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
