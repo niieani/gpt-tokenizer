@@ -1,6 +1,5 @@
 import fs from 'fs'
 import path from 'path'
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { describe, expect, test } from 'vite-plus/test'
 import { ALL_SPECIAL_TOKENS } from './constants.js'
 import { type ChatMessage, GptEncoding } from './GptEncoding.js'
@@ -110,7 +109,6 @@ const offsetPrompts = [
   ' Ġ除',
 ]
 
-// oxlint-disable-next-line @typescript-eslint/no-use-before-define
 const testPlans = loadTestPlans()
 
 describe.each(encodingNames)('%s', (encodingName: EncodingName) => {
@@ -234,7 +232,6 @@ describe.each(encodingNames)('%s', (encodingName: EncodingName) => {
     async function* getHelloWorldTokensAsync() {
       const str = 'hello 👋 world 🌍'
       for (const token of result[str]) {
-        // oxlint-disable-next-line no-await-in-loop
         yield await Promise.resolve(token)
       }
     }

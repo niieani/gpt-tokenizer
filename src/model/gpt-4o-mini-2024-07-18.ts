@@ -2,13 +2,12 @@
 // To regenerate, run: yarn codegen:models.
 // Source template: src/encoding/o200k_base.ts.
 
-/* oxlint-disable import/extensions */
 import bpeRanks from '../bpeRanks/o200k_base.js'
 import { GptEncoding } from '../GptEncoding.js'
 
 export * from '../constants.js'
 export * from '../specialTokens.js'
-// prettier-ignore
+// oxfmt-ignore
 const api = GptEncoding.getEncodingApiForModel('gpt-4o-mini-2024-07-18', () => bpeRanks, {name:"gpt-4o-mini-2024-07-18",slug:"gpt-4o-mini-2024-07-18",performance:2,latency:4,modalities:{input:["text","image"],output:["text"]},context_window:128000,max_output_tokens:16384,knowledge_cutoff:new Date(1696118400000),supported_features:["predicted_outputs","streaming","function_calling","fine_tuning","file_search","file_uploads","web_search","structured_outputs","image_input"],supported_endpoints:["chat_completions","responses","assistants","batch","fine_tuning"],reasoning_tokens:false})
 const {
   decode,
@@ -42,5 +41,4 @@ export {
   setMergeCacheSize,
   vocabularySize,
 }
-// oxlint-disable-next-line import/no-default-export
 export default api

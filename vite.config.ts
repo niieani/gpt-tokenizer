@@ -30,7 +30,7 @@ export default defineConfig({
   lint: {
     plugins: ['oxc', 'typescript', 'unicorn', 'react'],
     categories: {
-      correctness: 'warn',
+      correctness: 'error',
     },
     env: {
       builtin: true,
@@ -175,6 +175,7 @@ export default defineConfig({
       },
     ],
     options: {
+      reportUnusedDisableDirectives: 'error',
       typeAware: true,
       typeCheck: true,
     },

@@ -1,4 +1,3 @@
-/* oxlint-disable import/extensions */
 import type { RawBytePairRanks } from './BytePairEncodingCore.js'
 import type { EncodingName } from './mapping.js'
 

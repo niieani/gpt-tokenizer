@@ -2,13 +2,12 @@
 // To regenerate, run: yarn codegen:models.
 // Source template: src/encoding/o200k_base.ts.
 
-/* oxlint-disable import/extensions */
 import bpeRanks from '../bpeRanks/o200k_base.js'
 import { GptEncoding } from '../GptEncoding.js'
 
 export * from '../constants.js'
 export * from '../specialTokens.js'
-// prettier-ignore
+// oxfmt-ignore
 const api = GptEncoding.getEncodingApiForModel('gpt-5-pro-2025-10-06', () => bpeRanks, {name:"gpt-5-pro-2025-10-06",slug:"gpt-5-pro-2025-10-06",performance:5,latency:1,modalities:{input:["text","image"],output:["text"]},supported_features:["structured_outputs","function_calling","file_search","file_uploads","image_input","web_search"],supported_endpoints:["responses","batch"],context_window:400000,max_output_tokens:272000,knowledge_cutoff:new Date(1727654400000),reasoning_tokens:true})
 const {
   decode,
@@ -42,5 +41,4 @@ export {
   setMergeCacheSize,
   vocabularySize,
 }
-// oxlint-disable-next-line import/no-default-export
 export default api

@@ -19,7 +19,6 @@ const formatNumber = function formatNumber(value) {
   if (typeof value !== 'number') return `'${value}'` // For string-based rate limits like "5 img/min"
   if (!Number.isInteger(value) || value < 1_000) return String(value)
 
-  // eslint-disable-next-line unicorn/no-unsafe-regex
   let best = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '_')
 
   for (let e = 1; e < 15; e++) {

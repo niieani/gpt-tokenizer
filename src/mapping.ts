@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-
 import { chatEnabledModels } from './modelsChatEnabled.gen.js'
 import * as encodingsMap from './modelsMap.js'
 import { ImSep } from './specialTokens.js'

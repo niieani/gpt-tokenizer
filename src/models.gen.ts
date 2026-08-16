@@ -1,7 +1,3 @@
-/* oxlint-disable no-magic-numbers */
-/* oxlint-disable unicorn/numeric-separators-style */
-/* oxlint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable camelcase */
 
 import type { ModelConfig, ModelSpec } from "./modelTypes.js"
 

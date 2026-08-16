@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-
 import type { ModelName } from './mapping.js'
 
 // reference: https://github.com/openai/tiktoken/blob/4560a8896f5fb1d35c6f8fd6eee0399f9a1a27ca/tiktoken/model.py

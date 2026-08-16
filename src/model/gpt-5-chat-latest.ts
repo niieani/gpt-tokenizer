@@ -2,13 +2,12 @@
 // To regenerate, run: yarn codegen:models.
 // Source template: src/encoding/o200k_base.ts.
 
-/* oxlint-disable import/extensions */
 import bpeRanks from '../bpeRanks/o200k_base.js'
 import { GptEncoding } from '../GptEncoding.js'
 
 export * from '../constants.js'
 export * from '../specialTokens.js'
-// prettier-ignore
+// oxfmt-ignore
 const api = GptEncoding.getEncodingApiForModel('gpt-5-chat-latest', () => bpeRanks, {name:"gpt-5-chat-latest",slug:"gpt-5-chat-latest",performance:3,latency:3,modalities:{input:["text","image"],output:["text"]},context_window:128000,max_output_tokens:16384,max_input_tokens:272000,knowledge_cutoff:new Date(1727654400000),supported_features:["function_calling","structured_outputs","streaming","image_input"],supported_endpoints:["chat_completions","responses"],reasoning_tokens:false})
 const {
   decode,
@@ -42,5 +41,4 @@ export {
   setMergeCacheSize,
   vocabularySize,
 }
-// oxlint-disable-next-line import/no-default-export
 export default api

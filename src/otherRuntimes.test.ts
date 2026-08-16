@@ -2,7 +2,6 @@
  * @vitest-environment edge-runtime
  */
 
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { describe, expect, test } from 'vite-plus/test'
 import { GptEncoding } from './GptEncoding.js'
 import { resolveEncoding } from './resolveEncoding.js'

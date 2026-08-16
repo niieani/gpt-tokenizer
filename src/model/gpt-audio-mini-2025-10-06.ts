@@ -2,13 +2,12 @@
 // To regenerate, run: yarn codegen:models.
 // Source template: src/encoding/o200k_base.ts.
 
-/* oxlint-disable import/extensions */
 import bpeRanks from '../bpeRanks/o200k_base.js'
 import { GptEncoding } from '../GptEncoding.js'
 
 export * from '../constants.js'
 export * from '../specialTokens.js'
-// prettier-ignore
+// oxfmt-ignore
 const api = GptEncoding.getEncodingApiForModel('gpt-audio-mini-2025-10-06', () => bpeRanks, {name:"gpt-audio-mini-2025-10-06",performance:4,latency:5,modalities:{input:["text","audio"],output:["text","audio"]},supported_endpoints:["chat_completions"],supported_features:["function_calling","prompt_caching"],context_window:128000,max_output_tokens:16384,knowledge_cutoff:new Date(1696118400000),reasoning_tokens:false})
 const {
   decode,
@@ -42,5 +41,4 @@ export {
   setMergeCacheSize,
   vocabularySize,
 }
-// oxlint-disable-next-line import/no-default-export
 export default api

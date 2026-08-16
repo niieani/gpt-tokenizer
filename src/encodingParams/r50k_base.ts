@@ -1,4 +1,3 @@
-/* oxlint-disable no-magic-numbers */
 import type { RawBytePairRanks } from '../BytePairEncodingCore.js'
 import { type EncodingParams } from '../modelParams.js'
 import { EndOfText } from '../specialTokens.js'

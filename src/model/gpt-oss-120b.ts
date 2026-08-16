@@ -2,13 +2,12 @@
 // To regenerate, run: yarn codegen:models.
 // Source template: src/encoding/o200k_harmony.ts.
 
-/* oxlint-disable import/extensions */
 import bpeRanks from '../bpeRanks/o200k_base.js'
 import { GptEncoding } from '../GptEncoding.js'
 
 export * from '../constants.js'
 export * from '../specialTokens.js'
-// prettier-ignore
+// oxfmt-ignore
 const api = GptEncoding.getEncodingApiForModel('gpt-oss-120b', () => bpeRanks, {name:"gpt-oss-120b",slug:"gpt-oss-120b",performance:4,latency:3,modalities:{input:["text"],output:["text"]},context_window:131072,max_output_tokens:131072,knowledge_cutoff:new Date(1717200000000),supported_features:["streaming","structured_outputs","function_calling"],supported_endpoints:["responses","batch"],reasoning_tokens:true,price_data:{main:{input:.0005,cached_output:.0001,output:.0015},batch:{input:.0004,output:.0012}}})
 const {
   decode,
@@ -42,5 +41,4 @@ export {
   setMergeCacheSize,
   vocabularySize,
 }
-// oxlint-disable-next-line import/no-default-export
 export default api

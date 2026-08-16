@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { describe, expect, it } from 'vite-plus/test'
 import type { ChatMessage } from './GptEncoding.js'
 import encoding from './model/gpt-3.5-turbo.js'

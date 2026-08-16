@@ -1,5 +1,3 @@
-/* oxlint-disable no-continue */
-
 import { DEFAULT_MERGE_CACHE_SIZE } from './constants.js'
 import { compareUint8Arrays, isAscii, tryConvertToString } from './utfUtil.js'
 import { escapeRegExp } from './util.js'
@@ -167,7 +165,6 @@ export class BytePairEncodingCore {
     let startIndex = 0
     const tokensArray: number[] = [] // Flat list to collect the tokens
 
-    // oxlint-disable-next-line no-constant-condition
     while (true) {
       const nextSpecialMatch = this.findNextSpecialToken(
         text,
@@ -217,7 +214,6 @@ export class BytePairEncodingCore {
     let startIndex = 0
     let tokensCount = 0
 
-    // oxlint-disable-next-line no-constant-condition
     while (true) {
       const nextSpecialMatch = this.findNextSpecialToken(
         text,
@@ -360,7 +356,6 @@ export class BytePairEncodingCore {
     let high = this.bytePairNonUtfSortedEncoder.length - 1
 
     while (low <= high) {
-      // oxlint-disable-next-line no-bitwise
       const mid = (low + high) >>> 1
       const midKey = this.bytePairNonUtfSortedEncoder[mid]![0]
       let cmp = 0
@@ -391,7 +386,6 @@ export class BytePairEncodingCore {
   ): [startIndex: number, token: string] | undefined {
     let searchIndex = startIndex
 
-    // oxlint-disable-next-line no-constant-condition
     while (true) {
       this.specialTokenPatternRegex.lastIndex = searchIndex
       const nextSpecialMatch = this.specialTokenPatternRegex.exec(text)

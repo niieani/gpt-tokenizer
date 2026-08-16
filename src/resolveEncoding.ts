@@ -1,4 +1,3 @@
-/* oxlint-disable import/extensions */
 import cl100k from './bpeRanks/cl100k_base.js'
 import o200k from './bpeRanks/o200k_base.js'
 import p50k from './bpeRanks/p50k_base.js'

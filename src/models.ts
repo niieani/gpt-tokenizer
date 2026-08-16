@@ -1,6 +1,3 @@
-/* oxlint-disable no-magic-numbers */
-/* oxlint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable camelcase */
 
 import {
   'gpt-3.5-turbo-0125' as gpt_3_5_turbo_0125_spec,

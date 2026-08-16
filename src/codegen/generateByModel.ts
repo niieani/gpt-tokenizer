@@ -1,7 +1,6 @@
 import * as fs from 'fs/promises'
 import * as path from 'path'
 import { fileURLToPath } from 'url'
-// eslint-disable-next-line import/no-extraneous-dependencies
 import * as devalue from 'devalue'
 import {
   type EncodingName,
@@ -13,15 +12,9 @@ import {
 import type { Feature } from '../modelTypes.js'
 import * as models from '../models.js'
 
-// oxlint-disable-next-line no-underscore-dangle
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
-const directivePrefixes = [
-  '/* eslint-disable',
-  '// eslint-disable',
-  '// @ts-nocheck',
-  '// prettier-ignore',
-] as const
+const directivePrefixes = ['// @ts-nocheck', '// oxfmt-ignore'] as const
 
 const insertHeaderAfterDirectives = (
   content: string,
@@ -35,7 +28,6 @@ const insertHeaderAfterDirectives = (
 
     if (directivePrefixes.some((prefix) => line.startsWith(prefix))) {
       insertIndex += 1
-      // oxlint-disable-next-line no-continue
       continue
     }
 
@@ -88,14 +80,13 @@ await Promise.all(
               modelData,
             )})`,
           )
-          .replace('\nconst api =', '// prettier-ignore\nconst api =')
+          .replace('\nconst api =', '// oxfmt-ignore\nconst api =')
           .replaceAll(
             '../bpeRanks/cl100k_base.js',
             `../bpeRanks/${bpeModuleName}.js`,
           )
           .replaceAll(`encoding/cl100k_base`, `encoding/${encoding}`)
-      : /* ts */ `// eslint-disable-next-line no-restricted-exports, import/no-default-export
-export { default } from '../encoding/${encoding}.js'
+      : /* ts */ `export { default } from '../encoding/${encoding}.js'
 export * from '../encoding/${encoding}.js'
 `
 
@@ -113,7 +104,6 @@ export * from '../encoding/${encoding}.js'
       content,
     )
 
-    // oxlint-disable-next-line no-console
     console.log(`wrote encoding/${modelName}.ts`)
   }),
 )
