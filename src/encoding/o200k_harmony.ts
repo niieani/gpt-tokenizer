@@ -1,4 +1,4 @@
-/* eslint-disable import/extensions */
+/* oxlint-disable import/extensions */
 import bpeRanks from '../bpeRanks/o200k_base.js'
 import { GptEncoding } from '../GptEncoding.js'
 
@@ -36,5 +36,5 @@ export {
   setMergeCacheSize,
   vocabularySize,
 }
-// eslint-disable-next-line import/no-default-export
+// oxlint-disable-next-line import/no-default-export
 export default api

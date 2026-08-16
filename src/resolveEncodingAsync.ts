@@ -1,4 +1,4 @@
-/* eslint-disable import/extensions */
+/* oxlint-disable import/extensions */
 import type { RawBytePairRanks } from './BytePairEncodingCore.js'
 import type { EncodingName } from './mapping.js'
 
@@ -25,7 +25,7 @@ export const resolveEncodingAsync = async (
         ({ default: rawBytePairRanks }) => rawBytePairRanks,
       )
     default: {
-      throw new Error(`Unknown encoding name: ${encoding}`)
+      throw new Error(`Unknown encoding name: ${String(encoding)}`)
     }
   }
 }

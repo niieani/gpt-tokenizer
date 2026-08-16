@@ -13,7 +13,7 @@ import {
 import type { Feature } from '../modelTypes.js'
 import * as models from '../models.js'
 
-// eslint-disable-next-line no-underscore-dangle
+// oxlint-disable-next-line no-underscore-dangle
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const directivePrefixes = [
@@ -35,7 +35,7 @@ const insertHeaderAfterDirectives = (
 
     if (directivePrefixes.some((prefix) => line.startsWith(prefix))) {
       insertIndex += 1
-      // eslint-disable-next-line no-continue
+      // oxlint-disable-next-line no-continue
       continue
     }
 
@@ -113,7 +113,7 @@ export * from '../encoding/${encoding}.js'
       content,
     )
 
-    // eslint-disable-next-line no-console
+    // oxlint-disable-next-line no-console
     console.log(`wrote encoding/${modelName}.ts`)
   }),
 )

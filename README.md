@@ -45,29 +45,16 @@ It is the most feature-complete, open-source GPT tokenizer on NPM. This package 
 npm install gpt-tokenizer
 ```
 
-### As a UMD module
+### Directly in a browser
 
 ```html
-<script src="https://unpkg.com/gpt-tokenizer"></script>
-
-<script>
-  // the package is now available as a global:
-  const { encode, decode } = GPTTokenizer_cl100k_base
+<script type="module">
+  import { encode, decode } from 'https://unpkg.com/gpt-tokenizer/esm/main.js'
 </script>
 ```
 
-If you wish to use a custom encoding, fetch the relevant script.
-
-- https://unpkg.com/gpt-tokenizer/dist/o200k_base.js (for all modern models, such as `gpt-5`, `gpt-4o`, `gpt-4.1`, `o1` and others)
-- https://unpkg.com/gpt-tokenizer/dist/o200k_harmony.js (for open-weight Harmony models such as `gpt-oss-20b` and `gpt-oss-120b`)
-- https://unpkg.com/gpt-tokenizer/dist/cl100k_base.js (for `gpt-4` and `gpt-3.5`)
-- https://unpkg.com/gpt-tokenizer/dist/p50k_base.js
-- https://unpkg.com/gpt-tokenizer/dist/p50k_edit.js
-- https://unpkg.com/gpt-tokenizer/dist/r50k_base.js
-
-The global name is a concatenation: `GPTTokenizer_${encoding}`.
-
-Refer to [supported models and their encodings](#Supported-models-and-their-encodings) section for more information.
+Pin a package version in production. Browser delivery uses the same ES modules as
+the NPM package; global UMD bundles are no longer published.
 
 ## Playground
 

@@ -1,11 +1,11 @@
-/* eslint-disable no-console */
+/* oxlint-disable no-console */
 import * as fs from 'fs/promises'
 import * as path from 'path'
 import { fileURLToPath } from 'url'
 import * as models from '../models.js'
 import type { ModelSpec } from '../modelTypes.js'
 
-// eslint-disable-next-line no-underscore-dangle
+// oxlint-disable-next-line no-underscore-dangle
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const chatEnabledModels = Object.entries<ModelSpec>(models)

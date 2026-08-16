@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/member-ordering */
-/* eslint-disable no-param-reassign */
+/* oxlint-disable no-param-reassign */
 import { BytePairEncodingCore, decoder } from './BytePairEncodingCore.js'
 import { ALL_SPECIAL_TOKENS } from './constants.js'
 import {
@@ -217,7 +217,7 @@ export class GptEncoding {
           return harmonyReturn
         case '<|call|>':
           return harmonyCall
-        // eslint-disable-next-line unicorn/no-useless-switch-case
+        // oxlint-disable-next-line unicorn/no-useless-switch-case
         case '<|end|>':
         default:
           return harmonyEnd
@@ -578,7 +578,7 @@ export class GptEncoding {
 
       if (buffer.length === 0 || endsWithIncompleteUtfPairSurrogate(buffer)) {
         // Keep the high surrogate in the buffer and continue with the next token
-        // eslint-disable-next-line no-continue
+        // oxlint-disable-next-line no-continue
         continue
       } else {
         yield buffer
@@ -611,7 +611,7 @@ export class GptEncoding {
 
       if (buffer.length === 0 || endsWithIncompleteUtfPairSurrogate(buffer)) {
         // Keep the high surrogate in the buffer and continue with the next token
-        // eslint-disable-next-line no-continue
+        // oxlint-disable-next-line no-continue
         continue
       } else {
         yield buffer
@@ -669,7 +669,7 @@ export class GptEncoding {
     const result: PriceData = {}
 
     // Calculate cost per token and multiply by token count
-    // eslint-disable-next-line no-magic-numbers
+    // oxlint-disable-next-line no-magic-numbers
     const millionTokens = tokenCount / 1_000_000
 
     if (priceDataPerMillion.main) {

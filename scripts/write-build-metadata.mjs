@@ -1,4 +1,5 @@
 import { mkdir, writeFile } from 'node:fs/promises'
+import { URL } from 'node:url'
 
 const directories = [
   ['cjs', 'commonjs'],

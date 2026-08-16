@@ -1,7 +1,13 @@
 export type ModelKind = 'chat' | 'other' | 'reasoning'
 
 export type RateLimitTier =
-  'free' | 'tier_free' | 'tier_1' | 'tier_2' | 'tier_3' | 'tier_4' | 'tier_5'
+  | 'free'
+  | 'tier_free'
+  | 'tier_1'
+  | 'tier_2'
+  | 'tier_3'
+  | 'tier_4'
+  | 'tier_5'
 
 export interface RateLimit {
   rpm?: number | string
@@ -28,7 +34,11 @@ export type SupportedTool =
   | 'mcp'
 
 export type SupportedFeature =
-  'function_calling' | 'file_search' | 'image_generation' | 'mcp' | 'web_search'
+  | 'function_calling'
+  | 'file_search'
+  | 'image_generation'
+  | 'mcp'
+  | 'web_search'
 
 export interface ModelConfig {
   name: string

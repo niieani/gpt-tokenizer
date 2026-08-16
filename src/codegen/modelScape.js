@@ -15,7 +15,7 @@ const sanitizeForJs = (/** @type {string} */ name) => name.replace(/[.-]/g, '_')
  * @param {number | string} value - The number or string to format.
  * @returns {string} The formatted string representation.
  */
-const formatNumber = function formatNumber(/** @type {number} */ value) {
+const formatNumber = function formatNumber(value) {
   if (typeof value !== 'number') return `'${value}'` // For string-based rate limits like "5 img/min"
   if (!Number.isInteger(value) || value < 1_000) return String(value)
 
@@ -86,7 +86,7 @@ const renderValue = function renderValue(
     return `{\n${entries.join(',\n')},\n${iMinus1}}`
   }
 
-  return String(value)
+  throw new TypeError(`Unsupported value type: ${typeof value}`)
 }
 
 /**
@@ -213,7 +213,7 @@ const codegen = function codegen(models, snapshots, otherModels = null) {
       ' --- Missing Models ---',
       ' The following models were found in the pricing data but not in the main models/snapshots sources:',
     )
-    for (const missing of missingModels.sort()) {
+    for (const missing of missingModels.sort((a, b) => a.localeCompare(b))) {
       output.push(` - ${missing}`)
     }
     output.push('*/')

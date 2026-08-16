@@ -1,7 +1,8 @@
 import { rm } from 'node:fs/promises'
+import { URL } from 'node:url'
 
 await Promise.all(
-  ['cjs', 'dist', 'esm'].map((directory) =>
+  ['cjs', 'esm'].map((directory) =>
     rm(new URL(`../${directory}`, import.meta.url), {
       force: true,
       recursive: true,

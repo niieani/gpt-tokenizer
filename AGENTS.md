@@ -2,10 +2,10 @@
 
 ## Getting started
 
-- This repository uses **Yarn 4 (Berry)** in classic `node_modules` mode (Plug'n'Play is disabled). Install dependencies with `yarn install --immutable`.
+- This repository uses **Vite+** over Yarn 4 in classic `node_modules` mode. Install dependencies with `vp install --frozen-lockfile`.
 - Tool configuration is tracked directly in the repository; there is no generated scaffold step.
-- The primary verification flow matches the CI workflow in `.github/workflows/ci-cd.yml`: run `yarn build` followed by `yarn test` when practical. The `yarn test` command runs formatting, type-checking, linting, and unit tests.
-- Use the existing formatting and linting tools instead of manual formatting. Prettier and ESLint configurations are already provided. Make sure to run `yarn format` before committing changes.
+- The primary verification flow matches `.github/workflows/ci-cd.yml`: run `vp run build` followed by `vp run test`. Vite+ runs Oxfmt, Oxlint, TypeScript checks, Vitest, and tsdown/Rolldown packaging.
+- Run `vp fmt` before committing changes. Tool configuration belongs in `vite.config.ts`.
 
 To run tests, or run any command that requires the internet, you must execute the task with `{with_escalated_permissions: true}`.
 
@@ -20,7 +20,7 @@ To run tests, or run any command that requires the internet, you must execute th
 ## Project structure notes
 
 - TypeScript source lives under `src/`. Common entry points are `src/main.ts` and the modules in `src/encoding/`.
-- Tests are written with Vitest (`yarn test:code`). Snapshot files reside next to their test files inside `src/__snapshots__`.
+- Tests are written with Vitest (`vp test`). Snapshot files reside next to their test files inside `src/__snapshots__`.
 - Keep the repository compatible with both ESM and CommonJS builds; avoid introducing Node-specific globals without appropriate guards.
 
 ## Pull request expectations

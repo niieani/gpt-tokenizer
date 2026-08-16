@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vite-plus/test'
 import { functionCallingTestCases } from './fixtures/functionCallingTestCases.js'
 import encoding from './model/gpt-4o.js'
 

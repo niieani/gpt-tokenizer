@@ -24,18 +24,15 @@ jobs:
         node: [22, 24]
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
+      - uses: voidzero-dev/setup-vp@v1.17.0
         with:
           node-version: ${{ matrix.node }}
-          cache: 'yarn'
-          cache-dependency-path: |
-            **/package.json
-            yarn.lock
+          cache: true
       - name: Install dependencies and test
         run: |
-          yarn install --immutable
-          yarn build
-          yarn test
+          vp install --frozen-lockfile
+          vp run build
+          vp run test
 
   publish:
     name: Publish package to NPM
@@ -49,14 +46,14 @@ jobs:
     if: github.actor != 'github-actions[bot]' && github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/next' || github.ref == 'refs/heads/beta')
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
+      - uses: voidzero-dev/setup-vp@v1.17.0
         with:
           node-version: 24
-          package-manager-cache: false
+          cache: true
       - name: Build and release
         run: |
-          yarn install --immutable
-          yarn build
-          yarn release
+          vp install --frozen-lockfile
+          vp run build
+          vp run release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

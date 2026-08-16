@@ -1,5 +1,5 @@
-/* eslint-disable no-magic-numbers */
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* oxlint-disable no-magic-numbers */
+/* oxlint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable camelcase */
 
 import {

@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+/* oxlint-disable no-console */
 import * as fs from 'fs/promises'
 import * as path from 'path'
 import { fileURLToPath } from 'url'
@@ -14,10 +14,10 @@ const processFilesInDirectory = async (
     const files = await fs.readdir(directoryPath, { withFileTypes: true })
 
     for (const file of files) {
-      // eslint-disable-next-line no-continue
+      // oxlint-disable-next-line no-continue
       if (!file.isFile()) continue
       const filePath = path.join(directoryPath, file.name)
-      // eslint-disable-next-line no-await-in-loop
+      // oxlint-disable-next-line no-await-in-loop
       await fn(filePath)
     }
   } catch (error) {
@@ -25,7 +25,7 @@ const processFilesInDirectory = async (
   }
 }
 
-// eslint-disable-next-line no-underscore-dangle
+// oxlint-disable-next-line no-underscore-dangle
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const textDecoder = new TextDecoder('utf8', { fatal: true })
 const textEncoder = new TextEncoder()
@@ -98,10 +98,9 @@ await processFilesInDirectory(
     const chunks = stringifiedBpeItems.length / chunkSize
     for (let i = 0; i < chunks; i++) {
       jsCodeConstsForEachChunk.push(
-        `const c${i} = [${stringifiedBpeItems.slice(
-          i * chunkSize,
-          (i + 1) * chunkSize,
-        )}]`,
+        `const c${i} = [${stringifiedBpeItems
+          .slice(i * chunkSize, (i + 1) * chunkSize)
+          .join(',')}]`,
       )
     }
     if (jsCodeConstsForEachChunk.length === 0) {
