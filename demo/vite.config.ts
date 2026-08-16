@@ -11,8 +11,10 @@ export default defineConfig({
     port: 5173,
   },
   optimizeDeps: {
-    esbuildOptions: {
-      target: 'chrome120',
+    rolldownOptions: {
+      transform: {
+        target: 'chrome120',
+      },
     },
   },
 })
