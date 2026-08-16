@@ -5,6 +5,7 @@ export const resolveEncodingAsync = async (
   encoding: EncodingName,
 ): Promise<RawBytePairRanks> => {
   switch (encoding) {
+    case 'gpt2':
     case 'r50k_base':
       return import('./bpeRanks/r50k_base.js').then(
         ({ default: rawBytePairRanks }) => rawBytePairRanks,

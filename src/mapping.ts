@@ -3,6 +3,7 @@ import * as encodingsMap from './modelsMap.js'
 import { ImSep } from './specialTokens.js'
 
 export const cl100k_base = 'cl100k_base'
+export const gpt2 = 'gpt2'
 export const p50k_base = 'p50k_base'
 export const p50k_edit = 'p50k_edit'
 export const r50k_base = 'r50k_base'
@@ -13,6 +14,7 @@ export const DEFAULT_ENCODING = o200k_base
 
 export type EncodingName = keyof typeof encodingsMap
 export const encodingNames = [
+  gpt2,
   p50k_base,
   r50k_base,
   p50k_edit,

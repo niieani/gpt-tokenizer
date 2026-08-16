@@ -42,6 +42,7 @@ export function getEncodingParams(
 ): EncodingParams {
   const mergeableBytePairRanks = getMergeableRanks(encodingName)
   switch (encodingName.toLowerCase()) {
+    case 'gpt2':
     case 'r50k_base':
       return R50KBase(mergeableBytePairRanks)
 

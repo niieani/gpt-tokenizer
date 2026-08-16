@@ -100,6 +100,27 @@ export { gpt_4_32k_spec as 'gpt-4-32k' }
 //
 // --- BELOW ARE LEGACY, NO LONGER SUPPORTED MODELS ---
 //
+
+// --- GPT-2 ---
+const gpt_2_spec = {
+  name: 'gpt-2',
+  slug: 'gpt-2',
+  modalities: { input: ['text'], output: ['text'] },
+  context_window: 1_024,
+  max_output_tokens: 1_024,
+  supported_endpoints: [],
+  reasoning_tokens: false,
+  deprecated: true,
+} as const satisfies ModelSpec
+
+const gpt2_spec = {
+  ...gpt_2_spec,
+  name: 'gpt2',
+  slug: 'gpt2',
+} as const satisfies ModelSpec
+
+export { gpt_2_spec as 'gpt-2', gpt2_spec as gpt2 }
+
 // --- text-ada-001 ---
 const text_ada_config = {
   name: 'text-ada',

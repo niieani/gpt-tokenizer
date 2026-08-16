@@ -2,6 +2,12 @@ import type { ModelName } from './mapping.js'
 
 // reference: https://github.com/openai/tiktoken/blob/4560a8896f5fb1d35c6f8fd6eee0399f9a1a27ca/tiktoken/model.py
 
+// --- GPT-2 models ---
+export const gpt2: readonly string[] = [
+  'gpt2',
+  'gpt-2',
+] as const satisfies ModelName[]
+
 // --- p50k_base models ---
 export const p50k_base: readonly string[] = [
   // legacy models

@@ -18,6 +18,16 @@ import { resolveEncoding } from './resolveEncoding.js'
 import { EndOfText } from './specialTokens.js'
 
 describe('generated model exports', () => {
+  test.each(['gpt2', 'gpt-2'])(
+    '%s uses the GPT-2 encoding',
+    async (modelName) => {
+      const mod = await import(`./model/${modelName}.ts`)
+
+      expect(modelToEncodingMap[modelName as ModelName]).toBe('gpt2')
+      expect(mod.default.vocabularySize).toBe(50_257)
+    },
+  )
+
   test('gpt-5 re-exports the chat token counter helper', async () => {
     const mod = await import('./model/gpt-5.js')
     const encoding = mod.default
@@ -33,6 +43,21 @@ describe('generated model exports', () => {
 
     expect('countChatCompletionTokens' in mod).toBe(false)
   })
+})
+
+test('gpt2 encoding is token-compatible with r50k_base', async () => {
+  const gpt2 = await import(`./encoding/${'gpt2'}.js`).then(
+    (mod) => mod.default,
+  )
+  const r50kBase = await import('./encoding/r50k_base.js').then(
+    (mod) => mod.default,
+  )
+  const samples = ['Hello, world!', 'indivisible', 'hello 👋 world 🌍']
+
+  expect(gpt2.vocabularySize).toBe(50_257)
+  for (const sample of samples) {
+    expect(gpt2.encode(sample)).toEqual(r50kBase.encode(sample))
+  }
 })
 
 const sharedResults = {
@@ -68,6 +93,7 @@ const o200kBaseResults = {
 }
 
 const results = {
+  gpt2: sharedResults,
   o200k_base: o200kBaseResults,
   o200k_harmony: o200kBaseResults,
   cl100k_base: {
@@ -500,6 +526,7 @@ function loadTestPlans() {
     { sample: string; encoded: readonly number[] }[]
   > = {
     cl100k_base: [],
+    gpt2: [],
     p50k_base: [],
     p50k_edit: [],
     r50k_base: [],

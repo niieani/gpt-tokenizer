@@ -7,6 +7,7 @@ import type { EncodingName } from './mapping.js'
 
 export const resolveEncoding = (encoding: EncodingName): RawBytePairRanks => {
   switch (encoding) {
+    case 'gpt2':
     case 'r50k_base':
       return r50k
     case 'p50k_base':

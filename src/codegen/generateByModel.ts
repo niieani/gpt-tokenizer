@@ -41,6 +41,7 @@ const insertHeaderAfterDirectives = (
 const chatModels = Object.keys(chatModelParams)
 
 const encodingBpeOverrides: Partial<Record<EncodingName, string>> = {
+  gpt2: 'r50k_base',
   o200k_harmony: 'o200k_base',
 }
 

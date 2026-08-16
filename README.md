@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/niieani/gpt-tokenizer/ci-cd.yml?branch=main&style=flat-square)](https://github.com/niieani/gpt-tokenizer/actions)
 
-`gpt-tokenizer` is a Token Byte Pair Encoder/Decoder supporting all OpenAI's models (including GPT-5, GPT-4o, o1, o3, o4, GPT-4.1 and older models like GPT-3.5, GPT-4).
+`gpt-tokenizer` is a TypeScript Byte Pair Encoder/Decoder for every OpenAI model family, including GPT-5, GPT-4.1, GPT-4o, o-series reasoning models, gpt-oss, realtime and audio models, and legacy GPT-2/3/4 models.
 It's the [_fastest, smallest and lowest footprint_](#benchmarks) GPT tokenizer available for all JavaScript environments and is written in TypeScript.
 
 > Try it out in the **[playground](https://gpt-tokenizer.dev/)**!
@@ -25,14 +25,15 @@ Please consider [🩷 sponsoring](https://github.com/sponsors/niieani) the proje
 It is the most feature-complete, open-source GPT tokenizer on NPM. This package is a port of OpenAI's [tiktoken](https://github.com/openai/tiktoken), with some additional, unique features sprinkled on top:
 
 - Support for easily tokenizing chats thanks to the `encodeChat` function
-- Support for all current OpenAI models (available encodings: `r50k_base`, `p50k_base`, `p50k_edit`, `cl100k_base`, `o200k_base`, and `o200k_harmony`)
+- Support for all current OpenAI models, including GPT-5, GPT-4.1, GPT-4o, o1/o3/o4, gpt-oss, realtime, audio, transcription, image, and video models
+- All OpenAI encodings: `r50k_base`, `p50k_base`, `p50k_edit`, `cl100k_base`, `o200k_base`, and `o200k_harmony`
 - Can be loaded and work synchronously! (i.e. in non async/await contexts)
 - Generator function versions of both the decoder and encoder functions
 - Provides the ability to decode an asynchronous stream of data (using `decodeAsyncGenerator` and `decodeGenerator` with any iterable input)
 - No global cache (no accidental memory leaks, as with the original GPT-3-Encoder implementation)
 - Includes a highly performant `isWithinTokenLimit` function to assess token limit without encoding the entire text/chat
 - Built-in cost estimation with the `estimateCost` function for calculating API usage costs
-- Full library of OpenAI models with comprehensive pricing information (see [`src/models.ts`](./src/models.ts) and [`src/models.gen.ts`](./src/models.gen.ts))
+- Full OpenAI model catalog with context limits, capabilities, modalities, and comprehensive pricing information (see [`src/models.ts`](./src/models.ts) and [`src/models.gen.ts`](./src/models.gen.ts))
 - Improves overall performance by eliminating transitive arrays
 - Type-safe (written in TypeScript)
 - Works in the browser out-of-the-box
@@ -131,7 +132,7 @@ for await (const textChunk of decodeAsyncGenerator(asyncTokens)) {
 }
 ```
 
-By default, importing from `gpt-tokenizer` uses `o200k_base` encoding, used by all modern OpenAI models, including `gpt-4o`, `gpt-4.1`, `o1`, etc.
+By default, importing from `gpt-tokenizer` uses `o200k_base`, the encoding used by modern OpenAI models including GPT-5, GPT-4.1, GPT-4o, and the o-series.
 
 To get a tokenizer for a different model, import it directly, for example:
 
@@ -183,17 +184,22 @@ import {
 
 ### Supported models and their encodings
 
-We support all OpenAI models, including the latest ones, with the following encodings:
+We support all current OpenAI model families, including:
 
-- `o`-series models, like `o1-*`, `o3-*` and `o4-*` (`o200k_base`)
-- `gpt-4o` (`o200k_base`)
+- GPT-5 models, including mini, nano, pro, chat, and Codex variants (`o200k_base`)
+- GPT-4.1 and GPT-4o models (`o200k_base`)
+- o-series reasoning models, including `o1-*`, `o3-*`, and `o4-*` (`o200k_base`)
 - `gpt-oss-*` (`o200k_harmony`)
+- Realtime, audio, transcription, and TTS models (`o200k_base`)
+- GPT-2, available through both `gpt2` and `gpt-2` aliases (`gpt2`)
 - `gpt-4-*` (`cl100k_base`)
 - `gpt-3.5-*` (`cl100k_base`)
 - `text-davinci-003` (`p50k_base`)
 - `text-davinci-002` (`p50k_base`)
 - `text-davinci-001` (`r50k_base`)
-- ...and many other models, see [models.ts](./src/models.ts) for an up-to-date list of supported models and their encodings.
+- ...and many other models. See [models.ts](./src/models.ts) for the up-to-date list and [models.gen.ts](./src/models.gen.ts) for catalog metadata and pricing.
+
+The catalog also covers embeddings, moderation, image, and video models so applications can use one source for OpenAI model capabilities, limits, and pricing.
 
 If you don't see the model you're looking for, the default encoding is probably the one you want.
 
@@ -500,7 +506,7 @@ Running the unit tests and verifying the test cases helps maintain consistency b
 
 `gpt-tokenizer` provides comprehensive data about all OpenAI models through the `models` export from [`gpt-tokenizer/models`](./src/models.ts). This includes detailed information about context windows, costs, training data cutoffs, and deprecation status.
 
-The data is regularly maintained to match OpenAI's official documentation. Contributions to keep this data up-to-date are welcome - if you notice any discrepancies or have updates, please feel free to open a PR.
+The data is refreshed from OpenAI's official documentation using the automated [model catalog scraper](./src/scraper/README.md). If you notice a discrepancy, please open an issue or PR.
 
 ## [Benchmarks](https://l8j6fv.csb.app/)
 
