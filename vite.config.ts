@@ -1,5 +1,29 @@
 import { configDefaults, defineConfig } from 'vite-plus'
 
+const omitBpeRankSourceMaps = {
+  name: 'omit-bpe-rank-source-maps',
+  generateBundle(
+    _options: unknown,
+    bundle: Record<
+      string,
+      { code?: string; map?: unknown; type: 'asset' | 'chunk' }
+    >,
+  ) {
+    for (const [fileName, output] of Object.entries(bundle)) {
+      if (output.type !== 'chunk' || !/^bpeRanks\/.*\.js$/.test(fileName)) {
+        continue
+      }
+
+      output.code = output.code?.replace(
+        /\n\/\/# sourceMappingURL=.*\.map\s*$/,
+        '\n',
+      )
+      output.map = undefined
+      delete bundle[`${fileName}.map`]
+    }
+  },
+}
+
 export default defineConfig({
   pack: {
     entry: [
@@ -14,6 +38,7 @@ export default defineConfig({
     outExtensions: () => ({ dts: '.d.ts', js: '.js' }),
     outputOptions: { exports: 'named' },
     platform: 'neutral',
+    plugins: [omitBpeRankSourceMaps],
     root: 'src',
     sourcemap: true,
     target: 'es2022',
