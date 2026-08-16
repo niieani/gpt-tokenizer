@@ -2,5 +2,41 @@
 // To regenerate, run: yarn codegen:models.
 // Source template: src/encoding/o200k_base.ts.
 
-export { default } from '../encoding/o200k_base.js'
-export * from '../encoding/o200k_base.js'
+import bpeRanks from '../bpeRanks/o200k_base.js'
+import { GptEncoding } from '../GptEncoding.js'
+
+export * from '../constants.js'
+export * from '../specialTokens.js'
+// oxfmt-ignore
+const api = GptEncoding.getEncodingApiForModel('gpt-image-1', () => bpeRanks, {name:"gpt-image-1",slug:"gpt-image-1",performance:4,latency:1,modalities:{input:["text","image"],output:["image"]},supported_endpoints:["batch","image_generation","image_edit","responses"],supported_features:["inpainting"],reasoning_tokens:false})
+const {
+  decode,
+  decodeAsyncGenerator,
+  decodeGenerator,
+  encode,
+  encodeGenerator,
+  isWithinTokenLimit,
+  countTokens,
+  encodeChat,
+  encodeChatGenerator,
+  vocabularySize,
+  setMergeCacheSize,
+  clearMergeCache,
+  estimateCost,
+} = api
+export {
+  clearMergeCache,
+  countTokens,
+  decode,
+  decodeAsyncGenerator,
+  decodeGenerator,
+  encode,
+  encodeChat,
+  encodeChatGenerator,
+  encodeGenerator,
+  estimateCost,
+  isWithinTokenLimit,
+  setMergeCacheSize,
+  vocabularySize,
+}
+export default api

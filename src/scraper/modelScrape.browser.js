@@ -1,4 +1,4 @@
-// search for name: "Other models" in https://platform.openai.com/docs/models
+// Manual browser fallback for https://developers.openai.com/api/docs/models
 
 /**
  * Converts a string with hyphens and dots into a valid JavaScript variable name.
@@ -102,7 +102,11 @@ const codegen = function codegen(models, snapshots, otherModels = null) {
     const data = snap.default || snap
     if (data.name) {
       // Create a copy to avoid modifying the original input object
-      acc[data.name] = { ...data }
+      const normalizedData = { ...data }
+      if (normalizedData.supported_features === null) {
+        delete normalizedData.supported_features
+      }
+      acc[data.name] = normalizedData
     }
     return acc
   }, {})
@@ -188,7 +192,8 @@ const codegen = function codegen(models, snapshots, otherModels = null) {
       currentSnapshotName &&
       modelName &&
       snapshotMap[currentSnapshotName] &&
-      currentSnapshotName !== modelName
+      currentSnapshotName !== modelName &&
+      !generatedSpecs.has(modelName)
     ) {
       const currentSnapshotVarName = sanitizeForJs(currentSnapshotName)
       output.push(
@@ -221,6 +226,6 @@ const codegen = function codegen(models, snapshots, otherModels = null) {
   return output.join('\n').replace(/\n{3,}/g, '\n\n')
 }
 
-// set a breakpoint in https://platform.openai.com/docs/pricing
-// and run this entire file with the last uncommented to get the data:
-// copy(codegen(uLe /* "./models-data/ */, dLe /* "./snapshots-data/ */, iLe /* name: "Other models" */))
+// Set a breakpoint after the model, snapshot, and pricing objects are created.
+// Paste this file into DevTools, then run:
+// copy(codegen(<models identifier>, <snapshots identifier>, <pricing identifier>))

@@ -8,7 +8,7 @@ import { GptEncoding } from '../GptEncoding.js'
 export * from '../constants.js'
 export * from '../specialTokens.js'
 // oxfmt-ignore
-const api = GptEncoding.getEncodingApiForModel('gpt-5-pro', () => bpeRanks, {name:"gpt-5-pro-2025-10-06",slug:"gpt-5-pro-2025-10-06",performance:5,latency:1,modalities:{input:["text","image"],output:["text"]},supported_features:["structured_outputs","function_calling","file_search","file_uploads","image_input","web_search"],supported_endpoints:["responses","batch"],context_window:400000,max_output_tokens:272000,knowledge_cutoff:new Date(1727654400000),reasoning_tokens:true})
+const api = GptEncoding.getEncodingApiForModel('gpt-5-pro', () => bpeRanks, {name:"gpt-5-pro-2025-10-06",slug:"gpt-5-pro-2025-10-06",deprecated:true,performance:5,latency:1,modalities:{input:["text","image"],output:["text"]},supported_features:["streaming","structured_outputs","function_calling","file_search","file_uploads","image_input","web_search"],supported_endpoints:["responses","batch"],context_window:400000,max_output_tokens:272000,knowledge_cutoff:new Date(1727654400000),reasoning_tokens:true})
 const {
   decode,
   decodeAsyncGenerator,

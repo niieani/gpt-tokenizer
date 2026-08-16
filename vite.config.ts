@@ -6,6 +6,7 @@ export default defineConfig({
       'src/**/*.{js,ts}',
       '!src/**/*.test.ts',
       '!src/codegen/**',
+      '!src/scraper/**',
       '!src/**/*.gen.ts',
     ],
     cjsDefault: false,
@@ -36,6 +37,7 @@ export default defineConfig({
       builtin: true,
     },
     ignorePatterns: [
+      '.yarn/**',
       'benchmark/**',
       'demo/**',
       'harmony/**',

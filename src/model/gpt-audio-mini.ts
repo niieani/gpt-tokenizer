@@ -8,7 +8,7 @@ import { GptEncoding } from '../GptEncoding.js'
 export * from '../constants.js'
 export * from '../specialTokens.js'
 // oxfmt-ignore
-const api = GptEncoding.getEncodingApiForModel('gpt-audio-mini', () => bpeRanks, {name:"gpt-audio-mini-2025-10-06",performance:4,latency:5,modalities:{input:["text","audio"],output:["text","audio"]},supported_endpoints:["chat_completions"],supported_features:["function_calling","prompt_caching"],context_window:128000,max_output_tokens:16384,knowledge_cutoff:new Date(1696118400000),reasoning_tokens:false})
+const api = GptEncoding.getEncodingApiForModel('gpt-audio-mini', () => bpeRanks, {name:"gpt-audio-mini-2025-12-15",performance:4,latency:5,modalities:{input:["text","audio"],output:["text","audio"]},supported_endpoints:["chat_completions"],supported_features:["function_calling","prompt_caching"],context_window:128000,max_output_tokens:16384,knowledge_cutoff:new Date(1696118400000),reasoning_tokens:false})
 const {
   decode,
   decodeAsyncGenerator,

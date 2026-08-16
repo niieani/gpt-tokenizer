@@ -8,7 +8,7 @@ import { GptEncoding } from '../GptEncoding.js'
 export * from '../constants.js'
 export * from '../specialTokens.js'
 // oxfmt-ignore
-const api = GptEncoding.getEncodingApiForModel('gpt-5', () => bpeRanks, {name:"gpt-5-2025-08-07",slug:"gpt-5-2025-08-07",performance:4,latency:3,modalities:{input:["text","image"],output:["text"]},context_window:400000,max_output_tokens:128000,max_input_tokens:272000,knowledge_cutoff:new Date(1727654400000),supported_features:["streaming","structured_outputs","distillation","function_calling","file_search","file_uploads","image_input","web_search","prompt_caching"],supported_endpoints:["chat_completions","responses","batch"],reasoning_tokens:true,price_data:{main:{input:10,output:30},batch:{input:5,output:15}}})
+const api = GptEncoding.getEncodingApiForModel('gpt-5', () => bpeRanks, {name:"gpt-5-2025-08-07",slug:"gpt-5-2025-08-07",deprecated:true,performance:4,latency:3,modalities:{input:["text","image"],output:["text"]},context_window:400000,max_output_tokens:128000,max_input_tokens:272000,knowledge_cutoff:new Date(1727654400000),supported_features:["streaming","structured_outputs","function_calling","file_search","file_uploads","image_input","web_search","prompt_caching"],supported_endpoints:["chat_completions","responses","batch"],reasoning_tokens:true,price_data:{main:{input:10,output:30},batch:{input:5,output:15}}})
 const {
   decode,
   decodeAsyncGenerator,

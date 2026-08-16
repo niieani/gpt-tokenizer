@@ -14,6 +14,7 @@ export interface RateLimit {
   rpd?: number
   tpm?: number | string
   ipm?: number | string
+  audio_min_per_min?: number | string
   batch_queue_limit?: number
 }
 
@@ -23,7 +24,9 @@ export interface RateLimitGroup {
   rate_limits: Partial<Record<RateLimitTier, RateLimit>>
 }
 
-export type RateLimits = Record<RateLimitTier, RateLimit> | RateLimitGroup[]
+export type RateLimits =
+  | Partial<Record<RateLimitTier, RateLimit | null>>
+  | RateLimitGroup[]
 
 export type SupportedTool =
   | 'function_calling'
@@ -31,20 +34,28 @@ export type SupportedTool =
   | 'file_search'
   | 'image_generation'
   | 'code_interpreter'
+  | 'hosted_shell'
+  | 'apply_patch'
+  | 'skills'
+  | 'computer_use'
   | 'mcp'
+  | 'tool_search'
 
-export type SupportedFeature =
-  | 'function_calling'
-  | 'file_search'
-  | 'image_generation'
-  | 'mcp'
-  | 'web_search'
+export type SupportedFeature = Feature
+
+export interface ModelBadge {
+  label: string
+  color: string
+  variant: string
+}
 
 export interface ModelConfig {
   name: string
   slug?: string
   display_name?: string
+  img_slug?: string
   icon_name?: string
+  art_has_label?: boolean
   current_snapshot: string
   tagline?: string
   description?: string
@@ -53,6 +64,7 @@ export interface ModelConfig {
 
   supported_tools?: SupportedTool[]
   supported_features?: SupportedFeature[]
+  supported_endpoints?: Endpoint[]
 
   snapshots: string[]
   compare_prices?: string[]
@@ -63,12 +75,11 @@ export interface ModelConfig {
   playground_url?: string
   video_url?: string
   video_thumbnail?: string /** either a map keyed by RateLimitTier… */
+  hide_pricing?: boolean
+  pricing_notes?: string[]
+  badge?: ModelBadge
 
-  rate_limits?:
-    | Partial<
-        Record<RateLimitTier, RateLimit | null>
-      > /** …or an array of named groups */
-    | RateLimitGroup[]
+  rate_limits?: RateLimits
 
   deprecated?: boolean
 }
@@ -86,6 +97,8 @@ export type Endpoint =
   | 'image_generation'
   | 'moderation'
   | 'realtime'
+  | 'realtime_transcription'
+  | 'realtime_translation'
   | 'responses'
   | 'speech_generation'
   | 'transcription'
@@ -100,10 +113,12 @@ export type Feature =
   | 'file_uploads'
   | 'fine_tuning'
   | 'function_calling'
+  | 'image_generation'
   | 'image_input'
   | 'inpainting'
   | 'predicted_outputs'
   | 'prompt_caching'
+  | 'mcp'
   | 'stored_completions'
   | 'streaming'
   | 'structured_outputs'
@@ -144,6 +159,7 @@ export interface ModelSpec {
 
   supported_endpoints: Endpoint[]
   supported_features?: Feature[]
+  supported_tools?: SupportedTool[]
 
   reasoning_tokens?: boolean
   price_data?: PriceData

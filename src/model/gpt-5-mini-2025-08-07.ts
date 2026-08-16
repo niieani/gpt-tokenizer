@@ -8,7 +8,7 @@ import { GptEncoding } from '../GptEncoding.js'
 export * from '../constants.js'
 export * from '../specialTokens.js'
 // oxfmt-ignore
-const api = GptEncoding.getEncodingApiForModel('gpt-5-mini-2025-08-07', () => bpeRanks, {name:"gpt-5-mini-2025-08-07",slug:"gpt-5-mini-2025-08-07",performance:3,latency:4,modalities:{input:["text","image"],output:["text"]},context_window:400000,max_output_tokens:128000,max_input_tokens:272000,knowledge_cutoff:new Date(1717113600000),supported_features:["streaming","function_calling","file_search","file_uploads","web_search","structured_outputs","image_input"],supported_endpoints:["chat_completions","responses","batch"],reasoning_tokens:true})
+const api = GptEncoding.getEncodingApiForModel('gpt-5-mini-2025-08-07', () => bpeRanks, {name:"gpt-5-mini-2025-08-07",slug:"gpt-5-mini-2025-08-07",deprecated:true,performance:3,latency:4,modalities:{input:["text","image"],output:["text"]},context_window:400000,max_output_tokens:128000,max_input_tokens:272000,knowledge_cutoff:new Date(1717113600000),supported_features:["streaming","function_calling","file_search","file_uploads","web_search","structured_outputs","image_input"],supported_endpoints:["chat_completions","responses","batch"],reasoning_tokens:true})
 const {
   decode,
   decodeAsyncGenerator,

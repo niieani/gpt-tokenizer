@@ -72,9 +72,9 @@
   ],
   "scripts": {
     "codegen": "yarn codegen:bpe && yarn codegen:chat-enabled && yarn codegen:models",
-    "codegen:models": "rm -rf src/model && node --experimental-transform-types --import node-resolve-ts/register src/codegen/generateByModel.ts",
-    "codegen:bpe": "rm -rf src/bpeRanks && node --experimental-transform-types --import node-resolve-ts/register src/codegen/generateJsBpe.ts",
-    "codegen:chat-enabled": "rm -rf src/chat && node --experimental-transform-types --import node-resolve-ts/register src/codegen/generateChatEnabled.ts",
+    "codegen:models": "rm -rf src/model && node --import node-resolve-ts/register src/codegen/generateByModel.ts",
+    "codegen:bpe": "rm -rf src/bpeRanks && node --import node-resolve-ts/register src/codegen/generateJsBpe.ts",
+    "codegen:chat-enabled": "rm -rf src/chat && node --import node-resolve-ts/register src/codegen/generateChatEnabled.ts",
     "build": "vp run clean && vp run build:cjs && vp run build:esm && node scripts/write-build-metadata.mjs && node scripts/verify-build.mjs",
     "build:cjs": "vp pack --format cjs --outDir cjs",
     "build:esm": "vp pack --format esm --outDir esm",
@@ -82,6 +82,7 @@
     "format": "vp fmt \"src/**/*.{js,ts,json,md}\" \"scripts/**/*.{js,mjs}\" \"*.{js,mjs,json,md}\" \".github/**/*.yml\"",
     "prepare": "husky",
     "release": "semantic-release",
+    "scrape:models": "node src/scraper/modelScrape.node.ts",
     "test": "vp check && vp test",
     "test:code": "vp test",
     "test:format": "vp fmt --check",
@@ -120,7 +121,7 @@
     "typescript": "^6.0.3",
     "vite-plus": "catalog:"
   },
-  "packageManager": "yarn@4.12.0",
+  "packageManager": "yarn@4.18.0",
   "publishConfig": {
     "access": "public"
   },
