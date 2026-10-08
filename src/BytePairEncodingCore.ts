@@ -86,7 +86,7 @@ export class BytePairEncodingCore {
     )
     const allSpecialTokensRegex = escapedSpecialTokens.join('|')
     try {
-      this.specialTokenPatternRegex = new RegExp(allSpecialTokensRegex, 'y')
+      this.specialTokenPatternRegex = new RegExp(allSpecialTokensRegex, 'g')
     } catch {
       throw new Error('Invalid regular expression pattern.')
     }
@@ -384,6 +384,10 @@ export class BytePairEncodingCore {
     allowedSpecial: Set<string> | undefined,
     startIndex: number,
   ): [startIndex: number, token: string] | undefined {
+    if (!allowedSpecial?.size) {
+      return undefined
+    }
+
     let searchIndex = startIndex
 
     while (true) {
@@ -396,12 +400,11 @@ export class BytePairEncodingCore {
 
       const specialToken = nextSpecialMatch[0]
 
-      if (allowedSpecial?.has(specialToken)) {
-        const specialTokenStartIndex = nextSpecialMatch.index + searchIndex
-        return [specialTokenStartIndex, specialToken]
+      if (allowedSpecial.has(specialToken)) {
+        return [nextSpecialMatch.index, specialToken]
       }
 
-      searchIndex = nextSpecialMatch.index + searchIndex + 1
+      searchIndex = nextSpecialMatch.index + 1
     }
   }
 
