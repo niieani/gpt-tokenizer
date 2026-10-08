@@ -1,5 +1,10 @@
 import { DEFAULT_MERGE_CACHE_SIZE } from './constants.js'
-import { compareUint8Arrays, isAscii, tryConvertToString } from './utfUtil.js'
+import {
+  compareUint8Arrays,
+  isAscii,
+  startsWithByteOrderMark,
+  tryConvertToString,
+} from './utfUtil.js'
 import { escapeRegExp } from './util.js'
 
 export type RawBytePairRanks = readonly (string | readonly number[])[]
@@ -19,7 +24,8 @@ export interface BytePairEncodingConfig {
 
 const emptyBuffer = new Uint8Array(0)
 
-export const decoder = new TextDecoder('utf8')
+// `ignoreBOM: true` keeps a leading U+FEFF in the decoded output.
+export const decoder = new TextDecoder('utf8', { ignoreBOM: true })
 
 export class BytePairEncodingCore {
   readonly mergeableBytePairRankCount: number
@@ -70,6 +76,16 @@ export class BytePairEncodingCore {
       const byteArray = new Uint8Array(value)
       binaryLookup.push([byteArray, rank])
       this.bytePairNonUtfRankDecoder.set(rank, byteArray)
+      if (startsWithByteOrderMark(byteArray)) {
+        // The rank tables keep tokens that start with a UTF-8 byte order mark
+        // (EF BB BF) as raw bytes, because a plain decode would strip the mark.
+        // They are still valid UTF-8, so they must also be reachable through
+        // the string lookup that getBpeRankFromBytes uses for valid UTF-8.
+        const asString = tryConvertToString(byteArray)
+        if (asString !== undefined) {
+          this.bytePairStringRankEncoder.set(asString, rank)
+        }
+      }
     })
     this.bytePairNonUtfSortedEncoder = binaryLookup.sort((a, b) =>
       compareUint8Arrays(a[0], b[0]),
