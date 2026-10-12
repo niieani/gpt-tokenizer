@@ -453,87 +453,109 @@ export class BytePairEncodingCore {
     // Input array of bytes to process
     piece: Uint8Array,
   ): number[] {
-    // 'starts' holds the start indices of each partition
-    const starts: number[] = []
-    // 'ranks' holds the BPE ranks of each partition pair
-    const ranks: number[] = []
+    const { length } = piece
+    // Partitions form a linked list over byte offsets: a live partition starting at
+    // offset 'i' spans [i, next[i]). 'pairRanks[i]' is the rank of merging it with
+    // the partition after it. Merges come off a min-heap ordered by (rank, offset),
+    // which picks the same pair as scanning for the lowest rank, leftmost first,
+    // without rescanning the piece after every merge.
+    const next = new Int32Array(length + 1)
+    const previous = new Int32Array(length + 1)
+    const pairRanks = new Float64Array(length + 1)
+    const live = new Uint8Array(length + 1)
 
-    // Helper function to get the rank of a byte pair starting at 'startIndex'
-    const getRank = (
-      startIndex: number,
-      pairStart = starts[startIndex],
-      pairEnd = starts[startIndex + 2],
-    ): number => {
-      if (pairEnd === undefined) {
-        // No valid pair exists
-        return Number.POSITIVE_INFINITY
-      }
-
-      // Extract the byte pair
-      const key = piece.subarray(pairStart, pairEnd)
-
-      // Retrieve the BPE rank of this byte pair (if it exists)
-      const rank = this.getBpeRankFromBytes(key)
+    const getPairRank = (startIndex: number): number => {
+      const middle = next[startIndex]!
+      if (middle >= length) return Number.POSITIVE_INFINITY
+      const rank = this.getBpeRankFromBytes(
+        piece.subarray(startIndex, next[middle]!),
+      )
       return rank ?? Number.POSITIVE_INFINITY
     }
 
-    // Initialize the 'starts' array with all possible start indices
-    for (let i = 0; i <= piece.length; i++) {
-      starts.push(i)
-      if (i < piece.length - 1) {
-        // Initialize the BPE values for all adjacent pairs
-        ranks.push(getRank(i, i, i + 2))
-      } else {
-        // Initialize BPE values to infinity for the last pair
-        ranks.push(Number.POSITIVE_INFINITY)
+    // Heap entries are packed as [rank, startIndex] pairs in a flat array
+    const heap: number[] = []
+    const isLower = (a: number, b: number) =>
+      heap[a]! < heap[b]! ||
+      (heap[a] === heap[b] && heap[a + 1]! < heap[b + 1]!)
+    const swap = (a: number, b: number) => {
+      const rank = heap[a]!
+      const startIndex = heap[a + 1]!
+      heap[a] = heap[b]!
+      heap[a + 1] = heap[b + 1]!
+      heap[b] = rank
+      heap[b + 1] = startIndex
+    }
+    const push = (rank: number, startIndex: number) => {
+      heap.push(rank, startIndex)
+      let index = heap.length - 2
+      while (index > 0) {
+        const parent = (((index >> 1) - 1) >> 1) << 1
+        if (!isLower(index, parent)) break
+        swap(index, parent)
+        index = parent
       }
+    }
+    const pop = () => {
+      const last = heap.length - 2
+      swap(0, last)
+      const rank = heap[last]!
+      const startIndex = heap[last + 1]!
+      heap.length = last
+      let index = 0
+      while (true) {
+        const left = index * 2 + 2
+        const right = left + 2
+        let lowest = index
+        if (left < heap.length && isLower(left, lowest)) lowest = left
+        if (right < heap.length && isLower(right, lowest)) lowest = right
+        if (lowest === index) break
+        swap(index, lowest)
+        index = lowest
+      }
+      return [rank, startIndex] as const
+    }
+
+    for (let i = 0; i <= length; i++) {
+      next[i] = i + 1
+      previous[i] = i - 1
+      live[i] = 1
+    }
+    for (let i = 0; i < length - 1; i++) {
+      pairRanks[i] = getPairRank(i)
+      if (pairRanks[i] !== Number.POSITIVE_INFINITY) push(pairRanks[i]!, i)
     }
 
     // Iteratively merge byte pairs until no more useful merges can be done
-    while (starts.length > 1) {
-      let lowestRank = Number.POSITIVE_INFINITY
-      let lowestPartitionIndex = -1
+    while (heap.length > 0) {
+      const [rank, startIndex] = pop()
+      // Skip entries made stale by an earlier merge
+      if (!live[startIndex] || pairRanks[startIndex] !== rank) continue
 
-      // Find the partition with the minimum rank
-      for (let i = 0; i < ranks.length - 1; i++) {
-        const rank = ranks[i]!
-        if (rank < lowestRank) {
-          lowestRank = rank
-          lowestPartitionIndex = i
+      // Merge the partition at 'startIndex' with the one after it
+      const merged = next[startIndex]!
+      live[merged] = 0
+      next[startIndex] = next[merged]!
+      previous[next[merged]!] = startIndex
+
+      pairRanks[startIndex] = getPairRank(startIndex)
+      if (pairRanks[startIndex] !== Number.POSITIVE_INFINITY) {
+        push(pairRanks[startIndex]!, startIndex)
+      }
+
+      const before = previous[startIndex]!
+      if (before >= 0) {
+        pairRanks[before] = getPairRank(before)
+        if (pairRanks[before] !== Number.POSITIVE_INFINITY) {
+          push(pairRanks[before]!, before)
         }
-      }
-
-      // If no valid pair is left to merge, exit the loop
-      if (
-        lowestRank === Number.POSITIVE_INFINITY ||
-        lowestPartitionIndex === -1
-      ) {
-        break
-      }
-
-      // Merge the pair at 'lowestPartitionIndex' by removing the next start index
-      starts.splice(lowestPartitionIndex + 1, 1)
-      // Remove the BPE value of the merged pair
-      ranks.splice(lowestPartitionIndex, 1)
-
-      // Update the current merged pair's rank
-      ranks[lowestPartitionIndex] = getRank(lowestPartitionIndex)
-
-      // Update the rank of the previous pair, if it exists
-      if (lowestPartitionIndex > 0) {
-        ranks[lowestPartitionIndex - 1] = getRank(lowestPartitionIndex - 1)
       }
     }
 
     // Create the final output by applying the transform function to each partitioned range
     const output: number[] = []
-    for (let i = 0; i < starts.length - 1; i++) {
-      const pairStart = starts[i]
-      const pairEnd = starts[i + 1]
-      const bpeValue = this.getBpeRankFromBytesOrThrow(
-        piece.subarray(pairStart, pairEnd),
-      )
-      output.push(bpeValue)
+    for (let i = 0; i < length; i = next[i]!) {
+      output.push(this.getBpeRankFromBytesOrThrow(piece.subarray(i, next[i]!)))
     }
     return output
   }
