@@ -1,0 +1,201 @@
+{
+  "package.json": {
+    "name": "gpt-tokenizer",
+    "version": "0.0.0",
+    "description": "A pure JavaScript BPE tokenizer with model metadata and pricing for GPT-5, GPT-4o, o-series, and other OpenAI models",
+    "keywords": [
+      "BPE",
+      "encoder",
+      "decoder",
+      "tokenizer",
+      "GPT",
+      "GPT-2",
+      "GPT-3",
+      "GPT-3.5",
+      "GPT-4",
+      "GPT-4.1",
+      "GPT-4o",
+      "GPT-5",
+      "o1",
+      "o3",
+      "o4",
+      "gpt-oss",
+      "tiktoken",
+      "tokens",
+      "LLM",
+      "token counting",
+      "API pricing",
+      "NLP",
+      "Natural Language Processing",
+      "Text Generation",
+      "OpenAI",
+      "Machine Learning",
+      "ml"
+    ],
+    "homepage": "https://github.com/niieani/gpt-tokenizer#readme",
+    "bugs": {
+      "url": "https://github.com/niieani/gpt-tokenizer/issues"
+    },
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/niieani/gpt-tokenizer.git"
+    },
+    "license": "MIT",
+    "author": "Bazyli Brzoska <npm@invent.life> (https://github.com/niieani)",
+    "contributors": [
+      {
+        "name": "Bazyli Brzoska",
+        "email": "npm@invent.life",
+        "url": "https://github.com/niieani"
+      }
+    ],
+    "exports": {
+      ".": {
+        "import": "./esm/main.js",
+        "require": "./cjs/main.js"
+      },
+      "./*": {
+        "import": "./esm/*.js",
+        "require": "./cjs/*.js"
+      },
+      "./cjs": {
+        "require": "./cjs/main.js"
+      },
+      "./cjs/*": {
+        "require": "./cjs/*.js"
+      },
+      "./esm/*": {
+        "import": "./esm/*.js"
+      },
+      "./data/*": {
+        "import": "./data/*",
+        "require": "./data/*"
+      },
+      "./package.json": "./package.json"
+    },
+    "main": "esm/main.js",
+    "module": "esm/main.js",
+    "source": "src/main.ts",
+    "files": [
+      "src",
+      "cjs",
+      "esm",
+      "data"
+    ],
+    "scripts": {
+      "codegen": "yarn codegen:bpe && yarn codegen:chat-enabled && yarn codegen:models",
+      "codegen:models": "rm -rf src/model && node --import node-resolve-ts/register src/codegen/generateByModel.ts",
+      "codegen:bpe": "rm -rf src/bpeRanks && node --import node-resolve-ts/register src/codegen/generateJsBpe.ts",
+      "codegen:chat-enabled": "rm -rf src/chat && node --import node-resolve-ts/register src/codegen/generateChatEnabled.ts",
+      "build": "vp run clean && vp run build:cjs && vp run build:esm && node scripts/write-build-metadata.mjs && node scripts/verify-build.mjs",
+      "build:cjs": "vp pack --format cjs --outDir cjs",
+      "build:esm": "vp pack --format esm --outDir esm",
+      "clean": "node scripts/clean.mjs",
+      "format": "vp fmt \"src/**/*.{js,ts,json,md}\" \"scripts/**/*.{js,mjs}\" \"*.{js,mjs,json,md}\" \".github/**/*.yml\"",
+      "prepare": "husky",
+      "release": "semantic-release",
+      "scrape:models": "node src/scraper/modelScrape.node.ts",
+      "test": "vp check && vp test",
+      "test:code": "vp test",
+      "test:format": "vp fmt --check",
+      "test:lint": "vp lint",
+      "test:types": "vp check --no-lint --no-fmt"
+    },
+    "release": {
+      "branches": [
+        "+([0-9])?(.{+([0-9]),x}).x",
+        "master",
+        {
+          "name": "main",
+          "channel": false
+        },
+        "next",
+        {
+          "name": "beta",
+          "prerelease": true
+        },
+        {
+          "name": "alpha",
+          "prerelease": true
+        }
+      ],
+      "tagFormat": "${version}"
+    },
+    "devDependencies": {
+      "@commitlint/cli": "^21.2.2",
+      "@commitlint/config-conventional": "^21.2.2",
+      "@edge-runtime/vm": "^5.0.0",
+      "@types/node": "^26.2.0",
+      "devalue": "^5.9.0",
+      "husky": "^9.1.7",
+      "node-resolve-ts": "^1.0.2",
+      "semantic-release": "^25.0.9",
+      "typescript": "^6",
+      "vite-plus": "catalog:"
+    },
+    "packageManager": "yarn@4.18.0",
+    "publishConfig": {
+      "access": "public"
+    },
+    "resolutions": {
+      "vite": "npm:@voidzero-dev/vite-plus-core@0.2.9",
+      "vitest": "4.1.10"
+    }
+  },
+  "benchmark/package.json": {
+    "name": "benchmark",
+    "type": "module",
+    "scripts": {
+      "start": "yarn tsc && node dist/benchmarkRunner.js",
+      "check": "yarn tsc --noEmit",
+      "report": "python3 report.py",
+      "test": "yarn tsc && node --test test.mjs",
+      "memory": "yarn tsc && node dist/memoryRunner.js"
+    },
+    "dependencies": {
+      "@goliapkg/tiktoken-wasm": "4.1.2",
+      "@huggingface/tokenizers": "0.2.0",
+      "@lenml/tokenizers": "3.7.2",
+      "@mlc-ai/web-tokenizers": "0.1.6",
+      "ai-tokenizer": "1.0.7",
+      "bpe-lite": "0.5.2",
+      "gpt-tokenizer": "4.0.3",
+      "js-tiktoken": "1.0.21",
+      "tiktoken": "1.0.22",
+      "tiktoken-node": "0.0.7",
+      "tokenizers": "0.23.2"
+    },
+    "devDependencies": {
+      "@types/node": "^26.2.0",
+      "typescript": "^6"
+    },
+    "packageManager": "yarn@4.18.0"
+  },
+  "demo/package.json": {
+    "name": "gpt-tokenizer-demo",
+    "private": true,
+    "version": "0.1.0",
+    "type": "module",
+    "scripts": {
+      "dev": "vite",
+      "build": "tsc -b && vite build",
+      "preview": "vite preview"
+    },
+    "dependencies": {
+      "gpt-tokenizer": "^3.4.0",
+      "react": "^19.2.8",
+      "react-dom": "^19.2.8"
+    },
+    "devDependencies": {
+      "@tailwindcss/vite": "^4.3.3",
+      "@vitejs/plugin-react": "^6.0.5",
+      "@types/react": "^19.2.18",
+      "@types/react-dom": "^19.2.4",
+      "autoprefixer": "^10.5.4",
+      "postcss": "^8.5.26",
+      "tailwindcss": "^4.3.3",
+      "typescript": "^6",
+      "vite": "^8.2.1"
+    }
+  }
+}

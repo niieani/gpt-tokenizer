@@ -1,675 +1,244 @@
-import { fork } from 'child_process'
-import path from 'path'
-import fs from 'fs/promises'
+import { fork } from 'node:child_process'
+import { readFile, writeFile, mkdir } from 'node:fs/promises'
+import os from 'node:os'
+import { execFileSync } from 'node:child_process'
+import { createHash } from 'node:crypto'
 import { tokenizers } from './tokenizers.js'
-import type { BenchmarkResult, WorkerInput } from './interfaces.js'
-import chalk from 'chalk'
-import Table from 'cli-table3'
-import readline from 'readline'
+import { datasets, probes } from './datasets.js'
+import { prepareFixtures } from './fixtures.js'
+import { requirePerfLease } from './perfLease.js'
+import {
+  builtModuleHashes,
+  requireBenchmarkRuntime,
+  benchmarkHostId,
+} from './provenance.js'
+import type {
+  Encoding,
+  Sample,
+  Verification,
+  WorkerInput,
+} from './interfaces.js'
 
-const __dirname = path.dirname(new URL(import.meta.url).pathname)
+requirePerfLease()
+requireBenchmarkRuntime()
 
-// Utility function to calculate average
-const calculateAverage = (numbers: number[]): number => {
-  if (numbers.length === 0) return 0
-  return numbers.reduce((a, b) => a + b, 0) / numbers.length
+function option(name: string, fallback: string) {
+  const i = process.argv.indexOf(`--${name}`)
+  return i < 0 ? fallback : process.argv[i + 1]
 }
+const rounds = Number(option('rounds', '5'))
+const minMs = Number(option('min-ms', '300'))
+const warmupMs = Number(option('warm-ms', String(Math.min(100, minMs))))
+const warmupCalls = Number(option('warm-calls', '5'))
+if (
+  !Number.isInteger(rounds) ||
+  rounds < 2 ||
+  !Number.isFinite(minMs) ||
+  minMs < 10 ||
+  !Number.isFinite(warmupMs) ||
+  warmupMs < 0 ||
+  !Number.isInteger(warmupCalls) ||
+  warmupCalls < 5
+)
+  throw new Error('Use --rounds >= 2 and --min-ms >= 10')
+const only = option('only', '').split(',').filter(Boolean)
+const encodings = option('encodings', 'cl100k_base,o200k_base').split(
+  ',',
+) as Encoding[]
+if (
+  only.some((id) => !tokenizers.some((t) => t.id === id)) ||
+  encodings.some((e) => !['cl100k_base', 'o200k_base'].includes(e))
+)
+  throw new Error('Unknown tokenizer/encoding')
+const cases = tokenizers
+  .filter((t) => !only.length || only.includes(t.id))
+  .flatMap((t) =>
+    encodings
+      .filter((e) => t.encodings.includes(e))
+      .map((encoding) => ({ id: t.id, encoding })),
+  )
 
-// Define the number of iterations for averaging
-const ITERATIONS = 1
-
-// Define the execution multiplier for performance testing
-const EXECUTIONS_MULTIPLIER = 1
-
-// Function to run a single benchmark iteration in a child process
-const runSingleBenchmark = (
-  tokenizerIndex: number,
-  executionsMultiplier: number,
-): Promise<BenchmarkResult> => {
+function worker<T>(input: WorkerInput): Promise<T> {
   return new Promise((resolve, reject) => {
-    const workerPath = path.resolve(__dirname, 'benchmarkWorker.js')
-    const child = fork(workerPath, [], {
+    const child = fork(new URL('./benchmarkWorker.js', import.meta.url), [], {
+      execPath: process.execPath,
       execArgv: ['--expose-gc'],
-      stdio: ['inherit', 'inherit', 'inherit', 'ipc'],
+      stdio: ['ignore', 'inherit', 'inherit', 'ipc'],
     })
-    if (!child.pid) {
-      reject(new Error('Failed to spawn child process'))
-      return
-    }
-    const message: WorkerInput = {
-      tokenizerIndex,
-      executionsMultiplier,
-    }
-    child.send(message)
-    child.on('message', (msg: any) => {
-      // Changed to any to avoid TypeScript issues
-      if (msg.success && msg.data) {
-        resolve(msg.data)
-      } else if (msg.error) {
-        reject(new Error(msg.error))
-      } else {
-        reject(new Error('Unknown error in worker'))
-      }
+    let data: T | undefined
+    let failure: Error | undefined
+    const timeout = setTimeout(() => {
+      child.kill('SIGKILL')
+      failure = new Error(`Worker timeout: ${input.id}`)
+    }, 600_000)
+    child.on('message', (value: { ok: boolean; result: T; error?: string }) => {
+      if (value.ok) data = value.result
+      else failure = new Error(value.error)
     })
-    child.on('error', (err) => {
-      reject(err)
+    child.on('error', (error) => {
+      clearTimeout(timeout)
+      reject(error)
     })
-    child.on('exit', (code) => {
-      if (code !== 0) {
-        reject(new Error(`Worker stopped with exit code ${code}`))
-      }
+    child.on('exit', (code, signal) => {
+      clearTimeout(timeout)
+      if (failure) reject(failure)
+      else if (code !== 0 || data === undefined)
+        reject(
+          new Error(
+            `Worker exited unsuccessfully: code ${code}, signal ${signal}`,
+          ),
+        )
+      else resolve(data)
     })
+    child.send(input)
   })
 }
-
-// Function to load the latest benchmark results from the results directory
-const loadLastResults = async (): Promise<BenchmarkResult[] | null> => {
-  const resultsDir = path.resolve(__dirname, '..', 'results')
+const maybeRead = async (path: string) =>
+  readFile(path, 'utf8').catch(() => null)
+await prepareFixtures()
+const engine = 'bun' in process.versions ? 'bun' : 'node'
+const engineVersion =
+  engine === 'bun' ? process.versions.bun : process.versions.node
+const output = option('output', `results/${engine}-${engineVersion}.json`)
+if ((await maybeRead(output)) !== null)
+  throw new Error('Timing output already exists; choose a new filename')
+const result = {
+  schema: 1,
+  candidateBuild: builtModuleHashes(),
+  startedAt: new Date().toISOString(),
+  finishedAt: '',
+  environment: {
+    engine,
+    engineVersion,
+    versions: process.versions,
+    executable: process.execPath,
+    hostname: benchmarkHostId(),
+    platform: os.platform(),
+    arch: os.arch(),
+    kernel: os.release(),
+    cpus: os.cpus(),
+    totalMemoryGiB: os.totalmem() / 1024 ** 3,
+    loadStart: os.loadavg(),
+    loadEnd: [] as number[],
+    cpuInfo: await maybeRead('/proc/cpuinfo'),
+    cpuAffinity: (await maybeRead('/proc/self/status'))?.match(
+      /^Cpus_allowed_list:.*$/m,
+    )?.[0],
+    cgroupCpuMax: await maybeRead('/sys/fs/cgroup/cpu.max'),
+    gitCommit: execFileSync('git', ['rev-parse', 'HEAD'], {
+      encoding: 'utf8',
+    }).trim(),
+    gitDiffSha256: createHash('sha256')
+      .update(execFileSync('git', ['diff', 'HEAD']))
+      .digest('hex'),
+  },
+  settings: {
+    rounds,
+    minMs,
+    warmupMs,
+    warmupMinimumCalls: warmupCalls,
+    minimumCalls: 5,
+    seed: '0x12345678',
+    schedule:
+      'sequential, rotated cases per round; fresh process per tokenizer/encoding/round',
+    cache: 'default tokenizer caches; repeated same input after warmup',
+  },
+  packages: tokenizers.map(
+    ({ id, packageName, version, encodings, async }) => ({
+      id,
+      packageName,
+      version,
+      encodings,
+      async: !!async,
+    }),
+  ),
+  inputs: Object.entries({ ...datasets, ...probes }).map(
+    ([name, { text }]) => ({
+      name,
+      bytes: Buffer.byteLength(text),
+      sha256: createHash('sha256').update(text).digest('hex'),
+      timed: name in datasets,
+    }),
+  ),
+  verification: [] as Verification[],
+  samples: [] as (Sample & { round: number })[],
+  errors: [] as {
+    id: string
+    encoding: Encoding
+    phase: string
+    error: string
+  }[],
+}
+async function save() {
+  await mkdir(new URL('../results/', import.meta.url), { recursive: true })
+  await writeFile(output, JSON.stringify(result, null, 2) + '\n')
+}
+for (const item of cases) {
   try {
-    const files = await fs.readdir(resultsDir, { withFileTypes: true })
-    const jsonFiles = files.filter(
-      (file) =>
-        file.name.startsWith('benchmark-results-') &&
-        file.name.endsWith('.json'),
+    const check = await worker<Verification>({ ...item, mode: 'verify', minMs })
+    result.verification.push(check)
+    console.log(
+      `verify ${item.id}/${item.encoding}: ${
+        check.passed
+          ? 'PASS'
+          : 'MISMATCH ' +
+            check.checks
+              .filter(
+                (c) =>
+                  c.firstDifference >= 0 || !c.roundTrip || !c.count || c.error,
+              )
+              .map((c) => c.dataset)
+              .join(', ')
+      }`,
     )
-    if (jsonFiles.length === 0) return null
-    // Get file stats and sort files by modification time descending
-    const filesWithStats = await Promise.all(
-      jsonFiles.map(async (file) => {
-        const stat = await fs.stat(path.join(resultsDir, file.name))
-        return { file, mtimeMs: stat.mtimeMs }
-      }),
-    )
-    const sortedFiles = filesWithStats
-      .sort((a, b) => b.mtimeMs - a.mtimeMs)
-      .map((fileWithStat) => fileWithStat.file.name)
-    const latestFile = sortedFiles[0]
-    const data = await fs.readFile(path.join(resultsDir, latestFile), 'utf-8')
-    return JSON.parse(data)
   } catch (error) {
-    console.warn(chalk.yellow('No previous benchmark results found.'))
-    return null
+    result.errors.push({ ...item, phase: 'verify', error: String(error) })
+    console.error(item, String(error))
   }
 }
-
-// Function to display the benchmark results in a unified table with highlighted best and worst metrics
-const displayUnifiedResults = (results: BenchmarkResult[]) => {
-  if (results.length === 0) {
-    console.log(chalk.yellow('No benchmark results to display.'))
-    return
-  }
-
-  // Define the metrics and whether lower is better
-  const metrics = {
-    initTime: {
-      label: 'Init Time (ms)',
-      better: 'lower' as const,
-      precision: 2,
-    },
-    initMemory: {
-      label: 'Init Memory (MB)',
-      better: 'lower' as const,
-      precision: 2,
-    },
-    initMemoryRss: {
-      label: 'Init Mem RSS (MB)',
-      better: 'lower' as const,
-      precision: 2,
-    },
-    encodeTimeAvg: {
-      label: 'Encode Avg (ms)',
-      better: 'lower' as const,
-      precision: 4,
-    },
-    decodeTimeAvg: {
-      label: 'Decode Avg (ms)',
-      better: 'lower' as const,
-      precision: 4,
-    },
-    countTokensTimeAvg: {
-      label: 'Count Tokens Avg (ms)',
-      better: 'lower' as const,
-      precision: 4,
-    },
-    memoryIncrease: {
-      label: 'Memory Increase (MB)',
-      better: 'lower' as const,
-      precision: 2,
-    },
-  }
-
-  // Initialize min and max for each metric
-  const minMetrics: Record<string, number> = {}
-  const maxMetrics: Record<string, number> = {}
-  for (const key in metrics) {
-    const values = results.map((r) => {
-      switch (key) {
-        case 'initTime':
-          return r.initialization.timeMs
-        case 'initMemory':
-          return r.initialization.memoryMb
-        case 'initMemoryRss':
-          return r.initialization.memoryRssMb
-        case 'encodeTimeAvg':
-          return r.datasetsAverage?.encodeTimeMs || 0
-        case 'decodeTimeAvg':
-          return r.datasetsAverage?.decodeTimeMs || 0
-        case 'countTokensTimeAvg':
-          return r.datasetsAverage?.countTimeMs || 0
-        case 'memoryIncrease':
-          return r.memoryChangeAfterRunMb
-        default:
-          return 0
-      }
-    })
-    minMetrics[key] = Math.min(...values)
-    maxMetrics[key] = Math.max(...values)
-  }
-
-  // Create the table
-  const table = new Table({
-    head: [
-      chalk.blue('Package'),
-      chalk.blue('Version'),
-      chalk.green('Init\n(ms)'),
-      chalk.green('Init\nMem ⬆'),
-      chalk.green('Init\nMem RSS'),
-      chalk.yellow('Encode\nAvg (ms)'),
-      chalk.yellow('Decode\nAvg (ms)'),
-      chalk.yellow('Count\nAvg (ms)'),
-      chalk.red('Memory\nIncrease'),
-      chalk.red('Mem\nLeak?'),
-    ],
-    wordWrap: true,
-  })
-
-  results.forEach((res) => {
-    // Prepare each metric with highlighting
-    const row: string[] = [res.packageName, res.version]
-    // Helper to apply highlighting and include change if present
-    const applyHighlight = (
-      value: number,
-      key: keyof typeof metrics,
-      change?: number,
-    ): string => {
-      let displayValue = `${value.toFixed(metrics[key].precision)}` // Use dynamic precision
-      if (change !== undefined) {
-        const sign = change >= 0 ? '+' : ''
-        displayValue += `\n${sign}${change.toFixed(2)}%`
-      }
-      if (metrics[key].better === 'lower') {
-        if (value === minMetrics[key]) {
-          return chalk.bgGreen.black(displayValue)
-        }
-        if (value === maxMetrics[key]) {
-          return chalk.bgRed.white(displayValue)
-        }
-      } else {
-        // If higher is better, adjust accordingly
-        if (value === maxMetrics[key]) {
-          return chalk.bgGreen.black(displayValue)
-        }
-        if (value === minMetrics[key]) {
-          return chalk.bgRed.white(displayValue)
-        }
-      }
-      return displayValue
-    }
-
-    // Initialize change values if present
-    const changes = res.change || {}
-    row.push(
-      applyHighlight(res.initialization.timeMs, 'initTime', changes.initTimeMs),
-    )
-    row.push(
-      applyHighlight(
-        res.initialization.memoryMb,
-        'initMemory',
-        changes.initMemoryMb,
-      ),
-    )
-    row.push(
-      applyHighlight(
-        res.initialization.memoryRssMb,
-        'initMemoryRss',
-        changes.initMemoryRssMb,
-      ),
-    )
-    row.push(
-      applyHighlight(
-        res.datasetsAverage?.encodeTimeMs || 0,
-        'encodeTimeAvg',
-        changes.encodeTimeMs,
-      ),
-    )
-    row.push(
-      applyHighlight(
-        res.datasetsAverage?.decodeTimeMs || 0,
-        'decodeTimeAvg',
-        changes.decodeTimeMs,
-      ),
-    )
-    row.push(
-      applyHighlight(
-        res.datasetsAverage?.countTimeMs || 0,
-        'countTokensTimeAvg',
-        changes.countTimeMs,
-      ),
-    )
-    row.push(
-      applyHighlight(
-        res.memoryChangeAfterRunMb,
-        'memoryIncrease',
-        changes.memoryChangeAfterRunMb,
-      ),
-    )
-    row.push(
-      res.memoryLeakWarning
-        ? chalk.bgRed.white('Yes')
-        : chalk.bgGreen.black('No'),
-    )
-    table.push(row)
-  })
-
-  console.log(table.toString())
-}
-
-// Function to run benchmarks for all tokenizers or a specific one
-const runBenchmarks = async (
-  specificTokenizerIndex: number | null = null,
-): Promise<BenchmarkResult[]> => {
-  const allResults: BenchmarkResult[] = []
-  // Determine which tokenizers to benchmark
-  const tokenizerIndices =
-    specificTokenizerIndex !== null
-      ? [specificTokenizerIndex]
-      : tokenizers.map((_, index) => index)
-  for (const tokenizerIndex of tokenizerIndices) {
-    const tokenizer = tokenizers[tokenizerIndex]
-    console.log(
-      chalk.cyanBright(
-        `\nBenchmarking ${tokenizer.packageName} v${tokenizer.version}...`,
-      ),
-    )
-    const tokenizerResults: BenchmarkResult[] = []
-    for (let i = 0; i < ITERATIONS; i++) {
-      console.log(`  ${chalk.yellow(`Iteration ${i + 1}/${ITERATIONS}`)}`)
-      try {
-        const result = await runSingleBenchmark(
-          tokenizerIndex,
-          EXECUTIONS_MULTIPLIER,
+await save()
+if (!process.argv.includes('--verify-only')) {
+  for (let round = 0; round < rounds; round++) {
+    // Rotating order distributes startup/host drift across competitors.
+    const shift = (round * 5) % cases.length
+    for (const item of [...cases.slice(shift), ...cases.slice(0, shift)]) {
+      if (
+        result.errors.some(
+          (e) =>
+            e.id === item.id &&
+            e.encoding === item.encoding &&
+            e.phase === 'verify',
         )
-        tokenizerResults.push(result)
-      } catch (error) {
-        console.error(
-          chalk.red(`  Error in iteration ${i + 1}:`),
-          (error as Error).message,
-        )
-      }
-    }
-    if (tokenizerResults.length > 0) {
-      // Aggregate results
-      const aggregated: Omit<BenchmarkResult, 'datasetsAverage'> = {
-        packageName: tokenizerResults[0].packageName,
-        version: tokenizerResults[0].version,
-        initialization: {
-          timeMs: calculateAverage(
-            tokenizerResults.map((r) => r.initialization.timeMs),
-          ),
-          memoryMb: calculateAverage(
-            tokenizerResults.map((r) => r.initialization.memoryMb),
-          ),
-          memoryRssMb: calculateAverage(
-            tokenizerResults.map((r) => r.initialization.memoryRssMb),
-          ),
-        },
-        datasets: {},
-        memoryChangeAfterRunMb: calculateAverage(
-          tokenizerResults.map((r) => r.memoryChangeAfterRunMb),
-        ),
-        memoryLeakWarning: tokenizerResults.some((r) => r.memoryLeakWarning),
-      }
-      // Aggregate per-dataset results
-      const datasetNames = Object.keys(tokenizerResults[0].datasets)
-      for (const dataset of datasetNames) {
-        const encodeTimes = tokenizerResults.map(
-          (r) => r.datasets[dataset].encode.averageTimeMs,
-        )
-        const decodeTimes = tokenizerResults.map(
-          (r) => r.datasets[dataset].decode.averageTimeMs,
-        )
-        const countTimes = tokenizerResults.map(
-          (r) => r.datasets[dataset].countTokens.averageTimeMs,
-        )
-        const memoryChanges = tokenizerResults.map(
-          (r) => r.datasets[dataset].memoryChangeAfterExecutionsMb,
-        )
-        aggregated.datasets[dataset] = {
-          encode: {
-            averageTimeMs: calculateAverage(encodeTimes),
-          },
-          decode: {
-            averageTimeMs: calculateAverage(decodeTimes),
-          },
-          countTokens: {
-            averageTimeMs: calculateAverage(countTimes),
-          },
-          memoryChangeAfterExecutionsMb: calculateAverage(memoryChanges),
-        }
-      }
-      // Calculate overall averages for display
-      allResults.push({
-        ...aggregated,
-        datasetsAverage: {
-          encodeTimeMs: calculateAverage(
-            tokenizerResults.flatMap((r) =>
-              Object.values(r.datasets).map((d) => d.encode.averageTimeMs),
-            ),
-          ),
-          decodeTimeMs: calculateAverage(
-            tokenizerResults.flatMap((r) =>
-              Object.values(r.datasets).map((d) => d.decode.averageTimeMs),
-            ),
-          ),
-          countTimeMs: calculateAverage(
-            tokenizerResults.flatMap((r) =>
-              Object.values(r.datasets).map(
-                (d) => d.countTokens?.averageTimeMs || 0,
-              ),
-            ),
-          ),
-        },
-      })
-    }
-  }
-  return allResults
-}
-
-// Function to save results to a JSON file
-const saveResults = async (results: BenchmarkResult[]) => {
-  const timestamp = new Date().toISOString().replace(/[:.]/g, '-')
-  const resultsDir = path.resolve(__dirname, '..', 'results')
-  await fs.mkdir(resultsDir, { recursive: true })
-  const resultsPath = path.join(
-    resultsDir,
-    `benchmark-results-${timestamp}.json`,
-  )
-  await fs.writeFile(resultsPath, JSON.stringify(results, null, 2))
-  console.log(chalk.green(`\nBenchmark results saved to ${resultsPath}`))
-}
-
-// Function to find the index of 'gpt-tokenizer' version 3
-const findGptTokenizerV3Index = (): number => {
-  return tokenizers.findIndex(
-    (t) => t.packageName === 'gpt-tokenizer' && t.version === 'local',
-  )
-}
-
-// Function to handle watch mode using keypress events
-const watchMode = async (previousResults: BenchmarkResult[] | null) => {
-  let currentResults = previousResults || []
-  displayUnifiedResults(currentResults)
-  // Instructions
-  console.log(chalk.blue('\nWatch Mode Controls:'))
-  console.log(chalk.blue('  Press Enter to re-run "gpt-tokenizer" v3.'))
-  console.log(chalk.blue('  Press "d" to re-run ALL benchmarks.'))
-  console.log(chalk.blue('  Press CTRL+C to exit.\n'))
-
-  // Enable keypress events
-  readline.emitKeypressEvents(process.stdin)
-  if (process.stdin.isTTY) {
-    process.stdin.setRawMode(true)
-  }
-
-  // Listen for keypresses
-  process.stdin.on('keypress', async (str, key) => {
-    if (key.sequence === '\r') {
-      // Enter key pressed - Re-run 'gpt-tokenizer' version 3
-      const tokenizerIndex = findGptTokenizerV3Index()
-      if (tokenizerIndex === -1) {
-        console.error(chalk.red('Tokenizer "gpt-tokenizer" v3 not found.'))
-        return
-      }
-      const tokenizer = tokenizers[tokenizerIndex]
-      console.log(
-        chalk.cyanBright(
-          `\nRe-running benchmark for ${tokenizer.packageName} v${tokenizer.version}...`,
-        ),
       )
-      const tokenizerResults: BenchmarkResult[] = []
-      for (let i = 0; i < ITERATIONS; i++) {
-        console.log(`  ${chalk.yellow(`Iteration ${i + 1}/${ITERATIONS}`)}`)
-        try {
-          const result = await runSingleBenchmark(
-            tokenizerIndex,
-            EXECUTIONS_MULTIPLIER,
-          )
-          tokenizerResults.push(result)
-        } catch (error) {
-          console.error(
-            chalk.red(`  Error in iteration ${i + 1}:`),
-            (error as Error).message,
-          )
-        }
-      }
-      if (tokenizerResults.length > 0) {
-        // Aggregate new results
-        const newAggregated: BenchmarkResult = {
-          packageName: tokenizerResults[0].packageName,
-          version: tokenizerResults[0].version,
-          initialization: {
-            timeMs: calculateAverage(
-              tokenizerResults.map((r) => r.initialization.timeMs),
-            ),
-            memoryMb: calculateAverage(
-              tokenizerResults.map((r) => r.initialization.memoryMb),
-            ),
-            memoryRssMb: calculateAverage(
-              tokenizerResults.map((r) => r.initialization.memoryRssMb),
-            ),
-          },
-          datasets: {},
-          memoryChangeAfterRunMb: calculateAverage(
-            tokenizerResults.map((r) => r.memoryChangeAfterRunMb),
-          ),
-          memoryLeakWarning: tokenizerResults.some((r) => r.memoryLeakWarning),
-          datasetsAverage: {
-            encodeTimeMs: calculateAverage(
-              tokenizerResults.flatMap((r) =>
-                Object.values(r.datasets).map((d) => d.encode.averageTimeMs),
-              ),
-            ),
-            decodeTimeMs: calculateAverage(
-              tokenizerResults.flatMap((r) =>
-                Object.values(r.datasets).map((d) => d.decode.averageTimeMs),
-              ),
-            ),
-            countTimeMs: calculateAverage(
-              tokenizerResults.flatMap((r) =>
-                Object.values(r.datasets).map(
-                  (d) => d.countTokens.averageTimeMs,
-                ),
-              ),
-            ),
-          },
-        }
-        // Aggregate per-dataset results
-        const datasetNames = Object.keys(tokenizerResults[0].datasets)
-        for (const dataset of datasetNames) {
-          const encodeTimes = tokenizerResults.map(
-            (r) => r.datasets[dataset].encode.averageTimeMs,
-          )
-          const decodeTimes = tokenizerResults.map(
-            (r) => r.datasets[dataset].decode.averageTimeMs,
-          )
-          const countTimes = tokenizerResults.map(
-            (r) => r.datasets[dataset].countTokens.averageTimeMs,
-          )
-          const memoryChanges = tokenizerResults.map(
-            (r) => r.datasets[dataset].memoryChangeAfterExecutionsMb,
-          )
-          newAggregated.datasets[dataset] = {
-            encode: {
-              averageTimeMs: calculateAverage(encodeTimes),
-            },
-            decode: {
-              averageTimeMs: calculateAverage(decodeTimes),
-            },
-            countTokens: {
-              averageTimeMs: calculateAverage(countTimes),
-            },
-            memoryChangeAfterExecutionsMb: calculateAverage(memoryChanges),
-          }
-        }
-        // Calculate changes compared to the last run (if available)
-        const existingResults = currentResults.filter(
-          (r) =>
-            r.packageName === newAggregated.packageName &&
-            r.version.startsWith(newAggregated.version),
-        )
-        let changes: BenchmarkResult['change'] | undefined = undefined
-        if (existingResults.length > 0) {
-          const lastResult = existingResults[existingResults.length - 1]
-          changes = {
-            initTimeMs:
-              ((newAggregated.initialization.timeMs -
-                lastResult.initialization.timeMs) /
-                (lastResult.initialization.timeMs || 1)) *
-              100,
-            initMemoryMb:
-              ((newAggregated.initialization.memoryMb -
-                lastResult.initialization.memoryMb) /
-                (lastResult.initialization.memoryMb || 1)) *
-              100,
-            initMemoryRssMb:
-              ((newAggregated.initialization.memoryRssMb -
-                lastResult.initialization.memoryRssMb) /
-                (lastResult.initialization.memoryRssMb || 1)) *
-              100,
-            encodeTimeMs:
-              (((newAggregated.datasetsAverage?.encodeTimeMs || 0) -
-                (lastResult.datasetsAverage?.encodeTimeMs || 0)) /
-                (lastResult.datasetsAverage?.encodeTimeMs || 1)) *
-              100,
-            decodeTimeMs:
-              (((newAggregated.datasetsAverage?.decodeTimeMs || 0) -
-                (lastResult.datasetsAverage?.decodeTimeMs || 0)) /
-                (lastResult.datasetsAverage?.decodeTimeMs || 1)) *
-              100,
-            countTimeMs:
-              (((newAggregated.datasetsAverage?.countTimeMs || 0) -
-                (lastResult.datasetsAverage?.countTimeMs || 0)) /
-                (lastResult.datasetsAverage?.countTimeMs || 1)) *
-              100,
-            memoryChangeAfterRunMb:
-              ((newAggregated.memoryChangeAfterRunMb -
-                lastResult.memoryChangeAfterRunMb) /
-                (lastResult.memoryChangeAfterRunMb || 1)) *
-              100,
-          }
-        }
-
-        // Create re-run result with "Re-run" label in the version
-        const reRunResult: BenchmarkResult = {
-          ...newAggregated,
-          version: `${newAggregated.version} (Re-run)`, // Move "Re-run" label to Version
-          change: changes,
-        }
-
-        // Filter out old re-run results if there are already two
-        const existingReRuns = currentResults.filter(
-          (r) =>
-            r.packageName === reRunResult.packageName &&
-            r.version.includes('(Re-run)'),
-        )
-        if (existingReRuns.length >= 2) {
-          // Remove the oldest re-run
-          const oldestReRun = existingReRuns[0]
-          currentResults = currentResults.filter((r) => r !== oldestReRun)
-        }
-
-        // Add the new re-run result
-        currentResults.push(reRunResult)
-        console.log(chalk.green('Benchmark re-run and added to the results.'))
-
-        // Refresh the display
-        displayUnifiedResults(currentResults)
-        // Save updated results
-        await saveResults(currentResults)
-      }
-    } else if (key.sequence.toLowerCase() === 'd') {
-      // 'd' key pressed - Re-run ALL benchmarks
-      console.log(chalk.cyanBright('\nRe-running all benchmarks...'))
+        continue
       try {
-        const newResults = await runBenchmarks()
-        // Replace current results
-        currentResults = newResults
-        // Display the updated results with highlighting
-        displayUnifiedResults(currentResults)
-        // Save updated results
-        await saveResults(currentResults)
+        const sample = await worker<Sample>({
+          ...item,
+          mode: 'measure',
+          minMs,
+          warmupMs,
+          warmupCalls,
+        })
+        result.samples.push({ ...sample, round: round + 1 })
         console.log(
-          chalk.green('All benchmarks re-run and updated results saved.'),
+          `${engine} round ${round + 1}/${rounds} ${item.id}/${item.encoding}: init ${sample.initialization.ms.toFixed(1)} ms`,
         )
       } catch (error) {
-        console.error(
-          chalk.red('Error during re-running all benchmarks:'),
-          (error as Error).message,
-        )
+        result.errors.push({
+          ...item,
+          phase: `round ${round + 1}`,
+          error: String(error),
+        })
+        console.error(item, String(error))
       }
-    } else if (key.sequence === '\u0003') {
-      // CTRL+C pressed - Exit
-      console.log(chalk.blue('\nExiting watch mode.'))
-      cleanup()
-      process.exit(0)
+      await save()
     }
-  })
-
-  // Function to cleanup and restore terminal state
-  const cleanup = () => {
-    if (process.stdin.isTTY) {
-      process.stdin.setRawMode(false)
-    }
-    // Restore the cursor
-    process.stdout.write('\x1B[?25h')
-  }
-
-  // Handle process exit events to ensure cleanup
-  process.on('SIGINT', () => {
-    console.log(chalk.blue('\nExiting watch mode.'))
-    cleanup()
-    process.exit(0)
-  })
-  process.on('SIGTERM', () => {
-    console.log(chalk.blue('\nExiting watch mode.'))
-    cleanup()
-    process.exit(0)
-  })
-}
-
-// Function to execute the benchmark runner
-const execute = async () => {
-  // Attempt to load previous results
-  const previousResults = await loadLastResults()
-  if (previousResults && Array.isArray(previousResults)) {
-    console.log(chalk.green('Loaded previous benchmark results.'))
-    // Enter watch mode with loaded results
-    await watchMode(previousResults)
-  } else {
-    console.log(
-      chalk.yellow('No valid previous results found. Running benchmarks...'),
-    )
-    // Run initial benchmarks
-    const initialResults = await runBenchmarks()
-    // Save initial results
-    await saveResults(initialResults)
-    // Enter watch mode with initial results
-    await watchMode(initialResults)
   }
 }
-
-// Execute the benchmark runner
-execute().catch((error) => {
-  console.error(chalk.red('Benchmarking failed:'), error)
-  process.exit(1)
-})
+result.finishedAt = new Date().toISOString()
+result.environment.loadEnd = os.loadavg()
+await save()
+console.log(
+  `Saved ${output}: ${result.samples.length} samples, ${result.errors.length} errors`,
+)
+if (result.errors.length) process.exitCode = 1

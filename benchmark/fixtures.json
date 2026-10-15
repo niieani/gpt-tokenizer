@@ -1,0 +1,22 @@
+{
+  "cl100k_base": {
+    "tokenizer.json": {
+      "url": "https://huggingface.co/Xenova/gpt-4/resolve/1d9f1f1b1fae88c0e4df1dab0a397f8de6229075/tokenizer.json",
+      "sha256": "239eb2359f79c38497476671aaa835e01fb43d42743c612a8514a0dfa2ac93a2"
+    },
+    "tokenizer_config.json": {
+      "url": "https://huggingface.co/Xenova/gpt-4/resolve/1d9f1f1b1fae88c0e4df1dab0a397f8de6229075/tokenizer_config.json",
+      "sha256": "185a09e9fcc9892ff26caf97e586f16a80a49cf9ec849d10d008890332881428"
+    }
+  },
+  "o200k_base": {
+    "tokenizer.json": {
+      "url": "https://huggingface.co/Xenova/gpt-4o/resolve/7956d98f2a83b2751a98ea7136fdf7fe6cf54e69/tokenizer.json",
+      "sha256": "43a3ad4618a6a938f8c2614154ea10c31ad53a62d5683ae0b0e6133575cef07e"
+    },
+    "tokenizer_config.json": {
+      "url": "https://huggingface.co/Xenova/gpt-4o/resolve/7956d98f2a83b2751a98ea7136fdf7fe6cf54e69/tokenizer_config.json",
+      "sha256": "71424d4750066a6f9bcfea0699576c4284327ff25d388d42419506bcfb5535ab"
+    }
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "version": 3,
+  "provenance": "Hand-authored for this repository in October 2026; no third-party extracts. Small representative document shapes, not a claim to production traffic distribution. Corpus v3 uses a privacy-sanitized README snapshot; archived corpus-v2 measurements retain their original measured input hashes and are not pooled with v3.",
+  "documents": [
+    {
+      "id": "support",
+      "category": "prose",
+      "text": "Hello Morgan,\n\nYour export finished at 14:32 UTC. The archive contains 128 invoices and the account summary for September. Please check the billing address before sending it to your accountant. If the download expires, open Settings → Exports and create a new link.\n\nThanks,\nThe support team"
+    },
+    {
+      "id": "design",
+      "category": "prose",
+      "text": "We keep a bounded cache because request traffic changes throughout the day. A dashboard refresh often repeats the same query, while an overnight import may introduce thousands of new keys. Cache eviction must preserve correctness: a miss can cost time, but it cannot change the answer. Measure the warm dashboard and the import separately before choosing a capacity."
+    },
+    {
+      "id": "release",
+      "category": "prose",
+      "text": "Release notes\n\nThe editor now restores unsaved drafts after a restart. Search results include archived projects when the filter is enabled. We fixed a race between reconnecting a session and loading its history. Existing API keys continue to work. Administrators can enable the new audit log on the organization settings page.\n\nKnown issue: very large attachments may take several seconds to appear."
+    },
+    {
+      "id": "typescript",
+      "category": "code",
+      "text": "export async function fetchPage(cursor?: string): Promise<Page> {\n  const url = new URL('/api/items', location.origin)\n  if (cursor) url.searchParams.set('cursor', cursor)\n  const response = await fetch(url, { headers: { Accept: 'application/json' } })\n  if (!response.ok) throw new Error(`Request failed: ${response.status}`)\n  return response.json() as Promise<Page>\n}\n"
+    },
+    {
+      "id": "python",
+      "category": "code",
+      "text": "from collections import defaultdict\n\ndef summarize(events):\n    totals = defaultdict(int)\n    for event in events:\n        if event.get('status') == 'complete':\n            totals[event['project_id']] += event.get('bytes', 0)\n    return sorted(totals.items(), key=lambda row: row[1], reverse=True)\n\nassert summarize([]) == []\n"
+    },
+    {
+      "id": "sql",
+      "category": "code",
+      "text": "-- Daily active accounts, excluding internal traffic\nSELECT date_trunc('day', created_at) AS day,\n       count(DISTINCT account_id) AS active_accounts\nFROM request_events\nWHERE created_at >= $1 AND created_at < $2\n  AND environment = 'production'\nGROUP BY 1\nORDER BY day DESC;\n"
+    },
+    {
+      "id": "api-json",
+      "category": "structured",
+      "text": "{\"request_id\":\"req_79a31c\",\"status\":\"ok\",\"data\":[{\"id\":1042,\"name\":\"Quarterly planning\",\"tags\":[\"review\",\"finance\"],\"owner\":{\"id\":73,\"display_name\":\"Alex Rivera\"},\"updated_at\":\"2026-09-29T13:45:08Z\"}],\"pagination\":{\"next_cursor\":null,\"has_more\":false}}"
+    },
+    {
+      "id": "chat-json",
+      "category": "structured",
+      "text": "{\"messages\":[{\"role\":\"system\",\"content\":\"Answer using the supplied documents. Cite the document title when making a factual claim.\"},{\"role\":\"user\",\"content\":\"What changed in the retention policy last month?\"},{\"role\":\"assistant\",\"content\":\"The policy now keeps audit events for 90 days. Exported backups retain the previous 30-day schedule.\"}],\"temperature\":0.2,\"max_output_tokens\":512}"
+    },
+    {
+      "id": "logs",
+      "category": "structured",
+      "text": "2026-10-12T08:14:02.419Z INFO request completed method=POST path=/v1/search status=200 duration_ms=27.4 trace_id=9d4f02a61b\n2026-10-12T08:14:02.431Z WARN retry scheduled operation=upload attempt=2 delay_ms=250 reason=connection_reset\n2026-10-12T08:14:02.708Z INFO upload completed object=reports/weekly.csv bytes=184293 checksum=sha256:af83120b\n"
+    },
+    {
+      "id": "cjk",
+      "category": "multilingual",
+      "text": "产品更新：我们改进了搜索结果的排序，并修复了离线编辑时偶尔出现的同步问题。请在设置页面检查您的通知偏好。\n日本語：次の会議は木曜日の午後三時です。資料を事前に確認し、質問があればコメントを残してください。\n한국어: 새 보고서는 매주 월요일에 생성됩니다. 시간대 설정을 확인해 주세요."
+    },
+    {
+      "id": "european",
+      "category": "multilingual",
+      "text": "Bonjour, le rapport est prêt. Vous pouvez télécharger les résultats et vérifier les montants avant vendredi.\nDie Änderungen wurden gespeichert. Bitte prüfen Sie die Zugriffsrechte für das gemeinsame Verzeichnis.\nEl equipo revisará la propuesta mañana. Añade tus preguntas al documento antes de las 10:00.\nУкраїнська: перевірте налаштування облікового запису та збережіть зміни."
+    },
+    {
+      "id": "mixed",
+      "category": "multilingual",
+      "text": "موعد الاجتماع غدًا الساعة العاشرة. يرجى مراجعة المستند قبل البدء.\nनमस्ते! आपकी फ़ाइल तैयार है। कृपया डाउनलोड लिंक खोलें और विवरण जाँचें।\nStatus: café reopened ☕; family account 👨‍👩‍👧‍👦 approved ✅. The example path is /資料/会議-notes.md and the price is €49.95."
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "version": 3,
+  "commit": "323d09ea8b65116434184c9e3ba9180e61b40b79",
+  "provenance": "Self-contained sanitized pre-optimization repository extracts from snapshot-sources/. The commit is an original local pre-publication identifier, not a required Git object. Historical v2 input hashes remain recorded separately.",
+  "privacyTransformation": {
+    "originalPrepublicationCommit": "323d09ea8b65116434184c9e3ba9180e61b40b79",
+    "measuredV2": {
+      "readme.md": {
+        "sha256": "13b7a95a75d5fcd995a696fcff2c05e2c0652ea8d414d05829cc93742992a3ad",
+        "bytes": 20050
+      }
+    },
+    "transformation": "The README machine label was replaced with a neutral publication identifier. Historical v2 timings measured the original bytes; that exact private fixture is not distributed. Source files here define new corpus v3."
+  },
+  "files": {
+    "readme.md": {
+      "category": "long-prose",
+      "sources": [
+        "README.md"
+      ],
+      "bytes": 20053,
+      "sha256": "6d70a1050bae42d8d1f57554c6123d81ea5ce01cdc9e7f7bc065c2bdf6f19229"
+    },
+    "encoding.ts": {
+      "category": "long-code",
+      "sources": [
+        "src/GptEncoding.ts"
+      ],
+      "bytes": 22337,
+      "sha256": "eee5c7e09911af146151679ace5c1cd4f296b205152bfe697302d6227019bda7"
+    },
+    "packages.json": {
+      "category": "long-structured",
+      "sources": [
+        "package.json",
+        "benchmark/package.json",
+        "demo/package.json"
+      ],
+      "bytes": 5609,
+      "sha256": "7ea184301e6753ac647b81f0d94910669462054ab54e05e0ad7e93ea01c69071"
+    }
+  }
+}
