@@ -1,4 +1,4 @@
-import { BytePairEncodingCore, decoder } from './BytePairEncodingCore.js'
+import { BytePairEncodingCore } from './BytePairEncodingCore.js'
 import { ALL_SPECIAL_TOKENS } from './constants.js'
 import {
   type ChatCompletionRequest,
@@ -565,13 +565,22 @@ export class GptEncoding {
         inputTokensToDecode,
       )
 
+    const decoder = new TextDecoder('utf8', { ignoreBOM: true })
+    let hasPendingBytes = false
     let buffer = ''
 
     for (const decodedPart of decodedByteGenerator) {
-      buffer +=
-        typeof decodedPart === 'string'
-          ? decodedPart
-          : decoder.decode(decodedPart, { stream: true })
+      if (typeof decodedPart === 'string') {
+        if (decodedPart.length === 0) continue
+        if (hasPendingBytes) {
+          buffer += decoder.decode()
+          hasPendingBytes = false
+        }
+        buffer += decodedPart
+      } else {
+        buffer += decoder.decode(decodedPart, { stream: true })
+        hasPendingBytes = true
+      }
 
       if (buffer.length === 0 || endsWithIncompleteUtfPairSurrogate(buffer)) {
         // Keep the high surrogate in the buffer and continue with the next token
@@ -582,6 +591,8 @@ export class GptEncoding {
         buffer = ''
       }
     }
+
+    buffer += decoder.decode()
 
     // Yield any remaining characters in the buffer
     if (buffer.length > 0) {
@@ -597,13 +608,22 @@ export class GptEncoding {
         inputTokensToDecode,
       )
 
+    const decoder = new TextDecoder('utf8', { ignoreBOM: true })
+    let hasPendingBytes = false
     let buffer = ''
 
     for await (const decodedPart of decodedByteGenerator) {
-      buffer +=
-        typeof decodedPart === 'string'
-          ? decodedPart
-          : decoder.decode(decodedPart, { stream: true })
+      if (typeof decodedPart === 'string') {
+        if (decodedPart.length === 0) continue
+        if (hasPendingBytes) {
+          buffer += decoder.decode()
+          hasPendingBytes = false
+        }
+        buffer += decodedPart
+      } else {
+        buffer += decoder.decode(decodedPart, { stream: true })
+        hasPendingBytes = true
+      }
 
       if (buffer.length === 0 || endsWithIncompleteUtfPairSurrogate(buffer)) {
         // Keep the high surrogate in the buffer and continue with the next token
@@ -614,6 +634,8 @@ export class GptEncoding {
         buffer = ''
       }
     }
+
+    buffer += decoder.decode()
 
     // Yield any remaining characters in the buffer
     if (buffer.length > 0) {
@@ -629,16 +651,25 @@ export class GptEncoding {
         inputTokensToDecode,
       )
 
+    const decoder = new TextDecoder('utf8', { ignoreBOM: true })
+    let hasPendingBytes = false
     let buffer = ''
 
     for await (const decodedPart of decodedByteGenerator) {
-      buffer +=
-        typeof decodedPart === 'string'
-          ? decodedPart
-          : decoder.decode(decodedPart, { stream: true })
+      if (typeof decodedPart === 'string') {
+        if (decodedPart.length === 0) continue
+        if (hasPendingBytes) {
+          buffer += decoder.decode()
+          hasPendingBytes = false
+        }
+        buffer += decodedPart
+      } else {
+        buffer += decoder.decode(decodedPart, { stream: true })
+        hasPendingBytes = true
+      }
     }
 
-    return buffer
+    return buffer + decoder.decode()
   }
 
   /**
