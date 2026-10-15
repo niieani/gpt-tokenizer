@@ -1,0 +1,320 @@
+diff --git a/src/BytePairEncodingCore.test.ts b/src/BytePairEncodingCore.test.ts
+index 9ae8a7c..e62c569 100644
+--- a/src/BytePairEncodingCore.test.ts
++++ b/src/BytePairEncodingCore.test.ts
+@@ -3,6 +3,18 @@ import { BytePairEncodingCore } from './BytePairEncodingCore.js'
+ import { encode as encodeCl100k } from './encoding/cl100k_base.js'
+ import { encode as encodeO200k } from './encoding/o200k_base.js'
+ 
++type InspectedLookup =
++  | Map<string, number | number[]>
++  | Record<string, number | number[] | undefined>
++const lookupEntries = (lookup: InspectedLookup) =>
++  lookup instanceof Map ? [...lookup.entries()] : Object.entries(lookup)
++const lookupSize = (lookup: InspectedLookup) =>
++  lookup instanceof Map ? lookup.size : Object.keys(lookup).length
++const lookupHas = (lookup: InspectedLookup, key: string) =>
++  lookup instanceof Map ? lookup.has(key) : Object.hasOwn(lookup, key)
++const lookupGet = (lookup: InspectedLookup, key: string) =>
++  lookup instanceof Map ? lookup.get(key) : lookup[key]
++
+ // A long run without whitespace becomes a single piece for the merge step.
+ // Rescanning the piece after every merge made this quadratic (minutes for a
+ // few hundred thousand characters), so this guards the heap-based merge.
+@@ -139,11 +151,11 @@ describe('unified vocabulary and bounded piece cache', () => {
+     core.setMergeCacheSize(1)
+     expect(core.encodeNative('abc')).toEqual([0, 3])
+     core.clearMergeCache()
+-    const lookup = Reflect.get(core, 'bytePairStringRankEncoder') as Map<
+-      string,
+-      number | number[]
+-    >
+-    expect([...lookup.entries()]).toEqual([
++    const lookup = Reflect.get(
++      core,
++      'bytePairStringRankEncoder',
++    ) as InspectedLookup
++    expect(lookupEntries(lookup)).toEqual([
+       ['a', 0],
+       ['b', 1],
+       ['c', 2],
+@@ -151,7 +163,7 @@ describe('unified vocabulary and bounded piece cache', () => {
+     ])
+     core.setMergeCacheSize(0)
+     expect(core.encodeNative('abc')).toEqual([0, 3])
+-    expect(lookup.size).toBe(4)
++    expect(lookupSize(lookup)).toBe(4)
+   })
+ 
+   test('eviction and disable remove every merged lookup entry', () => {
+@@ -160,17 +172,17 @@ describe('unified vocabulary and bounded piece cache', () => {
+       tokenSplitRegex: /.+/gu,
+       mergeCacheSize: 1,
+     })
+-    const lookup = Reflect.get(core, 'bytePairStringRankEncoder') as Map<
+-      string,
+-      number | number[]
+-    >
++    const lookup = Reflect.get(
++      core,
++      'bytePairStringRankEncoder',
++    ) as InspectedLookup
+     core.encodeNative('ab')
+     core.encodeNative('ac')
+-    expect(lookup.has('ab')).toBe(false)
+-    expect(lookup.get('ac')).toEqual([0, 2])
++    expect(lookupHas(lookup, 'ab')).toBe(false)
++    expect(lookupGet(lookup, 'ac')).toEqual([0, 2])
+     core.setMergeCacheSize(0)
+-    expect(lookup.has('ac')).toBe(false)
+-    expect(lookup.size).toBe(3)
++    expect(lookupHas(lookup, 'ac')).toBe(false)
++    expect(lookupSize(lookup)).toBe(3)
+   })
+ })
+ 
+@@ -206,12 +218,12 @@ describe('FIFO ring cache lifecycle', () => {
+     core.setMergeCacheSize(3)
+     for (const text of ['cd', 'ca', 'cb']) core.encodeNative(text)
+     expect([...cache.keys()]).toEqual(['cd', 'ca', 'cb'])
+-    const lookup = Reflect.get(core, 'bytePairStringRankEncoder') as Map<
+-      string,
+-      number | number[]
+-    >
+-    expect(lookup.has('bc')).toBe(false)
+-    expect(lookup.size).toBe(7)
++    const lookup = Reflect.get(
++      core,
++      'bytePairStringRankEncoder',
++    ) as InspectedLookup
++    expect(lookupHas(lookup, 'bc')).toBe(false)
++    expect(lookupSize(lookup)).toBe(7)
+     expect(Reflect.get(core, 'mergeCacheKeys')).toHaveLength(3)
+   })
+ 
+@@ -264,3 +276,63 @@ test('generator chunks cannot poison cached pieces through caller mutation', ()
+   expect(core.encodeNative(text)).toEqual(expected)
+   expect([...core.encodeNativeGenerator(text)].flat()).toEqual(expected)
+ })
++
++test('vocabulary and cached pieces treat prototype names as ordinary keys', () => {
++  const ranks = [
++    ...Array.from('abcdefghijklmnopqrstuvwxyz_'),
++    '__proto__',
++    'constructor',
++  ]
++  const core = new BytePairEncodingCore({
++    bytePairRankDecoder: ranks,
++    tokenSplitRegex: /.+/gu,
++    mergeCacheSize: 1,
++  })
++  expect(core.encodeNative('__proto__')).toEqual([27])
++  expect(core.encodeNative('constructor')).toEqual([28])
++  // Non-vocabulary pieces still use the bounded cache.
++  const text = 'valueof'
++  const tokens = Array.from(text).map((letter) => ranks.indexOf(letter))
++  expect(core.encodeNative(text)).toEqual(tokens)
++  expect(core.countNative(text)).toBe(tokens.length)
++  core.clearMergeCache()
++  core.setMergeCacheSize(0)
++  expect(core.encodeNative(text)).toEqual(tokens)
++})
++
++test('prototype-name cache misses remain ordinary keys through eviction', () => {
++  const ranks = Array.from('abcdefghijklmnopqrstuvwxyz_')
++  const core = new BytePairEncodingCore({
++    bytePairRankDecoder: ranks,
++    tokenSplitRegex: /.+/gu,
++    mergeCacheSize: 1,
++  })
++  const tokens = (text: string) =>
++    Array.from(text, (char) => ranks.indexOf(char))
++  for (const text of ['__proto__', 'constructor', '__proto__']) {
++    const expected = tokens(text)
++    expect(core.encodeNative(text)).toEqual(expected)
++    expect(core.countNative(text)).toBe(expected.length)
++    expect(Array.from(core.encodeNativeGenerator(text)).flat()).toEqual(
++      expected,
++    )
++  }
++  core.clearMergeCache()
++  expect(core.encodeNative('__proto__')).toEqual(tokens('__proto__'))
++  core.setMergeCacheSize(0)
++  expect(core.encodeNative('constructor')).toEqual(tokens('constructor'))
++})
++
++test('selects a single engine-appropriate vocabulary lookup', () => {
++  const core = new BytePairEncodingCore({
++    bytePairRankDecoder: ['a'],
++    tokenSplitRegex: /.+/gu,
++  })
++  const lookup = Reflect.get(
++    core,
++    'bytePairStringRankEncoder',
++  ) as InspectedLookup
++  if (process.versions.bun !== undefined) expect(lookup).toBeInstanceOf(Map)
++  else expect(Object.getPrototypeOf(lookup)).toBeNull()
++  expect(lookupGet(lookup, 'a')).toBe(0)
++})
+diff --git a/src/BytePairEncodingCore.ts b/src/BytePairEncodingCore.ts
+index e7b48ea..49de476 100644
+--- a/src/BytePairEncodingCore.ts
++++ b/src/BytePairEncodingCore.ts
+@@ -70,6 +70,18 @@ function decodeShortUtf8(word: number, length: number): string {
+   return decoder.decode(bytes)
+ }
+ 
++// V8 benefits from direct property reads, while JavaScriptCore's sustained
++// insertion/deletion workload is faster with Map. Keep one storage per engine;
++// this module constant lets hot lookup branches specialize after initialization.
++const USE_RECORD_LOOKUP =
++  typeof process !== 'undefined' &&
++  process.release?.name === 'node' &&
++  typeof process.versions?.node === 'string' &&
++  process.versions.bun === undefined
++
++type StringRankRecord = Record<string, number | number[] | undefined>
++type StringRankMap = Map<string, number | number[]>
++
+ export class BytePairEncodingCore {
+   readonly mergeableBytePairRankCount: number
+   /**
+@@ -93,10 +105,10 @@ export class BytePairEncodingCore {
+    * a reverse map of the bytePairRankDecoder,
+    * where the key is the string and the value is the rank
+    * values that cannot be represented as a string are present in `bytePairNonUtfSortedEncoder`.
+-   * Bounded merged-piece results share this map so warm encode/count needs one
++   * Bounded merged-piece results share this lookup so warm encode/count needs one
+    * lookup. Their arrays must be excluded from vocabulary-rank lookups.
+    */
+-  private bytePairStringRankEncoder: Map<string, number | number[]>
++  private bytePairStringRankEncoder: StringRankRecord | StringRankMap
+   private tokenSplitRegex: RegExp
+   private specialTokensEncoder: Map<string, number>
+   private specialTokensDecoder: Map<number, string>
+@@ -114,7 +126,9 @@ export class BytePairEncodingCore {
+     mergeCacheSize = DEFAULT_MERGE_CACHE_SIZE,
+   }: BytePairEncodingConfig) {
+     this.bytePairRankDecoder = bytePairRankDecoder
+-    this.bytePairStringRankEncoder = new Map<string, number | number[]>()
++    this.bytePairStringRankEncoder = USE_RECORD_LOOKUP
++      ? (Object.create(null) as StringRankRecord)
++      : new Map<string, number | number[]>()
+     this.mergeCacheSize = mergeCacheSize
+     if (mergeCacheSize > 0) {
+       this.mergeCache = new Map()
+@@ -126,7 +140,11 @@ export class BytePairEncodingCore {
+     // forEach skips array holes:
+     bytePairRankDecoder.forEach((value, rank) => {
+       if (typeof value === 'string') {
+-        this.bytePairStringRankEncoder.set(value, rank)
++        if (USE_RECORD_LOOKUP) {
++          ;(this.bytePairStringRankEncoder as StringRankRecord)[value] = rank
++        } else {
++          ;(this.bytePairStringRankEncoder as StringRankMap).set(value, rank)
++        }
+         if (value.length === 1 && value.charCodeAt(0) <= 0x7f) {
+           this.singleByteRanks[value.charCodeAt(0)] = rank
+         }
+@@ -145,7 +163,15 @@ export class BytePairEncodingCore {
+         // the string lookup that getBpeRankFromBytes uses for valid UTF-8.
+         const asString = tryConvertToString(byteArray)
+         if (asString !== undefined) {
+-          this.bytePairStringRankEncoder.set(asString, rank)
++          if (USE_RECORD_LOOKUP) {
++            ;(this.bytePairStringRankEncoder as StringRankRecord)[asString] =
++              rank
++          } else {
++            ;(this.bytePairStringRankEncoder as StringRankMap).set(
++              asString,
++              rank,
++            )
++          }
+         }
+       }
+     })
+@@ -191,7 +217,11 @@ export class BytePairEncodingCore {
+       while (this.mergeCache.size > newSize && this.mergeCache.size > 0) {
+         const key = oldestKeys.next().value!
+         this.mergeCache.delete(key)
+-        this.bytePairStringRankEncoder.delete(key)
++        if (USE_RECORD_LOOKUP) {
++          delete (this.bytePairStringRankEncoder as StringRankRecord)[key]
++        } else {
++          ;(this.bytePairStringRankEncoder as StringRankMap).delete(key)
++        }
+       }
+       // Normalize the ring whenever its configured capacity changes.
+       this.mergeCacheKeys = [...this.mergeCache.keys()]
+@@ -207,7 +237,11 @@ export class BytePairEncodingCore {
+   clearMergeCache(): void {
+     if (this.mergeCache) {
+       for (const key of this.mergeCache.keys()) {
+-        this.bytePairStringRankEncoder.delete(key)
++        if (USE_RECORD_LOOKUP) {
++          delete (this.bytePairStringRankEncoder as StringRankRecord)[key]
++        } else {
++          ;(this.bytePairStringRankEncoder as StringRankMap).delete(key)
++        }
+       }
+       this.mergeCache.clear()
+     }
+@@ -304,7 +338,9 @@ export class BytePairEncodingCore {
+         if (pieces) {
+           for (let i = 0; i < pieces.length; i++) {
+             const match = pieces[i]!
+-            const token = this.bytePairStringRankEncoder.get(match)
++            const token = USE_RECORD_LOOKUP
++              ? (this.bytePairStringRankEncoder as StringRankRecord)[match]
++              : (this.bytePairStringRankEncoder as StringRankMap).get(match)
+             if (typeof token === 'number') {
+               tokensArray.push(token)
+               continue
+@@ -366,7 +402,9 @@ export class BytePairEncodingCore {
+         if (pieces) {
+           for (let i = 0; i < pieces.length; i++) {
+             const match = pieces[i]!
+-            const token = this.bytePairStringRankEncoder.get(match)
++            const token = USE_RECORD_LOOKUP
++              ? (this.bytePairStringRankEncoder as StringRankRecord)[match]
++              : (this.bytePairStringRankEncoder as StringRankMap).get(match)
+             tokensCount +=
+               typeof token === 'number'
+                 ? 1
+@@ -624,7 +662,9 @@ export class BytePairEncodingCore {
+   }
+ 
+   private getBpeRankFromString(key: string): number | undefined {
+-    const value = this.bytePairStringRankEncoder.get(key)
++    const value = USE_RECORD_LOOKUP
++      ? (this.bytePairStringRankEncoder as StringRankRecord)[key]
++      : (this.bytePairStringRankEncoder as StringRankMap).get(key)
+     // Cached pieces are not vocabulary entries and must never become BPE merges.
+     return typeof value === 'number' ? value : undefined
+   }
+@@ -753,7 +793,11 @@ export class BytePairEncodingCore {
+       // Overwrite the oldest ring slot instead; hits never mutate FIFO order.
+       const firstKey = this.mergeCacheKeys[this.mergeCacheHead]!
+       this.mergeCache.delete(firstKey)
+-      this.bytePairStringRankEncoder.delete(firstKey)
++      if (USE_RECORD_LOOKUP) {
++        delete (this.bytePairStringRankEncoder as StringRankRecord)[firstKey]
++      } else {
++        ;(this.bytePairStringRankEncoder as StringRankMap).delete(firstKey)
++      }
+       this.mergeCacheKeys[this.mergeCacheHead] = key
+       this.mergeCacheHead =
+         (this.mergeCacheHead + 1) % this.mergeCacheKeys.length
+@@ -761,7 +805,11 @@ export class BytePairEncodingCore {
+       this.mergeCacheKeys.push(key)
+     }
+     this.mergeCache.set(key, value)
+-    this.bytePairStringRankEncoder.set(key, value)
++    if (USE_RECORD_LOOKUP) {
++      ;(this.bytePairStringRankEncoder as StringRankRecord)[key] = value
++    } else {
++      ;(this.bytePairStringRankEncoder as StringRankMap).set(key, value)
++    }
+   }
+ 
+   private bytePairEncode(input: string): number[] {

@@ -1,0 +1,3407 @@
+{
+  "complete": true,
+  "rounds": 3,
+  "warmMs": 300,
+  "measureMs": 300,
+  "inputs": [
+    {
+      "id": "English",
+      "sha256": "ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c"
+    },
+    {
+      "id": "Chinese",
+      "sha256": "73e8fc331751af46aa8f690bf5e6ee5fcea46ce1608c77352e44b14db45aecd9"
+    },
+    {
+      "id": "French",
+      "sha256": "0f7da063db4d9ed52d77a57dd253ba0ff7239ae815f4f4372453c5ad422aa435"
+    },
+    {
+      "id": "Code",
+      "sha256": "19fe498d9585a6f125ad294203e8a68365c217ffb7e7faa4b57c0176d5c8b214"
+    },
+    {
+      "id": "support",
+      "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8"
+    },
+    {
+      "id": "typescript",
+      "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e"
+    },
+    {
+      "id": "api-json",
+      "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77"
+    },
+    {
+      "id": "cjk",
+      "sha256": "08470340770e70959993468b0577584cf40669ad273c7b7053f993847423aee3"
+    },
+    {
+      "id": "mixed",
+      "sha256": "43c414657269ba32c803cffe2f526654a436b0b2da062f1d2bea635c351182a5"
+    },
+    {
+      "id": "readme.md",
+      "sha256": "13b7a95a75d5fcd995a696fcff2c05e2c0652ea8d414d05829cc93742992a3ad"
+    }
+  ],
+  "samples": [
+    {
+      "round": 0,
+      "variant": "baseline",
+      "encoding": "o200k_base",
+      "runtime": {
+        "node": "26.12.0",
+        "bun": null
+      },
+      "coreSha256": "cc7036d186ecc6eda5df557fdd2ae62bb0f96150081e7044169a52b66ed16f7f",
+      "checksum": 2974063547,
+      "measurements": [
+        {
+          "id": "English",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 10,
+          "sha256": "ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c",
+          "warmup": {
+            "ms": 0.00008029390113360237,
+            "elapsedMs": 300.039038,
+            "calls": 3736760
+          },
+          "ms": 0.00007821883495398734,
+          "elapsedMs": 300.03962900000005,
+          "calls": 3835900
+        },
+        {
+          "id": "English",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 10,
+          "sha256": "ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c",
+          "warmup": {
+            "ms": 0.00036411664927057805,
+            "elapsedMs": 300.0102720000001,
+            "calls": 823940
+          },
+          "ms": 0.000384517758267111,
+          "elapsedMs": 300.000755,
+          "calls": 780200
+        },
+        {
+          "id": "Chinese",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 12,
+          "sha256": "73e8fc331751af46aa8f690bf5e6ee5fcea46ce1608c77352e44b14db45aecd9",
+          "warmup": {
+            "ms": 0.00018974021655261396,
+            "elapsedMs": 300.005846,
+            "calls": 1581140
+          },
+          "ms": 0.00018839853053842588,
+          "elapsedMs": 300.0095880000001,
+          "calls": 1592420
+        },
+        {
+          "id": "Chinese",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 12,
+          "sha256": "73e8fc331751af46aa8f690bf5e6ee5fcea46ce1608c77352e44b14db45aecd9",
+          "warmup": {
+            "ms": 0.0002464424655396192,
+            "elapsedMs": 300.004271,
+            "calls": 1217340
+          },
+          "ms": 0.00025540193083720684,
+          "elapsedMs": 300.0002159999999,
+          "calls": 1174620
+        },
+        {
+          "id": "French",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 14,
+          "sha256": "0f7da063db4d9ed52d77a57dd253ba0ff7239ae815f4f4372453c5ad422aa435",
+          "warmup": {
+            "ms": 0.00013660406430487978,
+            "elapsedMs": 300.37867700000015,
+            "calls": 2198900
+          },
+          "ms": 0.0001331438998411164,
+          "elapsedMs": 300.0024980000003,
+          "calls": 2253220
+        },
+        {
+          "id": "French",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 14,
+          "sha256": "0f7da063db4d9ed52d77a57dd253ba0ff7239ae815f4f4372453c5ad422aa435",
+          "warmup": {
+            "ms": 0.0005048146126405055,
+            "elapsedMs": 300.0012279999996,
+            "calls": 594280
+          },
+          "ms": 0.0004673969230050166,
+          "elapsedMs": 300.00338899999997,
+          "calls": 641860
+        },
+        {
+          "id": "Code",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 18,
+          "sha256": "19fe498d9585a6f125ad294203e8a68365c217ffb7e7faa4b57c0176d5c8b214",
+          "warmup": {
+            "ms": 0.00015864044937284513,
+            "elapsedMs": 300.00178099999994,
+            "calls": 1891080
+          },
+          "ms": 0.00018371377114232858,
+          "elapsedMs": 300.00091399999974,
+          "calls": 1632980
+        },
+        {
+          "id": "Code",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 18,
+          "sha256": "19fe498d9585a6f125ad294203e8a68365c217ffb7e7faa4b57c0176d5c8b214",
+          "warmup": {
+            "ms": 0.0006147134292271126,
+            "elapsedMs": 300.0047420000001,
+            "calls": 488040
+          },
+          "ms": 0.0006355687386127712,
+          "elapsedMs": 300.00115600000026,
+          "calls": 472020
+        },
+        {
+          "id": "support",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 59,
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.0004744587632452946,
+            "elapsedMs": 300.00027599999976,
+            "calls": 632300
+          },
+          "ms": 0.0004547140354068154,
+          "elapsedMs": 300.00213200000053,
+          "calls": 659760
+        },
+        {
+          "id": "support",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 59,
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.0019789754749340344,
+            "elapsedMs": 300.0126819999996,
+            "calls": 151600
+          },
+          "ms": 0.0020144733449711325,
+          "elapsedMs": 300.03566000000046,
+          "calls": 148940
+        },
+        {
+          "id": "support",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 72,
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.0005972319537346726,
+            "elapsedMs": 300.00155500000074,
+            "calls": 502320
+          },
+          "ms": 0.0006088712879525904,
+          "elapsedMs": 300.00306100000034,
+          "calls": 492720
+        },
+        {
+          "id": "support",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 72,
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.002911146186687359,
+            "elapsedMs": 300.02272599999924,
+            "calls": 103060
+          },
+          "ms": 0.0026358559216306445,
+          "elapsedMs": 300.01312099999996,
+          "calls": 113820
+        },
+        {
+          "id": "typescript",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 87,
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.0007342034555332575,
+            "elapsedMs": 300.0102159999997,
+            "calls": 408620
+          },
+          "ms": 0.000666562646640598,
+          "elapsedMs": 300.0065160000004,
+          "calls": 450080
+        },
+        {
+          "id": "typescript",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 87,
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.002674293002317702,
+            "elapsedMs": 300.0021889999998,
+            "calls": 112180
+          },
+          "ms": 0.0028388533402725212,
+          "elapsedMs": 300.01002100000005,
+          "calls": 105680
+        },
+        {
+          "id": "typescript",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 99,
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.0008301839725496694,
+            "elapsedMs": 300.01188399999955,
+            "calls": 361380
+          },
+          "ms": 0.0009885197845282063,
+          "elapsedMs": 300.03552500000114,
+          "calls": 303520
+        },
+        {
+          "id": "typescript",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 99,
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.0040432690700808694,
+            "elapsedMs": 300.0105650000005,
+            "calls": 74200
+          },
+          "ms": 0.0029099229590847384,
+          "elapsedMs": 300.1294539999999,
+          "calls": 103140
+        },
+        {
+          "id": "api-json",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 79,
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.0006218156027192823,
+            "elapsedMs": 300.01359199999933,
+            "calls": 482480
+          },
+          "ms": 0.0008019762938408881,
+          "elapsedMs": 300.0032919999994,
+          "calls": 374080
+        },
+        {
+          "id": "api-json",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 79,
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.002036696673907151,
+            "elapsedMs": 300.0461540000015,
+            "calls": 147320
+          },
+          "ms": 0.0023348257976653726,
+          "elapsedMs": 300.02511500000037,
+          "calls": 128500
+        },
+        {
+          "id": "api-json",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 91,
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.0007692701974358967,
+            "elapsedMs": 300.0153769999997,
+            "calls": 390000
+          },
+          "ms": 0.0007733178094550682,
+          "elapsedMs": 300.0009109999992,
+          "calls": 387940
+        },
+        {
+          "id": "api-json",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 91,
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.002732583979963576,
+            "elapsedMs": 300.0377210000006,
+            "calls": 109800
+          },
+          "ms": 0.0023057023436299415,
+          "elapsedMs": 300.0641030000006,
+          "calls": 130140
+        },
+        {
+          "id": "cjk",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 91,
+          "sha256": "08470340770e70959993468b0577584cf40669ad273c7b7053f993847423aee3",
+          "warmup": {
+            "ms": 0.0008199652427025266,
+            "elapsedMs": 300.0088830000004,
+            "calls": 365880
+          },
+          "ms": 0.000815939455504785,
+          "elapsedMs": 300.00461899999937,
+          "calls": 367680
+        },
+        {
+          "id": "cjk",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 91,
+          "sha256": "08470340770e70959993468b0577584cf40669ad273c7b7053f993847423aee3",
+          "warmup": {
+            "ms": 0.0018686189275037423,
+            "elapsedMs": 300.0254550000009,
+            "calls": 160560
+          },
+          "ms": 0.0019310548912343905,
+          "elapsedMs": 300.0473089999996,
+          "calls": 155380
+        },
+        {
+          "id": "cjk",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 103,
+          "sha256": "08470340770e70959993468b0577584cf40669ad273c7b7053f993847423aee3",
+          "warmup": {
+            "ms": 0.000975177483422177,
+            "elapsedMs": 300.0036009999985,
+            "calls": 307640
+          },
+          "ms": 0.0009062624426051241,
+          "elapsedMs": 300.0091190000003,
+          "calls": 331040
+        },
+        {
+          "id": "cjk",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 103,
+          "sha256": "08470340770e70959993468b0577584cf40669ad273c7b7053f993847423aee3",
+          "warmup": {
+            "ms": 0.002279763541033434,
+            "elapsedMs": 300.0168819999999,
+            "calls": 131600
+          },
+          "ms": 0.0023183956336939792,
+          "elapsedMs": 300.00039500000094,
+          "calls": 129400
+        },
+        {
+          "id": "mixed",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 89,
+          "sha256": "43c414657269ba32c803cffe2f526654a436b0b2da062f1d2bea635c351182a5",
+          "warmup": {
+            "ms": 0.004261542769886365,
+            "elapsedMs": 300.0126110000001,
+            "calls": 70400
+          },
+          "ms": 0.0045022417791779085,
+          "elapsedMs": 300.1194369999994,
+          "calls": 66660
+        },
+        {
+          "id": "mixed",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 89,
+          "sha256": "43c414657269ba32c803cffe2f526654a436b0b2da062f1d2bea635c351182a5",
+          "warmup": {
+            "ms": 0.004670045937110837,
+            "elapsedMs": 300.0037510000002,
+            "calls": 64240
+          },
+          "ms": 0.004334833559664829,
+          "elapsedMs": 300.05717899999945,
+          "calls": 69220
+        },
+        {
+          "id": "mixed",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 101,
+          "sha256": "43c414657269ba32c803cffe2f526654a436b0b2da062f1d2bea635c351182a5",
+          "warmup": {
+            "ms": 0.004124548488180318,
+            "elapsedMs": 300.10214799999994,
+            "calls": 72760
+          },
+          "ms": 0.0041259841215287255,
+          "elapsedMs": 300.12408499999947,
+          "calls": 72740
+        },
+        {
+          "id": "mixed",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 101,
+          "sha256": "43c414657269ba32c803cffe2f526654a436b0b2da062f1d2bea635c351182a5",
+          "warmup": {
+            "ms": 0.004730745048880478,
+            "elapsedMs": 300.0238509999999,
+            "calls": 63420
+          },
+          "ms": 0.004916967191084849,
+          "elapsedMs": 300.03333799999746,
+          "calls": 61020
+        },
+        {
+          "id": "readme.md",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 4779,
+          "sha256": "13b7a95a75d5fcd995a696fcff2c05e2c0652ea8d414d05829cc93742992a3ad",
+          "warmup": {
+            "ms": 0.03615007566265102,
+            "elapsedMs": 300.0456280000035,
+            "calls": 8300
+          },
+          "ms": 0.03421202801822312,
+          "elapsedMs": 300.381605999999,
+          "calls": 8780
+        },
+        {
+          "id": "readme.md",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 4779,
+          "sha256": "13b7a95a75d5fcd995a696fcff2c05e2c0652ea8d414d05829cc93742992a3ad",
+          "warmup": {
+            "ms": 0.1760983749999997,
+            "elapsedMs": 302.8892049999995,
+            "calls": 1720
+          },
+          "ms": 0.21231983239436808,
+          "elapsedMs": 301.4941620000027,
+          "calls": 1420
+        },
+        {
+          "id": "readme.md",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 4791,
+          "sha256": "13b7a95a75d5fcd995a696fcff2c05e2c0652ea8d414d05829cc93742992a3ad",
+          "warmup": {
+            "ms": 0.03501165349650358,
+            "elapsedMs": 300.3999870000007,
+            "calls": 8580
+          },
+          "ms": 0.03598922553956813,
+          "elapsedMs": 300.15014099999826,
+          "calls": 8340
+        },
+        {
+          "id": "readme.md",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 4791,
+          "sha256": "13b7a95a75d5fcd995a696fcff2c05e2c0652ea8d414d05829cc93742992a3ad",
+          "warmup": {
+            "ms": 0.22293615735294117,
+            "elapsedMs": 303.193174,
+            "calls": 1360
+          },
+          "ms": 0.1876827092592605,
+          "elapsedMs": 304.045989000002,
+          "calls": 1620
+        }
+      ]
+    },
+    {
+      "round": 0,
+      "variant": "candidate",
+      "encoding": "o200k_base",
+      "runtime": {
+        "node": "26.12.0",
+        "bun": null
+      },
+      "coreSha256": "8d25b7802469634455735e8b5ac8a6ee7d9f288d6cb07fc0d760b35ffc890fdc",
+      "checksum": 3359923425,
+      "measurements": [
+        {
+          "id": "English",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 10,
+          "sha256": "ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c",
+          "warmup": {
+            "ms": 0.00007309169459980901,
+            "elapsedMs": 300.04432999999995,
+            "calls": 4105040
+          },
+          "ms": 0.00006782260830059717,
+          "elapsedMs": 300.064853,
+          "calls": 4424260
+        },
+        {
+          "id": "English",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 10,
+          "sha256": "ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c",
+          "warmup": {
+            "ms": 0.00035728709270198175,
+            "elapsedMs": 300.00682600000005,
+            "calls": 839680
+          },
+          "ms": 0.00036172971327288523,
+          "elapsedMs": 300.0041550000001,
+          "calls": 829360
+        },
+        {
+          "id": "Chinese",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 12,
+          "sha256": "73e8fc331751af46aa8f690bf5e6ee5fcea46ce1608c77352e44b14db45aecd9",
+          "warmup": {
+            "ms": 0.00021976749809540544,
+            "elapsedMs": 300.0090069999999,
+            "calls": 1365120
+          },
+          "ms": 0.00020130548003113427,
+          "elapsedMs": 300.009583,
+          "calls": 1490320
+        },
+        {
+          "id": "Chinese",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 12,
+          "sha256": "73e8fc331751af46aa8f690bf5e6ee5fcea46ce1608c77352e44b14db45aecd9",
+          "warmup": {
+            "ms": 0.000258145490216325,
+            "elapsedMs": 300.0011999999999,
+            "calls": 1162140
+          },
+          "ms": 0.0002603051470715836,
+          "elapsedMs": 300.0016820000001,
+          "calls": 1152500
+        },
+        {
+          "id": "French",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 14,
+          "sha256": "0f7da063db4d9ed52d77a57dd253ba0ff7239ae815f4f4372453c5ad422aa435",
+          "warmup": {
+            "ms": 0.00013503870363701837,
+            "elapsedMs": 300.001984,
+            "calls": 2221600
+          },
+          "ms": 0.00013890647670552938,
+          "elapsedMs": 300.00187400000004,
+          "calls": 2159740
+        },
+        {
+          "id": "French",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 14,
+          "sha256": "0f7da063db4d9ed52d77a57dd253ba0ff7239ae815f4f4372453c5ad422aa435",
+          "warmup": {
+            "ms": 0.000454159196463714,
+            "elapsedMs": 300.0084820000002,
+            "calls": 660580
+          },
+          "ms": 0.0005493909863384976,
+          "elapsedMs": 300.000442,
+          "calls": 546060
+        },
+        {
+          "id": "Code",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 18,
+          "sha256": "19fe498d9585a6f125ad294203e8a68365c217ffb7e7faa4b57c0176d5c8b214",
+          "warmup": {
+            "ms": 0.00013920180914642072,
+            "elapsedMs": 300.0021710000001,
+            "calls": 2155160
+          },
+          "ms": 0.0001313020631822201,
+          "elapsedMs": 300.0015800000001,
+          "calls": 2284820
+        },
+        {
+          "id": "Code",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 18,
+          "sha256": "19fe498d9585a6f125ad294203e8a68365c217ffb7e7faa4b57c0176d5c8b214",
+          "warmup": {
+            "ms": 0.0007354694695038253,
+            "elapsedMs": 300.01270600000043,
+            "calls": 407920
+          },
+          "ms": 0.0005268460610424274,
+          "elapsedMs": 300.00722099999984,
+          "calls": 569440
+        },
+        {
+          "id": "support",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 59,
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.00039344381508196643,
+            "elapsedMs": 300.0009089999994,
+            "calls": 762500
+          },
+          "ms": 0.00038802866104457065,
+          "elapsedMs": 300.00047899999936,
+          "calls": 773140
+        },
+        {
+          "id": "support",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 59,
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.0021900510729926954,
+            "elapsedMs": 300.03699699999925,
+            "calls": 137000
+          },
+          "ms": 0.0020894902911268976,
+          "elapsedMs": 300.009016,
+          "calls": 143580
+        },
+        {
+          "id": "support",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 72,
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.0005500872822619098,
+            "elapsedMs": 300.0066020000004,
+            "calls": 545380
+          },
+          "ms": 0.0005160183133234718,
+          "elapsedMs": 300.00272700000005,
+          "calls": 581380
+        },
+        {
+          "id": "support",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 72,
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.002516086648775579,
+            "elapsedMs": 300.01817200000005,
+            "calls": 119240
+          },
+          "ms": 0.002566423036783573,
+          "elapsedMs": 300.0148529999997,
+          "calls": 116900
+        },
+        {
+          "id": "typescript",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 87,
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.000544670666303559,
+            "elapsedMs": 300.0046030000003,
+            "calls": 550800
+          },
+          "ms": 0.000544572131058268,
+          "elapsedMs": 300.00478699999985,
+          "calls": 550900
+        },
+        {
+          "id": "typescript",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 87,
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.0031956435449510064,
+            "elapsedMs": 300.0070160000005,
+            "calls": 93880
+          },
+          "ms": 0.0027199566171138595,
+          "elapsedMs": 300.065614000001,
+          "calls": 110320
+        },
+        {
+          "id": "typescript",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 99,
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.0006745225604820566,
+            "elapsedMs": 300.0006539999995,
+            "calls": 444760
+          },
+          "ms": 0.0007913526246373002,
+          "elapsedMs": 300.0017800000005,
+          "calls": 379100
+        },
+        {
+          "id": "typescript",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 99,
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.003294463790074648,
+            "elapsedMs": 300.05976199999895,
+            "calls": 91080
+          },
+          "ms": 0.0029198395776566894,
+          "elapsedMs": 300.0427150000014,
+          "calls": 102760
+        },
+        {
+          "id": "api-json",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 79,
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.0005301783480012713,
+            "elapsedMs": 300.0067199999994,
+            "calls": 565860
+          },
+          "ms": 0.0004973064333786405,
+          "elapsedMs": 300.00507899999866,
+          "calls": 603260
+        },
+        {
+          "id": "api-json",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 79,
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.0018068841604432584,
+            "elapsedMs": 300.0150459999986,
+            "calls": 166040
+          },
+          "ms": 0.002223077348844095,
+          "elapsedMs": 300.0265189999991,
+          "calls": 134960
+        },
+        {
+          "id": "api-json",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 91,
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.0006102904186500658,
+            "elapsedMs": 300.00656399999934,
+            "calls": 491580
+          },
+          "ms": 0.0006540698591610705,
+          "elapsedMs": 300.0087629999998,
+          "calls": 458680
+        },
+        {
+          "id": "api-json",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 91,
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.0025899016919889504,
+            "elapsedMs": 300.01421200000004,
+            "calls": 115840
+          },
+          "ms": 0.0021455340961098438,
+          "elapsedMs": 300.03148800000054,
+          "calls": 139840
+        },
+        {
+          "id": "cjk",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 91,
+          "sha256": "08470340770e70959993468b0577584cf40669ad273c7b7053f993847423aee3",
+          "warmup": {
+            "ms": 0.0006651097148938043,
+            "elapsedMs": 300.0043879999994,
+            "calls": 451060
+          },
+          "ms": 0.0006605292448260663,
+          "elapsedMs": 300.0123829999993,
+          "calls": 454200
+        },
+        {
+          "id": "cjk",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 91,
+          "sha256": "08470340770e70959993468b0577584cf40669ad273c7b7053f993847423aee3",
+          "warmup": {
+            "ms": 0.001695785711055844,
+            "elapsedMs": 300.0184079999999,
+            "calls": 176920
+          },
+          "ms": 0.0018067230940623873,
+          "elapsedMs": 300.02443700000003,
+          "calls": 166060
+        },
+        {
+          "id": "cjk",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 103,
+          "sha256": "08470340770e70959993468b0577584cf40669ad273c7b7053f993847423aee3",
+          "warmup": {
+            "ms": 0.0007553307316581885,
+            "elapsedMs": 300.0022599999993,
+            "calls": 397180
+          },
+          "ms": 0.0008124844599718337,
+          "elapsedMs": 300.00176199999987,
+          "calls": 369240
+        },
+        {
+          "id": "cjk",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 103,
+          "sha256": "08470340770e70959993468b0577584cf40669ad273c7b7053f993847423aee3",
+          "warmup": {
+            "ms": 0.0023057269213034005,
+            "elapsedMs": 300.02118699999846,
+            "calls": 130120
+          },
+          "ms": 0.0021940508922041854,
+          "elapsedMs": 300.0145190000003,
+          "calls": 136740
+        },
+        {
+          "id": "mixed",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 89,
+          "sha256": "43c414657269ba32c803cffe2f526654a436b0b2da062f1d2bea635c351182a5",
+          "warmup": {
+            "ms": 0.004000480978405745,
+            "elapsedMs": 300.116082999999,
+            "calls": 75020
+          },
+          "ms": 0.004187736892797312,
+          "elapsedMs": 300.0094709999994,
+          "calls": 71640
+        },
+        {
+          "id": "mixed",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 89,
+          "sha256": "43c414657269ba32c803cffe2f526654a436b0b2da062f1d2bea635c351182a5",
+          "warmup": {
+            "ms": 0.004266542050625703,
+            "elapsedMs": 300.0232369999994,
+            "calls": 70320
+          },
+          "ms": 0.004140296012693151,
+          "elapsedMs": 300.08865499999956,
+          "calls": 72480
+        },
+        {
+          "id": "mixed",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 101,
+          "sha256": "43c414657269ba32c803cffe2f526654a436b0b2da062f1d2bea635c351182a5",
+          "warmup": {
+            "ms": 0.004481755706602906,
+            "elapsedMs": 300.00872699999854,
+            "calls": 66940
+          },
+          "ms": 0.004609672887864828,
+          "elapsedMs": 300.0897050000003,
+          "calls": 65100
+        },
+        {
+          "id": "mixed",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 101,
+          "sha256": "43c414657269ba32c803cffe2f526654a436b0b2da062f1d2bea635c351182a5",
+          "warmup": {
+            "ms": 0.004605245150399037,
+            "elapsedMs": 300.0777740000012,
+            "calls": 65160
+          },
+          "ms": 0.004540423970944301,
+          "elapsedMs": 300.0312159999994,
+          "calls": 66080
+        },
+        {
+          "id": "readme.md",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 4779,
+          "sha256": "13b7a95a75d5fcd995a696fcff2c05e2c0652ea8d414d05829cc93742992a3ad",
+          "warmup": {
+            "ms": 0.03281363842794775,
+            "elapsedMs": 300.5729280000014,
+            "calls": 9160
+          },
+          "ms": 0.0320949342948719,
+          "elapsedMs": 300.40858500000104,
+          "calls": 9360
+        },
+        {
+          "id": "readme.md",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 4779,
+          "sha256": "13b7a95a75d5fcd995a696fcff2c05e2c0652ea8d414d05829cc93742992a3ad",
+          "warmup": {
+            "ms": 0.18258103614457852,
+            "elapsedMs": 303.08452000000034,
+            "calls": 1660
+          },
+          "ms": 0.2065094041095893,
+          "elapsedMs": 301.50373000000036,
+          "calls": 1460
+        },
+        {
+          "id": "readme.md",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 4791,
+          "sha256": "13b7a95a75d5fcd995a696fcff2c05e2c0652ea8d414d05829cc93742992a3ad",
+          "warmup": {
+            "ms": 0.03505645350467297,
+            "elapsedMs": 300.0832420000006,
+            "calls": 8560
+          },
+          "ms": 0.033293214745011165,
+          "elapsedMs": 300.3047970000007,
+          "calls": 9020
+        },
+        {
+          "id": "readme.md",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 4791,
+          "sha256": "13b7a95a75d5fcd995a696fcff2c05e2c0652ea8d414d05829cc93742992a3ad",
+          "warmup": {
+            "ms": 0.22206033235294104,
+            "elapsedMs": 302.0020519999998,
+            "calls": 1360
+          },
+          "ms": 0.17477324709302275,
+          "elapsedMs": 300.60998499999914,
+          "calls": 1720
+        }
+      ]
+    },
+    {
+      "round": 0,
+      "variant": "npm",
+      "encoding": "o200k_base",
+      "runtime": {
+        "node": "26.12.0",
+        "bun": null
+      },
+      "coreSha256": "f5def98252122f6f309c36d55587a2825d1a9c9729fbc4066684b64395df7044",
+      "checksum": 3093576232,
+      "measurements": [
+        {
+          "id": "English",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 10,
+          "sha256": "ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c",
+          "warmup": {
+            "ms": 0.0000703029501904936,
+            "elapsedMs": 300.04314899999997,
+            "calls": 4267860
+          },
+          "ms": 0.00006493559120283601,
+          "elapsedMs": 300.040094,
+          "calls": 4620580
+        },
+        {
+          "id": "English",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 10,
+          "sha256": "ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c",
+          "warmup": {
+            "ms": 0.0003446279442172494,
+            "elapsedMs": 300.00551799999994,
+            "calls": 870520
+          },
+          "ms": 0.0003356419773113756,
+          "elapsedMs": 300.010225,
+          "calls": 893840
+        },
+        {
+          "id": "Chinese",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 12,
+          "sha256": "73e8fc331751af46aa8f690bf5e6ee5fcea46ce1608c77352e44b14db45aecd9",
+          "warmup": {
+            "ms": 0.0030121603392892983,
+            "elapsedMs": 300.0714129999999,
+            "calls": 99620
+          },
+          "ms": 0.0037221852853598033,
+          "elapsedMs": 300.00813400000015,
+          "calls": 80600
+        },
+        {
+          "id": "Chinese",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 12,
+          "sha256": "73e8fc331751af46aa8f690bf5e6ee5fcea46ce1608c77352e44b14db45aecd9",
+          "warmup": {
+            "ms": 0.0035674151843043986,
+            "elapsedMs": 300.0196169999999,
+            "calls": 84100
+          },
+          "ms": 0.0036343035844030023,
+          "elapsedMs": 300.12078999999994,
+          "calls": 82580
+        },
+        {
+          "id": "French",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 14,
+          "sha256": "0f7da063db4d9ed52d77a57dd253ba0ff7239ae815f4f4372453c5ad422aa435",
+          "warmup": {
+            "ms": 0.00011099038232443193,
+            "elapsedMs": 300.00034400000004,
+            "calls": 2702940
+          },
+          "ms": 0.00011075987011644492,
+          "elapsedMs": 300.0019690000004,
+          "calls": 2708580
+        },
+        {
+          "id": "French",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 14,
+          "sha256": "0f7da063db4d9ed52d77a57dd253ba0ff7239ae815f4f4372453c5ad422aa435",
+          "warmup": {
+            "ms": 0.0004981581216166847,
+            "elapsedMs": 300.00078399999984,
+            "calls": 602220
+          },
+          "ms": 0.0004896381312224573,
+          "elapsedMs": 300.0012829999996,
+          "calls": 612700
+        },
+        {
+          "id": "Code",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 18,
+          "sha256": "19fe498d9585a6f125ad294203e8a68365c217ffb7e7faa4b57c0176d5c8b214",
+          "warmup": {
+            "ms": 0.00012567123743297573,
+            "elapsedMs": 300.0023779999997,
+            "calls": 2387200
+          },
+          "ms": 0.0001229255580777866,
+          "elapsedMs": 300.0022829999998,
+          "calls": 2440520
+        },
+        {
+          "id": "Code",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 18,
+          "sha256": "19fe498d9585a6f125ad294203e8a68365c217ffb7e7faa4b57c0176d5c8b214",
+          "warmup": {
+            "ms": 0.0005203570229298919,
+            "elapsedMs": 300.00663799999984,
+            "calls": 576540
+          },
+          "ms": 0.0005184208691895639,
+          "elapsedMs": 300.0101570000006,
+          "calls": 578700
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "variant": "npm",
+      "encoding": "o200k_base",
+      "runtime": {
+        "node": "26.12.0",
+        "bun": null
+      },
+      "coreSha256": "f5def98252122f6f309c36d55587a2825d1a9c9729fbc4066684b64395df7044",
+      "checksum": 1259403492,
+      "measurements": [
+        {
+          "id": "English",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 10,
+          "sha256": "ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c",
+          "warmup": {
+            "ms": 0.00006890117460375781,
+            "elapsedMs": 300.041189,
+            "calls": 4354660
+          },
+          "ms": 0.00006431230515973044,
+          "elapsedMs": 300.040056,
+          "calls": 4665360
+        },
+        {
+          "id": "English",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 10,
+          "sha256": "ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c",
+          "warmup": {
+            "ms": 0.000346498820771061,
+            "elapsedMs": 300.00560900000005,
+            "calls": 865820
+          },
+          "ms": 0.00032739198568248286,
+          "elapsedMs": 300.00892,
+          "calls": 916360
+        },
+        {
+          "id": "Chinese",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 12,
+          "sha256": "73e8fc331751af46aa8f690bf5e6ee5fcea46ce1608c77352e44b14db45aecd9",
+          "warmup": {
+            "ms": 0.0032177520484770483,
+            "elapsedMs": 300.023201,
+            "calls": 93240
+          },
+          "ms": 0.003026772356739306,
+          "elapsedMs": 300.01367600000003,
+          "calls": 99120
+        },
+        {
+          "id": "Chinese",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 12,
+          "sha256": "73e8fc331751af46aa8f690bf5e6ee5fcea46ce1608c77352e44b14db45aecd9",
+          "warmup": {
+            "ms": 0.003973524364406778,
+            "elapsedMs": 300.0805599999999,
+            "calls": 75520
+          },
+          "ms": 0.0035537914140217914,
+          "elapsedMs": 300.0821470000001,
+          "calls": 84440
+        },
+        {
+          "id": "French",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 14,
+          "sha256": "0f7da063db4d9ed52d77a57dd253ba0ff7239ae815f4f4372453c5ad422aa435",
+          "warmup": {
+            "ms": 0.00011581602157262417,
+            "elapsedMs": 300.00055699999984,
+            "calls": 2590320
+          },
+          "ms": 0.00011571866345226628,
+          "elapsedMs": 300.00063500000033,
+          "calls": 2592500
+        },
+        {
+          "id": "French",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 14,
+          "sha256": "0f7da063db4d9ed52d77a57dd253ba0ff7239ae815f4f4372453c5ad422aa435",
+          "warmup": {
+            "ms": 0.00045234898223817116,
+            "elapsedMs": 300.0068919999999,
+            "calls": 663220
+          },
+          "ms": 0.00045870852267514736,
+          "elapsedMs": 300.0045479999999,
+          "calls": 654020
+        },
+        {
+          "id": "Code",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 18,
+          "sha256": "19fe498d9585a6f125ad294203e8a68365c217ffb7e7faa4b57c0176d5c8b214",
+          "warmup": {
+            "ms": 0.00017154738906678866,
+            "elapsedMs": 300.002074,
+            "calls": 1748800
+          },
+          "ms": 0.00014594346906012854,
+          "elapsedMs": 300.00139500000023,
+          "calls": 2055600
+        },
+        {
+          "id": "Code",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 18,
+          "sha256": "19fe498d9585a6f125ad294203e8a68365c217ffb7e7faa4b57c0176d5c8b214",
+          "warmup": {
+            "ms": 0.0004909071980233665,
+            "elapsedMs": 300.0130250000002,
+            "calls": 611140
+          },
+          "ms": 0.0005571472049920149,
+          "elapsedMs": 300.00148400000035,
+          "calls": 538460
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "variant": "candidate",
+      "encoding": "o200k_base",
+      "runtime": {
+        "node": "26.12.0",
+        "bun": null
+      },
+      "coreSha256": "8d25b7802469634455735e8b5ac8a6ee7d9f288d6cb07fc0d760b35ffc890fdc",
+      "checksum": 980439852,
+      "measurements": [
+        {
+          "id": "English",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 10,
+          "sha256": "ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c",
+          "warmup": {
+            "ms": 0.00007507732902625284,
+            "elapsedMs": 300.048047,
+            "calls": 3996520
+          },
+          "ms": 0.00009989372652816622,
+          "elapsedMs": 300.04079700000005,
+          "calls": 3003600
+        },
+        {
+          "id": "English",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 10,
+          "sha256": "ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c",
+          "warmup": {
+            "ms": 0.0003738982601759764,
+            "elapsedMs": 300.00848599999995,
+            "calls": 802380
+          },
+          "ms": 0.00033679779626386453,
+          "elapsedMs": 300.00600499999996,
+          "calls": 890760
+        },
+        {
+          "id": "Chinese",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 12,
+          "sha256": "73e8fc331751af46aa8f690bf5e6ee5fcea46ce1608c77352e44b14db45aecd9",
+          "warmup": {
+            "ms": 0.00021623708807842016,
+            "elapsedMs": 300.0073360000001,
+            "calls": 1387400
+          },
+          "ms": 0.0001976920450202301,
+          "elapsedMs": 300.005586,
+          "calls": 1517540
+        },
+        {
+          "id": "Chinese",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 12,
+          "sha256": "73e8fc331751af46aa8f690bf5e6ee5fcea46ce1608c77352e44b14db45aecd9",
+          "warmup": {
+            "ms": 0.00026654838119269305,
+            "elapsedMs": 300.0055339999999,
+            "calls": 1125520
+          },
+          "ms": 0.00025170863859849327,
+          "elapsedMs": 300.0014580000002,
+          "calls": 1191860
+        },
+        {
+          "id": "French",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 14,
+          "sha256": "0f7da063db4d9ed52d77a57dd253ba0ff7239ae815f4f4372453c5ad422aa435",
+          "warmup": {
+            "ms": 0.00011816960697038696,
+            "elapsedMs": 300.0019080000002,
+            "calls": 2538740
+          },
+          "ms": 0.00011978593879767452,
+          "elapsedMs": 300.0014879999999,
+          "calls": 2504480
+        },
+        {
+          "id": "French",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 14,
+          "sha256": "0f7da063db4d9ed52d77a57dd253ba0ff7239ae815f4f4372453c5ad422aa435",
+          "warmup": {
+            "ms": 0.00044057814051164557,
+            "elapsedMs": 300.0072789999999,
+            "calls": 680940
+          },
+          "ms": 0.00043478330773021105,
+          "elapsedMs": 300.00917800000025,
+          "calls": 690020
+        },
+        {
+          "id": "Code",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 18,
+          "sha256": "19fe498d9585a6f125ad294203e8a68365c217ffb7e7faa4b57c0176d5c8b214",
+          "warmup": {
+            "ms": 0.00015034953893031832,
+            "elapsedMs": 300.00145599999996,
+            "calls": 1995360
+          },
+          "ms": 0.0001402457515239912,
+          "elapsedMs": 300.0024920000001,
+          "calls": 2139120
+        },
+        {
+          "id": "Code",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 18,
+          "sha256": "19fe498d9585a6f125ad294203e8a68365c217ffb7e7faa4b57c0176d5c8b214",
+          "warmup": {
+            "ms": 0.0005158923513429856,
+            "elapsedMs": 300.01203799999985,
+            "calls": 581540
+          },
+          "ms": 0.0005362837367273251,
+          "elapsedMs": 300.0078480000002,
+          "calls": 559420
+        },
+        {
+          "id": "support",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 59,
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.00045729176117309913,
+            "elapsedMs": 300.00168699999995,
+            "calls": 656040
+          },
+          "ms": 0.00041998281022510853,
+          "elapsedMs": 300.00212099999953,
+          "calls": 714320
+        },
+        {
+          "id": "support",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 59,
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.0021924289608301725,
+            "elapsedMs": 300.0119790000008,
+            "calls": 136840
+          },
+          "ms": 0.0021451902259402283,
+          "elapsedMs": 300.0263050000003,
+          "calls": 139860
+        },
+        {
+          "id": "support",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 72,
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.000518461589243744,
+            "elapsedMs": 300.002614,
+            "calls": 578640
+          },
+          "ms": 0.00052037252306945,
+          "elapsedMs": 300.00516699999935,
+          "calls": 576520
+        },
+        {
+          "id": "support",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 72,
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.0025652735807113526,
+            "elapsedMs": 300.0343979999998,
+            "calls": 116960
+          },
+          "ms": 0.0025485216021066933,
+          "elapsedMs": 300.0119629999999,
+          "calls": 117720
+        },
+        {
+          "id": "typescript",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 87,
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.000574922705147369,
+            "elapsedMs": 300.0061660000001,
+            "calls": 521820
+          },
+          "ms": 0.0005531637607404946,
+          "elapsedMs": 300.0028339999999,
+          "calls": 542340
+        },
+        {
+          "id": "typescript",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 87,
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.00244819594418149,
+            "elapsedMs": 300.0019309999998,
+            "calls": 122540
+          },
+          "ms": 0.0025302821976724587,
+          "elapsedMs": 300.0408630000002,
+          "calls": 118580
+        },
+        {
+          "id": "typescript",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 99,
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.0006446691722537395,
+            "elapsedMs": 300.0032460000002,
+            "calls": 465360
+          },
+          "ms": 0.0006485584525919824,
+          "elapsedMs": 300.0101689999992,
+          "calls": 462580
+        },
+        {
+          "id": "typescript",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 99,
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.0029009500580158445,
+            "elapsedMs": 300.01625499999864,
+            "calls": 103420
+          },
+          "ms": 0.0028288410239486997,
+          "elapsedMs": 300.0268789999991,
+          "calls": 106060
+        },
+        {
+          "id": "api-json",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 79,
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.0006131323891273237,
+            "elapsedMs": 300.00567799999953,
+            "calls": 489300
+          },
+          "ms": 0.000531451720106288,
+          "elapsedMs": 300.00449599999956,
+          "calls": 564500
+        },
+        {
+          "id": "api-json",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 79,
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.001813631785757473,
+            "elapsedMs": 300.0109700000012,
+            "calls": 165420
+          },
+          "ms": 0.0020358519543973957,
+          "elapsedMs": 300.00314400000025,
+          "calls": 147360
+        },
+        {
+          "id": "api-json",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 91,
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.0006269552411602437,
+            "elapsedMs": 300.0106219999998,
+            "calls": 478520
+          },
+          "ms": 0.0006308212351234274,
+          "elapsedMs": 300.0059629999996,
+          "calls": 475580
+        },
+        {
+          "id": "api-json",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 91,
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.0028321794223145173,
+            "elapsedMs": 300.04108799999995,
+            "calls": 105940
+          },
+          "ms": 0.002128649148694659,
+          "elapsedMs": 300.0543839999991,
+          "calls": 140960
+        },
+        {
+          "id": "cjk",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 91,
+          "sha256": "08470340770e70959993468b0577584cf40669ad273c7b7053f993847423aee3",
+          "warmup": {
+            "ms": 0.0006205279494498225,
+            "elapsedMs": 300.0128530000002,
+            "calls": 483480
+          },
+          "ms": 0.0006224796974852676,
+          "elapsedMs": 300.01031499999954,
+          "calls": 481960
+        },
+        {
+          "id": "cjk",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 91,
+          "sha256": "08470340770e70959993468b0577584cf40669ad273c7b7053f993847423aee3",
+          "warmup": {
+            "ms": 0.0017183827205040111,
+            "elapsedMs": 300.02962300000036,
+            "calls": 174600
+          },
+          "ms": 0.0017438531853057404,
+          "elapsedMs": 300.0125019999996,
+          "calls": 172040
+        },
+        {
+          "id": "cjk",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 103,
+          "sha256": "08470340770e70959993468b0577584cf40669ad273c7b7053f993847423aee3",
+          "warmup": {
+            "ms": 0.0007632734468020146,
+            "elapsedMs": 300.01226099999985,
+            "calls": 393060
+          },
+          "ms": 0.0008172897243858616,
+          "elapsedMs": 300.0924410000007,
+          "calls": 367180
+        },
+        {
+          "id": "cjk",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 103,
+          "sha256": "08470340770e70959993468b0577584cf40669ad273c7b7053f993847423aee3",
+          "warmup": {
+            "ms": 0.0021337269559032726,
+            "elapsedMs": 300.00201000000015,
+            "calls": 140600
+          },
+          "ms": 0.002245452716659184,
+          "elapsedMs": 300.0373920000002,
+          "calls": 133620
+        },
+        {
+          "id": "mixed",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 89,
+          "sha256": "43c414657269ba32c803cffe2f526654a436b0b2da062f1d2bea635c351182a5",
+          "warmup": {
+            "ms": 0.004710939638932489,
+            "elapsedMs": 300.08685499999956,
+            "calls": 63700
+          },
+          "ms": 0.00509385828241686,
+          "elapsedMs": 300.1301300000014,
+          "calls": 58920
+        },
+        {
+          "id": "mixed",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 89,
+          "sha256": "43c414657269ba32c803cffe2f526654a436b0b2da062f1d2bea635c351182a5",
+          "warmup": {
+            "ms": 0.004271785108200461,
+            "elapsedMs": 300.0501860000004,
+            "calls": 70240
+          },
+          "ms": 0.00442778280696578,
+          "elapsedMs": 300.02656300000126,
+          "calls": 67760
+        },
+        {
+          "id": "mixed",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 101,
+          "sha256": "43c414657269ba32c803cffe2f526654a436b0b2da062f1d2bea635c351182a5",
+          "warmup": {
+            "ms": 0.005157550464077022,
+            "elapsedMs": 300.0662860000011,
+            "calls": 58180
+          },
+          "ms": 0.004080037095458248,
+          "elapsedMs": 300.04592799999955,
+          "calls": 73540
+        },
+        {
+          "id": "mixed",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 101,
+          "sha256": "43c414657269ba32c803cffe2f526654a436b0b2da062f1d2bea635c351182a5",
+          "warmup": {
+            "ms": 0.004639418784786631,
+            "elapsedMs": 300.07760699999926,
+            "calls": 64680
+          },
+          "ms": 0.004454548827197167,
+          "elapsedMs": 300.0584090000011,
+          "calls": 67360
+        },
+        {
+          "id": "readme.md",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 4779,
+          "sha256": "13b7a95a75d5fcd995a696fcff2c05e2c0652ea8d414d05829cc93742992a3ad",
+          "warmup": {
+            "ms": 0.033176797019867636,
+            "elapsedMs": 300.5817810000008,
+            "calls": 9060
+          },
+          "ms": 0.03491073313953504,
+          "elapsedMs": 300.23230500000136,
+          "calls": 8600
+        },
+        {
+          "id": "readme.md",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 4779,
+          "sha256": "13b7a95a75d5fcd995a696fcff2c05e2c0652ea8d414d05829cc93742992a3ad",
+          "warmup": {
+            "ms": 0.24658787540983673,
+            "elapsedMs": 300.8372080000008,
+            "calls": 1220
+          },
+          "ms": 0.17679571686046477,
+          "elapsedMs": 304.0886329999994,
+          "calls": 1720
+        },
+        {
+          "id": "readme.md",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 4791,
+          "sha256": "13b7a95a75d5fcd995a696fcff2c05e2c0652ea8d414d05829cc93742992a3ad",
+          "warmup": {
+            "ms": 0.034890316241299374,
+            "elapsedMs": 300.7545260000006,
+            "calls": 8620
+          },
+          "ms": 0.03782675491183863,
+          "elapsedMs": 300.3444339999987,
+          "calls": 7940
+        },
+        {
+          "id": "readme.md",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 4791,
+          "sha256": "13b7a95a75d5fcd995a696fcff2c05e2c0652ea8d414d05829cc93742992a3ad",
+          "warmup": {
+            "ms": 0.18074456686747042,
+            "elapsedMs": 300.0359810000009,
+            "calls": 1660
+          },
+          "ms": 0.2198012978260891,
+          "elapsedMs": 303.32579100000294,
+          "calls": 1380
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "variant": "baseline",
+      "encoding": "o200k_base",
+      "runtime": {
+        "node": "26.12.0",
+        "bun": null
+      },
+      "coreSha256": "cc7036d186ecc6eda5df557fdd2ae62bb0f96150081e7044169a52b66ed16f7f",
+      "checksum": 3051469575,
+      "measurements": [
+        {
+          "id": "English",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 10,
+          "sha256": "ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c",
+          "warmup": {
+            "ms": 0.00010560534407027819,
+            "elapsedMs": 300.054352,
+            "calls": 2841280
+          },
+          "ms": 0.00008705116484179622,
+          "elapsedMs": 300.04969600000004,
+          "calls": 3446820
+        },
+        {
+          "id": "English",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 10,
+          "sha256": "ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c",
+          "warmup": {
+            "ms": 0.000356130344254511,
+            "elapsedMs": 300.0042020000001,
+            "calls": 842400
+          },
+          "ms": 0.0003337598869679372,
+          "elapsedMs": 300.003412,
+          "calls": 898860
+        },
+        {
+          "id": "Chinese",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 12,
+          "sha256": "73e8fc331751af46aa8f690bf5e6ee5fcea46ce1608c77352e44b14db45aecd9",
+          "warmup": {
+            "ms": 0.00019609869140063276,
+            "elapsedMs": 300.007466,
+            "calls": 1529880
+          },
+          "ms": 0.00018572800594316837,
+          "elapsedMs": 300.00644799999986,
+          "calls": 1615300
+        },
+        {
+          "id": "Chinese",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 12,
+          "sha256": "73e8fc331751af46aa8f690bf5e6ee5fcea46ce1608c77352e44b14db45aecd9",
+          "warmup": {
+            "ms": 0.0002688425145622367,
+            "elapsedMs": 300.001362,
+            "calls": 1115900
+          },
+          "ms": 0.0002617736195944293,
+          "elapsedMs": 300.0030389999997,
+          "calls": 1146040
+        },
+        {
+          "id": "French",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 14,
+          "sha256": "0f7da063db4d9ed52d77a57dd253ba0ff7239ae815f4f4372453c5ad422aa435",
+          "warmup": {
+            "ms": 0.00012580797324498875,
+            "elapsedMs": 300.00169300000016,
+            "calls": 2384600
+          },
+          "ms": 0.00012723606818104696,
+          "elapsedMs": 300.0022909999998,
+          "calls": 2357840
+        },
+        {
+          "id": "French",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 14,
+          "sha256": "0f7da063db4d9ed52d77a57dd253ba0ff7239ae815f4f4372453c5ad422aa435",
+          "warmup": {
+            "ms": 0.000546197693260023,
+            "elapsedMs": 300.00454500000023,
+            "calls": 549260
+          },
+          "ms": 0.000569882748271408,
+          "elapsedMs": 300.00907400000006,
+          "calls": 526440
+        },
+        {
+          "id": "Code",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 18,
+          "sha256": "19fe498d9585a6f125ad294203e8a68365c217ffb7e7faa4b57c0176d5c8b214",
+          "warmup": {
+            "ms": 0.00015249459767193615,
+            "elapsedMs": 300.002622,
+            "calls": 1967300
+          },
+          "ms": 0.00015582061704669416,
+          "elapsedMs": 300.00143400000024,
+          "calls": 1925300
+        },
+        {
+          "id": "Code",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 18,
+          "sha256": "19fe498d9585a6f125ad294203e8a68365c217ffb7e7faa4b57c0176d5c8b214",
+          "warmup": {
+            "ms": 0.0005193539192604657,
+            "elapsedMs": 300.0099850000006,
+            "calls": 577660
+          },
+          "ms": 0.0005188204129630273,
+          "elapsedMs": 300.01309200000014,
+          "calls": 578260
+        },
+        {
+          "id": "support",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 59,
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.0004928586873665197,
+            "elapsedMs": 300.0030830000005,
+            "calls": 608700
+          },
+          "ms": 0.0004961443904213805,
+          "elapsedMs": 300.00859000000037,
+          "calls": 604680
+        },
+        {
+          "id": "support",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 59,
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.0023378459638460337,
+            "elapsedMs": 300.03915099999995,
+            "calls": 128340
+          },
+          "ms": 0.0022799901504787956,
+          "elapsedMs": 300.00110399999994,
+          "calls": 131580
+        },
+        {
+          "id": "support",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 72,
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.0006269460064365124,
+            "elapsedMs": 300.0062029999999,
+            "calls": 478520
+          },
+          "ms": 0.0006518092426020075,
+          "elapsedMs": 300.001722,
+          "calls": 460260
+        },
+        {
+          "id": "support",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 72,
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.002662904082357113,
+            "elapsedMs": 300.0560319999995,
+            "calls": 112680
+          },
+          "ms": 0.0026846377147458854,
+          "elapsedMs": 300.03511100000014,
+          "calls": 111760
+        },
+        {
+          "id": "typescript",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 87,
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.0006622628454746153,
+            "elapsedMs": 300.00506900000073,
+            "calls": 453000
+          },
+          "ms": 0.0006598190155713913,
+          "elapsedMs": 300.00651000000016,
+          "calls": 454680
+        },
+        {
+          "id": "typescript",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 87,
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.0025258146271671484,
+            "elapsedMs": 300.1172940000006,
+            "calls": 118820
+          },
+          "ms": 0.002607844332406125,
+          "elapsedMs": 300.00641200000064,
+          "calls": 115040
+        },
+        {
+          "id": "typescript",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 99,
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.0008940961971747015,
+            "elapsedMs": 300.00503799999933,
+            "calls": 335540
+          },
+          "ms": 0.000889899620313241,
+          "elapsedMs": 300.0029599999998,
+          "calls": 337120
+        },
+        {
+          "id": "typescript",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 99,
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.0030042553764517478,
+            "elapsedMs": 300.06502700000055,
+            "calls": 99880
+          },
+          "ms": 0.0030741066188524515,
+          "elapsedMs": 300.03280599999925,
+          "calls": 97600
+        },
+        {
+          "id": "api-json",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 79,
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.0006313817619328242,
+            "elapsedMs": 300.00735800000075,
+            "calls": 475160
+          },
+          "ms": 0.000622898448984678,
+          "elapsedMs": 300.0003510000006,
+          "calls": 481620
+        },
+        {
+          "id": "api-json",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 79,
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.0025263761872684363,
+            "elapsedMs": 300.0324359999995,
+            "calls": 118760
+          },
+          "ms": 0.001996061122937736,
+          "elapsedMs": 300.04790800000046,
+          "calls": 150320
+        },
+        {
+          "id": "api-json",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 91,
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.0008502154338831271,
+            "elapsedMs": 300.00701800000024,
+            "calls": 352860
+          },
+          "ms": 0.0007747582692009713,
+          "elapsedMs": 300.0018970000001,
+          "calls": 387220
+        },
+        {
+          "id": "api-json",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 91,
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.0023207423267326663,
+            "elapsedMs": 300.0255679999991,
+            "calls": 129280
+          },
+          "ms": 0.0027470003753891216,
+          "elapsedMs": 300.0273809999999,
+          "calls": 109220
+        },
+        {
+          "id": "cjk",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 91,
+          "sha256": "08470340770e70959993468b0577584cf40669ad273c7b7053f993847423aee3",
+          "warmup": {
+            "ms": 0.0008118917541675686,
+            "elapsedMs": 300.01024099999995,
+            "calls": 369520
+          },
+          "ms": 0.000756275409629444,
+          "elapsedMs": 300.01445500000045,
+          "calls": 396700
+        },
+        {
+          "id": "cjk",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 91,
+          "sha256": "08470340770e70959993468b0577584cf40669ad273c7b7053f993847423aee3",
+          "warmup": {
+            "ms": 0.0018729058614232205,
+            "elapsedMs": 300.0395189999999,
+            "calls": 160200
+          },
+          "ms": 0.0018294016646341555,
+          "elapsedMs": 300.0218730000015,
+          "calls": 164000
+        },
+        {
+          "id": "cjk",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 103,
+          "sha256": "08470340770e70959993468b0577584cf40669ad273c7b7053f993847423aee3",
+          "warmup": {
+            "ms": 0.0009277960755813965,
+            "elapsedMs": 300.0121390000004,
+            "calls": 323360
+          },
+          "ms": 0.000907074040031444,
+          "elapsedMs": 300.0056679999998,
+          "calls": 330740
+        },
+        {
+          "id": "cjk",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 103,
+          "sha256": "08470340770e70959993468b0577584cf40669ad273c7b7053f993847423aee3",
+          "warmup": {
+            "ms": 0.0022503601335133435,
+            "elapsedMs": 300.018012999999,
+            "calls": 133320
+          },
+          "ms": 0.0023053428692177604,
+          "elapsedMs": 300.01732099999936,
+          "calls": 130140
+        },
+        {
+          "id": "mixed",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 89,
+          "sha256": "43c414657269ba32c803cffe2f526654a436b0b2da062f1d2bea635c351182a5",
+          "warmup": {
+            "ms": 0.0047159228230116285,
+            "elapsedMs": 300.0270099999998,
+            "calls": 63620
+          },
+          "ms": 0.004919664819672137,
+          "elapsedMs": 300.09955400000035,
+          "calls": 61000
+        },
+        {
+          "id": "mixed",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 89,
+          "sha256": "43c414657269ba32c803cffe2f526654a436b0b2da062f1d2bea635c351182a5",
+          "warmup": {
+            "ms": 0.004495590230746171,
+            "elapsedMs": 300.0356919999995,
+            "calls": 66740
+          },
+          "ms": 0.00446576362012504,
+          "elapsedMs": 300.0100000000002,
+          "calls": 67180
+        },
+        {
+          "id": "mixed",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 101,
+          "sha256": "43c414657269ba32c803cffe2f526654a436b0b2da062f1d2bea635c351182a5",
+          "warmup": {
+            "ms": 0.0048765534460337885,
+            "elapsedMs": 300.0055679999987,
+            "calls": 61520
+          },
+          "ms": 0.004449205916370113,
+          "elapsedMs": 300.05444700000044,
+          "calls": 67440
+        },
+        {
+          "id": "mixed",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 101,
+          "sha256": "43c414657269ba32c803cffe2f526654a436b0b2da062f1d2bea635c351182a5",
+          "warmup": {
+            "ms": 0.004823513456591651,
+            "elapsedMs": 300.02253700000074,
+            "calls": 62200
+          },
+          "ms": 0.004727735975417636,
+          "elapsedMs": 300.02212500000314,
+          "calls": 63460
+        },
+        {
+          "id": "readme.md",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 4779,
+          "sha256": "13b7a95a75d5fcd995a696fcff2c05e2c0652ea8d414d05829cc93742992a3ad",
+          "warmup": {
+            "ms": 0.033909557449210224,
+            "elapsedMs": 300.4386790000026,
+            "calls": 8860
+          },
+          "ms": 0.03327104523281591,
+          "elapsedMs": 300.10482799999954,
+          "calls": 9020
+        },
+        {
+          "id": "readme.md",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 4779,
+          "sha256": "13b7a95a75d5fcd995a696fcff2c05e2c0652ea8d414d05829cc93742992a3ad",
+          "warmup": {
+            "ms": 0.17503554941860447,
+            "elapsedMs": 301.06114499999967,
+            "calls": 1720
+          },
+          "ms": 0.21155184154929527,
+          "elapsedMs": 300.40361499999926,
+          "calls": 1420
+        },
+        {
+          "id": "readme.md",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 4791,
+          "sha256": "13b7a95a75d5fcd995a696fcff2c05e2c0652ea8d414d05829cc93742992a3ad",
+          "warmup": {
+            "ms": 0.03534480976470599,
+            "elapsedMs": 300.4308830000009,
+            "calls": 8500
+          },
+          "ms": 0.03591278660287093,
+          "elapsedMs": 300.23089600000094,
+          "calls": 8360
+        },
+        {
+          "id": "readme.md",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 4791,
+          "sha256": "13b7a95a75d5fcd995a696fcff2c05e2c0652ea8d414d05829cc93742992a3ad",
+          "warmup": {
+            "ms": 0.2053907506756774,
+            "elapsedMs": 303.9783110000026,
+            "calls": 1480
+          },
+          "ms": 0.17620492441860416,
+          "elapsedMs": 303.07246999999916,
+          "calls": 1720
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "variant": "baseline",
+      "encoding": "o200k_base",
+      "runtime": {
+        "node": "26.12.0",
+        "bun": null
+      },
+      "coreSha256": "cc7036d186ecc6eda5df557fdd2ae62bb0f96150081e7044169a52b66ed16f7f",
+      "checksum": 655609761,
+      "measurements": [
+        {
+          "id": "English",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 10,
+          "sha256": "ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c",
+          "warmup": {
+            "ms": 0.00007453397333028612,
+            "elapsedMs": 300.039491,
+            "calls": 4025540
+          },
+          "ms": 0.0000705219747752999,
+          "elapsedMs": 300.039973,
+          "calls": 4254560
+        },
+        {
+          "id": "English",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 10,
+          "sha256": "ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c",
+          "warmup": {
+            "ms": 0.0003512560345635071,
+            "elapsedMs": 300.00075400000014,
+            "calls": 854080
+          },
+          "ms": 0.00040344717186659515,
+          "elapsedMs": 300.00331700000015,
+          "calls": 743600
+        },
+        {
+          "id": "Chinese",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 12,
+          "sha256": "73e8fc331751af46aa8f690bf5e6ee5fcea46ce1608c77352e44b14db45aecd9",
+          "warmup": {
+            "ms": 0.00021042406082540747,
+            "elapsedMs": 300.00579199999993,
+            "calls": 1425720
+          },
+          "ms": 0.00018812042752514493,
+          "elapsedMs": 300.0069330000001,
+          "calls": 1594760
+        },
+        {
+          "id": "Chinese",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 12,
+          "sha256": "73e8fc331751af46aa8f690bf5e6ee5fcea46ce1608c77352e44b14db45aecd9",
+          "warmup": {
+            "ms": 0.00023928529360154414,
+            "elapsedMs": 300.00154399999997,
+            "calls": 1253740
+          },
+          "ms": 0.00023581508725043217,
+          "elapsedMs": 300.0039539999998,
+          "calls": 1272200
+        },
+        {
+          "id": "French",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 14,
+          "sha256": "0f7da063db4d9ed52d77a57dd253ba0ff7239ae815f4f4372453c5ad422aa435",
+          "warmup": {
+            "ms": 0.0001400683647552082,
+            "elapsedMs": 300.001225,
+            "calls": 2141820
+          },
+          "ms": 0.0001469905349390977,
+          "elapsedMs": 300.0047419999996,
+          "calls": 2040980
+        },
+        {
+          "id": "French",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 14,
+          "sha256": "0f7da063db4d9ed52d77a57dd253ba0ff7239ae815f4f4372453c5ad422aa435",
+          "warmup": {
+            "ms": 0.0004655736118439429,
+            "elapsedMs": 300.00632399999995,
+            "calls": 644380
+          },
+          "ms": 0.0004589394385803885,
+          "elapsedMs": 300.00871099999995,
+          "calls": 653700
+        },
+        {
+          "id": "Code",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 18,
+          "sha256": "19fe498d9585a6f125ad294203e8a68365c217ffb7e7faa4b57c0176d5c8b214",
+          "warmup": {
+            "ms": 0.0001546894053769763,
+            "elapsedMs": 300.0015390000003,
+            "calls": 1939380
+          },
+          "ms": 0.0001553219318864293,
+          "elapsedMs": 300.0012050000005,
+          "calls": 1931480
+        },
+        {
+          "id": "Code",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 18,
+          "sha256": "19fe498d9585a6f125ad294203e8a68365c217ffb7e7faa4b57c0176d5c8b214",
+          "warmup": {
+            "ms": 0.0005391339251698236,
+            "elapsedMs": 300.00646400000005,
+            "calls": 556460
+          },
+          "ms": 0.0007937568340565158,
+          "elapsedMs": 300.0083330000007,
+          "calls": 377960
+        },
+        {
+          "id": "support",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 59,
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.0005054581157125048,
+            "elapsedMs": 300.00961000000007,
+            "calls": 593540
+          },
+          "ms": 0.0004846886341605272,
+          "elapsedMs": 300.0028769999999,
+          "calls": 618960
+        },
+        {
+          "id": "support",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 59,
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.0021003536124334916,
+            "elapsedMs": 300.01451,
+            "calls": 142840
+          },
+          "ms": 0.0019592573275862106,
+          "elapsedMs": 300.0014820000006,
+          "calls": 153120
+        },
+        {
+          "id": "support",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 72,
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.0006481235460594531,
+            "elapsedMs": 300.00342699999965,
+            "calls": 462880
+          },
+          "ms": 0.0006266609161549054,
+          "elapsedMs": 300.00764699999945,
+          "calls": 478740
+        },
+        {
+          "id": "support",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 72,
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.00256719264202601,
+            "elapsedMs": 300.05347600000005,
+            "calls": 116880
+          },
+          "ms": 0.0026052629819381776,
+          "elapsedMs": 300.0220850000005,
+          "calls": 115160
+        },
+        {
+          "id": "typescript",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 87,
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.0006464656675573185,
+            "elapsedMs": 300.01178700000037,
+            "calls": 464080
+          },
+          "ms": 0.0006498948724058734,
+          "elapsedMs": 300.0044709999993,
+          "calls": 461620
+        },
+        {
+          "id": "typescript",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 87,
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.0025982046847939032,
+            "elapsedMs": 300.04067699999996,
+            "calls": 115480
+          },
+          "ms": 0.0026560343307365365,
+          "elapsedMs": 300.02563799999916,
+          "calls": 112960
+        },
+        {
+          "id": "typescript",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 99,
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.000787642341822003,
+            "elapsedMs": 300.0129680000009,
+            "calls": 380900
+          },
+          "ms": 0.0008101857987686329,
+          "elapsedMs": 300.0280050000001,
+          "calls": 370320
+        },
+        {
+          "id": "typescript",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 99,
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.0038572089740293216,
+            "elapsedMs": 300.0137140000006,
+            "calls": 77780
+          },
+          "ms": 0.003329248823790516,
+          "elapsedMs": 300.0319040000013,
+          "calls": 90120
+        },
+        {
+          "id": "api-json",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 79,
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.0007454543161713556,
+            "elapsedMs": 300.00063500000033,
+            "calls": 402440
+          },
+          "ms": 0.0006565588420638041,
+          "elapsedMs": 300.06052199999976,
+          "calls": 457020
+        },
+        {
+          "id": "api-json",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 79,
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.001885727561282219,
+            "elapsedMs": 300.01925500000107,
+            "calls": 159100
+          },
+          "ms": 0.0019142693210821853,
+          "elapsedMs": 300.0042880000001,
+          "calls": 156720
+        },
+        {
+          "id": "api-json",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 91,
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.0007716172299382689,
+            "elapsedMs": 300.00477899999896,
+            "calls": 388800
+          },
+          "ms": 0.0007902413997471259,
+          "elapsedMs": 300.0072449999989,
+          "calls": 379640
+        },
+        {
+          "id": "api-json",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 91,
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.00270818969128001,
+            "elapsedMs": 300.0132539999995,
+            "calls": 110780
+          },
+          "ms": 0.0024797901322314024,
+          "elapsedMs": 300.0546059999997,
+          "calls": 121000
+        },
+        {
+          "id": "cjk",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 91,
+          "sha256": "08470340770e70959993468b0577584cf40669ad273c7b7053f993847423aee3",
+          "warmup": {
+            "ms": 0.0008127167118166531,
+            "elapsedMs": 300.00624699999935,
+            "calls": 369140
+          },
+          "ms": 0.0007990598279443893,
+          "elapsedMs": 300.01500300000043,
+          "calls": 375460
+        },
+        {
+          "id": "cjk",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 91,
+          "sha256": "08470340770e70959993468b0577584cf40669ad273c7b7053f993847423aee3",
+          "warmup": {
+            "ms": 0.002204209131648549,
+            "elapsedMs": 300.0369470000005,
+            "calls": 136120
+          },
+          "ms": 0.0021224476160158403,
+          "elapsedMs": 300.02919499999916,
+          "calls": 141360
+        },
+        {
+          "id": "cjk",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 103,
+          "sha256": "08470340770e70959993468b0577584cf40669ad273c7b7053f993847423aee3",
+          "warmup": {
+            "ms": 0.0011659189880304718,
+            "elapsedMs": 300.014274000001,
+            "calls": 257320
+          },
+          "ms": 0.0010518134378067622,
+          "elapsedMs": 300.0192650000008,
+          "calls": 285240
+        },
+        {
+          "id": "cjk",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 103,
+          "sha256": "08470340770e70959993468b0577584cf40669ad273c7b7053f993847423aee3",
+          "warmup": {
+            "ms": 0.00293425120281636,
+            "elapsedMs": 300.056528000001,
+            "calls": 102260
+          },
+          "ms": 0.0024707780596277444,
+          "elapsedMs": 300.00187200000073,
+          "calls": 121420
+        },
+        {
+          "id": "mixed",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 89,
+          "sha256": "43c414657269ba32c803cffe2f526654a436b0b2da062f1d2bea635c351182a5",
+          "warmup": {
+            "ms": 0.004147549654505251,
+            "elapsedMs": 300.11669299999994,
+            "calls": 72360
+          },
+          "ms": 0.004083244367346939,
+          "elapsedMs": 300.118461,
+          "calls": 73500
+        },
+        {
+          "id": "mixed",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 89,
+          "sha256": "43c414657269ba32c803cffe2f526654a436b0b2da062f1d2bea635c351182a5",
+          "warmup": {
+            "ms": 0.00415177286188762,
+            "elapsedMs": 300.00710699999945,
+            "calls": 72260
+          },
+          "ms": 0.004472357317436645,
+          "elapsedMs": 300.0951759999989,
+          "calls": 67100
+        },
+        {
+          "id": "mixed",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 101,
+          "sha256": "43c414657269ba32c803cffe2f526654a436b0b2da062f1d2bea635c351182a5",
+          "warmup": {
+            "ms": 0.0036656262399217985,
+            "elapsedMs": 300.06816399999843,
+            "calls": 81860
+          },
+          "ms": 0.004248669654488816,
+          "elapsedMs": 300.04105100000015,
+          "calls": 70620
+        },
+        {
+          "id": "mixed",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 101,
+          "sha256": "43c414657269ba32c803cffe2f526654a436b0b2da062f1d2bea635c351182a5",
+          "warmup": {
+            "ms": 0.005427565213458714,
+            "elapsedMs": 300.0358049999977,
+            "calls": 55280
+          },
+          "ms": 0.004751935144124185,
+          "elapsedMs": 300.03718500000105,
+          "calls": 63140
+        },
+        {
+          "id": "readme.md",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 4779,
+          "sha256": "13b7a95a75d5fcd995a696fcff2c05e2c0652ea8d414d05829cc93742992a3ad",
+          "warmup": {
+            "ms": 0.032510881601731684,
+            "elapsedMs": 300.40054600000076,
+            "calls": 9240
+          },
+          "ms": 0.03232724655913962,
+          "elapsedMs": 300.64339299999847,
+          "calls": 9300
+        },
+        {
+          "id": "readme.md",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 4779,
+          "sha256": "13b7a95a75d5fcd995a696fcff2c05e2c0652ea8d414d05829cc93742992a3ad",
+          "warmup": {
+            "ms": 0.23129825384615219,
+            "elapsedMs": 300.6877299999978,
+            "calls": 1300
+          },
+          "ms": 0.1668503615384607,
+          "elapsedMs": 303.6676579999985,
+          "calls": 1820
+        },
+        {
+          "id": "readme.md",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 4791,
+          "sha256": "13b7a95a75d5fcd995a696fcff2c05e2c0652ea8d414d05829cc93742992a3ad",
+          "warmup": {
+            "ms": 0.03296968032967026,
+            "elapsedMs": 300.0240909999993,
+            "calls": 9100
+          },
+          "ms": 0.032780122379912485,
+          "elapsedMs": 300.26592099999834,
+          "calls": 9160
+        },
+        {
+          "id": "readme.md",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 4791,
+          "sha256": "13b7a95a75d5fcd995a696fcff2c05e2c0652ea8d414d05829cc93742992a3ad",
+          "warmup": {
+            "ms": 0.1790298976190462,
+            "elapsedMs": 300.7702279999976,
+            "calls": 1680
+          },
+          "ms": 0.21515238285714336,
+          "elapsedMs": 301.2133360000007,
+          "calls": 1400
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "variant": "candidate",
+      "encoding": "o200k_base",
+      "runtime": {
+        "node": "26.12.0",
+        "bun": null
+      },
+      "coreSha256": "8d25b7802469634455735e8b5ac8a6ee7d9f288d6cb07fc0d760b35ffc890fdc",
+      "checksum": 2651552736,
+      "measurements": [
+        {
+          "id": "English",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 10,
+          "sha256": "ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c",
+          "warmup": {
+            "ms": 0.00007410991844134544,
+            "elapsedMs": 300.042898,
+            "calls": 4048620
+          },
+          "ms": 0.00007150497125916324,
+          "elapsedMs": 300.04344000000003,
+          "calls": 4196120
+        },
+        {
+          "id": "English",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 10,
+          "sha256": "ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c",
+          "warmup": {
+            "ms": 0.00037469770689181435,
+            "elapsedMs": 300.00546600000007,
+            "calls": 800660
+          },
+          "ms": 0.0003679181779162172,
+          "elapsedMs": 300.01519900000017,
+          "calls": 815440
+        },
+        {
+          "id": "Chinese",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 12,
+          "sha256": "73e8fc331751af46aa8f690bf5e6ee5fcea46ce1608c77352e44b14db45aecd9",
+          "warmup": {
+            "ms": 0.00019449591431868572,
+            "elapsedMs": 300.002168,
+            "calls": 1542460
+          },
+          "ms": 0.0001838965856708513,
+          "elapsedMs": 300.001534,
+          "calls": 1631360
+        },
+        {
+          "id": "Chinese",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 12,
+          "sha256": "73e8fc331751af46aa8f690bf5e6ee5fcea46ce1608c77352e44b14db45aecd9",
+          "warmup": {
+            "ms": 0.0002582989005217573,
+            "elapsedMs": 300.0038410000002,
+            "calls": 1161460
+          },
+          "ms": 0.0002790177507858857,
+          "elapsedMs": 300.00546600000007,
+          "calls": 1075220
+        },
+        {
+          "id": "French",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 14,
+          "sha256": "0f7da063db4d9ed52d77a57dd253ba0ff7239ae815f4f4372453c5ad422aa435",
+          "warmup": {
+            "ms": 0.00012834173226325334,
+            "elapsedMs": 300.00136599999996,
+            "calls": 2337520
+          },
+          "ms": 0.00011231220415253408,
+          "elapsedMs": 300.0016209999999,
+          "calls": 2671140
+        },
+        {
+          "id": "French",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 14,
+          "sha256": "0f7da063db4d9ed52d77a57dd253ba0ff7239ae815f4f4372453c5ad422aa435",
+          "warmup": {
+            "ms": 0.0005085656399308728,
+            "elapsedMs": 300.1656119999998,
+            "calls": 590220
+          },
+          "ms": 0.00046820697921218544,
+          "elapsedMs": 300.00830399999995,
+          "calls": 640760
+        },
+        {
+          "id": "Code",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 18,
+          "sha256": "19fe498d9585a6f125ad294203e8a68365c217ffb7e7faa4b57c0176d5c8b214",
+          "warmup": {
+            "ms": 0.0001328406688924705,
+            "elapsedMs": 300.0020529999997,
+            "calls": 2258360
+          },
+          "ms": 0.00013516869779135466,
+          "elapsedMs": 300.00151800000003,
+          "calls": 2219460
+        },
+        {
+          "id": "Code",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 18,
+          "sha256": "19fe498d9585a6f125ad294203e8a68365c217ffb7e7faa4b57c0176d5c8b214",
+          "warmup": {
+            "ms": 0.0005025544910881797,
+            "elapsedMs": 300.0049289999997,
+            "calls": 596960
+          },
+          "ms": 0.0005287360768417347,
+          "elapsedMs": 300.00485000000026,
+          "calls": 567400
+        },
+        {
+          "id": "support",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 59,
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.0004045314644012942,
+            "elapsedMs": 300.0005339999998,
+            "calls": 741600
+          },
+          "ms": 0.0003844863625877886,
+          "elapsedMs": 300.0070189999997,
+          "calls": 780280
+        },
+        {
+          "id": "support",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 59,
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.0025653297794117676,
+            "elapsedMs": 300.04097100000035,
+            "calls": 116960
+          },
+          "ms": 0.0022841129795980464,
+          "elapsedMs": 300.0410809999994,
+          "calls": 131360
+        },
+        {
+          "id": "support",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 72,
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.000509072369849997,
+            "elapsedMs": 300.0065290000002,
+            "calls": 589320
+          },
+          "ms": 0.0005374926293535906,
+          "elapsedMs": 300.0068860000001,
+          "calls": 558160
+        },
+        {
+          "id": "support",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 72,
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.0025685066769388825,
+            "elapsedMs": 300.05295000000024,
+            "calls": 116820
+          },
+          "ms": 0.0028571128356503555,
+          "elapsedMs": 300.05399000000034,
+          "calls": 105020
+        },
+        {
+          "id": "typescript",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 87,
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.0005651874698568211,
+            "elapsedMs": 300.0015090000006,
+            "calls": 530800
+          },
+          "ms": 0.0005095421515676478,
+          "elapsedMs": 300.0082279999997,
+          "calls": 588780
+        },
+        {
+          "id": "typescript",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 87,
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.0024347439386562773,
+            "elapsedMs": 300.0578429999996,
+            "calls": 123240
+          },
+          "ms": 0.0024015399055395442,
+          "elapsedMs": 300.0003649999999,
+          "calls": 124920
+        },
+        {
+          "id": "typescript",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 99,
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.0006447491833225878,
+            "elapsedMs": 300.00179500000013,
+            "calls": 465300
+          },
+          "ms": 0.0006466401754537242,
+          "elapsedMs": 300.0022430000008,
+          "calls": 463940
+        },
+        {
+          "id": "typescript",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 99,
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.0027875542827944942,
+            "elapsedMs": 300.0523429999994,
+            "calls": 107640
+          },
+          "ms": 0.00300421447737283,
+          "elapsedMs": 300.06094199999825,
+          "calls": 99880
+        },
+        {
+          "id": "api-json",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 79,
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.0004965527144228527,
+            "elapsedMs": 300.00721899999917,
+            "calls": 604180
+          },
+          "ms": 0.000507414283539679,
+          "elapsedMs": 300.00362099999984,
+          "calls": 591240
+        },
+        {
+          "id": "api-json",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 79,
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.0018367214338190258,
+            "elapsedMs": 300.0100789999997,
+            "calls": 163340
+          },
+          "ms": 0.0023685795910311012,
+          "elapsedMs": 300.0042909999993,
+          "calls": 126660
+        },
+        {
+          "id": "api-json",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 91,
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.0006044806105178343,
+            "elapsedMs": 300.00372700000116,
+            "calls": 496300
+          },
+          "ms": 0.000607887485816178,
+          "elapsedMs": 300.00463200000013,
+          "calls": 493520
+        },
+        {
+          "id": "api-json",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 91,
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.0023840726203718464,
+            "elapsedMs": 300.0593800000006,
+            "calls": 125860
+          },
+          "ms": 0.0024116730509564366,
+          "elapsedMs": 300.06036099999983,
+          "calls": 124420
+        },
+        {
+          "id": "cjk",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 91,
+          "sha256": "08470340770e70959993468b0577584cf40669ad273c7b7053f993847423aee3",
+          "warmup": {
+            "ms": 0.0006776171906762419,
+            "elapsedMs": 300.00823499999933,
+            "calls": 442740
+          },
+          "ms": 0.0006423202586391464,
+          "elapsedMs": 300.0020999999997,
+          "calls": 467060
+        },
+        {
+          "id": "cjk",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 91,
+          "sha256": "08470340770e70959993468b0577584cf40669ad273c7b7053f993847423aee3",
+          "warmup": {
+            "ms": 0.0017701158702064996,
+            "elapsedMs": 300.0346400000017,
+            "calls": 169500
+          },
+          "ms": 0.001742318536585365,
+          "elapsedMs": 300.02725199999986,
+          "calls": 172200
+        },
+        {
+          "id": "cjk",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 103,
+          "sha256": "08470340770e70959993468b0577584cf40669ad273c7b7053f993847423aee3",
+          "warmup": {
+            "ms": 0.0008208283119015076,
+            "elapsedMs": 300.012748000001,
+            "calls": 365500
+          },
+          "ms": 0.0007629980620549343,
+          "elapsedMs": 300.01083800000015,
+          "calls": 393200
+        },
+        {
+          "id": "cjk",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 103,
+          "sha256": "08470340770e70959993468b0577584cf40669ad273c7b7053f993847423aee3",
+          "warmup": {
+            "ms": 0.0021371739279099507,
+            "elapsedMs": 300.0164759999989,
+            "calls": 140380
+          },
+          "ms": 0.0021322498223169885,
+          "elapsedMs": 300.00755000000026,
+          "calls": 140700
+        },
+        {
+          "id": "mixed",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 89,
+          "sha256": "43c414657269ba32c803cffe2f526654a436b0b2da062f1d2bea635c351182a5",
+          "warmup": {
+            "ms": 0.004464339866071435,
+            "elapsedMs": 300.0036390000005,
+            "calls": 67200
+          },
+          "ms": 0.004598747915389329,
+          "elapsedMs": 300.0223139999998,
+          "calls": 65240
+        },
+        {
+          "id": "mixed",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 89,
+          "sha256": "43c414657269ba32c803cffe2f526654a436b0b2da062f1d2bea635c351182a5",
+          "warmup": {
+            "ms": 0.004544167792247103,
+            "elapsedMs": 300.0968409999987,
+            "calls": 66040
+          },
+          "ms": 0.004987527809175554,
+          "elapsedMs": 300.04967300000135,
+          "calls": 60160
+        },
+        {
+          "id": "mixed",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 101,
+          "sha256": "43c414657269ba32c803cffe2f526654a436b0b2da062f1d2bea635c351182a5",
+          "warmup": {
+            "ms": 0.004049427441985984,
+            "elapsedMs": 300.1435620000011,
+            "calls": 74120
+          },
+          "ms": 0.004404849089841458,
+          "elapsedMs": 300.0583200000001,
+          "calls": 68120
+        },
+        {
+          "id": "mixed",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 101,
+          "sha256": "43c414657269ba32c803cffe2f526654a436b0b2da062f1d2bea635c351182a5",
+          "warmup": {
+            "ms": 0.0047117038159547805,
+            "elapsedMs": 300.04129900000044,
+            "calls": 63680
+          },
+          "ms": 0.004443306131516613,
+          "elapsedMs": 300.0120300000017,
+          "calls": 67520
+        },
+        {
+          "id": "readme.md",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 4779,
+          "sha256": "13b7a95a75d5fcd995a696fcff2c05e2c0652ea8d414d05829cc93742992a3ad",
+          "warmup": {
+            "ms": 0.03522953814553972,
+            "elapsedMs": 300.1556649999984,
+            "calls": 8520
+          },
+          "ms": 0.03399709932126706,
+          "elapsedMs": 300.5343580000008,
+          "calls": 8840
+        },
+        {
+          "id": "readme.md",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 4779,
+          "sha256": "13b7a95a75d5fcd995a696fcff2c05e2c0652ea8d414d05829cc93742992a3ad",
+          "warmup": {
+            "ms": 0.19861031052631628,
+            "elapsedMs": 301.88767200000075,
+            "calls": 1520
+          },
+          "ms": 0.20242727599999974,
+          "elapsedMs": 303.6409139999996,
+          "calls": 1500
+        },
+        {
+          "id": "readme.md",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 4791,
+          "sha256": "13b7a95a75d5fcd995a696fcff2c05e2c0652ea8d414d05829cc93742992a3ad",
+          "warmup": {
+            "ms": 0.03233243836206901,
+            "elapsedMs": 300.04502800000046,
+            "calls": 9280
+          },
+          "ms": 0.032199519957081736,
+          "elapsedMs": 300.0995260000018,
+          "calls": 9320
+        },
+        {
+          "id": "readme.md",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 4791,
+          "sha256": "13b7a95a75d5fcd995a696fcff2c05e2c0652ea8d414d05829cc93742992a3ad",
+          "warmup": {
+            "ms": 0.1724402201149425,
+            "elapsedMs": 300.045983,
+            "calls": 1740
+          },
+          "ms": 0.16932523595505597,
+          "elapsedMs": 301.39891999999963,
+          "calls": 1780
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "variant": "npm",
+      "encoding": "o200k_base",
+      "runtime": {
+        "node": "26.12.0",
+        "bun": null
+      },
+      "coreSha256": "f5def98252122f6f309c36d55587a2825d1a9c9729fbc4066684b64395df7044",
+      "checksum": 2776071712,
+      "measurements": [
+        {
+          "id": "English",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 10,
+          "sha256": "ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c",
+          "warmup": {
+            "ms": 0.00006976245099999534,
+            "elapsedMs": 300.049697,
+            "calls": 4301020
+          },
+          "ms": 0.00006587229369560825,
+          "elapsedMs": 300.04302799999994,
+          "calls": 4554920
+        },
+        {
+          "id": "English",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 10,
+          "sha256": "ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c",
+          "warmup": {
+            "ms": 0.0003505359498048747,
+            "elapsedMs": 300.00969800000007,
+            "calls": 855860
+          },
+          "ms": 0.0003441110774665657,
+          "elapsedMs": 300.01668399999994,
+          "calls": 871860
+        },
+        {
+          "id": "Chinese",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 12,
+          "sha256": "73e8fc331751af46aa8f690bf5e6ee5fcea46ce1608c77352e44b14db45aecd9",
+          "warmup": {
+            "ms": 0.0033860619300225734,
+            "elapsedMs": 300.005087,
+            "calls": 88600
+          },
+          "ms": 0.0037603966783655053,
+          "elapsedMs": 300.004447,
+          "calls": 79780
+        },
+        {
+          "id": "Chinese",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 12,
+          "sha256": "73e8fc331751af46aa8f690bf5e6ee5fcea46ce1608c77352e44b14db45aecd9",
+          "warmup": {
+            "ms": 0.0034004593155031737,
+            "elapsedMs": 300.05653000000007,
+            "calls": 88240
+          },
+          "ms": 0.003936249855680927,
+          "elapsedMs": 300.0209640000003,
+          "calls": 76220
+        },
+        {
+          "id": "French",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 14,
+          "sha256": "0f7da063db4d9ed52d77a57dd253ba0ff7239ae815f4f4372453c5ad422aa435",
+          "warmup": {
+            "ms": 0.0001115209845060369,
+            "elapsedMs": 300.00036999999975,
+            "calls": 2690080
+          },
+          "ms": 0.00010533484663352153,
+          "elapsedMs": 300.00207,
+          "calls": 2848080
+        },
+        {
+          "id": "French",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 14,
+          "sha256": "0f7da063db4d9ed52d77a57dd253ba0ff7239ae815f4f4372453c5ad422aa435",
+          "warmup": {
+            "ms": 0.0005081740683650654,
+            "elapsedMs": 300.00564299999996,
+            "calls": 590360
+          },
+          "ms": 0.00043396538072094004,
+          "elapsedMs": 300.00894700000026,
+          "calls": 691320
+        },
+        {
+          "id": "Code",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 18,
+          "sha256": "19fe498d9585a6f125ad294203e8a68365c217ffb7e7faa4b57c0176d5c8b214",
+          "warmup": {
+            "ms": 0.00012974857883036792,
+            "elapsedMs": 300.0020690000001,
+            "calls": 2312180
+          },
+          "ms": 0.00014406207957972384,
+          "elapsedMs": 300.0006370000001,
+          "calls": 2082440
+        },
+        {
+          "id": "Code",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 18,
+          "sha256": "19fe498d9585a6f125ad294203e8a68365c217ffb7e7faa4b57c0176d5c8b214",
+          "warmup": {
+            "ms": 0.0004991795757071542,
+            "elapsedMs": 300.0069249999997,
+            "calls": 601000
+          },
+          "ms": 0.000501184933177414,
+          "elapsedMs": 300.00930100000005,
+          "calls": 598600
+        }
+      ]
+    }
+  ]
+}

@@ -6,7 +6,7 @@
 [![Build Status](https://img.shields.io/github/actions/workflow/status/niieani/gpt-tokenizer/ci-cd.yml?branch=main&style=flat-square)](https://github.com/niieani/gpt-tokenizer/actions)
 
 `gpt-tokenizer` is a TypeScript Byte Pair Encoder/Decoder for every OpenAI model family, including GPT-5, GPT-4.1, GPT-4o, o-series reasoning models, gpt-oss, realtime and audio models, and legacy GPT-2/3/4 models.
-It's the [_fastest, smallest and lowest footprint_](#benchmarks) GPT tokenizer available for all JavaScript environments and is written in TypeScript.
+It is written in TypeScript and runs in JavaScript environments without native bindings. **#1 for encode, decode, and count in our [Node 26 / o200k_base mean benchmark](#benchmarks).**
 
 > Try it out in the **[playground](https://gpt-tokenizer.dev/)**!
 
@@ -468,9 +468,9 @@ If both `allowedSpecialTokens` and `disallowedSpecial` are provided, `disallowed
 
 ## Performance Optimization
 
-### LRU Merge Cache
+### Merge Cache
 
-The tokenizer uses an LRU (Least Recently Used) cache to improve encoding performance for similar strings. By default, it stores up to 100,000 merged token pairs. You can adjust this value to optimize for your specific use case:
+The tokenizer uses a bounded FIFO (first in, first out) cache to improve encoding performance for similar strings. Cache hits do not change insertion order. By default, it stores up to 100,000 merged text pieces. You can adjust this value to optimize for your specific use case:
 
 - Increasing the cache size will make encoding similar strings faster but consume more memory
 - Setting it to 0 will disable caching completely
@@ -508,16 +508,27 @@ Running the unit tests and verifying the test cases helps maintain consistency b
 
 The data is refreshed from OpenAI's official documentation using the automated [model catalog scraper](./src/scraper/README.md). If you notice a discrepancy, please open an issue or PR.
 
-## [Benchmarks](https://l8j6fv.csb.app/)
+## Benchmarks
 
-Since version 2.4.0, `gpt-tokenizer` is the fastest tokenizer implementation available on NPM. It's even faster than the available WASM/node binding implementations.
-It has the fastest encoding, decoding time and a tiny memory footprint. It also initializes faster than all other implementations.
+**#1 for encode, decode API return, and count among 10 tested tokenizers** on
+Node 26.12.0 / `o200k_base`, using the seven-input arithmetic mean.
+Five fresh processes per case; the chart shows median latency.
 
-The encodings themselves are also the smallest in size, due to the compact format they are stored in.
+![Node 26 / o200k_base: gpt-tokenizer ranks first for encode, decode API return, and count on the seven-input mean](./docs/benchmark-summary.svg)
 
-![fastest benchmark](./docs/fastest.png)
+In the same Node/o200k comparison, it also ranks **#1 for import + construction
+time and settled initialization RSS increase**. These measure initialization,
+excluding process startup; total process memory has different rankings.
 
-![lowest footprint benchmark](./docs/lowest-footprint.png)
+Two large synthetic inputs dominate this mean. On realistic requests,
+gpt-tokenizer leads the tested pure-JS shortlist for short-request encode/count;
+Golia WASM leads encode/count overall. Decode-and-read, tiny decode, and memory
+have tradeoffs; Bun 1.4.3 and `cl100k_base` are checked separately.
+
+See [results and ranges](./benchmark/OPTIMIZED-RESULTS.md),
+[realistic workloads](./benchmark/experiments/OVERVIEW.md),
+[losses and correctness findings](./benchmark/OPTIMIZED-FINDINGS.md), and
+[methodology, versions, and reproduction](./benchmark/README.md).
 
 ## License
 

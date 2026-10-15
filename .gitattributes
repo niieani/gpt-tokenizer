@@ -1,0 +1,8 @@
+# Keep generated evidence available without overwhelming the PR source review.
+benchmark/results/*.json linguist-generated=true
+benchmark/experiments/diagnostics/regex/*.json linguist-generated=true
+benchmark/experiments/rejected/**/*.json linguist-generated=true
+benchmark/experiments/rejected/**/*.log linguist-generated=true
+# Unified-diff context markers on empty lines are significant patch bytes.
+benchmark/experiments/rejected/**/*.patch -whitespace
+src/__fixtures__/unicode16Tokens.json linguist-generated=true

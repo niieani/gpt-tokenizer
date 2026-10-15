@@ -1,0 +1,1551 @@
+{
+  "complete": true,
+  "rounds": 3,
+  "warmMs": 300,
+  "measureMs": 300,
+  "scriptSha256": "8a8eb16ba53cd980651d322951446cdaa8bc73e969bb98cd34a6f0e0274c6d48",
+  "inputs": [
+    {
+      "id": "English",
+      "sha256": "ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c"
+    },
+    {
+      "id": "support",
+      "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+      "streamSha256": [
+        "6b6e400e79e4c50354e44aca432055efc678d6b807ae6fe9adb402b6f90dab00",
+        "40d2aae2f7359459c962be634bd67f6ca4007ccfe703f9fcab747fc97ee90fb7",
+        "b31ff28d7472353b7be47b8f6ab07325d9abe230d2f10fdb7bf752bebebe272b",
+        "bf7f38e46252044d4dcaa2eeafcb5349023d100e32c0f5331aafb7fba30fa369",
+        "401e3849d48b0985c0493eccd1c22128ba94517899f6260daf72455674008d79",
+        "90737b5d45e2575617e750abe287d8a2f777fd49c2d1907f4ed6183b2682d78d",
+        "992cde22bc307fe6f71a8018a00547858e813c0bd12eaddafb746b843fa9cb25",
+        "edac5c9764ee4fa99c7aabe0db34a0a6b251e449f00d1e07aa943b69ede9dc77",
+        "3bfb64373133a9fede04232e6f30250cd2582e45debe7340542fc676e0e8d2a3",
+        "30a3dd3a90443ccc2d46d4ef3118fd79d1f6463dd53a69c7e986975ffaf9683d",
+        "eb733f8fa723acd29ea22e38169fcf840f7b5461eb1bfd475574ced00445ce4a",
+        "60af7abe688be3805aca6c44061f9ba7277a27529a9b70688cc7e15d7d5acdf7",
+        "d26174c0c5e7c41f645865332ef464d52002f9c83b706d39981a80c7bc4721c0",
+        "b9f5fa5cca8d9222e99c9538b1744b4d940ff1a0c9e1de465430eeaf7dfac707",
+        "9d5c12272687043e44e2d4a0bf2729eb59be4c1f9a2f66af03d42ddb323b061c",
+        "19ec4ccb6d13b390f89e0a3cdc33a1bb885f7711cc8af140e751852ad82d403c",
+        "72e1c52cc38f5e98ade3e1f5c775a9578fbbbd87ff0318a93db5fc8e0a06e5dd",
+        "d31c0fa55f9fd9194aaee696170b0df388f50a83acebe9c13a72b74aebf9cb81",
+        "b496adbed7cc01eb14e669928ea878e9d48a0fa7c66c7a40bb01ca608dae9aaa",
+        "ef8b41ce07c4c0120a128ceaddd35333651e5e8b8acb3db305ca83263a1689a5",
+        "10468d6e42f7c064f60e743bf976543ac5385ca26427b10dfe5e1f34dfd1b6b4",
+        "643e2da31b6e03018fcc17abea15e39e22367bb9ada4c75fb0f99eb299779124",
+        "723460a52c0f4443eb29f3cf74b63cbcb3ec24a582aaf6d71c49dcb8fb09c422",
+        "0e3b24ea43342738291620ab10cbc435df4c4df22dc7670f218a763e14fd9501",
+        "4d5ab176f79a359abdb58d50a113858f11d27e86c8daa59a8b787e8c2ccfffd3",
+        "6b8b2560573336ad77eff15d7d2e33bf5b634c046e8fbff4fb6e9698a1d46972",
+        "32033ab1e31fe99d4ecb67d97a2d8e9761c138a5400124f9bfc6080bdbc0f603",
+        "f2545c1169cdb1af5e8c1b76e9e8c890929be5d7db6fcb6bab4ac1909c792723",
+        "d5a07a0b081815faea174fea1240a0229401158db207df4caae3c0a40af51188",
+        "b24973ad64282572f2acfedf7349ed1f828e48fa33f9cde29a9930f1e3e17031",
+        "9f7c386cbbbcd629904fe5af8b2b23a5f37b4c7b4dbc504750c6bf80c855c334",
+        "3e7bf738e5a6d8ddca06f8da48fcd03980db819f5f2aa2caa143630838aba6da"
+      ]
+    },
+    {
+      "id": "typescript",
+      "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+      "streamSha256": [
+        "6f8513b84edb0ca5beb26fcf788992b1ac1c1807ee65862742908c693d0f6e42",
+        "3ea9e1449a4cd824653025ec7c4eef099099f25eb0b57ea7f365dd6167f55126",
+        "359e3072542e2c7118ad3b7ea208d5d9b9bf72a885c3b0fa5f47c07f69ddc4a6",
+        "e7c4661cbd091807d7d013ceccccb53fbc00cd6b73010fe007b24e1728db0d16",
+        "b5dd4c169e3e847ca5f31f01b6794c0861fb89097e1427595cd6b09131123777",
+        "94d4fdcac7b7f8640129657121e882891a0c292d09991773bee85dfcd46e6391",
+        "803797e10b7c41b6b8b519b566e2463c038bdd1daae0db4c3d5c4d120dc5e450",
+        "fb10dc8dc0d19f33867a9e79b53117621cd54fc85c8a3a78667ac3ab8098f2fd",
+        "aedf1edeccd7434e5534fdd65955b1959068a4a0e6d9ad0f46f1a23e96cf6845",
+        "c0513950bf0c69d56e7ea377b06236b35f7b4eea3178171ffb04dbec3c97728a",
+        "f77391ed8cac7ac6de65d643f97ae8c96946e8c37693a211d55bff5a21400735",
+        "48ccfd9691f63580ccb492d2cc4f27c467cf12ad4cea840cb65502f769f3f171",
+        "754b93dabd8f1302fe0e700844c1a65338218356c4bdc39091b561c3567fc037",
+        "df0687cfd963d8ce4f345c0d6a65d714b0ff588019c038e2fee6db870cb035af",
+        "2cbdb9048c5550cef185508f9c4c5b0854e71a8933b0ac5665dae02fa269ac78",
+        "4d5897b3cc6e541a2a31db7060da7dc903d4ff43ff47d6d5af5d8b4ac883077c",
+        "24ae6e8292317031bd723e946c1ff5adfcf76e6aa290d0ae6913853456a99ded",
+        "2f4d1bcc070dfae7e526307dbcf2b413a7361f3096dd9b2638abab862a580c93",
+        "f1b198f9354e6cdbe5f0e6698f6b2a5648621a15fe2505f04b8b8ae3f84cddfb",
+        "4ab0db6b9f81b366fc12d3f38c5c91ca6b50c41c53c280da46fcbc688d81349a",
+        "5b1c01c3d81c9a7fd829f3871d20d6d4183b1d0529605a9bc7325c16df4fab3c",
+        "97e5d1fb874dddbcdc972e29d199781c3b8c4e9ca2c60c7c12e232a399a90e14",
+        "f021bdf4a4f7e0ff043bacbe014f4d2de7389b5d4ba889539b39a60b447b4c2e",
+        "cd233e118389d40fae0278852cab0d7d88b02ae1517300acfd4d9159543ef566",
+        "9065caa4d56cdd0b03452a141c4583a6b0bcde2cea7a79e5f395f3f9e04a2502",
+        "a82a112f81ae5b414dc7bc5ce3230852701f9b0f2d34c4996690a025c1163859",
+        "7bed9b5e94c4d8ee313324a2271efddcfe888920c21272d4bd9760d823312146",
+        "1d00f0a5233078b25c17dd593a188586a298229dc41245e1bce314fc0ca5312e",
+        "9a2b96009ba10a6bda928bcbbad0707a8b09197b7c9e1a7bd04890fdb9467189",
+        "435e2c488330412c38b92f23db773409cf50e007f7ca179732604699340eac16",
+        "915f765d24d42751b456d2e3b50cb243fed44a8f08987389dd39b059589b2f6c",
+        "91255998552ec4aa88b7e33fcd4530f80ff29fac5284466ee3b3b94fbc53dbff"
+      ]
+    },
+    {
+      "id": "api-json",
+      "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+      "streamSha256": [
+        "f783f70cb8cbc03df6678d7195a51ffeec69c566d299602319b50007c0487b43",
+        "7ff629fda36b9cbfb57066a919b117acdf4757a65b62c09db520690b670e21c0",
+        "0283e2a1dc79692b2bace292faf0a470bd3a7fbde378af1ac24da75079685db4",
+        "697c9897b699be9d5a7f7fcf90d838b165301229a321647cc7e62ef552b0ada9",
+        "dabbb4fc77828616186faa5b7a0e442cf7d278c8665ff08d61fdd36a39f83232",
+        "d0d7500ea59efcfe6a9178de41067ad3541f6a2530537f355df038399e125945",
+        "db03801700a531b8c13c9f026505c5a9bb17899b3dc95a1815cad28b4e0d3b3e",
+        "3fe4c085d0686cd0e62c60458bb6988df2b37b3f0be63111cf8ae18389be7f66",
+        "919465955a42409ef64026cdfa504fb5792d304cac9b87b7d8b94bd87286930c",
+        "511aa6d9dacf7076dc1c3b2aee064ce77ca19f77509d4fe3d34d4e9ec71a69d7",
+        "800b9b0cfa4c4f70198310f51abb56a2c67b2fc994aba97e5fc9d97e15149114",
+        "1cc75080436cfb07170ffd78dee3e272f8307eff05b2ae7f90e7782331d8167f",
+        "80fa1a2ab568e89a7392dc3b4f4907db7f97e962362877aaa605c14f5fb5ba95",
+        "57f3fad728cb35219a9aa7f225a7fa25828ba1e44fc79a2f82192de5d31d5a69",
+        "407f2bf208f1328dd399c9f873a0390dfb7ea91022cf927393efd141776f4860",
+        "b5e53f80280bf50e1d750433e1b128e7e112f5f64cd952a40e88cfc7ab90a8f5",
+        "63e4a21f04240b2abe6b0ee1057523d60bbf763ebe189e944f82350c5fdeee91",
+        "8c29f477ba0e2283bed6c57aafb827e7e7fc6ac05db7ef1a716454d63b4d31c5",
+        "14b1cb307dc82671f324afe5fa61c1d1defe32d378b036888b605ee1e3ce0087",
+        "4c94d438885e750d4c42929202d757e136ec9f43a73e9fbf4acfa9b4aecc9bbb",
+        "2c13fb1130f4d7f0f5c7dffa73cfb5b47c57a37b3999b5c3062ce39a2a2d736e",
+        "e44b42cad077abe79f9d0cd6e050a113ed19900d3d5e5569837d5725f6c87069",
+        "05005fa85518ef210f8893687c4736fafbf88409afc1bc89f9638d6958c0b3dd",
+        "f824bbecf3d229fc6bd5d9e7613f119368d8f8aa6adf1c0790605fb8477bec52",
+        "a63d7cc7f1be5b291baf703e1dfa88bd352220dd954219b3107ae71ab6aca9e4",
+        "53b001d7f5daedcf7ae9c89a7ad18bbc7c0295f09264ca493fc55ec3dcfc0b09",
+        "2b6e8181b78ebd9f0ce1ed5980a7f1c48408bd97cabc70b4bd1dc14c9e45c81d",
+        "585888494b229bc133a5b528204b6829882e6a80057d569834a2c46328639ad6",
+        "76503d572f41707951276f944e094b5502177c9cb32afea7db7a63971ca7ec92",
+        "13259586892530dc3fed82b366d3a89aeb357004c1af1ba6bb52707b8801abf7",
+        "1b783cb68f1bb79ee5e0ddfa2cd0a5418ae3644bcc08b4c4879d06b7c6efc443",
+        "0b0d2e5b8c680cf41b8e8731d17ea49ae85910247649bcc15bd2cd67a1dd7666"
+      ]
+    }
+  ],
+  "samples": [
+    {
+      "round": 0,
+      "variant": "baseline",
+      "encoding": "o200k_base",
+      "runtime": {
+        "node": "26.12.0",
+        "bun": null
+      },
+      "coreSha256": "cc7036d186ecc6eda5df557fdd2ae62bb0f96150081e7044169a52b66ed16f7f",
+      "checksum": 294691829,
+      "measurements": [
+        {
+          "id": "English",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 10,
+          "idsSha256": "f9de35885e3260513a02169dd0037afe839690eb755692126db87aa5d034a932",
+          "sha256": "ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c",
+          "warmup": {
+            "ms": 0.0000718388792583299,
+            "elapsedMs": 300.03651599999995,
+            "calls": 4176520
+          },
+          "ms": 0.00006786964626632043,
+          "elapsedMs": 300.040847,
+          "calls": 4420840
+        },
+        {
+          "id": "English",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 10,
+          "idsSha256": "f9de35885e3260513a02169dd0037afe839690eb755692126db87aa5d034a932",
+          "sha256": "ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c",
+          "warmup": {
+            "ms": 0.0003357064802381273,
+            "elapsedMs": 300.00073900000007,
+            "calls": 893640
+          },
+          "ms": 0.00033313910320474394,
+          "elapsedMs": 300.0050880000001,
+          "calls": 900540
+        },
+        {
+          "id": "support",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 59,
+          "idsSha256": "cd3d6f426ac73c1d93644bc0ceac19c286b75fb798d4ae1b2aac646c9087ba91",
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.0003414953318155948,
+            "elapsedMs": 300.003649,
+            "calls": 878500
+          },
+          "ms": 0.0003338510760944561,
+          "elapsedMs": 300.00525400000015,
+          "calls": 898620
+        },
+        {
+          "id": "support",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 59,
+          "idsSha256": "cd3d6f426ac73c1d93644bc0ceac19c286b75fb798d4ae1b2aac646c9087ba91",
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.002010044579927642,
+            "elapsedMs": 300.0192539999998,
+            "calls": 149260
+          },
+          "ms": 0.0017825949851455745,
+          "elapsedMs": 300.0107360000002,
+          "calls": 168300
+        },
+        {
+          "id": "support",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 72,
+          "idsSha256": "c7c82ed03464e40814c7167ab5f7a281eee8f1725c67adfda3e4fb33bd02aae9",
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.00044056543849859054,
+            "elapsedMs": 300.0074410000002,
+            "calls": 680960
+          },
+          "ms": 0.0004173215028933896,
+          "elapsedMs": 300.0040819999999,
+          "calls": 718880
+        },
+        {
+          "id": "support",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 72,
+          "idsSha256": "c7c82ed03464e40814c7167ab5f7a281eee8f1725c67adfda3e4fb33bd02aae9",
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.0023913517774589513,
+            "elapsedMs": 300.018994,
+            "calls": 125460
+          },
+          "ms": 0.0023975755154227265,
+          "elapsedMs": 300.0326,
+          "calls": 125140
+        },
+        {
+          "id": "typescript",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 87,
+          "idsSha256": "470561221a5d439f110c6006614a28a524d66eb1f4679bac19d3a0ddb79feb6f",
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.00045588261609530814,
+            "elapsedMs": 300.0072320000004,
+            "calls": 658080
+          },
+          "ms": 0.00043964774172748297,
+          "elapsedMs": 300.0068259999998,
+          "calls": 682380
+        },
+        {
+          "id": "typescript",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 87,
+          "idsSha256": "470561221a5d439f110c6006614a28a524d66eb1f4679bac19d3a0ddb79feb6f",
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.0023307017712865096,
+            "elapsedMs": 300.0079319999995,
+            "calls": 128720
+          },
+          "ms": 0.0023357702740579305,
+          "elapsedMs": 300.0063340000006,
+          "calls": 128440
+        },
+        {
+          "id": "typescript",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 99,
+          "idsSha256": "622e3cac387a85f4d2d141d3d91d602d2a163dddbbb193a5b5f78ede4b636047",
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.0005578611272267481,
+            "elapsedMs": 300.0065570000006,
+            "calls": 537780
+          },
+          "ms": 0.0005928572346059615,
+          "elapsedMs": 300.00947500000075,
+          "calls": 506040
+        },
+        {
+          "id": "typescript",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 99,
+          "idsSha256": "622e3cac387a85f4d2d141d3d91d602d2a163dddbbb193a5b5f78ede4b636047",
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.0027926362527922583,
+            "elapsedMs": 300.04083900000023,
+            "calls": 107440
+          },
+          "ms": 0.002665400692963758,
+          "elapsedMs": 300.0175020000006,
+          "calls": 112560
+        },
+        {
+          "id": "api-json",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 79,
+          "idsSha256": "1296cfefd2dc1274de04f46b8ea2e90ae88dd701c7220c0688c7f14f8c20e78c",
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.0004331690952669724,
+            "elapsedMs": 300.0042519999997,
+            "calls": 692580
+          },
+          "ms": 0.0004736552685591585,
+          "elapsedMs": 300.0037739999998,
+          "calls": 633380
+        },
+        {
+          "id": "api-json",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 79,
+          "idsSha256": "1296cfefd2dc1274de04f46b8ea2e90ae88dd701c7220c0688c7f14f8c20e78c",
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.0018711932206561062,
+            "elapsedMs": 300.0271210000001,
+            "calls": 160340
+          },
+          "ms": 0.0017117650216795979,
+          "elapsedMs": 300.0381729999999,
+          "calls": 175280
+        },
+        {
+          "id": "api-json",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 91,
+          "idsSha256": "9eb51af1e5dc692e14536ca272b14c36b374e7015e4f6ac704a741028b9de282",
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.0005949279685888791,
+            "elapsedMs": 300.010276,
+            "calls": 504280
+          },
+          "ms": 0.0005905309948427231,
+          "elapsedMs": 300.00155600000016,
+          "calls": 508020
+        },
+        {
+          "id": "api-json",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 91,
+          "idsSha256": "9eb51af1e5dc692e14536ca272b14c36b374e7015e4f6ac704a741028b9de282",
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.002247002598861602,
+            "elapsedMs": 300.0197870000011,
+            "calls": 133520
+          },
+          "ms": 0.002570256554146679,
+          "elapsedMs": 300.0003450000004,
+          "calls": 116720
+        }
+      ]
+    },
+    {
+      "round": 0,
+      "variant": "candidate",
+      "encoding": "o200k_base",
+      "runtime": {
+        "node": "26.12.0",
+        "bun": null
+      },
+      "coreSha256": "6e31078827841729a6b67b0413bf5f0656d103957d02dd85df7521f51d722ee8",
+      "checksum": 1849650637,
+      "measurements": [
+        {
+          "id": "English",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 10,
+          "idsSha256": "f9de35885e3260513a02169dd0037afe839690eb755692126db87aa5d034a932",
+          "sha256": "ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c",
+          "warmup": {
+            "ms": 0.00006060220945263583,
+            "elapsedMs": 300.041539,
+            "calls": 4951000
+          },
+          "ms": 0.00005744066955875822,
+          "elapsedMs": 300.03789100000006,
+          "calls": 5223440
+        },
+        {
+          "id": "English",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 10,
+          "idsSha256": "f9de35885e3260513a02169dd0037afe839690eb755692126db87aa5d034a932",
+          "sha256": "ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c",
+          "warmup": {
+            "ms": 0.0003309181991660966,
+            "elapsedMs": 300.0038209999999,
+            "calls": 906580
+          },
+          "ms": 0.00031284108427704434,
+          "elapsedMs": 300.00834299999997,
+          "calls": 958980
+        },
+        {
+          "id": "support",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 59,
+          "idsSha256": "cd3d6f426ac73c1d93644bc0ceac19c286b75fb798d4ae1b2aac646c9087ba91",
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.0002986940700915971,
+            "elapsedMs": 300.00832400000013,
+            "calls": 1004400
+          },
+          "ms": 0.000298325836283362,
+          "elapsedMs": 300.0083940000002,
+          "calls": 1005640
+        },
+        {
+          "id": "support",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 59,
+          "idsSha256": "cd3d6f426ac73c1d93644bc0ceac19c286b75fb798d4ae1b2aac646c9087ba91",
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.0017904450763905468,
+            "elapsedMs": 300.006977,
+            "calls": 167560
+          },
+          "ms": 0.001999545507864568,
+          "elapsedMs": 300.01180799999975,
+          "calls": 150040
+        },
+        {
+          "id": "support",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 72,
+          "idsSha256": "c7c82ed03464e40814c7167ab5f7a281eee8f1725c67adfda3e4fb33bd02aae9",
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.00041327287579898586,
+            "elapsedMs": 300.0030459999998,
+            "calls": 725920
+          },
+          "ms": 0.00038878527810896294,
+          "elapsedMs": 300.0022720000002,
+          "calls": 771640
+        },
+        {
+          "id": "support",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 72,
+          "idsSha256": "c7c82ed03464e40814c7167ab5f7a281eee8f1725c67adfda3e4fb33bd02aae9",
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.0023612247520856293,
+            "elapsedMs": 300.0172170000001,
+            "calls": 127060
+          },
+          "ms": 0.0024038942467948725,
+          "elapsedMs": 300.0060020000001,
+          "calls": 124800
+        },
+        {
+          "id": "typescript",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 87,
+          "idsSha256": "470561221a5d439f110c6006614a28a524d66eb1f4679bac19d3a0ddb79feb6f",
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.00039389277217583067,
+            "elapsedMs": 300.0044909999997,
+            "calls": 761640
+          },
+          "ms": 0.00041696083252258567,
+          "elapsedMs": 300.0033190000004,
+          "calls": 719500
+        },
+        {
+          "id": "typescript",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 87,
+          "idsSha256": "470561221a5d439f110c6006614a28a524d66eb1f4679bac19d3a0ddb79feb6f",
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.002363177040012599,
+            "elapsedMs": 300.02895699999954,
+            "calls": 126960
+          },
+          "ms": 0.002274814793751899,
+          "elapsedMs": 300.00257500000043,
+          "calls": 131880
+        },
+        {
+          "id": "typescript",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 99,
+          "idsSha256": "622e3cac387a85f4d2d141d3d91d602d2a163dddbbb193a5b5f78ede4b636047",
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.0005019394696335959,
+            "elapsedMs": 300.00922100000025,
+            "calls": 597700
+          },
+          "ms": 0.0004862803935552899,
+          "elapsedMs": 300.0058260000005,
+          "calls": 616940
+        },
+        {
+          "id": "typescript",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 99,
+          "idsSha256": "622e3cac387a85f4d2d141d3d91d602d2a163dddbbb193a5b5f78ede4b636047",
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.0027493469941348952,
+            "elapsedMs": 300.00874399999975,
+            "calls": 109120
+          },
+          "ms": 0.002907276414728677,
+          "elapsedMs": 300.03092599999945,
+          "calls": 103200
+        },
+        {
+          "id": "api-json",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 79,
+          "idsSha256": "1296cfefd2dc1274de04f46b8ea2e90ae88dd701c7220c0688c7f14f8c20e78c",
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.00040270771604938247,
+            "elapsedMs": 300.0977899999998,
+            "calls": 745200
+          },
+          "ms": 0.00036278176332591654,
+          "elapsedMs": 300.00600699999995,
+          "calls": 826960
+        },
+        {
+          "id": "api-json",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 79,
+          "idsSha256": "1296cfefd2dc1274de04f46b8ea2e90ae88dd701c7220c0688c7f14f8c20e78c",
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.0017172810303377245,
+            "elapsedMs": 300.0089960000005,
+            "calls": 174700
+          },
+          "ms": 0.0017273782556131237,
+          "elapsedMs": 300.0456029999996,
+          "calls": 173700
+        },
+        {
+          "id": "api-json",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 91,
+          "idsSha256": "9eb51af1e5dc692e14536ca272b14c36b374e7015e4f6ac704a741028b9de282",
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.0004812232267171415,
+            "elapsedMs": 300.00418400000035,
+            "calls": 623420
+          },
+          "ms": 0.0004743491651645958,
+          "elapsedMs": 300.00687300000027,
+          "calls": 632460
+        },
+        {
+          "id": "api-json",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 91,
+          "idsSha256": "9eb51af1e5dc692e14536ca272b14c36b374e7015e4f6ac704a741028b9de282",
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.0020496318647540914,
+            "elapsedMs": 300.06610499999897,
+            "calls": 146400
+          },
+          "ms": 0.0022318264320785666,
+          "elapsedMs": 300.0021090000009,
+          "calls": 134420
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "variant": "candidate",
+      "encoding": "o200k_base",
+      "runtime": {
+        "node": "26.12.0",
+        "bun": null
+      },
+      "coreSha256": "6e31078827841729a6b67b0413bf5f0656d103957d02dd85df7521f51d722ee8",
+      "checksum": 2015726245,
+      "measurements": [
+        {
+          "id": "English",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 10,
+          "idsSha256": "f9de35885e3260513a02169dd0037afe839690eb755692126db87aa5d034a932",
+          "sha256": "ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c",
+          "warmup": {
+            "ms": 0.00006304351672087607,
+            "elapsedMs": 300.0442699999999,
+            "calls": 4759320
+          },
+          "ms": 0.00005866690189039317,
+          "elapsedMs": 300.03896299999997,
+          "calls": 5114280
+        },
+        {
+          "id": "English",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 10,
+          "idsSha256": "f9de35885e3260513a02169dd0037afe839690eb755692126db87aa5d034a932",
+          "sha256": "ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c",
+          "warmup": {
+            "ms": 0.00033611400466075116,
+            "elapsedMs": 300.00191600000005,
+            "calls": 892560
+          },
+          "ms": 0.0003211261972554642,
+          "elapsedMs": 300.0025159999998,
+          "calls": 934220
+        },
+        {
+          "id": "support",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 59,
+          "idsSha256": "cd3d6f426ac73c1d93644bc0ceac19c286b75fb798d4ae1b2aac646c9087ba91",
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.00030209575361501593,
+            "elapsedMs": 300.00525100000004,
+            "calls": 993080
+          },
+          "ms": 0.0003118952239364577,
+          "elapsedMs": 300.00577799999996,
+          "calls": 961880
+        },
+        {
+          "id": "support",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 59,
+          "idsSha256": "cd3d6f426ac73c1d93644bc0ceac19c286b75fb798d4ae1b2aac646c9087ba91",
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.0018702736192494698,
+            "elapsedMs": 300.02929399999994,
+            "calls": 160420
+          },
+          "ms": 0.0018609532192035714,
+          "elapsedMs": 300.02287799999976,
+          "calls": 161220
+        },
+        {
+          "id": "support",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 72,
+          "idsSha256": "c7c82ed03464e40814c7167ab5f7a281eee8f1725c67adfda3e4fb33bd02aae9",
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.0003943782492113567,
+            "elapsedMs": 300.0429720000002,
+            "calls": 760800
+          },
+          "ms": 0.0004018477054757824,
+          "elapsedMs": 300.0034230000001,
+          "calls": 746560
+        },
+        {
+          "id": "support",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 72,
+          "idsSha256": "c7c82ed03464e40814c7167ab5f7a281eee8f1725c67adfda3e4fb33bd02aae9",
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.0024192208272859213,
+            "elapsedMs": 300.03176699999995,
+            "calls": 124020
+          },
+          "ms": 0.0024806767278439147,
+          "elapsedMs": 300.06265699999994,
+          "calls": 120960
+        },
+        {
+          "id": "typescript",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 87,
+          "idsSha256": "470561221a5d439f110c6006614a28a524d66eb1f4679bac19d3a0ddb79feb6f",
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.00040211024823075205,
+            "elapsedMs": 300.0064139999995,
+            "calls": 746080
+          },
+          "ms": 0.0004117956885191899,
+          "elapsedMs": 300.00139500000023,
+          "calls": 728520
+        },
+        {
+          "id": "typescript",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 87,
+          "idsSha256": "470561221a5d439f110c6006614a28a524d66eb1f4679bac19d3a0ddb79feb6f",
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.0023148380941358025,
+            "elapsedMs": 300.003017,
+            "calls": 129600
+          },
+          "ms": 0.0024088864723827864,
+          "elapsedMs": 300.05089899999984,
+          "calls": 124560
+        },
+        {
+          "id": "typescript",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 99,
+          "idsSha256": "622e3cac387a85f4d2d141d3d91d602d2a163dddbbb193a5b5f78ede4b636047",
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.0005159201633705927,
+            "elapsedMs": 300.00757499999963,
+            "calls": 581500
+          },
+          "ms": 0.0005025372742805457,
+          "elapsedMs": 300.0047020000002,
+          "calls": 596980
+        },
+        {
+          "id": "typescript",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 99,
+          "idsSha256": "622e3cac387a85f4d2d141d3d91d602d2a163dddbbb193a5b5f78ede4b636047",
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.0027731922828096115,
+            "elapsedMs": 300.05940499999997,
+            "calls": 108200
+          },
+          "ms": 0.002700628532853283,
+          "elapsedMs": 300.0398299999997,
+          "calls": 111100
+        },
+        {
+          "id": "api-json",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 79,
+          "idsSha256": "1296cfefd2dc1274de04f46b8ea2e90ae88dd701c7220c0688c7f14f8c20e78c",
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.00041183704252807364,
+            "elapsedMs": 300.00681200000054,
+            "calls": 728460
+          },
+          "ms": 0.00037041568673449313,
+          "elapsedMs": 300.0070730000007,
+          "calls": 809920
+        },
+        {
+          "id": "api-json",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 79,
+          "idsSha256": "1296cfefd2dc1274de04f46b8ea2e90ae88dd701c7220c0688c7f14f8c20e78c",
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.0016687563236929945,
+            "elapsedMs": 300.0423870000004,
+            "calls": 179800
+          },
+          "ms": 0.0016975813624533214,
+          "elapsedMs": 300.03053,
+          "calls": 176740
+        },
+        {
+          "id": "api-json",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 91,
+          "idsSha256": "9eb51af1e5dc692e14536ca272b14c36b374e7015e4f6ac704a741028b9de282",
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.00047328378241938575,
+            "elapsedMs": 300.00512400000025,
+            "calls": 633880
+          },
+          "ms": 0.0005491209137167321,
+          "elapsedMs": 300.0067199999994,
+          "calls": 546340
+        },
+        {
+          "id": "api-json",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 91,
+          "idsSha256": "9eb51af1e5dc692e14536ca272b14c36b374e7015e4f6ac704a741028b9de282",
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.002017452756858523,
+            "elapsedMs": 300.03557399999954,
+            "calls": 148720
+          },
+          "ms": 0.002106561466086222,
+          "elapsedMs": 300.01648399999976,
+          "calls": 142420
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "variant": "baseline",
+      "encoding": "o200k_base",
+      "runtime": {
+        "node": "26.12.0",
+        "bun": null
+      },
+      "coreSha256": "cc7036d186ecc6eda5df557fdd2ae62bb0f96150081e7044169a52b66ed16f7f",
+      "checksum": 1172330142,
+      "measurements": [
+        {
+          "id": "English",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 10,
+          "idsSha256": "f9de35885e3260513a02169dd0037afe839690eb755692126db87aa5d034a932",
+          "sha256": "ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c",
+          "warmup": {
+            "ms": 0.00007383844734070305,
+            "elapsedMs": 300.04105400000003,
+            "calls": 4063480
+          },
+          "ms": 0.00006909848091937081,
+          "elapsedMs": 300.032514,
+          "calls": 4342100
+        },
+        {
+          "id": "English",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 10,
+          "idsSha256": "f9de35885e3260513a02169dd0037afe839690eb755692126db87aa5d034a932",
+          "sha256": "ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c",
+          "warmup": {
+            "ms": 0.000340443787022537,
+            "elapsedMs": 300.00587400000006,
+            "calls": 881220
+          },
+          "ms": 0.00032702930474404803,
+          "elapsedMs": 300.0036029999999,
+          "calls": 917360
+        },
+        {
+          "id": "support",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 59,
+          "idsSha256": "cd3d6f426ac73c1d93644bc0ceac19c286b75fb798d4ae1b2aac646c9087ba91",
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.0003224280818089977,
+            "elapsedMs": 300.006433,
+            "calls": 930460
+          },
+          "ms": 0.00032297346431262806,
+          "elapsedMs": 300.0100510000002,
+          "calls": 928900
+        },
+        {
+          "id": "support",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 59,
+          "idsSha256": "cd3d6f426ac73c1d93644bc0ceac19c286b75fb798d4ae1b2aac646c9087ba91",
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.0018127031963746224,
+            "elapsedMs": 300.002379,
+            "calls": 165500
+          },
+          "ms": 0.0018284257769652637,
+          "elapsedMs": 300.04466999999977,
+          "calls": 164100
+        },
+        {
+          "id": "support",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 72,
+          "idsSha256": "c7c82ed03464e40814c7167ab5f7a281eee8f1725c67adfda3e4fb33bd02aae9",
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.0004124042339097682,
+            "elapsedMs": 300.00758399999995,
+            "calls": 727460
+          },
+          "ms": 0.00044673127643099644,
+          "elapsedMs": 300.00685599999997,
+          "calls": 671560
+        },
+        {
+          "id": "support",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 72,
+          "idsSha256": "c7c82ed03464e40814c7167ab5f7a281eee8f1725c67adfda3e4fb33bd02aae9",
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.0024490852105778656,
+            "elapsedMs": 300.0619200000001,
+            "calls": 122520
+          },
+          "ms": 0.0024212824806326668,
+          "elapsedMs": 300.04532500000005,
+          "calls": 123920
+        },
+        {
+          "id": "typescript",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 87,
+          "idsSha256": "470561221a5d439f110c6006614a28a524d66eb1f4679bac19d3a0ddb79feb6f",
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.0004348869433491827,
+            "elapsedMs": 300.00240900000017,
+            "calls": 689840
+          },
+          "ms": 0.0004365741799819564,
+          "elapsedMs": 300.0050450000008,
+          "calls": 687180
+        },
+        {
+          "id": "typescript",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 87,
+          "idsSha256": "470561221a5d439f110c6006614a28a524d66eb1f4679bac19d3a0ddb79feb6f",
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.0023397682782283252,
+            "elapsedMs": 300.0518840000004,
+            "calls": 128240
+          },
+          "ms": 0.0023298893849976656,
+          "elapsedMs": 300.0431549999994,
+          "calls": 128780
+        },
+        {
+          "id": "typescript",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 99,
+          "idsSha256": "622e3cac387a85f4d2d141d3d91d602d2a163dddbbb193a5b5f78ede4b636047",
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.0005686245868081879,
+            "elapsedMs": 300.00633199999993,
+            "calls": 527600
+          },
+          "ms": 0.0005931527996362059,
+          "elapsedMs": 300.0048230000002,
+          "calls": 505780
+        },
+        {
+          "id": "typescript",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 99,
+          "idsSha256": "622e3cac387a85f4d2d141d3d91d602d2a163dddbbb193a5b5f78ede4b636047",
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.002807347015344317,
+            "elapsedMs": 300.0492490000006,
+            "calls": 106880
+          },
+          "ms": 0.002792369411874182,
+          "elapsedMs": 300.0680169999996,
+          "calls": 107460
+        },
+        {
+          "id": "api-json",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 79,
+          "idsSha256": "1296cfefd2dc1274de04f46b8ea2e90ae88dd701c7220c0688c7f14f8c20e78c",
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.0004468591098665399,
+            "elapsedMs": 300.0033320000002,
+            "calls": 671360
+          },
+          "ms": 0.0004110991325915361,
+          "elapsedMs": 300.0037029999994,
+          "calls": 729760
+        },
+        {
+          "id": "api-json",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 79,
+          "idsSha256": "1296cfefd2dc1274de04f46b8ea2e90ae88dd701c7220c0688c7f14f8c20e78c",
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.0016816623977132595,
+            "elapsedMs": 300.04220499999974,
+            "calls": 178420
+          },
+          "ms": 0.0016906321142792756,
+          "elapsedMs": 300.01957500000026,
+          "calls": 177460
+        },
+        {
+          "id": "api-json",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 91,
+          "idsSha256": "9eb51af1e5dc692e14536ca272b14c36b374e7015e4f6ac704a741028b9de282",
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.0005166917674210325,
+            "elapsedMs": 300.0015739999999,
+            "calls": 580620
+          },
+          "ms": 0.0005368715586972075,
+          "elapsedMs": 300.00382699999955,
+          "calls": 558800
+        },
+        {
+          "id": "api-json",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 91,
+          "idsSha256": "9eb51af1e5dc692e14536ca272b14c36b374e7015e4f6ac704a741028b9de282",
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.002211524977889145,
+            "elapsedMs": 300.0597089999992,
+            "calls": 135680
+          },
+          "ms": 0.0023623178346456764,
+          "elapsedMs": 300.0143650000009,
+          "calls": 127000
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "variant": "baseline",
+      "encoding": "o200k_base",
+      "runtime": {
+        "node": "26.12.0",
+        "bun": null
+      },
+      "coreSha256": "cc7036d186ecc6eda5df557fdd2ae62bb0f96150081e7044169a52b66ed16f7f",
+      "checksum": 1707646155,
+      "measurements": [
+        {
+          "id": "English",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 10,
+          "idsSha256": "f9de35885e3260513a02169dd0037afe839690eb755692126db87aa5d034a932",
+          "sha256": "ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c",
+          "warmup": {
+            "ms": 0.00007224744709746395,
+            "elapsedMs": 300.037868,
+            "calls": 4152920
+          },
+          "ms": 0.00006812180996707912,
+          "elapsedMs": 300.042512,
+          "calls": 4404500
+        },
+        {
+          "id": "English",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 10,
+          "idsSha256": "f9de35885e3260513a02169dd0037afe839690eb755692126db87aa5d034a932",
+          "sha256": "ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c",
+          "warmup": {
+            "ms": 0.0003438425067620226,
+            "elapsedMs": 300.009464,
+            "calls": 872520
+          },
+          "ms": 0.0003229132833186231,
+          "elapsedMs": 300.005815,
+          "calls": 929060
+        },
+        {
+          "id": "support",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 59,
+          "idsSha256": "cd3d6f426ac73c1d93644bc0ceac19c286b75fb798d4ae1b2aac646c9087ba91",
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.00033612998184955295,
+            "elapsedMs": 300.009454,
+            "calls": 892540
+          },
+          "ms": 0.0003323077171023486,
+          "elapsedMs": 300.0074070000003,
+          "calls": 902800
+        },
+        {
+          "id": "support",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 59,
+          "idsSha256": "cd3d6f426ac73c1d93644bc0ceac19c286b75fb798d4ae1b2aac646c9087ba91",
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.001996929359691163,
+            "elapsedMs": 300.0186670000003,
+            "calls": 150240
+          },
+          "ms": 0.0017927348589866162,
+          "elapsedMs": 300.0321060000001,
+          "calls": 167360
+        },
+        {
+          "id": "support",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 72,
+          "idsSha256": "c7c82ed03464e40814c7167ab5f7a281eee8f1725c67adfda3e4fb33bd02aae9",
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.0004810677415733937,
+            "elapsedMs": 300.0034649999998,
+            "calls": 623620
+          },
+          "ms": 0.0004899293317438031,
+          "elapsedMs": 300.00332700000035,
+          "calls": 612340
+        },
+        {
+          "id": "support",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 72,
+          "idsSha256": "c7c82ed03464e40814c7167ab5f7a281eee8f1725c67adfda3e4fb33bd02aae9",
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.0023846273009060547,
+            "elapsedMs": 300.0338069999998,
+            "calls": 125820
+          },
+          "ms": 0.0024054098220012816,
+          "elapsedMs": 300.00271299999986,
+          "calls": 124720
+        },
+        {
+          "id": "typescript",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 87,
+          "idsSha256": "470561221a5d439f110c6006614a28a524d66eb1f4679bac19d3a0ddb79feb6f",
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.0004355000261293702,
+            "elapsedMs": 300.00725800000055,
+            "calls": 688880
+          },
+          "ms": 0.0004368501630893794,
+          "elapsedMs": 300.00248100000044,
+          "calls": 686740
+        },
+        {
+          "id": "typescript",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 87,
+          "idsSha256": "470561221a5d439f110c6006614a28a524d66eb1f4679bac19d3a0ddb79feb6f",
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.002314488952322169,
+            "elapsedMs": 300.00405799999953,
+            "calls": 129620
+          },
+          "ms": 0.0023195647518169144,
+          "elapsedMs": 300.0125049999997,
+          "calls": 129340
+        },
+        {
+          "id": "typescript",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 99,
+          "idsSha256": "622e3cac387a85f4d2d141d3d91d602d2a163dddbbb193a5b5f78ede4b636047",
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.0005662841915512097,
+            "elapsedMs": 300.0060389999999,
+            "calls": 529780
+          },
+          "ms": 0.0005410059995672086,
+          "elapsedMs": 300.00946699999986,
+          "calls": 554540
+        },
+        {
+          "id": "typescript",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 99,
+          "idsSha256": "622e3cac387a85f4d2d141d3d91d602d2a163dddbbb193a5b5f78ede4b636047",
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.0027348227256153144,
+            "elapsedMs": 300.01005299999997,
+            "calls": 109700
+          },
+          "ms": 0.002690729479820628,
+          "elapsedMs": 300.016337,
+          "calls": 111500
+        },
+        {
+          "id": "api-json",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 79,
+          "idsSha256": "1296cfefd2dc1274de04f46b8ea2e90ae88dd701c7220c0688c7f14f8c20e78c",
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.0004217606464038686,
+            "elapsedMs": 300.0067829999998,
+            "calls": 711320
+          },
+          "ms": 0.0004073151695766696,
+          "elapsedMs": 300.00391500000023,
+          "calls": 736540
+        },
+        {
+          "id": "api-json",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 79,
+          "idsSha256": "1296cfefd2dc1274de04f46b8ea2e90ae88dd701c7220c0688c7f14f8c20e78c",
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.001738356721520452,
+            "elapsedMs": 300.0056029999996,
+            "calls": 172580
+          },
+          "ms": 0.0016790279518746462,
+          "elapsedMs": 300.0422949999993,
+          "calls": 178700
+        },
+        {
+          "id": "api-json",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 91,
+          "idsSha256": "9eb51af1e5dc692e14536ca272b14c36b374e7015e4f6ac704a741028b9de282",
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.000537967614675609,
+            "elapsedMs": 300.0030200000001,
+            "calls": 557660
+          },
+          "ms": 0.0005373076333416915,
+          "elapsedMs": 300.00034400000004,
+          "calls": 558340
+        },
+        {
+          "id": "api-json",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 91,
+          "idsSha256": "9eb51af1e5dc692e14536ca272b14c36b374e7015e4f6ac704a741028b9de282",
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.00202354048421904,
+            "elapsedMs": 300.0505829999993,
+            "calls": 148280
+          },
+          "ms": 0.0021503481149655924,
+          "elapsedMs": 300.01656899999944,
+          "calls": 139520
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "variant": "candidate",
+      "encoding": "o200k_base",
+      "runtime": {
+        "node": "26.12.0",
+        "bun": null
+      },
+      "coreSha256": "6e31078827841729a6b67b0413bf5f0656d103957d02dd85df7521f51d722ee8",
+      "checksum": 1035286617,
+      "measurements": [
+        {
+          "id": "English",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 10,
+          "idsSha256": "f9de35885e3260513a02169dd0037afe839690eb755692126db87aa5d034a932",
+          "sha256": "ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c",
+          "warmup": {
+            "ms": 0.0000671279136314009,
+            "elapsedMs": 300.040293,
+            "calls": 4469680
+          },
+          "ms": 0.00006178506163229836,
+          "elapsedMs": 300.04185199999995,
+          "calls": 4856220
+        },
+        {
+          "id": "English",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 10,
+          "idsSha256": "f9de35885e3260513a02169dd0037afe839690eb755692126db87aa5d034a932",
+          "sha256": "ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c",
+          "warmup": {
+            "ms": 0.00034848266192733017,
+            "elapsedMs": 300.001754,
+            "calls": 860880
+          },
+          "ms": 0.0003238312201809113,
+          "elapsedMs": 300.0037189999998,
+          "calls": 926420
+        },
+        {
+          "id": "support",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 59,
+          "idsSha256": "cd3d6f426ac73c1d93644bc0ceac19c286b75fb798d4ae1b2aac646c9087ba91",
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.0003157416056243159,
+            "elapsedMs": 300.005044,
+            "calls": 950160
+          },
+          "ms": 0.0003050704525116943,
+          "elapsedMs": 300.00628300000017,
+          "calls": 983400
+        },
+        {
+          "id": "support",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 59,
+          "idsSha256": "cd3d6f426ac73c1d93644bc0ceac19c286b75fb798d4ae1b2aac646c9087ba91",
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.002037781660100532,
+            "elapsedMs": 300.0022160000003,
+            "calls": 147220
+          },
+          "ms": 0.0018743935024365874,
+          "elapsedMs": 300.01542400000017,
+          "calls": 160060
+        },
+        {
+          "id": "support",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 72,
+          "idsSha256": "c7c82ed03464e40814c7167ab5f7a281eee8f1725c67adfda3e4fb33bd02aae9",
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.00037340911602897603,
+            "elapsedMs": 300.0043519999999,
+            "calls": 803420
+          },
+          "ms": 0.0003821095768799673,
+          "elapsedMs": 300.00187099999994,
+          "calls": 785120
+        },
+        {
+          "id": "support",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 72,
+          "idsSha256": "c7c82ed03464e40814c7167ab5f7a281eee8f1725c67adfda3e4fb33bd02aae9",
+          "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+          "warmup": {
+            "ms": 0.002433287412814272,
+            "elapsedMs": 300.0243379999997,
+            "calls": 123300
+          },
+          "ms": 0.002425667518189168,
+          "elapsedMs": 300.0550720000001,
+          "calls": 123700
+        },
+        {
+          "id": "typescript",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 87,
+          "idsSha256": "470561221a5d439f110c6006614a28a524d66eb1f4679bac19d3a0ddb79feb6f",
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.00041417721235883766,
+            "elapsedMs": 300.0051220000005,
+            "calls": 724340
+          },
+          "ms": 0.00039843924482694566,
+          "elapsedMs": 300.0008450000005,
+          "calls": 752940
+        },
+        {
+          "id": "typescript",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 87,
+          "idsSha256": "470561221a5d439f110c6006614a28a524d66eb1f4679bac19d3a0ddb79feb6f",
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.0023338158836341046,
+            "elapsedMs": 300.0353700000005,
+            "calls": 128560
+          },
+          "ms": 0.0022721511055580784,
+          "elapsedMs": 300.0602749999998,
+          "calls": 132060
+        },
+        {
+          "id": "typescript",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 99,
+          "idsSha256": "622e3cac387a85f4d2d141d3d91d602d2a163dddbbb193a5b5f78ede4b636047",
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.0005041626978792055,
+            "elapsedMs": 300.00705500000004,
+            "calls": 595060
+          },
+          "ms": 0.0004978881787705789,
+          "elapsedMs": 300.00750100000005,
+          "calls": 602560
+        },
+        {
+          "id": "typescript",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 99,
+          "idsSha256": "622e3cac387a85f4d2d141d3d91d602d2a163dddbbb193a5b5f78ede4b636047",
+          "sha256": "c92e656a881a7da1f3bdf37525a339e1be4a4d134541a90a9f417f489974f41e",
+          "warmup": {
+            "ms": 0.0027022388398486794,
+            "elapsedMs": 300.00255600000037,
+            "calls": 111020
+          },
+          "ms": 0.002713114575045211,
+          "elapsedMs": 300.07047200000034,
+          "calls": 110600
+        },
+        {
+          "id": "api-json",
+          "mode": "repeated",
+          "consumer": "length",
+          "tokens": 79,
+          "idsSha256": "1296cfefd2dc1274de04f46b8ea2e90ae88dd701c7220c0688c7f14f8c20e78c",
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.00036722936301990255,
+            "elapsedMs": 300.019045,
+            "calls": 816980
+          },
+          "ms": 0.0003684405975978194,
+          "elapsedMs": 300.00644100000045,
+          "calls": 814260
+        },
+        {
+          "id": "api-json",
+          "mode": "repeated",
+          "consumer": "full",
+          "tokens": 79,
+          "idsSha256": "1296cfefd2dc1274de04f46b8ea2e90ae88dd701c7220c0688c7f14f8c20e78c",
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.0017908578020534843,
+            "elapsedMs": 300.00449899999967,
+            "calls": 167520
+          },
+          "ms": 0.0017062988909111567,
+          "elapsedMs": 300.0014709999996,
+          "calls": 175820
+        },
+        {
+          "id": "api-json",
+          "mode": "stream",
+          "consumer": "length",
+          "tokens": 91,
+          "idsSha256": "9eb51af1e5dc692e14536ca272b14c36b374e7015e4f6ac704a741028b9de282",
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.00046829556068931055,
+            "elapsedMs": 300.0088679999999,
+            "calls": 640640
+          },
+          "ms": 0.0004668488640253954,
+          "elapsedMs": 300.0064169999996,
+          "calls": 642620
+        },
+        {
+          "id": "api-json",
+          "mode": "stream",
+          "consumer": "full",
+          "tokens": 91,
+          "idsSha256": "9eb51af1e5dc692e14536ca272b14c36b374e7015e4f6ac704a741028b9de282",
+          "sha256": "2b69becdfd863ecbf2154910b7a48bd88f6f7f61ccf81c2350947ae89d1c8e77",
+          "warmup": {
+            "ms": 0.002081223335183127,
+            "elapsedMs": 300.0291559999996,
+            "calls": 144160
+          },
+          "ms": 0.0023540709667294536,
+          "elapsedMs": 300.00280400000156,
+          "calls": 127440
+        }
+      ]
+    }
+  ]
+}

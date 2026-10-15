@@ -1,0 +1,34 @@
+# Rejected: Node Record storage, Bun/browser Map storage
+
+Candidate `6c3be61b34bf74442c7b9d59c5f2ef510677c68f`, based on public branch tip `11388d6`, replaces the unified vocabulary/cache Map with a null-prototype Record on Node. A guarded module constant retains Map on Bun and browsers; direct conditional lookups avoid a per-instance dispatch wrapper. Only one vocabulary/cache lookup is allocated. [candidate.patch](candidate.patch) preserves the exact production and unit-test change. **This candidate was rejected and must not be applied to the published implementation.**
+
+The no-cl100k-regression guard failed. During sustained 100,000-entry cache churn, Node/cl100k count hits were 16–18% slower in both opposite-order process pairs. Node/o200k count hits were about 31% slower. These count calls immediately follow encode on the same 500-word block; they measure cache hits during a changing working set. Node encode improved, and the sum of encode+count improved, but that is a different metric and does not override the count regression. [CHURN-RESULTS.md](CHURN-RESULTS.md) preserves each operation and the fill/sustained phases separately.
+
+The exploratory sanitized corpus-v3 pilot covered support, European text, and the long README, both repeated and 32-variant stream modes, encode and count. All 12 cells improved over frozen production in both process pairs; long-README speedups ranged 1.186–1.268×. These are two-process observations on three documents, not publication-budget results or market-leadership evidence. [PILOT-RESULTS.md](PILOT-RESULTS.md) shows category-scoped ratios, raw ranges, and memory. Candidate initialized heap increased by 5.01MiB; median import was 121.37ms versus 117.99ms, with only two samples each. First-pass RSS delta increased by approximately 6.93MiB. The failed churn guard stopped the planned seven-entry 15-document sweep, original-seven comparison, and further warm guards.
+
+Correctness passed: build, lint/type checks, all 4,053 project tests, and independent `tiktoken@1.0.22` differential gates on Node 26.12.0 and Bun 1.4.3. Each engine tested both encodings with 4,984 strings and 350 valid token-ID sequences, plus invalid-ID checks; zero failures. The churn jobs checked every token against the independent oracle, bounded cache/ring/lookup sizes, and actual storage selection. Correctness success does not establish performance acceptance. Bun retained Map: sustained encode was within approximately 2% of frozen production; count was noisier, including one cl100k pair approximately 6% slower. Browser throughput and memory were not measured.
+
+Every build, test, and timing job used the machine-wide FIFO lease. The VM reported eight Intel Core i7-1360P CPUs and approximately 15.5GiB RAM; exact runtime, hardware, complete compiled-file hashes, corpus-v3 document/stream hashes, source IDs, and measured script hashes are in [source-manifest.json](source-manifest.json). The frozen ESM build's core SHA256 is `cc7036d186ecc6eda5df557fdd2ae62bb0f96150081e7044169a52b66ed16f7f`; its production source matches public `7cd2beda830300d622d1cb89d3e31bef0ae91dc1`. The candidate compiled core SHA256 is `a410d3f9a93a1eae5f357038197f066cb2d0af5724f37d5e0a7d2835e4445d14`. No hostname or private corpus-v2 extract is included.
+
+Publication metadata paths in JSON are anonymized with `benchmark/anonymize.py`; its `publicationPrivacy` record preserves original raw-file digests. Measurements and original input/build/harness hashes are unchanged. Measured driver source stays byte-for-byte intact for hash verification.
+
+The measured `run.mjs`, `worker.mjs`, and `churn.mjs` are immutable historical copies, intentionally preserving their recorded hashes and formatting. Their imports assume placement in `benchmark/experiments/node-record/`; copy them there to reproduce in an isolated worktree with this candidate applied and built. The frozen ESM directory defaults to `/tmp/gpt-warm-baseline-9e1420c-esm` for historical compatibility; the pilot driver accepts `--frozen`. Regeneration requires the benchmark dependencies and encoding fixtures. Never run a second build/test/benchmark without the shared queue.
+
+Example pilot invocation after restoring the original layout:
+
+```sh
+python3 /absolute/path/to/benchmark/queue.py --label record-pilot -- /absolute/path/to/node26 benchmark/experiments/node-record/run.mjs --output /tmp/new-record-pilot.json --rounds 2 --warm 100 --min 300 --documents support,european,readme.md --label 'EXPLORATORY corpus-v3 pilot'
+```
+
+The churn driver uses deterministic 500,000 distinct eight-letter pieces, not a production traffic claim. Run it twice, once per encoding, with a fresh absolute prefix each time:
+
+```sh
+GPT_RECORD_CHURN_PREFIX=/tmp/new-record-churn-o200 GPT_RECORD_CHURN_ENCODING=o200k_base python3 /absolute/path/to/benchmark/queue.py --label record-churn -- /absolute/path/to/node26 benchmark/experiments/node-record/churn.mjs driver
+```
+
+Raw oracle token blocks can be regenerated by that driver; their hashes and block offsets/counts are preserved in `churn-*-oracle.json`. Both engine processes exit before the next process starts. `report.py` generates `PILOT-RESULTS.md` from the pilot raw JSON; `archive.py` verifies the measured-script hashes, manifests, gates, storage selection, and churn coverage before generating `CHURN-RESULTS.md` and `source-manifest.json`. Regenerate the archive reports without rerunning benchmarks:
+
+```sh
+python3 benchmark/experiments/rejected/node-record-integration/archive.py
+python3 benchmark/experiments/rejected/node-record-integration/report.py benchmark/experiments/rejected/node-record-integration/pilot-v3.json --output benchmark/experiments/rejected/node-record-integration/PILOT-RESULTS.md
+```
