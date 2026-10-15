@@ -511,10 +511,14 @@ The data is refreshed from OpenAI's official documentation using the automated [
 ## Benchmarks
 
 **#1 for encode, decode API return, and count among 10 tested tokenizers** on
-Node 26.12.0 / `o200k_base`, using the original seven-input arithmetic mean.
+Node 26.12.0 / `o200k_base`, using the seven-input arithmetic mean.
 Five fresh processes per case; the chart shows median latency.
 
-![Node 26 / o200k_base: gpt-tokenizer ranks first for encode, decode API return, and count on the original seven-input mean](./docs/benchmark-summary.svg)
+![Node 26 / o200k_base: gpt-tokenizer ranks first for encode, decode API return, and count on the seven-input mean](./docs/benchmark-summary.svg)
+
+In the same Node/o200k comparison, it also ranks **#1 for import + construction
+time and settled initialization RSS increase**. These measure initialization,
+excluding process startup; total process memory has different rankings.
 
 Two large synthetic inputs dominate this mean. On realistic requests,
 gpt-tokenizer leads the tested pure-JS shortlist for short-request encode/count;
