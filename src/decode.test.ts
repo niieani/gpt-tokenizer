@@ -36,6 +36,28 @@ function expected(ids: number[]) {
 }
 
 describe('independent and contiguous UTF-8 decoding', () => {
+  test.each(['getter', 'proxy'] as const)(
+    'short %s-backed arrays read each token once before incomplete UTF-8',
+    (kind) => {
+      let reads = 0
+      const firstToken = () => (++reads === 1 ? 0 : 7)
+      const ids = [0, 8]
+      const tokens =
+        kind === 'getter'
+          ? Object.defineProperty(ids, '0', { get: firstToken })
+          : new Proxy(ids, {
+              get(target, property, receiver) {
+                return property === '0'
+                  ? firstToken()
+                  : Reflect.get(target, property, receiver)
+              },
+            })
+
+      expect(core.decodeNative(tokens)).toBe('a\uFFFD')
+      expect(reads).toBe(1)
+    },
+  )
+
   test('arbitrary sequences agree with decoding their concatenated bytes', () => {
     let state = 123456
     for (let iteration = 0; iteration < 1000; iteration++) {
