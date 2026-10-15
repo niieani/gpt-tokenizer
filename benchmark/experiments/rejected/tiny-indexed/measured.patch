@@ -1,0 +1,24 @@
+--- a/src/BytePairEncodingCore.ts
++++ b/src/BytePairEncodingCore.ts
+@@ -544,10 +544,17 @@
+   decodeNative(tokens: Iterable<number>): string {
+     // Preserve the cheap string-concatenation path for natural-language text.
+     // Byte-heavy inputs otherwise make thousands of small decoder calls.
+-    if (
+-      (Array.isArray(tokens) || tokens instanceof Uint32Array) &&
+-      tokens.length >= 128
+-    ) {
++    if (Array.isArray(tokens) || tokens instanceof Uint32Array) {
++      if (tokens.length < 128) {
++        const iterator = tokens[Symbol.iterator]
++        if (iterator === Array.prototype[Symbol.iterator] || iterator === Uint32Array.prototype[Symbol.iterator])
++          return this.decodeArray(tokens)
++        // Short arrays previously used for-of. Read custom iterator factories
++        // once and preserve their receiver, including accessor side effects.
++        return this.decodeNative({
++          [Symbol.iterator]: () => iterator.call(tokens),
++        })
++      }
+       let binaryTokens = 0
+       const sampleLength = Math.min(tokens.length, 128)
+       for (let index = 0; index < sampleLength; index++) {
