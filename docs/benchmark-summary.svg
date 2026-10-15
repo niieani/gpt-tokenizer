@@ -1,40 +1,201 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 550" role="img" aria-labelledby="title desc">
-<title id="title">gpt-tokenizer: #1 encode, decode API return, and count on the original seven-input mean</title>
-<desc id="desc">Node 26.12.0, o200k_base. Median of five fresh processes, milliseconds per call; lower is better. Each panel compares the checkout, the fastest other tokenizer, and the unranked npm reference. Large synthetic inputs dominate this mean; this is not a realistic-workload ranking.</desc>
-<rect width="760" height="550" rx="12" fill="#f5f7fa"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 1240" role="img" aria-labelledby="title desc">
+<title id="title">gpt-tokenizer 4.0.4 versus all ten benchmark contenders</title>
+<desc id="desc">Node 26.12.0, o200k_base. Encode, decode API return, and count latency on the original seven-input arithmetic mean. All ten ranked contenders, ordered by package npm downloads after gpt-tokenizer. Five fresh processes; bars show medians, whiskers show full process ranges. Logarithmic latency axes; lower is better. The historical npm reference is excluded. Large synthetic inputs dominate this score; see linked realistic results.</desc>
+<rect width="760" height="1240" rx="12" fill="#f5f7fa"/>
 <g font-family="system-ui, sans-serif" fill="#172336">
 <text x="24" y="32" font-size="20" font-weight="700">#1 on the original seven-input mean</text>
-<text x="24" y="56" font-size="13">Node 26.12.0 · o200k_base · 5 fresh processes · lower is better</text>
-<text x="24" y="86" font-size="15" font-weight="700">Encode · #1 / 10</text>
-<text x="24" y="113" font-size="12">gpt-tokenizer (checkout)</text>
-<rect x="310" y="99" width="168.600" height="19" rx="3" fill="#087f6d"/>
-<text x="625" y="113" font-size="13">3.939 ms</text>
-<text x="24" y="142" font-size="12">ai-tokenizer</text>
-<rect x="310" y="128" width="205.348" height="19" rx="3" fill="#5779a3"/>
-<text x="625" y="142" font-size="13">4.798 ms</text>
-<text x="24" y="171" font-size="12">gpt-tokenizer 4.0.3 (reference)</text>
-<rect x="310" y="157" width="300.000" height="19" rx="3" fill="#8591a0"/>
-<text x="625" y="171" font-size="13">7.009 ms</text>
-<text x="24" y="223" font-size="15" font-weight="700">Decode API return (length only) · #1 / 10</text>
-<text x="24" y="250" font-size="12">gpt-tokenizer (checkout)</text>
-<rect x="310" y="236" width="14.933" height="19" rx="3" fill="#087f6d"/>
-<text x="625" y="250" font-size="13">0.369 ms</text>
-<text x="24" y="279" font-size="12">@goliapkg/tiktoken-wasm</text>
-<rect x="310" y="265" width="29.712" height="19" rx="3" fill="#5779a3"/>
-<text x="625" y="279" font-size="13">0.734 ms</text>
-<text x="24" y="308" font-size="12">gpt-tokenizer 4.0.3 (reference)</text>
-<rect x="310" y="294" width="300.000" height="19" rx="3" fill="#8591a0"/>
-<text x="625" y="308" font-size="13">7.416 ms</text>
-<text x="24" y="360" font-size="15" font-weight="700">Count · #1 / 10</text>
-<text x="24" y="387" font-size="12">gpt-tokenizer (checkout)</text>
-<rect x="310" y="373" width="160.206" height="19" rx="3" fill="#087f6d"/>
-<text x="625" y="387" font-size="13">3.166 ms</text>
-<text x="24" y="416" font-size="12">bpe-lite</text>
-<rect x="310" y="402" width="211.203" height="19" rx="3" fill="#5779a3"/>
-<text x="625" y="416" font-size="13">4.173 ms</text>
-<text x="24" y="445" font-size="12">gpt-tokenizer 4.0.3 (reference)</text>
-<rect x="310" y="431" width="300.000" height="19" rx="3" fill="#8591a0"/>
-<text x="625" y="445" font-size="13">5.928 ms</text>
-<text x="24" y="510" font-size="12">Each panel: checkout, fastest other tokenizer, and historical npm reference.</text>
-<text x="24" y="532" font-size="12">Synthetic inputs dominate. See linked results for realistic workloads, ranges and losses.</text>
+<text x="24" y="56" font-size="13">Node 26.12.0 · o200k_base · five fresh processes · lower is better</text>
+<text x="24" y="77" font-size="12">All contenders · ordered by package npm downloads · logarithmic latency axes</text>
+<text x="24" y="110" font-size="16" font-weight="700">Encode · gpt-tokenizer #1 / 10</text>
+<text x="24" y="136" font-size="11" fill="#4a586b">Tokenizer / version</text>
+<text x="278" y="136" font-size="11" fill="#4a586b" text-anchor="end">npm/week</text>
+<text x="555" y="136" font-size="11" fill="#4a586b" text-anchor="end">Latency (log scale)</text>
+<text x="736" y="136" font-size="11" fill="#4a586b" text-anchor="end">Median ms · rank</text>
+<line x1="304.00" x2="304.00" y1="147" y2="402" stroke="#dce2e9"/>
+<text x="304.00" y="420" text-anchor="middle" font-size="11" fill="#4a586b">1</text>
+<line x1="391.33" x2="391.33" y1="147" y2="402" stroke="#dce2e9"/>
+<text x="391.33" y="420" text-anchor="middle" font-size="11" fill="#4a586b">10</text>
+<line x1="478.67" x2="478.67" y1="147" y2="402" stroke="#dce2e9"/>
+<text x="478.67" y="420" text-anchor="middle" font-size="11" fill="#4a586b">100</text>
+<line x1="566.00" x2="566.00" y1="147" y2="402" stroke="#dce2e9"/>
+<text x="566.00" y="420" text-anchor="middle" font-size="11" fill="#4a586b">1000</text>
+<text x="24" y="162" font-size="12" font-weight="700">gpt-tokenizer 4.0.4</text>
+<text x="278" y="162" font-size="12" text-anchor="end" fill="#4a586b">1.92M</text>
+<rect x="304" y="148" width="52.00" height="18" rx="2" fill="#087f6d"/>
+<path d="M355.49,157H356.75 M355.49,152v10 M356.75,152v10" fill="none" stroke="#172336" stroke-width="1.2"/>
+<text x="736" y="162" text-anchor="end" font-size="13" font-weight="700">3.939 · #1</text>
+<text x="24" y="188" font-size="12" font-weight="700">js-tiktoken 1.0.21</text>
+<text x="278" y="188" font-size="12" text-anchor="end" fill="#4a586b">9.86M</text>
+<rect x="304" y="174" width="180.84" height="18" rx="2" fill="#335e8c"/>
+<path d="M483.69,183H485.84 M483.69,178v10 M485.84,178v10" fill="none" stroke="#172336" stroke-width="1.2"/>
+<text x="736" y="188" text-anchor="end" font-size="13" font-weight="700">117.679 · #7</text>
+<text x="24" y="214" font-size="12" font-weight="700">@huggingface/tokenizers 0.2.0</text>
+<text x="278" y="214" font-size="12" text-anchor="end" fill="#4a586b">2.75M</text>
+<rect x="304" y="200" width="183.65" height="18" rx="2" fill="#335e8c"/>
+<path d="M486.86,209H487.91 M486.86,204v10 M487.91,204v10" fill="none" stroke="#172336" stroke-width="1.2"/>
+<text x="736" y="214" text-anchor="end" font-size="13" font-weight="700">126.729 · #9</text>
+<text x="24" y="240" font-size="12" font-weight="700">tiktoken 1.0.22</text>
+<text x="278" y="240" font-size="12" text-anchor="end" fill="#4a586b">1.53M</text>
+<rect x="304" y="226" width="113.68" height="18" rx="2" fill="#335e8c"/>
+<path d="M416.83,235H419.38 M416.83,230v10 M419.38,230v10" fill="none" stroke="#172336" stroke-width="1.2"/>
+<text x="736" y="240" text-anchor="end" font-size="13" font-weight="700">20.028 · #4</text>
+<text x="24" y="266" font-size="12" font-weight="400">ai-tokenizer 1.0.7</text>
+<text x="278" y="266" font-size="12" text-anchor="end" fill="#4a586b">150.2k</text>
+<rect x="304" y="252" width="59.48" height="18" rx="2" fill="#778ba3"/>
+<path d="M361.78,261H368.50 M361.78,256v10 M368.50,256v10" fill="none" stroke="#172336" stroke-width="1.2"/>
+<text x="736" y="266" text-anchor="end" font-size="13" font-weight="400">4.798 · #2</text>
+<text x="24" y="292" font-size="12" font-weight="400">@lenml/tokenizers 3.7.2</text>
+<text x="278" y="292" font-size="12" text-anchor="end" fill="#4a586b">20.4k</text>
+<rect x="304" y="278" width="183.59" height="18" rx="2" fill="#778ba3"/>
+<path d="M486.93,287H488.07 M486.93,282v10 M488.07,282v10" fill="none" stroke="#172336" stroke-width="1.2"/>
+<text x="736" y="292" text-anchor="end" font-size="13" font-weight="400">126.541 · #8</text>
+<text x="24" y="318" font-size="12" font-weight="400">tokenizers 0.23.2</text>
+<text x="278" y="318" font-size="12" text-anchor="end" fill="#4a586b">6.8k</text>
+<rect x="304" y="304" width="151.04" height="18" rx="2" fill="#778ba3"/>
+<path d="M453.22,313H455.50 M453.22,308v10 M455.50,308v10" fill="none" stroke="#172336" stroke-width="1.2"/>
+<text x="736" y="318" text-anchor="end" font-size="13" font-weight="400">53.630 · #6</text>
+<text x="24" y="344" font-size="12" font-weight="400">@goliapkg/tiktoken-wasm 4.1.2</text>
+<text x="278" y="344" font-size="12" text-anchor="end" fill="#4a586b">5.4k</text>
+<rect x="304" y="330" width="215.42" height="18" rx="2" fill="#778ba3"/>
+<path d="M518.80,339H520.55 M518.80,334v10 M520.55,334v10" fill="none" stroke="#172336" stroke-width="1.2"/>
+<text x="736" y="344" text-anchor="end" font-size="13" font-weight="400">292.868 · #10</text>
+<text x="24" y="370" font-size="12" font-weight="400">bpe-lite 0.5.2</text>
+<text x="278" y="370" font-size="12" text-anchor="end" fill="#4a586b">4.0k</text>
+<rect x="304" y="356" width="60.81" height="18" rx="2" fill="#778ba3"/>
+<path d="M364.21,365H365.57 M364.21,360v10 M365.57,360v10" fill="none" stroke="#172336" stroke-width="1.2"/>
+<text x="736" y="370" text-anchor="end" font-size="13" font-weight="400">4.969 · #3</text>
+<text x="24" y="396" font-size="12" font-weight="400">@mlc-ai/web-tokenizers 0.1.6</text>
+<text x="278" y="396" font-size="12" text-anchor="end" fill="#4a586b">2.4k</text>
+<rect x="304" y="382" width="146.88" height="18" rx="2" fill="#778ba3"/>
+<path d="M450.37,391H451.88 M450.37,386v10 M451.88,386v10" fill="none" stroke="#172336" stroke-width="1.2"/>
+<text x="736" y="396" text-anchor="end" font-size="13" font-weight="400">48.069 · #5</text>
+<text x="24" y="465" font-size="16" font-weight="700">Decode API return (length only) · gpt-tokenizer #1 / 10</text>
+<text x="24" y="491" font-size="11" fill="#4a586b">Tokenizer / version</text>
+<text x="278" y="491" font-size="11" fill="#4a586b" text-anchor="end">npm/week</text>
+<text x="555" y="491" font-size="11" fill="#4a586b" text-anchor="end">Latency (log scale)</text>
+<text x="736" y="491" font-size="11" fill="#4a586b" text-anchor="end">Median ms · rank</text>
+<line x1="304.00" x2="304.00" y1="502" y2="757" stroke="#dce2e9"/>
+<text x="304.00" y="775" text-anchor="middle" font-size="11" fill="#4a586b">0.1</text>
+<line x1="391.33" x2="391.33" y1="502" y2="757" stroke="#dce2e9"/>
+<text x="391.33" y="775" text-anchor="middle" font-size="11" fill="#4a586b">1</text>
+<line x1="478.67" x2="478.67" y1="502" y2="757" stroke="#dce2e9"/>
+<text x="478.67" y="775" text-anchor="middle" font-size="11" fill="#4a586b">10</text>
+<line x1="566.00" x2="566.00" y1="502" y2="757" stroke="#dce2e9"/>
+<text x="566.00" y="775" text-anchor="middle" font-size="11" fill="#4a586b">100</text>
+<text x="24" y="517" font-size="12" font-weight="700">gpt-tokenizer 4.0.4</text>
+<text x="278" y="517" font-size="12" text-anchor="end" fill="#4a586b">1.92M</text>
+<rect x="304" y="503" width="49.53" height="18" rx="2" fill="#087f6d"/>
+<path d="M353.28,512H354.12 M353.28,507v10 M354.12,507v10" fill="none" stroke="#172336" stroke-width="1.2"/>
+<text x="736" y="517" text-anchor="end" font-size="13" font-weight="700">0.369 · #1</text>
+<text x="24" y="543" font-size="12" font-weight="700">js-tiktoken 1.0.21</text>
+<text x="278" y="543" font-size="12" text-anchor="end" fill="#4a586b">9.86M</text>
+<rect x="304" y="529" width="115.66" height="18" rx="2" fill="#335e8c"/>
+<path d="M419.02,538H421.17 M419.02,533v10 M421.17,533v10" fill="none" stroke="#172336" stroke-width="1.2"/>
+<text x="736" y="543" text-anchor="end" font-size="13" font-weight="700">2.110 · #5</text>
+<text x="24" y="569" font-size="12" font-weight="700">@huggingface/tokenizers 0.2.0</text>
+<text x="278" y="569" font-size="12" text-anchor="end" fill="#4a586b">2.75M</text>
+<rect x="304" y="555" width="191.50" height="18" rx="2" fill="#335e8c"/>
+<path d="M495.40,564H498.69 M495.40,559v10 M498.69,559v10" fill="none" stroke="#172336" stroke-width="1.2"/>
+<text x="736" y="569" text-anchor="end" font-size="13" font-weight="700">15.587 · #9</text>
+<text x="24" y="595" font-size="12" font-weight="700">tiktoken 1.0.22</text>
+<text x="278" y="595" font-size="12" text-anchor="end" fill="#4a586b">1.53M</text>
+<rect x="304" y="581" width="77.13" height="18" rx="2" fill="#335e8c"/>
+<path d="M380.72,590H381.78 M380.72,585v10 M381.78,585v10" fill="none" stroke="#172336" stroke-width="1.2"/>
+<text x="736" y="595" text-anchor="end" font-size="13" font-weight="700">0.764 · #3</text>
+<text x="24" y="621" font-size="12" font-weight="400">ai-tokenizer 1.0.7</text>
+<text x="278" y="621" font-size="12" text-anchor="end" fill="#4a586b">150.2k</text>
+<rect x="304" y="607" width="147.41" height="18" rx="2" fill="#778ba3"/>
+<path d="M449.34,616H457.06 M449.34,611v10 M457.06,611v10" fill="none" stroke="#172336" stroke-width="1.2"/>
+<text x="736" y="621" text-anchor="end" font-size="13" font-weight="400">4.874 · #6</text>
+<text x="24" y="647" font-size="12" font-weight="400">@lenml/tokenizers 3.7.2</text>
+<text x="278" y="647" font-size="12" text-anchor="end" fill="#4a586b">20.4k</text>
+<rect x="304" y="633" width="195.06" height="18" rx="2" fill="#778ba3"/>
+<path d="M498.69,642H500.35 M498.69,637v10 M500.35,637v10" fill="none" stroke="#172336" stroke-width="1.2"/>
+<text x="736" y="647" text-anchor="end" font-size="13" font-weight="400">17.123 · #10</text>
+<text x="24" y="673" font-size="12" font-weight="400">tokenizers 0.23.2</text>
+<text x="278" y="673" font-size="12" text-anchor="end" fill="#4a586b">6.8k</text>
+<rect x="304" y="659" width="169.93" height="18" rx="2" fill="#778ba3"/>
+<path d="M471.57,668H475.91 M471.57,663v10 M475.91,663v10" fill="none" stroke="#172336" stroke-width="1.2"/>
+<text x="736" y="673" text-anchor="end" font-size="13" font-weight="400">8.826 · #7</text>
+<text x="24" y="699" font-size="12" font-weight="400">@goliapkg/tiktoken-wasm 4.1.2</text>
+<text x="278" y="699" font-size="12" text-anchor="end" fill="#4a586b">5.4k</text>
+<rect x="304" y="685" width="75.63" height="18" rx="2" fill="#778ba3"/>
+<path d="M379.36,694H379.88 M379.36,689v10 M379.88,689v10" fill="none" stroke="#172336" stroke-width="1.2"/>
+<text x="736" y="699" text-anchor="end" font-size="13" font-weight="400">0.734 · #2</text>
+<text x="24" y="725" font-size="12" font-weight="400">bpe-lite 0.5.2</text>
+<text x="278" y="725" font-size="12" text-anchor="end" fill="#4a586b">4.0k</text>
+<rect x="304" y="711" width="101.55" height="18" rx="2" fill="#778ba3"/>
+<path d="M404.77,720H406.18 M404.77,715v10 M406.18,715v10" fill="none" stroke="#172336" stroke-width="1.2"/>
+<text x="736" y="725" text-anchor="end" font-size="13" font-weight="400">1.455 · #4</text>
+<text x="24" y="751" font-size="12" font-weight="400">@mlc-ai/web-tokenizers 0.1.6</text>
+<text x="278" y="751" font-size="12" text-anchor="end" fill="#4a586b">2.4k</text>
+<rect x="304" y="737" width="191.11" height="18" rx="2" fill="#778ba3"/>
+<path d="M494.45,746H495.17 M494.45,741v10 M495.17,741v10" fill="none" stroke="#172336" stroke-width="1.2"/>
+<text x="736" y="751" text-anchor="end" font-size="13" font-weight="400">15.426 · #8</text>
+<text x="24" y="820" font-size="16" font-weight="700">Count · gpt-tokenizer #1 / 10</text>
+<text x="24" y="846" font-size="11" fill="#4a586b">Tokenizer / version</text>
+<text x="278" y="846" font-size="11" fill="#4a586b" text-anchor="end">npm/week</text>
+<text x="555" y="846" font-size="11" fill="#4a586b" text-anchor="end">Latency (log scale)</text>
+<text x="736" y="846" font-size="11" fill="#4a586b" text-anchor="end">Median ms · rank</text>
+<line x1="304.00" x2="304.00" y1="857" y2="1112" stroke="#dce2e9"/>
+<text x="304.00" y="1130" text-anchor="middle" font-size="11" fill="#4a586b">1</text>
+<line x1="391.33" x2="391.33" y1="857" y2="1112" stroke="#dce2e9"/>
+<text x="391.33" y="1130" text-anchor="middle" font-size="11" fill="#4a586b">10</text>
+<line x1="478.67" x2="478.67" y1="857" y2="1112" stroke="#dce2e9"/>
+<text x="478.67" y="1130" text-anchor="middle" font-size="11" fill="#4a586b">100</text>
+<line x1="566.00" x2="566.00" y1="857" y2="1112" stroke="#dce2e9"/>
+<text x="566.00" y="1130" text-anchor="middle" font-size="11" fill="#4a586b">1000</text>
+<text x="24" y="872" font-size="12" font-weight="700">gpt-tokenizer 4.0.4</text>
+<text x="278" y="872" font-size="12" text-anchor="end" fill="#4a586b">1.92M</text>
+<rect x="304" y="858" width="43.71" height="18" rx="2" fill="#087f6d"/>
+<path d="M347.47,867H348.31 M347.47,862v10 M348.31,862v10" fill="none" stroke="#172336" stroke-width="1.2"/>
+<text x="736" y="872" text-anchor="end" font-size="13" font-weight="700">3.166 · #1</text>
+<text x="24" y="898" font-size="12" font-weight="700">js-tiktoken 1.0.21</text>
+<text x="278" y="898" font-size="12" text-anchor="end" fill="#4a586b">9.86M</text>
+<rect x="304" y="884" width="179.99" height="18" rx="2" fill="#335e8c"/>
+<path d="M483.03,893H485.12 M483.03,888v10 M485.12,888v10" fill="none" stroke="#172336" stroke-width="1.2"/>
+<text x="736" y="898" text-anchor="end" font-size="13" font-weight="700">115.055 · #7</text>
+<text x="24" y="924" font-size="12" font-weight="700">@huggingface/tokenizers 0.2.0</text>
+<text x="278" y="924" font-size="12" text-anchor="end" fill="#4a586b">2.75M</text>
+<rect x="304" y="910" width="183.67" height="18" rx="2" fill="#335e8c"/>
+<path d="M487.21,919H488.64 M487.21,914v10 M488.64,914v10" fill="none" stroke="#172336" stroke-width="1.2"/>
+<text x="736" y="924" text-anchor="end" font-size="13" font-weight="700">126.784 · #8</text>
+<text x="24" y="950" font-size="12" font-weight="700">tiktoken 1.0.22</text>
+<text x="278" y="950" font-size="12" text-anchor="end" fill="#4a586b">1.53M</text>
+<rect x="304" y="936" width="113.69" height="18" rx="2" fill="#335e8c"/>
+<path d="M417.32,945H418.89 M417.32,940v10 M418.89,940v10" fill="none" stroke="#172336" stroke-width="1.2"/>
+<text x="736" y="950" text-anchor="end" font-size="13" font-weight="700">20.033 · #4</text>
+<text x="24" y="976" font-size="12" font-weight="400">ai-tokenizer 1.0.7</text>
+<text x="278" y="976" font-size="12" text-anchor="end" fill="#4a586b">150.2k</text>
+<rect x="304" y="962" width="58.29" height="18" rx="2" fill="#778ba3"/>
+<path d="M362.06,971H362.82 M362.06,966v10 M362.82,966v10" fill="none" stroke="#172336" stroke-width="1.2"/>
+<text x="736" y="976" text-anchor="end" font-size="13" font-weight="400">4.650 · #3</text>
+<text x="24" y="1002" font-size="12" font-weight="400">@lenml/tokenizers 3.7.2</text>
+<text x="278" y="1002" font-size="12" text-anchor="end" fill="#4a586b">20.4k</text>
+<rect x="304" y="988" width="183.69" height="18" rx="2" fill="#778ba3"/>
+<path d="M487.23,997H488.42 M487.23,992v10 M488.42,992v10" fill="none" stroke="#172336" stroke-width="1.2"/>
+<text x="736" y="1002" text-anchor="end" font-size="13" font-weight="400">126.867 · #9</text>
+<text x="24" y="1028" font-size="12" font-weight="400">tokenizers 0.23.2</text>
+<text x="278" y="1028" font-size="12" text-anchor="end" fill="#4a586b">6.8k</text>
+<rect x="304" y="1014" width="148.65" height="18" rx="2" fill="#778ba3"/>
+<path d="M450.52,1023H453.39 M450.52,1018v10 M453.39,1018v10" fill="none" stroke="#172336" stroke-width="1.2"/>
+<text x="736" y="1028" text-anchor="end" font-size="13" font-weight="400">50.356 · #6</text>
+<text x="24" y="1054" font-size="12" font-weight="400">@goliapkg/tiktoken-wasm 4.1.2</text>
+<text x="278" y="1054" font-size="12" text-anchor="end" fill="#4a586b">5.4k</text>
+<rect x="304" y="1040" width="215.66" height="18" rx="2" fill="#778ba3"/>
+<path d="M518.72,1049H519.94 M518.72,1044v10 M519.94,1044v10" fill="none" stroke="#172336" stroke-width="1.2"/>
+<text x="736" y="1054" text-anchor="end" font-size="13" font-weight="400">294.726 · #10</text>
+<text x="24" y="1080" font-size="12" font-weight="400">bpe-lite 0.5.2</text>
+<text x="278" y="1080" font-size="12" text-anchor="end" fill="#4a586b">4.0k</text>
+<rect x="304" y="1066" width="54.19" height="18" rx="2" fill="#778ba3"/>
+<path d="M357.60,1075H358.81 M357.60,1070v10 M358.81,1070v10" fill="none" stroke="#172336" stroke-width="1.2"/>
+<text x="736" y="1080" text-anchor="end" font-size="13" font-weight="400">4.173 · #2</text>
+<text x="24" y="1106" font-size="12" font-weight="400">@mlc-ai/web-tokenizers 0.1.6</text>
+<text x="278" y="1106" font-size="12" text-anchor="end" fill="#4a586b">2.4k</text>
+<rect x="304" y="1092" width="146.80" height="18" rx="2" fill="#778ba3"/>
+<path d="M450.42,1101H451.74 M450.42,1096v10 M451.74,1096v10" fill="none" stroke="#172336" stroke-width="1.2"/>
+<text x="736" y="1106" text-anchor="end" font-size="13" font-weight="400">47.967 · #5</text>
+<text x="24" y="1173" font-size="12">Bars: median latency; whiskers: full five-process range. Lower is better.</text>
+<text x="24" y="1195" font-size="12">Package npm downloads: Oct 6–12, 2026; adoption is not a performance score.</text>
+<text x="24" y="1217" font-size="12">Synthetic inputs dominate. Linked results cover realistic workloads, memory and correctness.</text>
 </g></svg>
