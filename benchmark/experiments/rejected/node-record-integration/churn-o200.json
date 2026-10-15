@@ -1,0 +1,837 @@
+{
+  "diagnostic": "unranked sustained unique-piece cache churn, not representative workload or headline rank",
+  "capacity": 100000,
+  "words": 500000,
+  "wordLength": 8,
+  "blockSize": 500,
+  "rounds": 2,
+  "phases": "100k fill + four100k unique churn cycles; count after each encode is warm",
+  "corpusSHA256": "aacccf8ecc416e3213d5b8da776f45edf0c3dbb144b9ac1ab3e34f3d5726f614",
+  "scriptSHA256": "020e7ededdddc77197422401a637b5ae6ba8f45aa0a6e1eac425b33d00dbba2c",
+  "oracleSHA256": "45bd2b37d37154fa55ea3ea59e7573db95c3f7f1c8bd688522f054fc1a278981",
+  "encoding": "o200k_base",
+  "sourceCommits": {
+    "frozen": "7cd2beda830300d622d1cb89d3e31bef0ae91dc1",
+    "candidate": "6c3be61b34bf74442c7b9d59c5f2ef510677c68f"
+  },
+  "candidateSourceSHA256": "93e1b5d637327e734cca6cff7f6503cbff487bff2f49a43be6779c59540c745a",
+  "rows": [
+    {
+      "variant": "frozen",
+      "encoding": "o200k_base",
+      "storage": "map",
+      "round": 0,
+      "runtime": {
+        "node": "v26.12.0",
+        "bun": null
+      },
+      "coreSHA256": "cc7036d186ecc6eda5df557fdd2ae62bb0f96150081e7044169a52b66ed16f7f",
+      "before": {
+        "rss": 112197632,
+        "heapTotal": 34021376,
+        "heapUsed": 25807192,
+        "external": 12482808,
+        "arrayBuffers": 9963115
+      },
+      "initialized": {
+        "rss": 157036544,
+        "heapTotal": 50601984,
+        "heapUsed": 42704480,
+        "external": 14690010,
+        "arrayBuffers": 9965229
+      },
+      "phases": [
+        {
+          "phase": 0,
+          "encodeMs": 591.1431919999998,
+          "countMs": 28.070428000000277,
+          "tokens": 490915,
+          "cacheSize": 100000,
+          "memory": {
+            "rss": 241815552,
+            "heapTotal": 130359296,
+            "heapUsed": 60455616,
+            "external": 14690000,
+            "arrayBuffers": 9965229
+          }
+        },
+        {
+          "phase": 1,
+          "encodeMs": 636.4701180000018,
+          "countMs": 26.18549900000062,
+          "tokens": 490942,
+          "cacheSize": 100000,
+          "memory": {
+            "rss": 254488576,
+            "heapTotal": 148185088,
+            "heapUsed": 64130104,
+            "external": 14690000,
+            "arrayBuffers": 9965229
+          }
+        },
+        {
+          "phase": 2,
+          "encodeMs": 617.7921639999993,
+          "countMs": 26.481895999998414,
+          "tokens": 491018,
+          "cacheSize": 100000,
+          "memory": {
+            "rss": 258498560,
+            "heapTotal": 152379392,
+            "heapUsed": 64211376,
+            "external": 14690000,
+            "arrayBuffers": 9965229
+          }
+        },
+        {
+          "phase": 3,
+          "encodeMs": 589.1195949999965,
+          "countMs": 25.777410000000145,
+          "tokens": 490863,
+          "cacheSize": 100000,
+          "memory": {
+            "rss": 282324992,
+            "heapTotal": 164962304,
+            "heapUsed": 78874528,
+            "external": 14690000,
+            "arrayBuffers": 9965229
+          }
+        },
+        {
+          "phase": 4,
+          "encodeMs": 556.284571000002,
+          "countMs": 25.58398200000147,
+          "tokens": 491029,
+          "cacheSize": 100000,
+          "memory": {
+            "rss": 284057600,
+            "heapTotal": 168632320,
+            "heapUsed": 78875712,
+            "external": 14690000,
+            "arrayBuffers": 9965229
+          }
+        }
+      ],
+      "peakSampledRSS": 296902656,
+      "maxRSSKiB": 289944,
+      "exactTokens": true,
+      "bounded": true,
+      "checksum": 2454767
+    },
+    {
+      "variant": "candidate",
+      "encoding": "o200k_base",
+      "storage": "record",
+      "round": 0,
+      "runtime": {
+        "node": "v26.12.0",
+        "bun": null
+      },
+      "coreSHA256": "a410d3f9a93a1eae5f357038197f066cb2d0af5724f37d5e0a7d2835e4445d14",
+      "before": {
+        "rss": 111968256,
+        "heapTotal": 34021376,
+        "heapUsed": 25807184,
+        "external": 12482808,
+        "arrayBuffers": 9963115
+      },
+      "initialized": {
+        "rss": 162553856,
+        "heapTotal": 56893440,
+        "heapUsed": 47960112,
+        "external": 14690010,
+        "arrayBuffers": 9965229
+      },
+      "phases": [
+        {
+          "phase": 0,
+          "encodeMs": 515.0426839999992,
+          "countMs": 32.53393899999935,
+          "tokens": 490915,
+          "cacheSize": 100000,
+          "memory": {
+            "rss": 246276096,
+            "heapTotal": 128262144,
+            "heapUsed": 58371968,
+            "external": 14690000,
+            "arrayBuffers": 9965229
+          }
+        },
+        {
+          "phase": 1,
+          "encodeMs": 568.5137790000006,
+          "countMs": 32.42053900000292,
+          "tokens": 490942,
+          "cacheSize": 100000,
+          "memory": {
+            "rss": 257286144,
+            "heapTotal": 146612224,
+            "heapUsed": 62046248,
+            "external": 14690000,
+            "arrayBuffers": 9965229
+          }
+        },
+        {
+          "phase": 2,
+          "encodeMs": 558.6817600000015,
+          "countMs": 34.17038499999944,
+          "tokens": 491018,
+          "cacheSize": 100000,
+          "memory": {
+            "rss": 261361664,
+            "heapTotal": 149233664,
+            "heapUsed": 62165176,
+            "external": 14690000,
+            "arrayBuffers": 9965229
+          }
+        },
+        {
+          "phase": 3,
+          "encodeMs": 571.6131399999999,
+          "countMs": 33.33628499999941,
+          "tokens": 490863,
+          "cacheSize": 100000,
+          "memory": {
+            "rss": 270139392,
+            "heapTotal": 149757952,
+            "heapUsed": 62109920,
+            "external": 14690000,
+            "arrayBuffers": 9965229
+          }
+        },
+        {
+          "phase": 4,
+          "encodeMs": 587.6313419999979,
+          "countMs": 36.05383300000176,
+          "tokens": 491029,
+          "cacheSize": 100000,
+          "memory": {
+            "rss": 271994880,
+            "heapTotal": 150806528,
+            "heapUsed": 62106568,
+            "external": 14690000,
+            "arrayBuffers": 9965229
+          }
+        }
+      ],
+      "peakSampledRSS": 291897344,
+      "maxRSSKiB": 285056,
+      "exactTokens": true,
+      "bounded": true,
+      "checksum": 2454767
+    },
+    {
+      "variant": "candidate",
+      "encoding": "o200k_base",
+      "storage": "record",
+      "round": 1,
+      "runtime": {
+        "node": "v26.12.0",
+        "bun": null
+      },
+      "coreSHA256": "a410d3f9a93a1eae5f357038197f066cb2d0af5724f37d5e0a7d2835e4445d14",
+      "before": {
+        "rss": 112705536,
+        "heapTotal": 34021376,
+        "heapUsed": 25807216,
+        "external": 12482808,
+        "arrayBuffers": 9963115
+      },
+      "initialized": {
+        "rss": 162889728,
+        "heapTotal": 56631296,
+        "heapUsed": 47960112,
+        "external": 14690010,
+        "arrayBuffers": 9965229
+      },
+      "phases": [
+        {
+          "phase": 0,
+          "encodeMs": 534.0148100000001,
+          "countMs": 33.92796099999924,
+          "tokens": 490915,
+          "cacheSize": 100000,
+          "memory": {
+            "rss": 246644736,
+            "heapTotal": 128262144,
+            "heapUsed": 58371616,
+            "external": 14690000,
+            "arrayBuffers": 9965229
+          }
+        },
+        {
+          "phase": 1,
+          "encodeMs": 593.1049299999997,
+          "countMs": 33.96114100000091,
+          "tokens": 490942,
+          "cacheSize": 100000,
+          "memory": {
+            "rss": 257654784,
+            "heapTotal": 146612224,
+            "heapUsed": 62046136,
+            "external": 14690000,
+            "arrayBuffers": 9965229
+          }
+        },
+        {
+          "phase": 2,
+          "encodeMs": 572.0630129999981,
+          "countMs": 34.57164500000067,
+          "tokens": 491018,
+          "cacheSize": 100000,
+          "memory": {
+            "rss": 261840896,
+            "heapTotal": 148185088,
+            "heapUsed": 62130440,
+            "external": 14690000,
+            "arrayBuffers": 9965229
+          }
+        },
+        {
+          "phase": 3,
+          "encodeMs": 582.4919680000007,
+          "countMs": 33.97995599999831,
+          "tokens": 490863,
+          "cacheSize": 100000,
+          "memory": {
+            "rss": 270487552,
+            "heapTotal": 150806528,
+            "heapUsed": 62109872,
+            "external": 14690000,
+            "arrayBuffers": 9965229
+          }
+        },
+        {
+          "phase": 4,
+          "encodeMs": 543.3593439999968,
+          "countMs": 32.51658500000076,
+          "tokens": 491029,
+          "cacheSize": 100000,
+          "memory": {
+            "rss": 274100224,
+            "heapTotal": 150020096,
+            "heapUsed": 62106456,
+            "external": 14690000,
+            "arrayBuffers": 9965229
+          }
+        }
+      ],
+      "peakSampledRSS": 293949440,
+      "maxRSSKiB": 287060,
+      "exactTokens": true,
+      "bounded": true,
+      "checksum": 2454767
+    },
+    {
+      "variant": "frozen",
+      "encoding": "o200k_base",
+      "storage": "map",
+      "round": 1,
+      "runtime": {
+        "node": "v26.12.0",
+        "bun": null
+      },
+      "coreSHA256": "cc7036d186ecc6eda5df557fdd2ae62bb0f96150081e7044169a52b66ed16f7f",
+      "before": {
+        "rss": 112214016,
+        "heapTotal": 34021376,
+        "heapUsed": 25807096,
+        "external": 12482808,
+        "arrayBuffers": 9963115
+      },
+      "initialized": {
+        "rss": 157548544,
+        "heapTotal": 50864128,
+        "heapUsed": 42704568,
+        "external": 14690010,
+        "arrayBuffers": 9965229
+      },
+      "phases": [
+        {
+          "phase": 0,
+          "encodeMs": 580.9301969999997,
+          "countMs": 27.081549999999993,
+          "tokens": 490915,
+          "cacheSize": 100000,
+          "memory": {
+            "rss": 243228672,
+            "heapTotal": 130359296,
+            "heapUsed": 60455864,
+            "external": 14690000,
+            "arrayBuffers": 9965229
+          }
+        },
+        {
+          "phase": 1,
+          "encodeMs": 631.8547300000015,
+          "countMs": 25.784292000001756,
+          "tokens": 490942,
+          "cacheSize": 100000,
+          "memory": {
+            "rss": 254218240,
+            "heapTotal": 149757952,
+            "heapUsed": 64138944,
+            "external": 14690000,
+            "arrayBuffers": 9965229
+          }
+        },
+        {
+          "phase": 2,
+          "encodeMs": 619.0667980000001,
+          "countMs": 26.257805999997572,
+          "tokens": 491018,
+          "cacheSize": 100000,
+          "memory": {
+            "rss": 259166208,
+            "heapTotal": 150282240,
+            "heapUsed": 64211792,
+            "external": 14690000,
+            "arrayBuffers": 9965229
+          }
+        },
+        {
+          "phase": 3,
+          "encodeMs": 600.3075760000029,
+          "countMs": 26.33280200000081,
+          "tokens": 490863,
+          "cacheSize": 100000,
+          "memory": {
+            "rss": 282497024,
+            "heapTotal": 167583744,
+            "heapUsed": 78874944,
+            "external": 14690000,
+            "arrayBuffers": 9965229
+          }
+        },
+        {
+          "phase": 4,
+          "encodeMs": 538.2005590000026,
+          "countMs": 24.621769999999742,
+          "tokens": 491029,
+          "cacheSize": 100000,
+          "memory": {
+            "rss": 284475392,
+            "heapTotal": 167583744,
+            "heapUsed": 78879872,
+            "external": 14690000,
+            "arrayBuffers": 9965229
+          }
+        }
+      ],
+      "peakSampledRSS": 297177088,
+      "maxRSSKiB": 290212,
+      "exactTokens": true,
+      "bounded": true,
+      "checksum": 2454767
+    },
+    {
+      "variant": "frozen",
+      "encoding": "o200k_base",
+      "storage": "map",
+      "round": 0,
+      "runtime": {
+        "node": "v26.3.0",
+        "bun": "1.4.3"
+      },
+      "coreSHA256": "cc7036d186ecc6eda5df557fdd2ae62bb0f96150081e7044169a52b66ed16f7f",
+      "before": {
+        "rss": 50413568,
+        "heapTotal": 1807360,
+        "heapUsed": 15392227,
+        "external": 14590019,
+        "arrayBuffers": 9819164
+      },
+      "initialized": {
+        "rss": 112840704,
+        "heapTotal": 5578752,
+        "heapUsed": 40290254,
+        "external": 19728526,
+        "arrayBuffers": 9819164
+      },
+      "phases": [
+        {
+          "phase": 0,
+          "encodeMs": 394.35599399999955,
+          "countMs": 14.453517000000033,
+          "tokens": 490915,
+          "cacheSize": 100000,
+          "memory": {
+            "rss": 175718400,
+            "heapTotal": 24846336,
+            "heapUsed": 62063615,
+            "external": 20877679,
+            "arrayBuffers": 9819164
+          }
+        },
+        {
+          "phase": 1,
+          "encodeMs": 490.05536499999903,
+          "countMs": 15.50539600000161,
+          "tokens": 490942,
+          "cacheSize": 100000,
+          "memory": {
+            "rss": 233566208,
+            "heapTotal": 36610048,
+            "heapUsed": 82566703,
+            "external": 20887135,
+            "arrayBuffers": 9819164
+          }
+        },
+        {
+          "phase": 2,
+          "encodeMs": 405.75970599999914,
+          "countMs": 17.14218199999891,
+          "tokens": 491018,
+          "cacheSize": 100000,
+          "memory": {
+            "rss": 264708096,
+            "heapTotal": 41754624,
+            "heapUsed": 82598703,
+            "external": 20919471,
+            "arrayBuffers": 9819164
+          }
+        },
+        {
+          "phase": 3,
+          "encodeMs": 406.4290289999999,
+          "countMs": 15.97294299999976,
+          "tokens": 490863,
+          "cacheSize": 100000,
+          "memory": {
+            "rss": 268959744,
+            "heapTotal": 42360832,
+            "heapUsed": 82564971,
+            "external": 20885723,
+            "arrayBuffers": 9819164
+          }
+        },
+        {
+          "phase": 4,
+          "encodeMs": 419.7188610000012,
+          "countMs": 16.238462999995136,
+          "tokens": 491029,
+          "cacheSize": 100000,
+          "memory": {
+            "rss": 263839744,
+            "heapTotal": 40722432,
+            "heapUsed": 82567248,
+            "external": 20887680,
+            "arrayBuffers": 9819164
+          }
+        }
+      ],
+      "peakSampledRSS": 285335552,
+      "maxRSSKiB": 280056,
+      "exactTokens": true,
+      "bounded": true,
+      "checksum": 2454767
+    },
+    {
+      "variant": "candidate",
+      "encoding": "o200k_base",
+      "storage": "map",
+      "round": 0,
+      "runtime": {
+        "node": "v26.3.0",
+        "bun": "1.4.3"
+      },
+      "coreSHA256": "a410d3f9a93a1eae5f357038197f066cb2d0af5724f37d5e0a7d2835e4445d14",
+      "before": {
+        "rss": 50507776,
+        "heapTotal": 1807360,
+        "heapUsed": 15391334,
+        "external": 14590022,
+        "arrayBuffers": 9819164
+      },
+      "initialized": {
+        "rss": 119148544,
+        "heapTotal": 5578752,
+        "heapUsed": 40292465,
+        "external": 19731185,
+        "arrayBuffers": 9819164
+      },
+      "phases": [
+        {
+          "phase": 0,
+          "encodeMs": 414.6174599999988,
+          "countMs": 15.58583800000008,
+          "tokens": 490915,
+          "cacheSize": 100000,
+          "memory": {
+            "rss": 178761728,
+            "heapTotal": 25534464,
+            "heapUsed": 62056613,
+            "external": 20883845,
+            "arrayBuffers": 9819164
+          }
+        },
+        {
+          "phase": 1,
+          "encodeMs": 482.2538560000005,
+          "countMs": 15.932256000001303,
+          "tokens": 490942,
+          "cacheSize": 100000,
+          "memory": {
+            "rss": 238407680,
+            "heapTotal": 36806656,
+            "heapUsed": 82573749,
+            "external": 20893269,
+            "arrayBuffers": 9819164
+          }
+        },
+        {
+          "phase": 2,
+          "encodeMs": 390.23856899999964,
+          "countMs": 17.91765999999916,
+          "tokens": 491018,
+          "cacheSize": 100000,
+          "memory": {
+            "rss": 218230784,
+            "heapTotal": 41492480,
+            "heapUsed": 82606533,
+            "external": 20925669,
+            "arrayBuffers": 9819164
+          }
+        },
+        {
+          "phase": 3,
+          "encodeMs": 420.4242579999989,
+          "countMs": 15.840942000000723,
+          "tokens": 490863,
+          "cacheSize": 100000,
+          "memory": {
+            "rss": 267984896,
+            "heapTotal": 42065920,
+            "heapUsed": 82572369,
+            "external": 20891825,
+            "arrayBuffers": 9819164
+          }
+        },
+        {
+          "phase": 4,
+          "encodeMs": 429.78916900000104,
+          "countMs": 16.64138400000047,
+          "tokens": 491029,
+          "cacheSize": 100000,
+          "memory": {
+            "rss": 265965568,
+            "heapTotal": 40984576,
+            "heapUsed": 82574646,
+            "external": 20893782,
+            "arrayBuffers": 9819164
+          }
+        }
+      ],
+      "peakSampledRSS": 286236672,
+      "maxRSSKiB": 280040,
+      "exactTokens": true,
+      "bounded": true,
+      "checksum": 2454767
+    },
+    {
+      "variant": "candidate",
+      "encoding": "o200k_base",
+      "storage": "map",
+      "round": 1,
+      "runtime": {
+        "node": "v26.3.0",
+        "bun": "1.4.3"
+      },
+      "coreSHA256": "a410d3f9a93a1eae5f357038197f066cb2d0af5724f37d5e0a7d2835e4445d14",
+      "before": {
+        "rss": 51699712,
+        "heapTotal": 1807360,
+        "heapUsed": 15392566,
+        "external": 14590022,
+        "arrayBuffers": 9819164
+      },
+      "initialized": {
+        "rss": 114667520,
+        "heapTotal": 5595136,
+        "heapUsed": 40293693,
+        "external": 19730733,
+        "arrayBuffers": 9819164
+      },
+      "phases": [
+        {
+          "phase": 0,
+          "encodeMs": 420.97856300000126,
+          "countMs": 15.616726999999855,
+          "tokens": 490915,
+          "cacheSize": 100000,
+          "memory": {
+            "rss": 177270784,
+            "heapTotal": 24731648,
+            "heapUsed": 61912708,
+            "external": 20884260,
+            "arrayBuffers": 9819164
+          }
+        },
+        {
+          "phase": 1,
+          "encodeMs": 496.7862269999998,
+          "countMs": 15.8561219999998,
+          "tokens": 490942,
+          "cacheSize": 100000,
+          "memory": {
+            "rss": 235016192,
+            "heapTotal": 36265984,
+            "heapUsed": 82575735,
+            "external": 20893687,
+            "arrayBuffers": 9819164
+          }
+        },
+        {
+          "phase": 2,
+          "encodeMs": 428.82536400000185,
+          "countMs": 17.835346999998137,
+          "tokens": 491018,
+          "cacheSize": 100000,
+          "memory": {
+            "rss": 267747328,
+            "heapTotal": 42115072,
+            "heapUsed": 82608295,
+            "external": 20926087,
+            "arrayBuffers": 9819164
+          }
+        },
+        {
+          "phase": 3,
+          "encodeMs": 424.03780800000186,
+          "countMs": 16.655220999997482,
+          "tokens": 490863,
+          "cacheSize": 100000,
+          "memory": {
+            "rss": 262029312,
+            "heapTotal": 41082880,
+            "heapUsed": 82574579,
+            "external": 20892243,
+            "arrayBuffers": 9819164
+          }
+        },
+        {
+          "phase": 4,
+          "encodeMs": 441.0444870000051,
+          "countMs": 16.77163999999948,
+          "tokens": 491029,
+          "cacheSize": 100000,
+          "memory": {
+            "rss": 264101888,
+            "heapTotal": 41246720,
+            "heapUsed": 82576072,
+            "external": 20894200,
+            "arrayBuffers": 9819164
+          }
+        }
+      ],
+      "peakSampledRSS": 284512256,
+      "maxRSSKiB": 278612,
+      "exactTokens": true,
+      "bounded": true,
+      "checksum": 2454767
+    },
+    {
+      "variant": "frozen",
+      "encoding": "o200k_base",
+      "storage": "map",
+      "round": 1,
+      "runtime": {
+        "node": "v26.3.0",
+        "bun": "1.4.3"
+      },
+      "coreSHA256": "cc7036d186ecc6eda5df557fdd2ae62bb0f96150081e7044169a52b66ed16f7f",
+      "before": {
+        "rss": 50675712,
+        "heapTotal": 1807360,
+        "heapUsed": 15391219,
+        "external": 14590019,
+        "arrayBuffers": 9819164
+      },
+      "initialized": {
+        "rss": 115716096,
+        "heapTotal": 5595136,
+        "heapUsed": 40289374,
+        "external": 19729646,
+        "arrayBuffers": 9820284
+      },
+      "phases": [
+        {
+          "phase": 0,
+          "encodeMs": 407.69913500000047,
+          "countMs": 17.683613999999466,
+          "tokens": 490915,
+          "cacheSize": 100000,
+          "memory": {
+            "rss": 185188352,
+            "heapTotal": 27140096,
+            "heapUsed": 62082194,
+            "external": 20878818,
+            "arrayBuffers": 9820284
+          }
+        },
+        {
+          "phase": 1,
+          "encodeMs": 499.48698000000036,
+          "countMs": 16.376156999996283,
+          "tokens": 490942,
+          "cacheSize": 100000,
+          "memory": {
+            "rss": 217292800,
+            "heapTotal": 36511744,
+            "heapUsed": 82565999,
+            "external": 20888255,
+            "arrayBuffers": 9820284
+          }
+        },
+        {
+          "phase": 2,
+          "encodeMs": 406.58009700000116,
+          "countMs": 17.118922000000794,
+          "tokens": 491018,
+          "cacheSize": 100000,
+          "memory": {
+            "rss": 264560640,
+            "heapTotal": 41394176,
+            "heapUsed": 82598719,
+            "external": 20920591,
+            "arrayBuffers": 9820284
+          }
+        },
+        {
+          "phase": 3,
+          "encodeMs": 398.1428010000002,
+          "countMs": 15.733296000001246,
+          "tokens": 490863,
+          "cacheSize": 100000,
+          "memory": {
+            "rss": 265232384,
+            "heapTotal": 41590784,
+            "heapUsed": 82564779,
+            "external": 20886523,
+            "arrayBuffers": 9820284
+          }
+        },
+        {
+          "phase": 4,
+          "encodeMs": 449.99835099999655,
+          "countMs": 31.675662999994074,
+          "tokens": 491029,
+          "cacheSize": 100000,
+          "memory": {
+            "rss": 262926336,
+            "heapTotal": 40558592,
+            "heapUsed": 82567056,
+            "external": 20888480,
+            "arrayBuffers": 9820284
+          }
+        }
+      ],
+      "peakSampledRSS": 284258304,
+      "maxRSSKiB": 277596,
+      "exactTokens": true,
+      "bounded": true,
+      "checksum": 2454767
+    }
+  ],
+  "complete": true
+}

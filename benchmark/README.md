@@ -10,7 +10,7 @@ demo. There is no separate benchmark docs site.
 
 ## Publication privacy and historical provenance
 
-Published machine labels and local filesystem paths are anonymized; runtime versions,
+Published machine labels and filesystem paths in JSON metadata are anonymized; runtime versions,
 hardware, measurements, and recorded input/build/harness hashes are retained. A
 `publicationPrivacy` record on redacted JSON preserves its original file digest.
 Run `python3 anonymize.py results/PREFIX-*.json` before publishing new raw files.
