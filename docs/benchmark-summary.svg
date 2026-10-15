@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 550" role="img" aria-labelledby="title desc">
+<title id="title">gpt-tokenizer: #1 encode, decode API return, and count on the original seven-input mean</title>
+<desc id="desc">Node 26.12.0, o200k_base. Median of five fresh processes, milliseconds per call; lower is better. Each panel compares the checkout, the fastest other tokenizer, and the unranked npm reference. Large synthetic inputs dominate this mean; this is not a realistic-workload ranking.</desc>
+<rect width="760" height="550" rx="12" fill="#f5f7fa"/>
+<g font-family="system-ui, sans-serif" fill="#172336">
+<text x="24" y="32" font-size="20" font-weight="700">#1 on the original seven-input mean</text>
+<text x="24" y="56" font-size="13">Node 26.12.0 · o200k_base · 5 fresh processes · lower is better</text>
+<text x="24" y="86" font-size="15" font-weight="700">Encode · #1 / 10</text>
+<text x="24" y="113" font-size="12">gpt-tokenizer (checkout)</text>
+<rect x="310" y="99" width="168.600" height="19" rx="3" fill="#087f6d"/>
+<text x="625" y="113" font-size="13">3.939 ms</text>
+<text x="24" y="142" font-size="12">ai-tokenizer</text>
+<rect x="310" y="128" width="205.348" height="19" rx="3" fill="#5779a3"/>
+<text x="625" y="142" font-size="13">4.798 ms</text>
+<text x="24" y="171" font-size="12">gpt-tokenizer 4.0.3 (reference)</text>
+<rect x="310" y="157" width="300.000" height="19" rx="3" fill="#8591a0"/>
+<text x="625" y="171" font-size="13">7.009 ms</text>
+<text x="24" y="223" font-size="15" font-weight="700">Decode API return (length only) · #1 / 10</text>
+<text x="24" y="250" font-size="12">gpt-tokenizer (checkout)</text>
+<rect x="310" y="236" width="14.933" height="19" rx="3" fill="#087f6d"/>
+<text x="625" y="250" font-size="13">0.369 ms</text>
+<text x="24" y="279" font-size="12">@goliapkg/tiktoken-wasm</text>
+<rect x="310" y="265" width="29.712" height="19" rx="3" fill="#5779a3"/>
+<text x="625" y="279" font-size="13">0.734 ms</text>
+<text x="24" y="308" font-size="12">gpt-tokenizer 4.0.3 (reference)</text>
+<rect x="310" y="294" width="300.000" height="19" rx="3" fill="#8591a0"/>
+<text x="625" y="308" font-size="13">7.416 ms</text>
+<text x="24" y="360" font-size="15" font-weight="700">Count · #1 / 10</text>
+<text x="24" y="387" font-size="12">gpt-tokenizer (checkout)</text>
+<rect x="310" y="373" width="160.206" height="19" rx="3" fill="#087f6d"/>
+<text x="625" y="387" font-size="13">3.166 ms</text>
+<text x="24" y="416" font-size="12">bpe-lite</text>
+<rect x="310" y="402" width="211.203" height="19" rx="3" fill="#5779a3"/>
+<text x="625" y="416" font-size="13">4.173 ms</text>
+<text x="24" y="445" font-size="12">gpt-tokenizer 4.0.3 (reference)</text>
+<rect x="310" y="431" width="300.000" height="19" rx="3" fill="#8591a0"/>
+<text x="625" y="445" font-size="13">5.928 ms</text>
+<text x="24" y="510" font-size="12">Each panel: checkout, fastest other tokenizer, and historical npm reference.</text>
+<text x="24" y="532" font-size="12">Synthetic inputs dominate. See linked results for realistic workloads, ranges and losses.</text>
+</g></svg>
