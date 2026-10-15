@@ -1,0 +1,337 @@
+diff --git a/src/BytePairEncodingCore.ts b/src/BytePairEncodingCore.ts
+index e7b48ea..c1815fa 100644
+--- a/src/BytePairEncodingCore.ts
++++ b/src/BytePairEncodingCore.ts
+@@ -1,3 +1,5 @@
++import { asciiO200kPieceEnd } from './asciiO200k.js'
++import { O200K_TOKEN_SPLIT_REGEX } from './encodingParams/constants.js'
+ import { DEFAULT_MERGE_CACHE_SIZE } from './constants.js'
+ import {
+   compareUint8Arrays,
+@@ -98,6 +100,7 @@ export class BytePairEncodingCore {
+    */
+   private bytePairStringRankEncoder: Map<string, number | number[]>
+   private tokenSplitRegex: RegExp
++  private asciiO200k: boolean
+   private specialTokensEncoder: Map<string, number>
+   private specialTokensDecoder: Map<number, string>
+   private specialTokenPatternRegex: RegExp
+@@ -169,6 +172,7 @@ export class BytePairEncodingCore {
+       ? new Map([...specialTokensEncoder].map(([key, value]) => [value, key]))
+       : new Map<number, string>()
+     this.tokenSplitRegex = tokenSplitRegex
++    this.asciiO200k = tokenSplitRegex === O200K_TOKEN_SPLIT_REGEX
+ 
+     const escapedSpecialTokens = [...this.specialTokensEncoder.keys()].map(
+       escapeRegExp,
+@@ -293,7 +297,13 @@ export class BytePairEncodingCore {
+           ? text
+           : text.slice(startIndex, endIndex)
+ 
+-      if (textBeforeSpecial.length > MAX_BATCHED_SPLIT_LENGTH) {
++      if (
++        this.asciiO200k &&
++        textBeforeSpecial.length <= MAX_BATCHED_SPLIT_LENGTH &&
++        textBeforeSpecial.charCodeAt(0) < 128
++      ) {
++        this.encodeAsciiO200k(textBeforeSpecial, tokensArray)
++      } else if (textBeforeSpecial.length > MAX_BATCHED_SPLIT_LENGTH) {
+         for (const tokens of this.encodeNativeGenerator(textBeforeSpecial)) {
+           for (let i = 0; i < tokens.length; i++) tokensArray.push(tokens[i]!)
+         }
+@@ -357,7 +367,13 @@ export class BytePairEncodingCore {
+           ? text
+           : text.slice(startIndex, endIndex)
+ 
+-      if (textBeforeSpecial.length > MAX_BATCHED_SPLIT_LENGTH) {
++      if (
++        this.asciiO200k &&
++        textBeforeSpecial.length <= MAX_BATCHED_SPLIT_LENGTH &&
++        textBeforeSpecial.charCodeAt(0) < 128
++      ) {
++        tokensCount += this.encodeAsciiO200k(textBeforeSpecial)
++      } else if (textBeforeSpecial.length > MAX_BATCHED_SPLIT_LENGTH) {
+         for (const tokens of this.encodeNativeGenerator(textBeforeSpecial)) {
+           tokensCount += tokens.length
+         }
+@@ -393,6 +409,67 @@ export class BytePairEncodingCore {
+     return tokensCount
+   }
+ 
++  private encodeAsciiO200k(text: string, output?: number[]): number {
++    let position = 0
++    let count = 0
++    try {
++      while (position < text.length) {
++        const end = asciiO200kPieceEnd(text, position)
++        let piece: string
++        if (end === -1) {
++          // Let the established Unicode path handle the entire remaining suffix.
++          // In particular, do not repeat its per-input Unicode guard per piece.
++          const pieces = text.slice(position).match(this.tokenSplitRegex)
++          if (pieces) {
++            for (let i = 0; i < pieces.length; i++) {
++              const fallback = pieces[i]!
++              const token = this.bytePairStringRankEncoder.get(fallback)
++              if (typeof token === 'number') {
++                output?.push(token)
++                count++
++              } else {
++                const tokens = token ?? this.bytePairEncode(fallback)
++                count += tokens.length
++                if (output) {
++                  for (let j = 0; j < tokens.length; j++)
++                    output.push(tokens[j]!)
++                }
++              }
++            }
++          }
++          return count
++        } else {
++          // Emit single ASCII bytes without allocating a piece string.
++          if (end === position + 1) {
++            const token = this.singleByteRanks[text.charCodeAt(position)]!
++            if (token >= 0) {
++              output?.push(token)
++              count++
++              position = end
++              continue
++            }
++          }
++          piece = text.slice(position, end)
++        }
++        const token = this.bytePairStringRankEncoder.get(piece)
++        if (typeof token === 'number') {
++          output?.push(token)
++          count++
++        } else {
++          const tokens = token ?? this.bytePairEncode(piece)
++          count += tokens.length
++          if (output) {
++            for (let i = 0; i < tokens.length; i++) output.push(tokens[i]!)
++          }
++        }
++        position = end
++      }
++    } finally {
++      this.tokenSplitRegex.lastIndex = 0
++    }
++    return count
++  }
++
+   *decodeNativeGenerator(
+     tokens: Iterable<number>,
+   ): Generator<Uint8Array | string, void, void> {
+--- /dev/null
++++ b/src/asciiO200k.ts
+@@ -0,0 +1,95 @@
++// ASCII fast-path idea: goliajp/rust-tiktoken (MIT OR Apache-2.0),
++// https://github.com/goliajp/rust-tiktoken/blob/v4.1.2/tiktoken/src/pretokenize.rs
++// This scanner independently implements our O200K_TOKEN_SPLIT_REGEX branches.
++// An uncertain Unicode boundary returns -1 so the original regex decides it.
++const LETTER = 1
++const UPPER = 2
++const LOWER = 4
++const DIGIT = 8
++const SPACE = 16
++const NEWLINE = 32
++const PUNCT = 64
++const classes = new Uint8Array(128)
++for (let code = 0; code < 128; code++) {
++  classes[code] =
++    code >= 65 && code <= 90
++      ? LETTER | UPPER
++      : code >= 97 && code <= 122
++        ? LETTER | LOWER
++        : code >= 48 && code <= 57
++          ? DIGIT
++          : (code >= 9 && code <= 13) || code === 32
++            ? SPACE | (code === 10 || code === 13 ? NEWLINE : 0)
++            : PUNCT
++}
++
++export function asciiO200kPieceEnd(text: string, start: number): number {
++  const code = text.charCodeAt(start)
++  if (code >= 128) return -1
++  const kind = classes[code]!
++  let wordStart = start
++  if (!(kind & LETTER)) {
++    wordStart = -1
++    if (!(kind & (DIGIT | NEWLINE))) {
++      const next = text.charCodeAt(start + 1)
++      if (next >= 128) return -1
++      if (classes[next]! & LETTER) wordStart = start + 1
++    }
++  }
++  if (wordStart >= 0) {
++    let end = wordStart
++    while (classes[text.charCodeAt(end)]! & UPPER) end++
++    while (classes[text.charCodeAt(end)]! & LOWER) end++
++    if (text.charCodeAt(end) >= 128) return -1
++    if (text.charCodeAt(end) === 39) {
++      const suffix = text.charCodeAt(end + 1) | 32
++      if (
++        suffix === 115 ||
++        suffix === 100 ||
++        suffix === 109 ||
++        suffix === 116
++      ) {
++        end += 2
++      } else {
++        const tail = text.charCodeAt(end + 2) | 32
++        if (
++          (suffix === 108 && tail === 108) ||
++          (suffix === 114 && tail === 101) ||
++          (suffix === 118 && tail === 101)
++        ) {
++          end += 3
++        }
++      }
++    }
++    return end
++  }
++  if (kind & DIGIT) {
++    let end = start + 1
++    while (end - start < 3 && classes[text.charCodeAt(end)]! & DIGIT) end++
++    return end - start < 3 && text.charCodeAt(end) >= 128 ? -1 : end
++  }
++  if (
++    kind & PUNCT ||
++    (code === 32 && classes[text.charCodeAt(start + 1)]! & PUNCT)
++  ) {
++    let end = start + (code === 32 ? 1 : 0)
++    while (classes[text.charCodeAt(end)]! & PUNCT) end++
++    if (text.charCodeAt(end) >= 128) return -1
++    while (
++      text.charCodeAt(end) === 10 ||
++      text.charCodeAt(end) === 13 ||
++      text.charCodeAt(end) === 47
++    )
++      end++
++    return end
++  }
++  let end = start
++  let lastNewline = -1
++  while (classes[text.charCodeAt(end)]! & SPACE) {
++    if (classes[text.charCodeAt(end)]! & NEWLINE) lastNewline = end + 1
++    end++
++  }
++  if (text.charCodeAt(end) >= 128) return -1
++  if (lastNewline >= 0) return lastNewline
++  return end === text.length || end === start + 1 ? end : end - 1
++}
+--- /dev/null
++++ b/src/asciiO200k.test.ts
+@@ -0,0 +1,112 @@
++import { describe, expect, test } from 'vite-plus/test'
++import { asciiO200kPieceEnd } from './asciiO200k.js'
++import ranks from './bpeRanks/o200k_base.js'
++import { BytePairEncodingCore } from './BytePairEncodingCore.js'
++import { O200K_TOKEN_SPLIT_REGEX } from './encodingParams/constants.js'
++
++function scannedPieces(text: string): string[] {
++  const regex = new RegExp(O200K_TOKEN_SPLIT_REGEX)
++  const pieces: string[] = []
++  let position = 0
++  while (position < text.length) {
++    let end = asciiO200kPieceEnd(text, position)
++    if (end < 0) {
++      regex.lastIndex = position
++      const match = regex.exec(text)!
++      expect(match.index).toBe(position)
++      end = regex.lastIndex
++    }
++    expect(end).toBeGreaterThan(position)
++    pieces.push(text.slice(position, end))
++    position = end
++  }
++  return pieces
++}
++
++function expectedPieces(text: string): string[] {
++  return text.match(O200K_TOKEN_SPLIT_REGEX) ?? []
++}
++
++const boundaries = [
++  '',
++  'hello',
++  'UPPERCaseABCdef',
++  "I'M we've HE'LL they're I'd can't abc'Sx",
++  "'s 't 'll 're 've 'm 'd",
++  '1234567 abc123DEF',
++  '!\n/abc !\r\n///!def',
++  ' \t\r\n  abc\v\f xyz ',
++  'a\u0085b\ufeffc\u00a0d',
++  'abcé café e\u0301 abc中文 abc😀',
++  "abc'S\u0301 abc\u0301'S ABC中文def",
++  'a123٤5 a!。x a 　x',
++  'a\ud800b a\udc00b a\r\n\ufeffb',
++]
++let seed = 0x58ab71d4
++const random = () => (seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0)
++const randomAscii = Array.from({ length: 2000 }, (_, n) => {
++  let text = ''
++  for (let i = 0; i < n % 257; i++) text += String.fromCharCode(random() >>> 25)
++  return text
++})
++const mixed = Array.from({ length: 250 }, (_, n) => {
++  let text = 'Ascii'
++  for (let i = 0; i < n % 41; i++) {
++    const choices = [
++      'é',
++      '\u0301',
++      '中',
++      '😀',
++      '\u0085',
++      '\ufeff',
++      '\u00a0',
++      '\ud800',
++      '\udc00',
++      '٤',
++    ]
++    text +=
++      String.fromCharCode(random() >>> 25) + choices[random() % choices.length]
++  }
++  return text
++})
++
++describe('ASCII o200k pretokenizer', () => {
++  test('matches every pair of ASCII characters', () => {
++    for (let a = 0; a < 128; a++) {
++      for (let b = 0; b < 128; b++) {
++        const text = String.fromCharCode(a, b)
++        expect(scannedPieces(text)).toEqual(expectedPieces(text))
++      }
++    }
++  })
++  test('matches seeded ASCII text and uncertain Unicode boundaries', () => {
++    for (const text of [...boundaries, ...randomAscii, ...mixed]) {
++      expect(scannedPieces(text)).toEqual(expectedPieces(text))
++    }
++  })
++  test('keeps tokens and counts exact across cache capacities', () => {
++    const fast = new BytePairEncodingCore({
++      bytePairRankDecoder: ranks,
++      tokenSplitRegex: O200K_TOKEN_SPLIT_REGEX,
++    })
++    const regex = new BytePairEncodingCore({
++      bytePairRankDecoder: ranks,
++      tokenSplitRegex: O200K_TOKEN_SPLIT_REGEX,
++    })
++    Reflect.set(regex, 'asciiO200k', false)
++    for (const capacity of [0, 1, 64, 100_000]) {
++      fast.setMergeCacheSize(capacity)
++      regex.setMergeCacheSize(capacity)
++      for (const text of [
++        ...boundaries,
++        ...randomAscii.slice(0, 100),
++        ...mixed.slice(0, 50),
++      ]) {
++        const expected = regex.encodeNative(text)
++        expect(fast.encodeNative(text)).toEqual(expected)
++        expect(fast.countNative(text)).toBe(expected.length)
++        expect([...fast.encodeNativeGenerator(text)].flat()).toEqual(expected)
++      }
++    }
++  })
++})

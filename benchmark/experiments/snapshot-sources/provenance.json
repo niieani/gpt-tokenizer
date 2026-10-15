@@ -1,0 +1,10 @@
+{
+  "originalPrepublicationCommit": "323d09ea8b65116434184c9e3ba9180e61b40b79",
+  "measuredV2": {
+    "readme.md": {
+      "sha256": "13b7a95a75d5fcd995a696fcff2c05e2c0652ea8d414d05829cc93742992a3ad",
+      "bytes": 20050
+    }
+  },
+  "transformation": "The README machine label was replaced with a neutral publication identifier. Historical v2 timings measured the original bytes; that exact private fixture is not distributed. Source files here define new corpus v3."
+}

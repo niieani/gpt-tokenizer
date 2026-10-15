@@ -1,0 +1,414 @@
+{
+  "checkedAt": "2026-10-15T01:22:31.168462+00:00",
+  "npm": [
+    {
+      "package": "gpt-tokenizer",
+      "version": "4.0.3",
+      "published": "2026-10-15T01:15:42.605Z",
+      "deprecated": null,
+      "downloads": {
+        "downloads": 1922996,
+        "start": "2026-10-06",
+        "end": "2026-10-12",
+        "package": "gpt-tokenizer"
+      },
+      "registry": "https://registry.npmjs.org/gpt-tokenizer"
+    },
+    {
+      "package": "tiktoken",
+      "version": "1.0.22",
+      "published": "2025-08-09T01:00:31.943Z",
+      "deprecated": null,
+      "downloads": {
+        "downloads": 1531345,
+        "start": "2026-10-06",
+        "end": "2026-10-12",
+        "package": "tiktoken"
+      },
+      "registry": "https://registry.npmjs.org/tiktoken"
+    },
+    {
+      "package": "js-tiktoken",
+      "version": "1.0.21",
+      "published": "2025-08-09T01:00:31.350Z",
+      "deprecated": null,
+      "downloads": {
+        "downloads": 9855625,
+        "start": "2026-10-06",
+        "end": "2026-10-12",
+        "package": "js-tiktoken"
+      },
+      "registry": "https://registry.npmjs.org/js-tiktoken"
+    },
+    {
+      "package": "tiktoken-node",
+      "version": "0.0.7",
+      "published": "2024-02-05T20:56:14.369Z",
+      "deprecated": null,
+      "downloads": {
+        "downloads": 9571,
+        "start": "2026-10-06",
+        "end": "2026-10-12",
+        "package": "tiktoken-node"
+      },
+      "registry": "https://registry.npmjs.org/tiktoken-node"
+    },
+    {
+      "package": "gpt-3-encoder",
+      "version": "1.1.4",
+      "published": "2023-01-18T19:07:53.080Z",
+      "deprecated": null,
+      "downloads": {
+        "downloads": 116170,
+        "start": "2026-10-06",
+        "end": "2026-10-12",
+        "package": "gpt-3-encoder"
+      },
+      "registry": "https://registry.npmjs.org/gpt-3-encoder"
+    },
+    {
+      "package": "gpt3-tokenizer",
+      "version": "1.1.5",
+      "published": "2023-01-27T04:07:19.476Z",
+      "deprecated": null,
+      "downloads": {
+        "downloads": 17839,
+        "start": "2026-10-06",
+        "end": "2026-10-12",
+        "package": "gpt3-tokenizer"
+      },
+      "registry": "https://registry.npmjs.org/gpt3-tokenizer"
+    },
+    {
+      "package": "@huggingface/tokenizers",
+      "version": "0.2.0",
+      "published": "2026-09-07T03:29:57.557Z",
+      "deprecated": null,
+      "downloads": {
+        "downloads": 2751903,
+        "start": "2026-10-06",
+        "end": "2026-10-12",
+        "package": "@huggingface/tokenizers"
+      },
+      "registry": "https://registry.npmjs.org/@huggingface/tokenizers"
+    },
+    {
+      "package": "tokenizers",
+      "version": "0.23.2",
+      "published": "2026-09-03T11:06:34.483Z",
+      "deprecated": null,
+      "downloads": {
+        "downloads": 6782,
+        "start": "2026-10-06",
+        "end": "2026-10-12",
+        "package": "tokenizers"
+      },
+      "registry": "https://registry.npmjs.org/tokenizers"
+    },
+    {
+      "package": "@goliapkg/tiktoken-wasm",
+      "version": "4.1.2",
+      "published": "2026-08-13T13:49:09.498Z",
+      "deprecated": null,
+      "downloads": {
+        "downloads": 5398,
+        "start": "2026-10-06",
+        "end": "2026-10-12",
+        "package": "@goliapkg/tiktoken-wasm"
+      },
+      "registry": "https://registry.npmjs.org/@goliapkg/tiktoken-wasm"
+    },
+    {
+      "package": "bpe-lite",
+      "version": "0.5.2",
+      "published": "2026-03-19T20:32:52.769Z",
+      "deprecated": null,
+      "downloads": {
+        "downloads": 3993,
+        "start": "2026-10-06",
+        "end": "2026-10-12",
+        "package": "bpe-lite"
+      },
+      "registry": "https://registry.npmjs.org/bpe-lite"
+    },
+    {
+      "package": "@mlc-ai/web-tokenizers",
+      "version": "0.1.6",
+      "published": "2025-05-03T20:44:54.767Z",
+      "deprecated": null,
+      "downloads": {
+        "downloads": 2386,
+        "start": "2026-10-06",
+        "end": "2026-10-12",
+        "package": "@mlc-ai/web-tokenizers"
+      },
+      "registry": "https://registry.npmjs.org/@mlc-ai/web-tokenizers"
+    },
+    {
+      "package": "@agnai/web-tokenizers",
+      "version": "0.1.6-pre3",
+      "published": "2025-12-14T12:44:15.743Z",
+      "deprecated": null,
+      "downloads": {
+        "downloads": 23592,
+        "start": "2026-10-06",
+        "end": "2026-10-12",
+        "package": "@agnai/web-tokenizers"
+      },
+      "registry": "https://registry.npmjs.org/@agnai/web-tokenizers"
+    },
+    {
+      "package": "ai-tokenizer",
+      "version": "1.0.7",
+      "published": "2026-09-28T17:33:29.050Z",
+      "deprecated": null,
+      "downloads": {
+        "downloads": 150203,
+        "start": "2026-10-06",
+        "end": "2026-10-12",
+        "package": "ai-tokenizer"
+      },
+      "registry": "https://registry.npmjs.org/ai-tokenizer"
+    },
+    {
+      "package": "@dqbd/tiktoken",
+      "version": "1.0.22",
+      "published": "2025-08-09T01:00:31.956Z",
+      "deprecated": null,
+      "downloads": {
+        "downloads": 367168,
+        "start": "2026-10-06",
+        "end": "2026-10-12",
+        "package": "@dqbd/tiktoken"
+      },
+      "registry": "https://registry.npmjs.org/@dqbd/tiktoken"
+    },
+    {
+      "package": "@anthropic-ai/tokenizer",
+      "version": "0.0.4",
+      "published": "2023-07-05T03:44:40.936Z",
+      "deprecated": null,
+      "downloads": {
+        "downloads": 355570,
+        "start": "2026-10-06",
+        "end": "2026-10-12",
+        "package": "@anthropic-ai/tokenizer"
+      },
+      "registry": "https://registry.npmjs.org/@anthropic-ai/tokenizer"
+    },
+    {
+      "package": "@lenml/tokenizers",
+      "version": "3.7.2",
+      "published": "2025-09-06T02:01:53.029Z",
+      "deprecated": null,
+      "downloads": {
+        "downloads": 20399,
+        "start": "2026-10-06",
+        "end": "2026-10-12",
+        "package": "@lenml/tokenizers"
+      },
+      "registry": "https://registry.npmjs.org/@lenml/tokenizers"
+    },
+    {
+      "package": "@bpinternal/thicktoken",
+      "version": "3.1.0",
+      "published": "2026-07-22T20:10:25.496Z",
+      "deprecated": null,
+      "downloads": {
+        "downloads": 5713,
+        "start": "2026-10-06",
+        "end": "2026-10-12",
+        "package": "@bpinternal/thicktoken"
+      },
+      "registry": "https://registry.npmjs.org/@bpinternal/thicktoken"
+    },
+    {
+      "package": "@huggingface/transformers",
+      "version": "4.3.1",
+      "published": "2026-10-06T15:54:29.246Z",
+      "deprecated": null,
+      "downloads": {
+        "downloads": 4066912,
+        "start": "2026-10-06",
+        "end": "2026-10-12",
+        "package": "@huggingface/transformers"
+      },
+      "registry": "https://registry.npmjs.org/@huggingface/transformers"
+    },
+    {
+      "package": "tiktoken-rs-node",
+      "version": "1.0.6",
+      "published": "2025-04-11T23:32:58.913Z",
+      "deprecated": null,
+      "downloads": {
+        "downloads": 46322,
+        "start": "2026-10-06",
+        "end": "2026-10-12",
+        "package": "tiktoken-rs-node"
+      },
+      "registry": "https://registry.npmjs.org/tiktoken-rs-node"
+    },
+    {
+      "package": "@codex-native/sdk",
+      "version": "0.0.38",
+      "published": "2026-01-16T00:21:33.169Z",
+      "deprecated": null,
+      "downloads": {
+        "downloads": 6,
+        "start": "2026-10-06",
+        "end": "2026-10-12",
+        "package": "@codex-native/sdk"
+      },
+      "registry": "https://registry.npmjs.org/@codex-native/sdk"
+    },
+    {
+      "package": "infiniloom-node",
+      "version": "0.7.0",
+      "published": "2026-03-15T23:20:05.506Z",
+      "deprecated": null,
+      "downloads": {
+        "downloads": 8,
+        "start": "2026-10-06",
+        "end": "2026-10-12",
+        "package": "infiniloom-node"
+      },
+      "registry": "https://registry.npmjs.org/infiniloom-node"
+    }
+  ],
+  "github": [
+    {
+      "full_name": "niieani/gpt-tokenizer",
+      "html_url": "https://github.com/niieani/gpt-tokenizer",
+      "archived": false,
+      "pushed_at": "2026-10-15T01:13:18Z",
+      "stargazers_count": 854,
+      "error": null
+    },
+    {
+      "full_name": "dqbd/tiktoken",
+      "html_url": "https://github.com/dqbd/tiktoken",
+      "archived": false,
+      "pushed_at": "2025-08-09T01:00:33Z",
+      "stargazers_count": 1074,
+      "error": null
+    },
+    {
+      "full_name": "ceifa/tiktoken-node",
+      "html_url": "https://github.com/ceifa/tiktoken-node",
+      "archived": false,
+      "pushed_at": "2024-05-18T11:58:03Z",
+      "stargazers_count": 109,
+      "error": null
+    },
+    {
+      "full_name": "latitudegames/GPT-3-Encoder",
+      "html_url": "https://github.com/latitudegames/GPT-3-Encoder",
+      "archived": false,
+      "pushed_at": "2023-04-16T00:44:43Z",
+      "stargazers_count": 720,
+      "error": null
+    },
+    {
+      "full_name": "botisan-ai/gpt3-tokenizer",
+      "html_url": "https://github.com/botisan-ai/gpt3-tokenizer",
+      "archived": false,
+      "pushed_at": "2023-01-27T04:07:55Z",
+      "stargazers_count": 171,
+      "error": null
+    },
+    {
+      "full_name": "huggingface/tokenizers.js",
+      "html_url": "https://github.com/huggingface/tokenizers.js",
+      "archived": false,
+      "pushed_at": "2026-10-14T17:09:40Z",
+      "stargazers_count": 57,
+      "error": null
+    },
+    {
+      "full_name": "huggingface/tokenizers",
+      "html_url": "https://github.com/huggingface/tokenizers",
+      "archived": false,
+      "pushed_at": "2026-10-14T10:56:04Z",
+      "stargazers_count": 11170,
+      "error": null
+    },
+    {
+      "full_name": "goliajp/rust-tiktoken",
+      "html_url": "https://github.com/goliajp/rust-tiktoken",
+      "archived": false,
+      "pushed_at": "2026-10-01T00:11:02Z",
+      "stargazers_count": 8,
+      "error": null
+    },
+    {
+      "full_name": "jschoemaker/bpe-lite",
+      "html_url": "https://github.com/jschoemaker/bpe-lite",
+      "archived": false,
+      "pushed_at": "2026-03-19T20:29:07Z",
+      "stargazers_count": 0,
+      "error": null
+    },
+    {
+      "full_name": "mlc-ai/tokenizers-cpp",
+      "html_url": "https://github.com/mlc-ai/tokenizers-cpp",
+      "archived": false,
+      "pushed_at": "2026-05-20T18:03:32Z",
+      "stargazers_count": 514,
+      "error": null
+    },
+    {
+      "full_name": "coder/ai-tokenizer",
+      "html_url": "https://github.com/coder/ai-tokenizer",
+      "archived": false,
+      "pushed_at": "2026-09-27T17:06:51Z",
+      "stargazers_count": 61,
+      "error": null
+    },
+    {
+      "full_name": "zurawiki/tiktoken-rs",
+      "html_url": "https://github.com/zurawiki/tiktoken-rs",
+      "archived": false,
+      "pushed_at": "2026-09-24T17:15:12Z",
+      "stargazers_count": 408,
+      "error": null
+    },
+    {
+      "full_name": "ml-rust/splintr",
+      "html_url": "https://github.com/ml-rust/splintr",
+      "archived": false,
+      "pushed_at": "2026-10-13T14:41:52Z",
+      "stargazers_count": 61,
+      "error": null
+    },
+    {
+      "full_name": "lenML/tokenizers",
+      "html_url": "https://github.com/lenML/tokenizers",
+      "archived": false,
+      "pushed_at": "2026-05-16T11:25:47Z",
+      "stargazers_count": 34
+    },
+    {
+      "full_name": "script-heads/wasm-tokenizer",
+      "html_url": "https://github.com/script-heads/wasm-tokenizer",
+      "archived": false,
+      "pushed_at": "2024-07-20T07:01:46Z",
+      "stargazers_count": 5
+    },
+    {
+      "full_name": "tmb/tiktoken-rs-node",
+      "html_url": "https://github.com/tmb/tiktoken-rs-node",
+      "archived": false,
+      "pushed_at": "2025-04-11T23:32:16Z",
+      "stargazers_count": 1
+    }
+  ],
+  "additionalSources": [
+    "https://zspacelabs.ai/wordchipper/book/bindings.html",
+    "https://github.com/ml-rust/splintr",
+    "https://github.com/sirus20x6/ztok",
+    "https://registry.npmjs.org/wordchipper",
+    "https://registry.npmjs.org/@wordchipper/wasm",
+    "https://registry.npmjs.org/bpe-openai",
+    "https://registry.npmjs.org/quicktok"
+  ]
+}

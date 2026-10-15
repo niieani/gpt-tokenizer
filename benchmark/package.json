@@ -1,24 +1,29 @@
 {
   "name": "benchmark",
-  "packageManager": "yarn@4.5.0",
   "type": "module",
   "scripts": {
     "start": "yarn tsc && node dist/benchmarkRunner.js",
-    "profile": "yarn tsc && node --inspect dist/benchmarkWorker.js --run"
+    "check": "yarn tsc --noEmit",
+    "report": "python3 report.py",
+    "test": "yarn tsc && node --test test.mjs",
+    "memory": "yarn tsc && node dist/memoryRunner.js"
+  },
+  "dependencies": {
+    "@goliapkg/tiktoken-wasm": "4.1.2",
+    "@huggingface/tokenizers": "0.2.0",
+    "@lenml/tokenizers": "3.7.2",
+    "@mlc-ai/web-tokenizers": "0.1.6",
+    "ai-tokenizer": "1.0.7",
+    "bpe-lite": "0.5.2",
+    "gpt-tokenizer": "4.0.3",
+    "js-tiktoken": "1.0.21",
+    "tiktoken": "1.0.22",
+    "tiktoken-node": "0.0.7",
+    "tokenizers": "0.23.2"
   },
   "devDependencies": {
     "@types/node": "^26.2.0",
-    "chalk": "^6.0.0",
-    "cli-table3": "^0.6.5",
-    "inquirer": "^14.0.2",
     "typescript": "^6"
   },
-  "dependencies": {
-    "gpt-3-encoder": "^1.1.4",
-    "gpt-tokenizer": "3.4.0",
-    "gpt3-tokenizer": "^1.1.5",
-    "js-tiktoken": "^1.0.21",
-    "tiktoken": "^1.0.22",
-    "tiktoken-node": "^0.0.7"
-  }
+  "packageManager": "yarn@4.18.0"
 }

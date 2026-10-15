@@ -1,0 +1,37 @@
+{
+  "officialVersion": "0.14.0",
+  "engine": "1.4.3",
+  "inputCount": 9809,
+  "variants": {
+    "root": {
+      "patternHash": "8c9c9dabb0fc43e73437a277b260c65095107fac2efaaa4d5555c2598015ff6a",
+      "encodings": {
+        "cl100k_base": {
+          "totalFailures": 0,
+          "knownLongS": 0,
+          "failures": []
+        },
+        "o200k_base": {
+          "totalFailures": 0,
+          "knownLongS": 0,
+          "failures": []
+        }
+      }
+    },
+    "casefold": {
+      "patternHash": "7715a4ebb0476a21179a1f89309624be304a7a3f12cebb7b4668bfc7fe2492c7",
+      "encodings": {
+        "cl100k_base": {
+          "totalFailures": 0,
+          "knownLongS": 0,
+          "failures": []
+        },
+        "o200k_base": {
+          "totalFailures": 0,
+          "knownLongS": 0,
+          "failures": []
+        }
+      }
+    }
+  }
+}

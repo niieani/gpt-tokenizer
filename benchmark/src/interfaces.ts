@@ -1,69 +1,62 @@
-// interfaces.ts
-export interface TokenizerBenchmark<T extends number[] | Uint8Array = any> {
+export type Encoding = 'cl100k_base' | 'o200k_base'
+export type Tokens = number[] | Uint32Array | Int32Array
+export interface Tokenizer {
+  encode: (text: string) => Tokens | Promise<Tokens>
+  decode: (tokens: Tokens) => string | Promise<string>
+  countTokens: (text: string) => number | Promise<number>
+  free?: () => void
+}
+export interface Adapter {
+  id: string
   packageName: string
   version: string
-  load: () => Promise<{
-    encode: (input: string) => T
-    decode: (tokens: T) => string
-    countTokens: (input: string) => number
-  }>
+  encodings: Encoding[]
+  async?: boolean
+  load: (encoding: Encoding) => Promise<Tokenizer>
 }
-
 export interface WorkerInput {
-  tokenizerIndex: number
-  executionsMultiplier: number
+  id: string
+  encoding: Encoding
+  mode: 'verify' | 'measure'
+  minMs: number
+  warmupMs?: number
+  warmupCalls?: number
 }
-
-export interface BenchData {
-  text: string
-  encodeExecutionsCount: number
-  decodeExecutionsCount: number
-  countTokensExecutionsCount: number
+export interface Memory {
+  heapUsed: number
+  rss: number
+  external: number
+  arrayBuffers: number
 }
-
-export interface WorkerOutput {
-  success: boolean
-  data?: BenchmarkResult
+export interface Timing {
+  ms: number
+  calls: number
+  elapsedMs: number
+  warmup?: { ms: number; calls: number; elapsedMs: number }
+}
+export interface Sample {
+  id: string
+  encoding: Encoding
+  initialization: { ms: number; memory: Memory }
+  datasets: Record<string, Record<'encode' | 'decode' | 'count', Timing>>
+  retained: Memory
+  peakRssMiB: number
+  checksum: number
+}
+export interface Check {
+  dataset: string
+  tokens: number
+  actualTokens: number
+  firstDifference: number
+  expectedToken?: number
+  actualToken?: number
+  roundTrip: boolean
+  count: boolean
   error?: string
 }
-
-export interface BenchmarkResult {
-  packageName: string
-  version: string
-  initialization: {
-    timeMs: number
-    memoryMb: number
-    memoryRssMb: number
-  }
-  datasets: Record<string, DatasetResult>
-  memoryChangeAfterRunMb: number
-  memoryLeakWarning: boolean
-  datasetsAverage: {
-    encodeTimeMs: number
-    decodeTimeMs: number
-    countTimeMs: number
-  }
-  // For re-run rows, keep track of the change
-  change?: {
-    initTimeMs?: number
-    initMemoryMb?: number
-    initMemoryRssMb?: number
-    encodeTimeMs?: number
-    decodeTimeMs?: number
-    countTimeMs?: number
-    memoryChangeAfterRunMb?: number
-  }
-}
-
-interface DatasetResult {
-  encode: {
-    averageTimeMs: number
-  }
-  decode: {
-    averageTimeMs: number
-  }
-  countTokens: {
-    averageTimeMs: number
-  }
-  memoryChangeAfterExecutionsMb: number
+export interface Verification {
+  id: string
+  encoding: Encoding
+  checks: Check[]
+  passed: boolean
 }
