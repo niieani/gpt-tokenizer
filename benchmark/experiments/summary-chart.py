@@ -23,8 +23,10 @@ research = json.loads((HERE.parent / 'research/2026-10-15.json').read_text())
 downloads = {item['package']: item['downloads']['downloads'] for item in research['npm'] if item.get('downloads')}
 package = lambda row: 'gpt-tokenizer' if row['id'] == 'gpt-tokenizer:local' else row['id']
 assert all(package(row) in downloads for row in rows)
-rows.sort(key=lambda row: (row['id'] != 'gpt-tokenizer:local', -downloads[package(row)]))
-popular = {row['id'] for row in rows[1:4]}
+popular = {row['id'] for row in sorted(
+    (row for row in rows if row['id'] != 'gpt-tokenizer:local'),
+    key=lambda row: -downloads[package(row)],
+)[:3]}
 
 
 def adoption(count):
@@ -33,12 +35,12 @@ def adoption(count):
 
 parts = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 1240" role="img" aria-labelledby="title desc">',
          '<title id="title">gpt-tokenizer 4.0.4 versus all ten benchmark contenders</title>',
-         '<desc id="desc">Node 26.12.0, o200k_base. Encode, decode API return, and count latency on the original seven-input arithmetic mean. All ten ranked contenders, ordered by package npm downloads after gpt-tokenizer. Five fresh processes; bars show medians, whiskers show full process ranges. Logarithmic latency axes; lower is better. The historical npm reference is excluded. Large synthetic inputs dominate this score; see linked realistic results.</desc>',
+         '<desc id="desc">Node 26.12.0, o200k_base. Encode, decode API return, and count latency on the seven-input arithmetic mean. All ten contenders, ordered by median latency within each category. Five fresh processes; bars show medians, whiskers show full process ranges. Logarithmic latency axes; lower is better. The historical npm reference is excluded. Large synthetic inputs dominate this score; see linked realistic results.</desc>',
          '<rect width="760" height="1240" rx="12" fill="#f5f7fa"/>',
          '<g font-family="system-ui, sans-serif" fill="#172336">',
-         '<text x="24" y="32" font-size="20" font-weight="700">#1 on the original seven-input mean</text>',
+         '<text x="24" y="32" font-size="20" font-weight="700">#1 on the seven-input mean</text>',
          '<text x="24" y="56" font-size="13">Node 26.12.0 · o200k_base · five fresh processes · lower is better</text>',
-         '<text x="24" y="77" font-size="12">All contenders · ordered by package npm downloads · logarithmic latency axes</text>']
+         '<text x="24" y="77" font-size="12">All contenders · ranked separately per category · logarithmic latency axes</text>']
 for index, (metric, title) in enumerate((('encode', 'Encode'), ('decode', 'Decode API return (length only)'), ('count', 'Count'))):
     ranked = sorted(rows, key=lambda row: row['metrics'][metric]['median'])
     assert ranked[0]['id'] == 'gpt-tokenizer:local'
@@ -58,7 +60,7 @@ for index, (metric, title) in enumerate((('encode', 'Encode'), ('decode', 'Decod
         x = position(tick)
         parts += [f'<line x1="{x:.2f}" x2="{x:.2f}" y1="{first - 7}" y2="{last + 14}" stroke="#dce2e9"/>',
                   f'<text x="{x:.2f}" y="{last + 32}" text-anchor="middle" font-size="11" fill="#4a586b">{tick:g}</text>']
-    for offset, row in enumerate(rows):
+    for offset, row in enumerate(ranked):
         selected = row['id'] == 'gpt-tokenizer:local'
         color = '#087f6d' if selected else '#335e8c' if row['id'] in popular else '#778ba3'
         label = 'gpt-tokenizer 4.0.4' if selected else f"{row['id']} {row['version']}"
