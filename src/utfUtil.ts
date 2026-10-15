@@ -71,7 +71,18 @@ function isValidUTF8(bytes: Uint8Array): boolean {
   return true
 }
 
-const textDecoder = new TextDecoder('utf8', { fatal: false })
+export function startsWithByteOrderMark(bytes: Uint8Array): boolean {
+  return (
+    bytes.length >= 3 &&
+    bytes[0] === 0xef &&
+    bytes[1] === 0xbb &&
+    bytes[2] === 0xbf
+  )
+}
+
+// `ignoreBOM: true` keeps a leading U+FEFF in the output instead of silently
+// stripping it, so the bytes EF BB BF map to U+FEFF rather than to an empty string.
+const textDecoder = new TextDecoder('utf8', { fatal: false, ignoreBOM: true })
 
 export function tryConvertToString(arr: Uint8Array): string | undefined {
   if (!isValidUTF8(arr)) {
