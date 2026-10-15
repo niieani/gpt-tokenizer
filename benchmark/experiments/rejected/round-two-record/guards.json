@@ -1,0 +1,2766 @@
+{
+  "kind": "unranked longer short-support and European/README guards; do not pool with primary realistic run",
+  "baselineCommit": "9e1420c",
+  "candidateCommit": "c95d3a7",
+  "runtime": {
+    "version": "v26.12.0",
+    "bun": null
+  },
+  "configuration": {
+    "rounds": 5,
+    "minMs": 500,
+    "warmMs": 500,
+    "warmCalls": 20,
+    "operations": [
+      "encode",
+      "count"
+    ],
+    "modes": [
+      "repeated",
+      "stream"
+    ]
+  },
+  "corpus": {
+    "support": {
+      "sha256": "9a4f5bf66715cb5b81913c0394ad880f35ca371dd1065f8cc3438e7adfbdeca8",
+      "utf8Bytes": 293
+    },
+    "european": {
+      "sha256": "8452aeeb903208f5014936e0a2c48c724f6a9c01fb553d96458ac79fecd2d320",
+      "utf8Bytes": 451
+    },
+    "readme.md": {
+      "sha256": "13b7a95a75d5fcd995a696fcff2c05e2c0652ea8d414d05829cc93742992a3ad",
+      "utf8Bytes": 20050
+    }
+  },
+  "sources": {
+    "driver": "383dd213543159f6988c4fc4b4fef9971e0a633f4f85be6063f308d109bbea70",
+    "worker": "0e50003370eb8031974c69a81bd58c097704c4a6592fd556936cfbe78fa8de0d",
+    "frozenCore": "cc7036d186ecc6eda5df557fdd2ae62bb0f96150081e7044169a52b66ed16f7f",
+    "candidateCore": "3395763a64605fc7ebbda4fab58bded43eb737432df2668934b9511d4e8b7c95"
+  },
+  "samples": [
+    {
+      "verification": {
+        "passed": true,
+        "reference": "tiktoken",
+        "documents": 3,
+        "inputs": 99
+      },
+      "runtime": {
+        "node": "v26.12.0",
+        "bun": null
+      },
+      "entry": "candidate",
+      "round": 0,
+      "initializationMs": 122.23604199999998,
+      "before": {
+        "rss": 63426560,
+        "heapTotal": 12718080,
+        "heapUsed": 7009264,
+        "external": 2838560,
+        "arrayBuffers": 144047
+      },
+      "initialized": {
+        "rss": 118169600,
+        "heapTotal": 28250112,
+        "heapUsed": 23859032,
+        "external": 4783326,
+        "arrayBuffers": 146161
+      },
+      "afterFirstPass": {
+        "rss": 119087104,
+        "heapTotal": 28418048,
+        "heapUsed": 24267848,
+        "external": 4785517,
+        "arrayBuffers": 146161
+      },
+      "firstPass": [
+        {
+          "id": "support",
+          "encodeMs": 9.063283000000013,
+          "decodeMs": 0.16498599999999897,
+          "countMs": 0.15960999999998648
+        },
+        {
+          "id": "european",
+          "encodeMs": 1.4854090000000042,
+          "decodeMs": 0.043401999999986174,
+          "countMs": 0.08782999999999674
+        },
+        {
+          "id": "readme.md",
+          "encodeMs": 3.1180999999999983,
+          "decodeMs": 0.6275980000000061,
+          "countMs": 1.320354000000009
+        }
+      ],
+      "semanticProbes": [
+        {
+          "text": " I'ſa",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "𲨓?t",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "﻿hello",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "ab﻿c d",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "é👨‍👩‍👧‍👦",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        }
+      ],
+      "measurements": [
+        {
+          "id": "support",
+          "category": "prose",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.00738145761511216,
+            "elapsedMs": 500.16756799999996,
+            "calls": 67760
+          },
+          "ms": 0.006564911433447099,
+          "elapsedMs": 500.114953,
+          "calls": 76180
+        },
+        {
+          "id": "support",
+          "category": "prose",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.006651349414893613,
+            "elapsedMs": 500.18147599999975,
+            "calls": 75200
+          },
+          "ms": 0.006667731600000001,
+          "elapsedMs": 500.07987,
+          "calls": 75000
+        },
+        {
+          "id": "support",
+          "category": "prose",
+          "mode": "stream",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.008797546657283604,
+            "elapsedMs": 500.0525520000001,
+            "calls": 56840
+          },
+          "ms": 0.008806884466361397,
+          "elapsedMs": 500.0549000000001,
+          "calls": 56780
+        },
+        {
+          "id": "support",
+          "category": "prose",
+          "mode": "stream",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.008726931047120424,
+            "elapsedMs": 500.0531490000003,
+            "calls": 57300
+          },
+          "ms": 0.00853908727800546,
+          "elapsedMs": 500.04895099999976,
+          "calls": 58560
+        },
+        {
+          "id": "european",
+          "category": "multilingual",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.007412722591165133,
+            "elapsedMs": 500.0622659999999,
+            "calls": 67460
+          },
+          "ms": 0.00740300651272942,
+          "elapsedMs": 500.14711999999963,
+          "calls": 67560
+        },
+        {
+          "id": "european",
+          "category": "multilingual",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.007216045584415583,
+            "elapsedMs": 500.0719589999999,
+            "calls": 69300
+          },
+          "ms": 0.007148730531732418,
+          "elapsedMs": 500.125188,
+          "calls": 69960
+        },
+        {
+          "id": "european",
+          "category": "multilingual",
+          "mode": "stream",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.010002919000000002,
+            "elapsedMs": 500.1459500000001,
+            "calls": 50000
+          },
+          "ms": 0.009658107782927774,
+          "elapsedMs": 500.0968210000001,
+          "calls": 51780
+        },
+        {
+          "id": "european",
+          "category": "multilingual",
+          "mode": "stream",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.009214556963890948,
+            "elapsedMs": 500.1661520000007,
+            "calls": 54280
+          },
+          "ms": 0.009238188104913177,
+          "elapsedMs": 500.1555039999994,
+          "calls": 54140
+        },
+        {
+          "id": "readme.md",
+          "category": "long-prose",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.9685355647969055,
+            "elapsedMs": 500.7328870000001,
+            "calls": 517
+          },
+          "ms": 0.9549609122137408,
+          "elapsedMs": 500.39951800000017,
+          "calls": 524
+        },
+        {
+          "id": "readme.md",
+          "category": "long-prose",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.9266956611111102,
+            "elapsedMs": 500.41565699999956,
+            "calls": 540
+          },
+          "ms": 0.9229293763837632,
+          "elapsedMs": 500.22772199999963,
+          "calls": 542
+        },
+        {
+          "id": "readme.md",
+          "category": "long-prose",
+          "mode": "stream",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.9507689657794685,
+            "elapsedMs": 500.10447600000043,
+            "calls": 526
+          },
+          "ms": 0.9556701832061072,
+          "elapsedMs": 500.7711760000002,
+          "calls": 524
+        },
+        {
+          "id": "readme.md",
+          "category": "long-prose",
+          "mode": "stream",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.9111469854280506,
+            "elapsedMs": 500.2196949999998,
+            "calls": 549
+          },
+          "ms": 0.9164349413919405,
+          "elapsedMs": 500.3734779999995,
+          "calls": 546
+        }
+      ],
+      "checksum": 99094981,
+      "variant": "frozen"
+    },
+    {
+      "verification": {
+        "passed": true,
+        "reference": "tiktoken",
+        "documents": 3,
+        "inputs": 99
+      },
+      "runtime": {
+        "node": "v26.12.0",
+        "bun": null
+      },
+      "entry": "candidate",
+      "round": 0,
+      "initializationMs": 122.00811600000002,
+      "before": {
+        "rss": 63504384,
+        "heapTotal": 13242368,
+        "heapUsed": 7009352,
+        "external": 2772960,
+        "arrayBuffers": 144047
+      },
+      "initialized": {
+        "rss": 126566400,
+        "heapTotal": 33492992,
+        "heapUsed": 29111600,
+        "external": 4783326,
+        "arrayBuffers": 146161
+      },
+      "afterFirstPass": {
+        "rss": 127614976,
+        "heapTotal": 34185216,
+        "heapUsed": 29518824,
+        "external": 4785517,
+        "arrayBuffers": 146161
+      },
+      "firstPass": [
+        {
+          "id": "support",
+          "encodeMs": 7.945989999999995,
+          "decodeMs": 0.14811299999999505,
+          "countMs": 0.1519700000000057
+        },
+        {
+          "id": "european",
+          "encodeMs": 1.2367959999999982,
+          "decodeMs": 0.03250800000000709,
+          "countMs": 0.03705899999999929
+        },
+        {
+          "id": "readme.md",
+          "encodeMs": 2.361705999999998,
+          "decodeMs": 0.6174879999999803,
+          "countMs": 0.9769500000000164
+        }
+      ],
+      "semanticProbes": [
+        {
+          "text": " I'ſa",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "𲨓?t",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "﻿hello",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "ab﻿c d",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "é👨‍👩‍👧‍👦",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        }
+      ],
+      "measurements": [
+        {
+          "id": "support",
+          "category": "prose",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.006330334189873418,
+            "elapsedMs": 500.096401,
+            "calls": 79000
+          },
+          "ms": 0.006128506200980392,
+          "elapsedMs": 500.086106,
+          "calls": 81600
+        },
+        {
+          "id": "support",
+          "category": "prose",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.006007311472849591,
+            "elapsedMs": 500.04860699999995,
+            "calls": 83240
+          },
+          "ms": 0.006013830351130348,
+          "elapsedMs": 500.1101319999998,
+          "calls": 83160
+        },
+        {
+          "id": "support",
+          "category": "prose",
+          "mode": "stream",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.008037576615236255,
+            "elapsedMs": 500.0980169999998,
+            "calls": 62220
+          },
+          "ms": 0.007874316362204722,
+          "elapsedMs": 500.0190889999999,
+          "calls": 63500
+        },
+        {
+          "id": "support",
+          "category": "prose",
+          "mode": "stream",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0077369883818069266,
+            "elapsedMs": 500.11892899999975,
+            "calls": 64640
+          },
+          "ms": 0.007724645288847703,
+          "elapsedMs": 500.0935360000003,
+          "calls": 64740
+        },
+        {
+          "id": "european",
+          "category": "multilingual",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.007008169955156952,
+            "elapsedMs": 500.10300800000005,
+            "calls": 71360
+          },
+          "ms": 0.007014985844556683,
+          "elapsedMs": 500.02819100000033,
+          "calls": 71280
+        },
+        {
+          "id": "european",
+          "category": "multilingual",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.006793396047269764,
+            "elapsedMs": 500.129817,
+            "calls": 73620
+          },
+          "ms": 0.00694790400111142,
+          "elapsedMs": 500.11013,
+          "calls": 71980
+        },
+        {
+          "id": "european",
+          "category": "multilingual",
+          "mode": "stream",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.009048149366630478,
+            "elapsedMs": 500.0007340000002,
+            "calls": 55260
+          },
+          "ms": 0.008991293185904348,
+          "elapsedMs": 500.0957269999999,
+          "calls": 55620
+        },
+        {
+          "id": "european",
+          "category": "multilingual",
+          "mode": "stream",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.008572742509427491,
+            "elapsedMs": 500.13379799999984,
+            "calls": 58340
+          },
+          "ms": 0.008595117445857689,
+          "elapsedMs": 500.06393300000036,
+          "calls": 58180
+        },
+        {
+          "id": "readme.md",
+          "category": "long-prose",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.6841254295485633,
+            "elapsedMs": 500.09568899999977,
+            "calls": 731
+          },
+          "ms": 0.6804929224489786,
+          "elapsedMs": 500.1622979999993,
+          "calls": 735
+        },
+        {
+          "id": "readme.md",
+          "category": "long-prose",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.6370667834394903,
+            "elapsedMs": 500.09742499999993,
+            "calls": 785
+          },
+          "ms": 0.6348639657360413,
+          "elapsedMs": 500.2728050000005,
+          "calls": 788
+        },
+        {
+          "id": "readme.md",
+          "category": "long-prose",
+          "mode": "stream",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.6839841557377062,
+            "elapsedMs": 500.67640200000096,
+            "calls": 732
+          },
+          "ms": 0.6833234535519137,
+          "elapsedMs": 500.1927680000008,
+          "calls": 732
+        },
+        {
+          "id": "readme.md",
+          "category": "long-prose",
+          "mode": "stream",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.6413858269230774,
+            "elapsedMs": 500.28094500000043,
+            "calls": 780
+          },
+          "ms": 0.6750350121457492,
+          "elapsedMs": 500.20094400000016,
+          "calls": 741
+        }
+      ],
+      "checksum": 114257022,
+      "variant": "candidate"
+    },
+    {
+      "verification": {
+        "passed": true,
+        "reference": "tiktoken",
+        "documents": 3,
+        "inputs": 99
+      },
+      "runtime": {
+        "node": "v26.12.0",
+        "bun": null
+      },
+      "entry": "candidate",
+      "round": 1,
+      "initializationMs": 121.52790100000001,
+      "before": {
+        "rss": 63541248,
+        "heapTotal": 12980224,
+        "heapUsed": 7009448,
+        "external": 2838560,
+        "arrayBuffers": 144047
+      },
+      "initialized": {
+        "rss": 126033920,
+        "heapTotal": 33755136,
+        "heapUsed": 29112480,
+        "external": 4783326,
+        "arrayBuffers": 146161
+      },
+      "afterFirstPass": {
+        "rss": 126951424,
+        "heapTotal": 34185216,
+        "heapUsed": 29519088,
+        "external": 4785517,
+        "arrayBuffers": 146161
+      },
+      "firstPass": [
+        {
+          "id": "support",
+          "encodeMs": 7.964004999999986,
+          "decodeMs": 0.22664100000000076,
+          "countMs": 0.2240120000000161
+        },
+        {
+          "id": "european",
+          "encodeMs": 1.3541309999999953,
+          "decodeMs": 0.02458599999999933,
+          "countMs": 0.03773400000000038
+        },
+        {
+          "id": "readme.md",
+          "encodeMs": 2.7356770000000097,
+          "decodeMs": 0.6837500000000034,
+          "countMs": 1.0290029999999888
+        }
+      ],
+      "semanticProbes": [
+        {
+          "text": " I'ſa",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "𲨓?t",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "﻿hello",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "ab﻿c d",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "é👨‍👩‍👧‍👦",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        }
+      ],
+      "measurements": [
+        {
+          "id": "support",
+          "category": "prose",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0063783619005102045,
+            "elapsedMs": 500.063573,
+            "calls": 78400
+          },
+          "ms": 0.006756714333963793,
+          "elapsedMs": 500.13199499999996,
+          "calls": 74020
+        },
+        {
+          "id": "support",
+          "category": "prose",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.006259786116675011,
+            "elapsedMs": 500.03171499999985,
+            "calls": 79880
+          },
+          "ms": 0.0060533754901960736,
+          "elapsedMs": 500.1298829999996,
+          "calls": 82620
+        },
+        {
+          "id": "support",
+          "category": "prose",
+          "mode": "stream",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.008091166618122973,
+            "elapsedMs": 500.03409699999975,
+            "calls": 61800
+          },
+          "ms": 0.00790125077409163,
+          "elapsedMs": 500.14917400000013,
+          "calls": 63300
+        },
+        {
+          "id": "support",
+          "category": "prose",
+          "mode": "stream",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.007877800173282922,
+            "elapsedMs": 500.0827549999999,
+            "calls": 63480
+          },
+          "ms": 0.007958481715467855,
+          "elapsedMs": 500.110991,
+          "calls": 62840
+        },
+        {
+          "id": "european",
+          "category": "multilingual",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.007474010582959643,
+            "elapsedMs": 500.0113080000001,
+            "calls": 66900
+          },
+          "ms": 0.00699878495661909,
+          "elapsedMs": 500.13317300000017,
+          "calls": 71460
+        },
+        {
+          "id": "european",
+          "category": "multilingual",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0068980056000000085,
+            "elapsedMs": 500.1054060000006,
+            "calls": 72500
+          },
+          "ms": 0.0067789816296095415,
+          "elapsedMs": 500.0176849999998,
+          "calls": 73760
+        },
+        {
+          "id": "european",
+          "category": "multilingual",
+          "mode": "stream",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.008901851530793875,
+            "elapsedMs": 500.10601899999983,
+            "calls": 56180
+          },
+          "ms": 0.008918213837375172,
+          "elapsedMs": 500.13343199999963,
+          "calls": 56080
+        },
+        {
+          "id": "european",
+          "category": "multilingual",
+          "mode": "stream",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.008623283431034483,
+            "elapsedMs": 500.150439,
+            "calls": 58000
+          },
+          "ms": 0.008615173759476229,
+          "elapsedMs": 500.0246850000003,
+          "calls": 58040
+        },
+        {
+          "id": "readme.md",
+          "category": "long-prose",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.7947333761904773,
+            "elapsedMs": 500.68202700000074,
+            "calls": 630
+          },
+          "ms": 0.8010167791999993,
+          "elapsedMs": 500.63548699999956,
+          "calls": 625
+        },
+        {
+          "id": "readme.md",
+          "category": "long-prose",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.7037136033755257,
+            "elapsedMs": 500.34037199999875,
+            "calls": 711
+          },
+          "ms": 0.6325090303413397,
+          "elapsedMs": 500.3146429999997,
+          "calls": 791
+        },
+        {
+          "id": "readme.md",
+          "category": "long-prose",
+          "mode": "stream",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.6854958356164401,
+            "elapsedMs": 500.4119600000013,
+            "calls": 730
+          },
+          "ms": 0.6781661097560953,
+          "elapsedMs": 500.4865889999983,
+          "calls": 738
+        },
+        {
+          "id": "readme.md",
+          "category": "long-prose",
+          "mode": "stream",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.638488170918366,
+            "elapsedMs": 500.5747259999989,
+            "calls": 784
+          },
+          "ms": 0.6395027250639376,
+          "elapsedMs": 500.0911309999992,
+          "calls": 782
+        }
+      ],
+      "checksum": 111939178,
+      "variant": "candidate"
+    },
+    {
+      "verification": {
+        "passed": true,
+        "reference": "tiktoken",
+        "documents": 3,
+        "inputs": 99
+      },
+      "runtime": {
+        "node": "v26.12.0",
+        "bun": null
+      },
+      "entry": "candidate",
+      "round": 1,
+      "initializationMs": 108.581378,
+      "before": {
+        "rss": 63434752,
+        "heapTotal": 13242368,
+        "heapUsed": 7009264,
+        "external": 2838560,
+        "arrayBuffers": 144047
+      },
+      "initialized": {
+        "rss": 118104064,
+        "heapTotal": 28250112,
+        "heapUsed": 23859560,
+        "external": 4783326,
+        "arrayBuffers": 146161
+      },
+      "afterFirstPass": {
+        "rss": 118497280,
+        "heapTotal": 28418048,
+        "heapUsed": 24267848,
+        "external": 4785517,
+        "arrayBuffers": 146161
+      },
+      "firstPass": [
+        {
+          "id": "support",
+          "encodeMs": 8.021867000000015,
+          "decodeMs": 0.15115399999999113,
+          "countMs": 0.1624089999999967
+        },
+        {
+          "id": "european",
+          "encodeMs": 1.3863620000000196,
+          "decodeMs": 0.02742799999998624,
+          "countMs": 0.049726999999990085
+        },
+        {
+          "id": "readme.md",
+          "encodeMs": 3.0832169999999905,
+          "decodeMs": 0.6387789999999995,
+          "countMs": 1.2880320000000154
+        }
+      ],
+      "semanticProbes": [
+        {
+          "text": " I'ſa",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "𲨓?t",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "﻿hello",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "ab﻿c d",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "é👨‍👩‍👧‍👦",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        }
+      ],
+      "measurements": [
+        {
+          "id": "support",
+          "category": "prose",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0064724755371472955,
+            "elapsedMs": 500.0634600000001,
+            "calls": 77260
+          },
+          "ms": 0.010731052939914162,
+          "elapsedMs": 500.06706699999995,
+          "calls": 46600
+        },
+        {
+          "id": "support",
+          "category": "prose",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.007510655497146288,
+            "elapsedMs": 500.0594429999999,
+            "calls": 66580
+          },
+          "ms": 0.008649714545140097,
+          "elapsedMs": 500.12649500000043,
+          "calls": 57820
+        },
+        {
+          "id": "support",
+          "category": "prose",
+          "mode": "stream",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.01217153389294404,
+            "elapsedMs": 500.250043,
+            "calls": 41100
+          },
+          "ms": 0.009543636259541981,
+          "elapsedMs": 500.0865399999998,
+          "calls": 52400
+        },
+        {
+          "id": "support",
+          "category": "prose",
+          "mode": "stream",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.008908739348058432,
+            "elapsedMs": 500.1366270000003,
+            "calls": 56140
+          },
+          "ms": 0.009093812381818191,
+          "elapsedMs": 500.15968100000055,
+          "calls": 55000
+        },
+        {
+          "id": "european",
+          "category": "multilingual",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.008150911587353328,
+            "elapsedMs": 500.13993500000015,
+            "calls": 61360
+          },
+          "ms": 0.00854504128503076,
+          "elapsedMs": 500.05581600000005,
+          "calls": 58520
+        },
+        {
+          "id": "european",
+          "category": "multilingual",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.007624757837755418,
+            "elapsedMs": 500.0316190000003,
+            "calls": 65580
+          },
+          "ms": 0.007438355697709013,
+          "elapsedMs": 500.00626999999986,
+          "calls": 67220
+        },
+        {
+          "id": "european",
+          "category": "multilingual",
+          "mode": "stream",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.010458198138854034,
+            "elapsedMs": 500.1110349999999,
+            "calls": 47820
+          },
+          "ms": 0.01121840513683265,
+          "elapsedMs": 500.1165009999995,
+          "calls": 44580
+        },
+        {
+          "id": "european",
+          "category": "multilingual",
+          "mode": "stream",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.00981089148685759,
+            "elapsedMs": 500.15924799999993,
+            "calls": 50980
+          },
+          "ms": 0.009804069208153663,
+          "elapsedMs": 500.2036109999999,
+          "calls": 51020
+        },
+        {
+          "id": "readme.md",
+          "category": "long-prose",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.8697442834782629,
+            "elapsedMs": 500.1029630000012,
+            "calls": 575
+          },
+          "ms": 0.8493776162988119,
+          "elapsedMs": 500.2834160000002,
+          "calls": 589
+        },
+        {
+          "id": "readme.md",
+          "category": "long-prose",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.7863397044025163,
+            "elapsedMs": 500.1120520000004,
+            "calls": 636
+          },
+          "ms": 0.8047816045016097,
+          "elapsedMs": 500.57415800000126,
+          "calls": 622
+        },
+        {
+          "id": "readme.md",
+          "category": "long-prose",
+          "mode": "stream",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.8384870720268008,
+            "elapsedMs": 500.5767820000001,
+            "calls": 597
+          },
+          "ms": 0.8405798151260516,
+          "elapsedMs": 500.1449900000007,
+          "calls": 595
+        },
+        {
+          "id": "readme.md",
+          "category": "long-prose",
+          "mode": "stream",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.8573931506849314,
+            "elapsedMs": 500.71759999999995,
+            "calls": 584
+          },
+          "ms": 0.879892891036907,
+          "elapsedMs": 500.6590550000001,
+          "calls": 569
+        }
+      ],
+      "checksum": 93513962,
+      "variant": "frozen"
+    },
+    {
+      "verification": {
+        "passed": true,
+        "reference": "tiktoken",
+        "documents": 3,
+        "inputs": 99
+      },
+      "runtime": {
+        "node": "v26.12.0",
+        "bun": null
+      },
+      "entry": "candidate",
+      "round": 2,
+      "initializationMs": 113.54532599999999,
+      "before": {
+        "rss": 63426560,
+        "heapTotal": 12980224,
+        "heapUsed": 7009264,
+        "external": 2838560,
+        "arrayBuffers": 144047
+      },
+      "initialized": {
+        "rss": 118710272,
+        "heapTotal": 28250112,
+        "heapUsed": 23865896,
+        "external": 4783326,
+        "arrayBuffers": 146161
+      },
+      "afterFirstPass": {
+        "rss": 119496704,
+        "heapTotal": 28680192,
+        "heapUsed": 24268568,
+        "external": 4785517,
+        "arrayBuffers": 146161
+      },
+      "firstPass": [
+        {
+          "id": "support",
+          "encodeMs": 9.822624999999988,
+          "decodeMs": 0.21971700000000283,
+          "countMs": 0.2110670000000141
+        },
+        {
+          "id": "european",
+          "encodeMs": 1.6365059999999971,
+          "decodeMs": 0.03437700000000632,
+          "countMs": 0.06075999999998771
+        },
+        {
+          "id": "readme.md",
+          "encodeMs": 3.543352999999996,
+          "decodeMs": 0.7242740000000083,
+          "countMs": 1.4740850000000023
+        }
+      ],
+      "semanticProbes": [
+        {
+          "text": " I'ſa",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "𲨓?t",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "﻿hello",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "ab﻿c d",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "é👨‍👩‍👧‍👦",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        }
+      ],
+      "measurements": [
+        {
+          "id": "support",
+          "category": "prose",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.006868506385608351,
+            "elapsedMs": 500.1646350000001,
+            "calls": 72820
+          },
+          "ms": 0.006824527783842795,
+          "elapsedMs": 500.101396,
+          "calls": 73280
+        },
+        {
+          "id": "support",
+          "category": "prose",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.006954526662030595,
+            "elapsedMs": 500.0304669999998,
+            "calls": 71900
+          },
+          "ms": 0.006829062756077575,
+          "elapsedMs": 500.02397500000006,
+          "calls": 73220
+        },
+        {
+          "id": "support",
+          "category": "prose",
+          "mode": "stream",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.009336266616878267,
+            "elapsedMs": 500.05044,
+            "calls": 53560
+          },
+          "ms": 0.009135396437705518,
+          "elapsedMs": 500.0716010000001,
+          "calls": 54740
+        },
+        {
+          "id": "support",
+          "category": "prose",
+          "mode": "stream",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.008685062434873223,
+            "elapsedMs": 500.08589500000016,
+            "calls": 57580
+          },
+          "ms": 0.009289752321693899,
+          "elapsedMs": 500.1602649999995,
+          "calls": 53840
+        },
+        {
+          "id": "european",
+          "category": "multilingual",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.008089938709155612,
+            "elapsedMs": 500.120011,
+            "calls": 61820
+          },
+          "ms": 0.007858307935260838,
+          "elapsedMs": 500.10271699999976,
+          "calls": 63640
+        },
+        {
+          "id": "european",
+          "category": "multilingual",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.007776980031104198,
+            "elapsedMs": 500.05981599999996,
+            "calls": 64300
+          },
+          "ms": 0.00795458884823417,
+          "elapsedMs": 500.02545499999997,
+          "calls": 62860
+        },
+        {
+          "id": "european",
+          "category": "multilingual",
+          "mode": "stream",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.01055164033755274,
+            "elapsedMs": 500.14775199999985,
+            "calls": 47400
+          },
+          "ms": 0.010552710042194095,
+          "elapsedMs": 500.1984560000001,
+          "calls": 47400
+        },
+        {
+          "id": "european",
+          "category": "multilingual",
+          "mode": "stream",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.009997600939624143,
+            "elapsedMs": 500.0799989999996,
+            "calls": 50020
+          },
+          "ms": 0.009635610038535657,
+          "elapsedMs": 500.0881610000006,
+          "calls": 51900
+        },
+        {
+          "id": "readme.md",
+          "category": "long-prose",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.8915933172905521,
+            "elapsedMs": 500.1838509999998,
+            "calls": 561
+          },
+          "ms": 0.8871275460992913,
+          "elapsedMs": 500.3399360000003,
+          "calls": 564
+        },
+        {
+          "id": "readme.md",
+          "category": "long-prose",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.8308580664451833,
+            "elapsedMs": 500.17655600000035,
+            "calls": 602
+          },
+          "ms": 0.830778225913624,
+          "elapsedMs": 500.12849200000164,
+          "calls": 602
+        },
+        {
+          "id": "readme.md",
+          "category": "long-prose",
+          "mode": "stream",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.9294093271375465,
+            "elapsedMs": 500.02221800000007,
+            "calls": 538
+          },
+          "ms": 0.8555104068376082,
+          "elapsedMs": 500.47358800000075,
+          "calls": 585
+        },
+        {
+          "id": "readme.md",
+          "category": "long-prose",
+          "mode": "stream",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.8309205946843848,
+            "elapsedMs": 500.21419799999967,
+            "calls": 602
+          },
+          "ms": 0.8078547948303713,
+          "elapsedMs": 500.0621179999998,
+          "calls": 619
+        }
+      ],
+      "checksum": 96963706,
+      "variant": "frozen"
+    },
+    {
+      "verification": {
+        "passed": true,
+        "reference": "tiktoken",
+        "documents": 3,
+        "inputs": 99
+      },
+      "runtime": {
+        "node": "v26.12.0",
+        "bun": null
+      },
+      "entry": "candidate",
+      "round": 2,
+      "initializationMs": 131.68276799999998,
+      "before": {
+        "rss": 63373312,
+        "heapTotal": 12718080,
+        "heapUsed": 7009272,
+        "external": 2838560,
+        "arrayBuffers": 144047
+      },
+      "initialized": {
+        "rss": 126078976,
+        "heapTotal": 33755136,
+        "heapUsed": 29108528,
+        "external": 4783326,
+        "arrayBuffers": 146161
+      },
+      "afterFirstPass": {
+        "rss": 127127552,
+        "heapTotal": 33923072,
+        "heapUsed": 29519200,
+        "external": 4785517,
+        "arrayBuffers": 146161
+      },
+      "firstPass": [
+        {
+          "id": "support",
+          "encodeMs": 8.972698000000008,
+          "decodeMs": 0.168689999999998,
+          "countMs": 0.19290399999999863
+        },
+        {
+          "id": "european",
+          "encodeMs": 1.422965000000005,
+          "decodeMs": 0.028001999999986538,
+          "countMs": 0.0508739999999932
+        },
+        {
+          "id": "readme.md",
+          "encodeMs": 2.863587999999993,
+          "decodeMs": 1.7769550000000152,
+          "countMs": 1.3525269999999807
+        }
+      ],
+      "semanticProbes": [
+        {
+          "text": " I'ſa",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "𲨓?t",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "﻿hello",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "ab﻿c d",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "é👨‍👩‍👧‍👦",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        }
+      ],
+      "measurements": [
+        {
+          "id": "support",
+          "category": "prose",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.006822260873124148,
+            "elapsedMs": 500.071722,
+            "calls": 73300
+          },
+          "ms": 0.0068058642351660325,
+          "elapsedMs": 500.09490400000004,
+          "calls": 73480
+        },
+        {
+          "id": "support",
+          "category": "prose",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.007157545362152876,
+            "elapsedMs": 500.0261189999999,
+            "calls": 69860
+          },
+          "ms": 0.006381412544665644,
+          "elapsedMs": 500.0474869999998,
+          "calls": 78360
+        },
+        {
+          "id": "support",
+          "category": "prose",
+          "mode": "stream",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.008717230770571833,
+            "elapsedMs": 500.02035700000033,
+            "calls": 57360
+          },
+          "ms": 0.008432189544688034,
+          "elapsedMs": 500.0288400000004,
+          "calls": 59300
+        },
+        {
+          "id": "support",
+          "category": "prose",
+          "mode": "stream",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.00853475148464164,
+            "elapsedMs": 500.1364370000001,
+            "calls": 58600
+          },
+          "ms": 0.008492001766304345,
+          "elapsedMs": 500.00906399999985,
+          "calls": 58880
+        },
+        {
+          "id": "european",
+          "category": "multilingual",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.00867343204994797,
+            "elapsedMs": 500.1100919999999,
+            "calls": 57660
+          },
+          "ms": 0.007617859293113952,
+          "elapsedMs": 500.0362839999998,
+          "calls": 65640
+        },
+        {
+          "id": "european",
+          "category": "multilingual",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.007404143411311811,
+            "elapsedMs": 500.07584599999973,
+            "calls": 67540
+          },
+          "ms": 0.007467812499999996,
+          "elapsedMs": 500.04472499999974,
+          "calls": 66960
+        },
+        {
+          "id": "european",
+          "category": "multilingual",
+          "mode": "stream",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.010135516335630325,
+            "elapsedMs": 500.0863760000002,
+            "calls": 49340
+          },
+          "ms": 0.00939592491544533,
+          "elapsedMs": 500.0511240000005,
+          "calls": 53220
+        },
+        {
+          "id": "european",
+          "category": "multilingual",
+          "mode": "stream",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.00920909482504604,
+            "elapsedMs": 500.0538489999999,
+            "calls": 54300
+          },
+          "ms": 0.008963950609319019,
+          "elapsedMs": 500.18844400000125,
+          "calls": 55800
+        },
+        {
+          "id": "readme.md",
+          "category": "long-prose",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.7355491705882367,
+            "elapsedMs": 500.17343600000095,
+            "calls": 680
+          },
+          "ms": 0.7073026817538904,
+          "elapsedMs": 500.06299600000057,
+          "calls": 707
+        },
+        {
+          "id": "readme.md",
+          "category": "long-prose",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.6985881033519539,
+            "elapsedMs": 500.18908199999896,
+            "calls": 716
+          },
+          "ms": 0.6632637480106109,
+          "elapsedMs": 500.1008660000007,
+          "calls": 754
+        },
+        {
+          "id": "readme.md",
+          "category": "long-prose",
+          "mode": "stream",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.7045352577464808,
+            "elapsedMs": 500.2200330000014,
+            "calls": 710
+          },
+          "ms": 0.6894659834710729,
+          "elapsedMs": 500.5523039999989,
+          "calls": 726
+        },
+        {
+          "id": "readme.md",
+          "category": "long-prose",
+          "mode": "stream",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.7170193395415486,
+            "elapsedMs": 500.47949900000094,
+            "calls": 698
+          },
+          "ms": 0.69350876731302,
+          "elapsedMs": 500.7133300000005,
+          "calls": 722
+        }
+      ],
+      "checksum": 105274678,
+      "variant": "candidate"
+    },
+    {
+      "verification": {
+        "passed": true,
+        "reference": "tiktoken",
+        "documents": 3,
+        "inputs": 99
+      },
+      "runtime": {
+        "node": "v26.12.0",
+        "bun": null
+      },
+      "entry": "candidate",
+      "round": 3,
+      "initializationMs": 126.377685,
+      "before": {
+        "rss": 63377408,
+        "heapTotal": 12718080,
+        "heapUsed": 7009384,
+        "external": 2838560,
+        "arrayBuffers": 144047
+      },
+      "initialized": {
+        "rss": 127561728,
+        "heapTotal": 34017280,
+        "heapUsed": 29116704,
+        "external": 4783326,
+        "arrayBuffers": 146161
+      },
+      "afterFirstPass": {
+        "rss": 128610304,
+        "heapTotal": 34185216,
+        "heapUsed": 29518488,
+        "external": 4785517,
+        "arrayBuffers": 146161
+      },
+      "firstPass": [
+        {
+          "id": "support",
+          "encodeMs": 9.608698000000004,
+          "decodeMs": 0.1840530000000058,
+          "countMs": 0.21374900000000707
+        },
+        {
+          "id": "european",
+          "encodeMs": 1.4268749999999955,
+          "decodeMs": 0.03642800000000079,
+          "countMs": 0.04647800000000757
+        },
+        {
+          "id": "readme.md",
+          "encodeMs": 2.8350089999999852,
+          "decodeMs": 0.7915450000000135,
+          "countMs": 1.176460999999989
+        }
+      ],
+      "semanticProbes": [
+        {
+          "text": " I'ſa",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "𲨓?t",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "﻿hello",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "ab﻿c d",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "é👨‍👩‍👧‍👦",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        }
+      ],
+      "measurements": [
+        {
+          "id": "support",
+          "category": "prose",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.006693129804603854,
+            "elapsedMs": 500.11065899999994,
+            "calls": 74720
+          },
+          "ms": 0.0071251607834757836,
+          "elapsedMs": 500.186287,
+          "calls": 70200
+        },
+        {
+          "id": "support",
+          "category": "prose",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.007178818532873956,
+            "elapsedMs": 500.0764989999998,
+            "calls": 69660
+          },
+          "ms": 0.006396958787413662,
+          "elapsedMs": 500.1142380000001,
+          "calls": 78180
+        },
+        {
+          "id": "support",
+          "category": "prose",
+          "mode": "stream",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.00845662532972607,
+            "elapsedMs": 500.12482199999977,
+            "calls": 59140
+          },
+          "ms": 0.008565105190133603,
+          "elapsedMs": 500.0308409999998,
+          "calls": 58380
+        },
+        {
+          "id": "support",
+          "category": "prose",
+          "mode": "stream",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.008432181854974708,
+            "elapsedMs": 500.0283840000002,
+            "calls": 59300
+          },
+          "ms": 0.00806359242179942,
+          "elapsedMs": 500.10400200000004,
+          "calls": 62020
+        },
+        {
+          "id": "european",
+          "category": "multilingual",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.007527422456351595,
+            "elapsedMs": 500.121948,
+            "calls": 66440
+          },
+          "ms": 0.007645035585447872,
+          "elapsedMs": 500.1382279999998,
+          "calls": 65420
+        },
+        {
+          "id": "european",
+          "category": "multilingual",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0073027178154205655,
+            "elapsedMs": 500.0901160000003,
+            "calls": 68480
+          },
+          "ms": 0.007196340515256193,
+          "elapsedMs": 500.00173900000027,
+          "calls": 69480
+        },
+        {
+          "id": "european",
+          "category": "multilingual",
+          "mode": "stream",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.00968343179705655,
+            "elapsedMs": 500.0524180000002,
+            "calls": 51640
+          },
+          "ms": 0.009632654333590123,
+          "elapsedMs": 500.12741299999925,
+          "calls": 51920
+        },
+        {
+          "id": "european",
+          "category": "multilingual",
+          "mode": "stream",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.009199121173657098,
+            "elapsedMs": 500.06422699999985,
+            "calls": 54360
+          },
+          "ms": 0.009392567111194591,
+          "elapsedMs": 500.06027300000005,
+          "calls": 53240
+        },
+        {
+          "id": "readme.md",
+          "category": "long-prose",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.8143457268292678,
+            "elapsedMs": 500.8226219999997,
+            "calls": 615
+          },
+          "ms": 0.888053014184397,
+          "elapsedMs": 500.8618999999999,
+          "calls": 564
+        },
+        {
+          "id": "readme.md",
+          "category": "long-prose",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.7782201508553652,
+            "elapsedMs": 500.3955569999998,
+            "calls": 643
+          },
+          "ms": 0.7711284976887498,
+          "elapsedMs": 500.46239499999865,
+          "calls": 649
+        },
+        {
+          "id": "readme.md",
+          "category": "long-prose",
+          "mode": "stream",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.8063614991948481,
+            "elapsedMs": 500.7504910000007,
+            "calls": 621
+          },
+          "ms": 0.7701028600000007,
+          "elapsedMs": 500.5668590000005,
+          "calls": 650
+        },
+        {
+          "id": "readme.md",
+          "category": "long-prose",
+          "mode": "stream",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.6546792683246081,
+            "elapsedMs": 500.1749610000006,
+            "calls": 764
+          },
+          "ms": 0.6452729741935482,
+          "elapsedMs": 500.08655499999986,
+          "calls": 775
+        }
+      ],
+      "checksum": 104292557,
+      "variant": "candidate"
+    },
+    {
+      "verification": {
+        "passed": true,
+        "reference": "tiktoken",
+        "documents": 3,
+        "inputs": 99
+      },
+      "runtime": {
+        "node": "v26.12.0",
+        "bun": null
+      },
+      "entry": "candidate",
+      "round": 3,
+      "initializationMs": 125.041954,
+      "before": {
+        "rss": 63242240,
+        "heapTotal": 12980224,
+        "heapUsed": 7009328,
+        "external": 2838560,
+        "arrayBuffers": 144047
+      },
+      "initialized": {
+        "rss": 118153216,
+        "heapTotal": 28250112,
+        "heapUsed": 23855776,
+        "external": 4783326,
+        "arrayBuffers": 146161
+      },
+      "afterFirstPass": {
+        "rss": 119463936,
+        "heapTotal": 28942336,
+        "heapUsed": 24267936,
+        "external": 4785517,
+        "arrayBuffers": 146161
+      },
+      "firstPass": [
+        {
+          "id": "support",
+          "encodeMs": 9.847840999999988,
+          "decodeMs": 0.1887749999999926,
+          "countMs": 0.23149399999999787
+        },
+        {
+          "id": "european",
+          "encodeMs": 1.6336259999999925,
+          "decodeMs": 0.03181399999999712,
+          "countMs": 0.0665779999999927
+        },
+        {
+          "id": "readme.md",
+          "encodeMs": 3.6665020000000084,
+          "decodeMs": 0.7557140000000118,
+          "countMs": 1.4982929999999897
+        }
+      ],
+      "semanticProbes": [
+        {
+          "text": " I'ſa",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "𲨓?t",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "﻿hello",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "ab﻿c d",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "é👨‍👩‍👧‍👦",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        }
+      ],
+      "measurements": [
+        {
+          "id": "support",
+          "category": "prose",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.007569341724659609,
+            "elapsedMs": 500.3334880000001,
+            "calls": 66100
+          },
+          "ms": 0.008618069820751464,
+          "elapsedMs": 500.02041099999997,
+          "calls": 58020
+        },
+        {
+          "id": "support",
+          "category": "prose",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.007398680911512283,
+            "elapsedMs": 500.00285600000007,
+            "calls": 67580
+          },
+          "ms": 0.007237067250361792,
+          "elapsedMs": 500.0813469999998,
+          "calls": 69100
+        },
+        {
+          "id": "support",
+          "category": "prose",
+          "mode": "stream",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.010741728393470788,
+            "elapsedMs": 500.13487399999985,
+            "calls": 46560
+          },
+          "ms": 0.009574033078101073,
+          "elapsedMs": 500.14748800000007,
+          "calls": 52240
+        },
+        {
+          "id": "support",
+          "category": "prose",
+          "mode": "stream",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.00921345154753132,
+            "elapsedMs": 500.10615000000007,
+            "calls": 54280
+          },
+          "ms": 0.009131267750182614,
+          "elapsedMs": 500.0282219999999,
+          "calls": 54760
+        },
+        {
+          "id": "european",
+          "category": "multilingual",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.007904941716724628,
+            "elapsedMs": 500.06661299999996,
+            "calls": 63260
+          },
+          "ms": 0.008201366595605122,
+          "elapsedMs": 500.1193350000003,
+          "calls": 60980
+        },
+        {
+          "id": "european",
+          "category": "multilingual",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.007518685357787137,
+            "elapsedMs": 500.1429500000004,
+            "calls": 66520
+          },
+          "ms": 0.008236688092885379,
+          "elapsedMs": 500.13170100000025,
+          "calls": 60720
+        },
+        {
+          "id": "european",
+          "category": "multilingual",
+          "mode": "stream",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.011191307699194266,
+            "elapsedMs": 500.0276279999998,
+            "calls": 44680
+          },
+          "ms": 0.010524785058922563,
+          "elapsedMs": 500.13778600000023,
+          "calls": 47520
+        },
+        {
+          "id": "european",
+          "category": "multilingual",
+          "mode": "stream",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.010176818070818078,
+            "elapsedMs": 500.08884000000035,
+            "calls": 49140
+          },
+          "ms": 0.01030784777411376,
+          "elapsedMs": 500.1367739999996,
+          "calls": 48520
+        },
+        {
+          "id": "readme.md",
+          "category": "long-prose",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.8864568053097334,
+            "elapsedMs": 500.8480949999994,
+            "calls": 565
+          },
+          "ms": 0.8407862084033604,
+          "elapsedMs": 500.2677939999994,
+          "calls": 595
+        },
+        {
+          "id": "readme.md",
+          "category": "long-prose",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.8610299982788288,
+            "elapsedMs": 500.2584289999995,
+            "calls": 581
+          },
+          "ms": 0.8692964270833335,
+          "elapsedMs": 500.7147420000001,
+          "calls": 576
+        },
+        {
+          "id": "readme.md",
+          "category": "long-prose",
+          "mode": "stream",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.8906479145907465,
+            "elapsedMs": 500.54412799999955,
+            "calls": 562
+          },
+          "ms": 0.9279204174397039,
+          "elapsedMs": 500.1491050000004,
+          "calls": 539
+        },
+        {
+          "id": "readme.md",
+          "category": "long-prose",
+          "mode": "stream",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.8936553357142851,
+            "elapsedMs": 500.4469879999997,
+            "calls": 560
+          },
+          "ms": 0.845817974662162,
+          "elapsedMs": 500.7242409999999,
+          "calls": 592
+        }
+      ],
+      "checksum": 93000006,
+      "variant": "frozen"
+    },
+    {
+      "verification": {
+        "passed": true,
+        "reference": "tiktoken",
+        "documents": 3,
+        "inputs": 99
+      },
+      "runtime": {
+        "node": "v26.12.0",
+        "bun": null
+      },
+      "entry": "candidate",
+      "round": 4,
+      "initializationMs": 111.515572,
+      "before": {
+        "rss": 63504384,
+        "heapTotal": 12980224,
+        "heapUsed": 7009264,
+        "external": 2838560,
+        "arrayBuffers": 144047
+      },
+      "initialized": {
+        "rss": 118206464,
+        "heapTotal": 28512256,
+        "heapUsed": 23859568,
+        "external": 4783326,
+        "arrayBuffers": 146161
+      },
+      "afterFirstPass": {
+        "rss": 119123968,
+        "heapTotal": 28942336,
+        "heapUsed": 24267872,
+        "external": 4785517,
+        "arrayBuffers": 146161
+      },
+      "firstPass": [
+        {
+          "id": "support",
+          "encodeMs": 9.772224999999992,
+          "decodeMs": 0.17426500000001965,
+          "countMs": 0.224899999999991
+        },
+        {
+          "id": "european",
+          "encodeMs": 1.5346420000000194,
+          "decodeMs": 0.0282449999999983,
+          "countMs": 0.057853999999991856
+        },
+        {
+          "id": "readme.md",
+          "encodeMs": 3.3735309999999856,
+          "decodeMs": 0.6367900000000191,
+          "countMs": 1.4263770000000022
+        }
+      ],
+      "semanticProbes": [
+        {
+          "text": " I'ſa",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "𲨓?t",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "﻿hello",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "ab﻿c d",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "é👨‍👩‍👧‍👦",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        }
+      ],
+      "measurements": [
+        {
+          "id": "support",
+          "category": "prose",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.007406385337677724,
+            "elapsedMs": 500.07913799999994,
+            "calls": 67520
+          },
+          "ms": 0.007338737819195775,
+          "elapsedMs": 500.0615950000001,
+          "calls": 68140
+        },
+        {
+          "id": "support",
+          "category": "prose",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0071719444205393,
+            "elapsedMs": 500.027965,
+            "calls": 69720
+          },
+          "ms": 0.006727539305891845,
+          "elapsedMs": 500.12527199999977,
+          "calls": 74340
+        },
+        {
+          "id": "support",
+          "category": "prose",
+          "mode": "stream",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.008976076633165825,
+            "elapsedMs": 500.14698999999973,
+            "calls": 55720
+          },
+          "ms": 0.00873653880153739,
+          "elapsedMs": 500.0794810000002,
+          "calls": 57240
+        },
+        {
+          "id": "support",
+          "category": "prose",
+          "mode": "stream",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.008529784834527461,
+            "elapsedMs": 500.01598699999977,
+            "calls": 58620
+          },
+          "ms": 0.00886285272952853,
+          "elapsedMs": 500.04215099999965,
+          "calls": 56420
+        },
+        {
+          "id": "european",
+          "category": "multilingual",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0074671619623655865,
+            "elapsedMs": 500.0011649999997,
+            "calls": 66960
+          },
+          "ms": 0.007726903322002474,
+          "elapsedMs": 500.08518300000014,
+          "calls": 64720
+        },
+        {
+          "id": "european",
+          "category": "multilingual",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.007157301130833097,
+            "elapsedMs": 500.0090570000002,
+            "calls": 69860
+          },
+          "ms": 0.007138044390522403,
+          "elapsedMs": 500.0913899999996,
+          "calls": 70060
+        },
+        {
+          "id": "european",
+          "category": "multilingual",
+          "mode": "stream",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.009709532077669898,
+            "elapsedMs": 500.04090199999973,
+            "calls": 51500
+          },
+          "ms": 0.009697784251357646,
+          "elapsedMs": 500.0177560000002,
+          "calls": 51560
+        },
+        {
+          "id": "european",
+          "category": "multilingual",
+          "mode": "stream",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.009310660163812374,
+            "elapsedMs": 500.1686640000007,
+            "calls": 53720
+          },
+          "ms": 0.009321799720357944,
+          "elapsedMs": 500.02133700000013,
+          "calls": 53640
+        },
+        {
+          "id": "readme.md",
+          "category": "long-prose",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.8435028887015199,
+            "elapsedMs": 500.1972130000013,
+            "calls": 593
+          },
+          "ms": 0.8314294966777406,
+          "elapsedMs": 500.5205569999998,
+          "calls": 602
+        },
+        {
+          "id": "readme.md",
+          "category": "long-prose",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.7992204536741234,
+            "elapsedMs": 500.31200400000125,
+            "calls": 626
+          },
+          "ms": 0.7977823141945788,
+          "elapsedMs": 500.20951100000093,
+          "calls": 627
+        },
+        {
+          "id": "readme.md",
+          "category": "long-prose",
+          "mode": "stream",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.8423162710437726,
+            "elapsedMs": 500.3358650000009,
+            "calls": 594
+          },
+          "ms": 0.8746261258741254,
+          "elapsedMs": 500.2861439999997,
+          "calls": 572
+        },
+        {
+          "id": "readme.md",
+          "category": "long-prose",
+          "mode": "stream",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.8045134501607708,
+            "elapsedMs": 500.40736599999946,
+            "calls": 622
+          },
+          "ms": 0.8015944503205131,
+          "elapsedMs": 500.1949370000002,
+          "calls": 624
+        }
+      ],
+      "checksum": 100762549,
+      "variant": "frozen"
+    },
+    {
+      "verification": {
+        "passed": true,
+        "reference": "tiktoken",
+        "documents": 3,
+        "inputs": 99
+      },
+      "runtime": {
+        "node": "v26.12.0",
+        "bun": null
+      },
+      "entry": "candidate",
+      "round": 4,
+      "initializationMs": 119.147177,
+      "before": {
+        "rss": 63426560,
+        "heapTotal": 12980224,
+        "heapUsed": 7009272,
+        "external": 2838560,
+        "arrayBuffers": 144047
+      },
+      "initialized": {
+        "rss": 125726720,
+        "heapTotal": 33755136,
+        "heapUsed": 29108456,
+        "external": 4783326,
+        "arrayBuffers": 146161
+      },
+      "afterFirstPass": {
+        "rss": 126513152,
+        "heapTotal": 34185216,
+        "heapUsed": 29518912,
+        "external": 4785517,
+        "arrayBuffers": 146161
+      },
+      "firstPass": [
+        {
+          "id": "support",
+          "encodeMs": 8.022455000000008,
+          "decodeMs": 0.1464469999999949,
+          "countMs": 0.14308299999999008
+        },
+        {
+          "id": "european",
+          "encodeMs": 1.317910000000012,
+          "decodeMs": 0.03154499999999416,
+          "countMs": 0.04265900000001466
+        },
+        {
+          "id": "readme.md",
+          "encodeMs": 2.4794840000000136,
+          "decodeMs": 0.6734349999999836,
+          "countMs": 1.0313539999999932
+        }
+      ],
+      "semanticProbes": [
+        {
+          "text": " I'ſa",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "𲨓?t",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "﻿hello",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "ab﻿c d",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "é👨‍👩‍👧‍👦",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        }
+      ],
+      "measurements": [
+        {
+          "id": "support",
+          "category": "prose",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.006365777520366599,
+            "elapsedMs": 500.09548200000006,
+            "calls": 78560
+          },
+          "ms": 0.006169990597235933,
+          "elapsedMs": 500.016038,
+          "calls": 81040
+        },
+        {
+          "id": "support",
+          "category": "prose",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.006095616552901027,
+            "elapsedMs": 500.08438200000023,
+            "calls": 82040
+          },
+          "ms": 0.006111892019066245,
+          "elapsedMs": 500.07500500000015,
+          "calls": 81820
+        },
+        {
+          "id": "support",
+          "category": "prose",
+          "mode": "stream",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.008149265906127768,
+            "elapsedMs": 500.03895599999987,
+            "calls": 61360
+          },
+          "ms": 0.00792606036450079,
+          "elapsedMs": 500.1344089999998,
+          "calls": 63100
+        },
+        {
+          "id": "support",
+          "category": "prose",
+          "mode": "stream",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.007794140211970075,
+            "elapsedMs": 500.072036,
+            "calls": 64160
+          },
+          "ms": 0.007774809996890551,
+          "elapsedMs": 500.07577900000024,
+          "calls": 64320
+        },
+        {
+          "id": "european",
+          "category": "multilingual",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.007038073965662826,
+            "elapsedMs": 500.12553600000047,
+            "calls": 71060
+          },
+          "ms": 0.007022819915730337,
+          "elapsedMs": 500.02477799999997,
+          "calls": 71200
+        },
+        {
+          "id": "european",
+          "category": "multilingual",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.006736759377526273,
+            "elapsedMs": 500.00228100000004,
+            "calls": 74220
+          },
+          "ms": 0.006854978352070188,
+          "elapsedMs": 500.00212099999953,
+          "calls": 72940
+        },
+        {
+          "id": "european",
+          "category": "multilingual",
+          "mode": "stream",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0089722272335845,
+            "elapsedMs": 500.111946,
+            "calls": 55740
+          },
+          "ms": 0.009032527872109819,
+          "elapsedMs": 500.04074299999957,
+          "calls": 55360
+        },
+        {
+          "id": "european",
+          "category": "multilingual",
+          "mode": "stream",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.009602768740399387,
+            "elapsedMs": 500.11219600000004,
+            "calls": 52080
+          },
+          "ms": 0.008565442942788616,
+          "elapsedMs": 500.05055899999934,
+          "calls": 58380
+        },
+        {
+          "id": "readme.md",
+          "category": "long-prose",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.683138699453551,
+            "elapsedMs": 500.05752799999937,
+            "calls": 732
+          },
+          "ms": 0.6837461448087441,
+          "elapsedMs": 500.50217800000064,
+          "calls": 732
+        },
+        {
+          "id": "readme.md",
+          "category": "long-prose",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.6397894948849103,
+            "elapsedMs": 500.3153849999999,
+            "calls": 782
+          },
+          "ms": 0.6506728920676194,
+          "elapsedMs": 500.36745399999927,
+          "calls": 769
+        },
+        {
+          "id": "readme.md",
+          "category": "long-prose",
+          "mode": "stream",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.6831343415300545,
+            "elapsedMs": 500.0543379999999,
+            "calls": 732
+          },
+          "ms": 0.6904678013793103,
+          "elapsedMs": 500.589156,
+          "calls": 725
+        },
+        {
+          "id": "readme.md",
+          "category": "long-prose",
+          "mode": "stream",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.6410929756410275,
+            "elapsedMs": 500.05252100000143,
+            "calls": 780
+          },
+          "ms": 0.6402688682864444,
+          "elapsedMs": 500.6902549999995,
+          "calls": 782
+        }
+      ],
+      "checksum": 113451433,
+      "variant": "candidate"
+    }
+  ],
+  "complete": true
+}

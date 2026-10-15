@@ -1,0 +1,148 @@
+diff --git a/src/encodingParams/constants.ts b/src/encodingParams/constants.ts
+index 545ec29..c336d65 100644
+--- a/src/encodingParams/constants.ts
++++ b/src/encodingParams/constants.ts
+@@ -66,18 +66,27 @@ const LOWER = category(
+   UNICODE_17_TO_16_O200K_LOWER_INCLUDE_RANGES,
+ )
+ 
++const NON_ASCII = /[^\x00-\x7f]/
++
+ // A native pattern is safe whenever none of the characters whose categories
+ // differ are present. The check is especially cheap for one-byte ASCII text;
+ // corrected Unicode-set patterns otherwise have noticeable V8 call overhead.
+ class StableUnicodeRegExp extends RegExp {
+   private readonly stableRegex: RegExp
+   private readonly nativeRegex: RegExp
++  private readonly asciiRegex: RegExp
+   private readonly affected: RegExp
+ 
+-  constructor(stablePattern: string, nativePattern: string, affected: RegExp) {
++  constructor(
++    stablePattern: string,
++    nativePattern: string,
++    asciiPattern: string,
++    affected: RegExp,
++  ) {
+     super(stablePattern, flags)
+     this.stableRegex = new RegExp(stablePattern, flags)
+     this.nativeRegex = new RegExp(nativePattern, 'gu')
++    this.asciiRegex = new RegExp(asciiPattern, 'gu')
+     this.affected = affected
+   }
+ 
+@@ -86,9 +95,11 @@ class StableUnicodeRegExp extends RegExp {
+   }
+ 
+   override [Symbol.match](text: string): RegExpMatchArray | null {
+-    const selected = this.affected.test(text)
+-      ? this.stableRegex
+-      : this.nativeRegex
++    const selected = !NON_ASCII.test(text)
++      ? this.asciiRegex
++      : this.affected.test(text)
++        ? this.stableRegex
++        : this.nativeRegex
+     selected.lastIndex = this.lastIndex
+     const result = selected[Symbol.match](text)
+     this.lastIndex = selected.lastIndex
+@@ -98,17 +109,21 @@ class StableUnicodeRegExp extends RegExp {
+   override [Symbol.matchAll](
+     text: string,
+   ): RegExpStringIterator<RegExpExecArray> {
+-    const selected = this.affected.test(text)
+-      ? this.stableRegex
+-      : this.nativeRegex
++    const selected = !NON_ASCII.test(text)
++      ? this.asciiRegex
++      : this.affected.test(text)
++        ? this.stableRegex
++        : this.nativeRegex
+     selected.lastIndex = this.lastIndex
+     return selected[Symbol.matchAll](text)
+   }
+ 
+   override exec(text: string): RegExpExecArray | null {
+-    const selected = this.affected.test(text)
+-      ? this.stableRegex
+-      : this.nativeRegex
++    const selected = !NON_ASCII.test(text)
++      ? this.asciiRegex
++      : this.affected.test(text)
++        ? this.stableRegex
++        : this.nativeRegex
+     selected.lastIndex = this.lastIndex
+     const result = selected.exec(text)
+     this.lastIndex = selected.lastIndex
+@@ -146,11 +161,17 @@ const native = patterns(
+   String.raw`\p{Lu}\p{Lt}\p{Lm}\p{Lo}\p{M}`,
+   String.raw`\p{Ll}\p{Lm}\p{Lo}\p{M}`,
+ )
++const ascii = patterns('A-Za-z', '0-9', 'A-Z', 'a-z')
+ const stable = patterns(L, N, UPPER, LOWER)
+ const makeRegex = (index: 0 | 1 | 2) =>
+   nativeVersion === '16.0'
+     ? new RegExp(native[index], 'gu')
+-    : new StableUnicodeRegExp(stable[index], native[index], affected)
++    : new StableUnicodeRegExp(
++        stable[index],
++        native[index],
++        ascii[index],
++        affected,
++      )
+ 
+ export const R50K_TOKEN_SPLIT_REGEX = makeRegex(0)
+ export const CL100K_TOKEN_SPLIT_REGEX = makeRegex(1)
+--- /dev/null
++++ b/src/asciiRegex.test.ts
+@@ -0,0 +1,50 @@
++import { describe, expect, test } from 'vite-plus/test'
++import {
++  CL100K_TOKEN_SPLIT_REGEX,
++  O200K_TOKEN_SPLIT_REGEX,
++  R50K_TOKEN_SPLIT_REGEX,
++} from './encodingParams/constants.js'
++
++// Compare dispatch to the canonical Unicode16 pattern, including controls and
++// mixed case/punctuation boundaries that exercise alternative precedence.
++describe.each([
++  R50K_TOKEN_SPLIT_REGEX,
++  CL100K_TOKEN_SPLIT_REGEX,
++  O200K_TOKEN_SPLIT_REGEX,
++])('ASCII regex specialization', (regex) => {
++  test('all ASCII pairs match the canonical pattern', () => {
++    const canonical = new RegExp(regex.source, regex.flags)
++    for (let first = 0; first < 128; first++) {
++      for (let second = 0; second < 128; second++) {
++        const text = String.fromCharCode(first, second)
++        expect(text.match(regex)).toEqual(text.match(canonical))
++      }
++    }
++  })
++
++  test('seeded strings preserve matches and interleaved iterator state', () => {
++    let seed = 0x24a0f37
++    const random = () => {
++      seed ^= seed << 13
++      seed ^= seed >>> 17
++      seed ^= seed << 5
++      return seed >>> 0
++    }
++    const canonical = new RegExp(regex.source, regex.flags)
++    for (let sample = 0; sample < 500; sample++) {
++      const text = Array.from({ length: 8 + (random() % 120) }, () =>
++        String.fromCharCode(random() % 128),
++      ).join('')
++      expect(text.match(regex)).toEqual(text.match(canonical))
++      regex.lastIndex = canonical.lastIndex = random() % text.length
++      const iterator = text.matchAll(regex)
++      const expected = Array.from(text.matchAll(canonical))
++      expect(regex.exec('Mixed CASE123\r\n')).toEqual(
++        canonical.exec('Mixed CASE123\r\n'),
++      )
++      // A live iterator owns its lastIndex even if the shared regex is used.
++      expect(Array.from(iterator)).toEqual(expected)
++      regex.lastIndex = canonical.lastIndex = 0
++    }
++  })
++})

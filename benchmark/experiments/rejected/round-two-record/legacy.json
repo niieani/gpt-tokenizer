@@ -1,0 +1,3301 @@
+{
+  "kind": "unranked original-seven frozen-versus-record confirmation; do not pool with realistic corpus",
+  "baselineCommit": "9e1420c",
+  "candidateCommit": "c95d3a7",
+  "runtime": {
+    "version": "v26.12.0",
+    "bun": null
+  },
+  "configuration": {
+    "rounds": 5,
+    "minMs": 300,
+    "warmMs": 100,
+    "warmCalls": 20,
+    "operations": [
+      "encode",
+      "count"
+    ],
+    "modes": [
+      "repeated"
+    ]
+  },
+  "corpus": {
+    "English": {
+      "sha256": "ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c",
+      "utf8Bytes": 44
+    },
+    "Chinese": {
+      "sha256": "73e8fc331751af46aa8f690bf5e6ee5fcea46ce1608c77352e44b14db45aecd9",
+      "utf8Bytes": 36
+    },
+    "French": {
+      "sha256": "0f7da063db4d9ed52d77a57dd253ba0ff7239ae815f4f4372453c5ad422aa435",
+      "utf8Bytes": 58
+    },
+    "Code": {
+      "sha256": "19fe498d9585a6f125ad294203e8a68365c217ffb7e7faa4b57c0176d5c8b214",
+      "utf8Bytes": 68
+    },
+    "Latin": {
+      "sha256": "29ac811ff96cbf6d0b6ee7bd6c6130035df43bbfb62e0f86690862f028a2f9b9",
+      "utf8Bytes": 400
+    },
+    "LatinRepeat": {
+      "sha256": "74b8cf1816add23ae12d9113505bf5b9119e23ecb9edada76ec57a0ad51da9a0",
+      "utf8Bytes": 800000
+    },
+    "UnicodeRandom": {
+      "sha256": "c6811d447c600ddc4a59dd4cfb54deb465297aa4d668248183465cb25c52f00c",
+      "utf8Bytes": 316539
+    }
+  },
+  "sources": {
+    "driver": "a2e37bddedab5cfeefee312a4d2fbc97fbbb047967001eea46fcb994fc0027c6",
+    "worker": "276e5cf3225f0a5a5f60655f80f82391c054a2393a2febff3f405bd239dde880",
+    "frozenCore": "cc7036d186ecc6eda5df557fdd2ae62bb0f96150081e7044169a52b66ed16f7f",
+    "candidateCore": "3395763a64605fc7ebbda4fab58bded43eb737432df2668934b9511d4e8b7c95"
+  },
+  "samples": [
+    {
+      "verification": {
+        "passed": true,
+        "reference": "tiktoken",
+        "documents": 7,
+        "inputs": 14
+      },
+      "runtime": {
+        "node": "v26.12.0",
+        "bun": null
+      },
+      "entry": "candidate",
+      "round": 0,
+      "initializationMs": 102.12372500000001,
+      "before": {
+        "rss": 81887232,
+        "heapTotal": 19845120,
+        "heapUsed": 8905504,
+        "external": 4874838,
+        "arrayBuffers": 777161
+      },
+      "initialized": {
+        "rss": 128483328,
+        "heapTotal": 35115008,
+        "heapUsed": 25741816,
+        "external": 4783326,
+        "arrayBuffers": 146161
+      },
+      "afterFirstPass": {
+        "rss": 207462400,
+        "heapTotal": 103063552,
+        "heapUsed": 33842848,
+        "external": 7187567,
+        "arrayBuffers": 2550233
+      },
+      "firstPass": [
+        {
+          "id": "legacy:English",
+          "encodeMs": 2.479848000000004,
+          "decodeMs": 0.1753309999999999,
+          "countMs": 0.11667599999998401
+        },
+        {
+          "id": "legacy:Chinese",
+          "encodeMs": 8.537320999999991,
+          "decodeMs": 0.07540800000001013,
+          "countMs": 0.019330999999993992
+        },
+        {
+          "id": "legacy:French",
+          "encodeMs": 0.18704400000001442,
+          "decodeMs": 0.010913999999985435,
+          "countMs": 0.006760000000014088
+        },
+        {
+          "id": "legacy:Code",
+          "encodeMs": 0.04313299999998321,
+          "decodeMs": 0.004323999999996886,
+          "countMs": 0.008183999999999969
+        },
+        {
+          "id": "legacy:Latin",
+          "encodeMs": 0.3083490000000211,
+          "decodeMs": 0.01653699999999958,
+          "countMs": 0.023968999999993912
+        },
+        {
+          "id": "legacy:LatinRepeat",
+          "encodeMs": 10.925709999999981,
+          "decodeMs": 1.961937000000006,
+          "countMs": 10.356730999999996
+        },
+        {
+          "id": "legacy:UnicodeRandom",
+          "encodeMs": 261.19887800000004,
+          "decodeMs": 7.295081999999979,
+          "countMs": 18.13343100000003
+        }
+      ],
+      "semanticProbes": [
+        {
+          "text": " I'ſa",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "𲨓?t",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "﻿hello",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "ab﻿c d",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "é👨‍👩‍👧‍👦",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        }
+      ],
+      "measurements": [
+        {
+          "id": "legacy:English",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0007129378170418914,
+            "elapsedMs": 100.06795199999988,
+            "calls": 140360
+          },
+          "ms": 0.0007269751720461374,
+          "elapsedMs": 300.008114,
+          "calls": 412680
+        },
+        {
+          "id": "legacy:English",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0007244222874112703,
+            "elapsedMs": 100.01374099999998,
+            "calls": 138060
+          },
+          "ms": 0.0006825715611775946,
+          "elapsedMs": 300.0175039999999,
+          "calls": 439540
+        },
+        {
+          "id": "legacy:Chinese",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0005733565932805866,
+            "elapsedMs": 100.0048569999999,
+            "calls": 174420
+          },
+          "ms": 0.0005835738523187051,
+          "elapsedMs": 300.0036459999999,
+          "calls": 514080
+        },
+        {
+          "id": "legacy:Chinese",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0005292707473271937,
+            "elapsedMs": 100.00041499999998,
+            "calls": 188940
+          },
+          "ms": 0.0005324515511855739,
+          "elapsedMs": 300.0045019999998,
+          "calls": 563440
+        },
+        {
+          "id": "legacy:French",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0007446714370811597,
+            "elapsedMs": 100.00937399999975,
+            "calls": 134300
+          },
+          "ms": 0.0007572050908632003,
+          "elapsedMs": 300.00465699999995,
+          "calls": 396200
+        },
+        {
+          "id": "legacy:French",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0007067166925795076,
+            "elapsedMs": 100.00041200000032,
+            "calls": 141500
+          },
+          "ms": 0.0007124196428571432,
+          "elapsedMs": 300.0141600000002,
+          "calls": 421120
+        },
+        {
+          "id": "legacy:Code",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0013141963469119585,
+            "elapsedMs": 100.01034200000004,
+            "calls": 76100
+          },
+          "ms": 0.0011637485221101629,
+          "elapsedMs": 300.014369,
+          "calls": 257800
+        },
+        {
+          "id": "legacy:Code",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0010763313603099438,
+            "elapsedMs": 100.01270999999997,
+            "calls": 92920
+          },
+          "ms": 0.0010998366485812745,
+          "elapsedMs": 300.01344100000006,
+          "calls": 272780
+        },
+        {
+          "id": "legacy:Latin",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.004075649348003279,
+            "elapsedMs": 100.01643500000046,
+            "calls": 24540
+          },
+          "ms": 0.004155911648199448,
+          "elapsedMs": 300.0568210000001,
+          "calls": 72200
+        },
+        {
+          "id": "legacy:Latin",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0037411943156320203,
+            "elapsedMs": 100.03953600000023,
+            "calls": 26740
+          },
+          "ms": 0.0037270625093167734,
+          "elapsedMs": 300.02853200000027,
+          "calls": 80500
+        },
+        {
+          "id": "legacy:LatinRepeat",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 9.012543300000015,
+            "elapsedMs": 180.25086600000031,
+            "calls": 20
+          },
+          "ms": 9.476143187500014,
+          "elapsedMs": 303.23658200000045,
+          "calls": 32
+        },
+        {
+          "id": "legacy:LatinRepeat",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 8.445276400000012,
+            "elapsedMs": 168.90552800000023,
+            "calls": 20
+          },
+          "ms": 9.553907406250005,
+          "elapsedMs": 305.72503700000016,
+          "calls": 32
+        },
+        {
+          "id": "legacy:UnicodeRandom",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 21.56759619999998,
+            "elapsedMs": 431.3519239999996,
+            "calls": 20
+          },
+          "ms": 19.36350031249998,
+          "elapsedMs": 309.8160049999997,
+          "calls": 16
+        },
+        {
+          "id": "legacy:UnicodeRandom",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 15.491260300000022,
+            "elapsedMs": 309.82520600000043,
+            "calls": 20
+          },
+          "ms": 14.889992476190466,
+          "elapsedMs": 312.68984199999977,
+          "calls": 21
+        }
+      ],
+      "checksum": 105219544,
+      "variant": "frozen"
+    },
+    {
+      "verification": {
+        "passed": true,
+        "reference": "tiktoken",
+        "documents": 7,
+        "inputs": 14
+      },
+      "runtime": {
+        "node": "v26.12.0",
+        "bun": null
+      },
+      "entry": "candidate",
+      "round": 0,
+      "initializationMs": 118.88337200000001,
+      "before": {
+        "rss": 81739776,
+        "heapTotal": 20107264,
+        "heapUsed": 8905448,
+        "external": 4874838,
+        "arrayBuffers": 777161
+      },
+      "initialized": {
+        "rss": 133718016,
+        "heapTotal": 40620032,
+        "heapUsed": 30994648,
+        "external": 4783326,
+        "arrayBuffers": 146161
+      },
+      "afterFirstPass": {
+        "rss": 213606400,
+        "heapTotal": 107782144,
+        "heapUsed": 39096128,
+        "external": 7187567,
+        "arrayBuffers": 2550233
+      },
+      "firstPass": [
+        {
+          "id": "legacy:English",
+          "encodeMs": 2.395191000000011,
+          "decodeMs": 0.15610699999999156,
+          "countMs": 0.12545299999999315
+        },
+        {
+          "id": "legacy:Chinese",
+          "encodeMs": 7.9672820000000115,
+          "decodeMs": 0.08382999999997764,
+          "countMs": 0.014712000000002945
+        },
+        {
+          "id": "legacy:French",
+          "encodeMs": 0.17383499999999685,
+          "decodeMs": 0.010636000000005197,
+          "countMs": 0.007045000000005075
+        },
+        {
+          "id": "legacy:Code",
+          "encodeMs": 0.033824000000009846,
+          "decodeMs": 0.004851000000002159,
+          "countMs": 0.007929999999987558
+        },
+        {
+          "id": "legacy:Latin",
+          "encodeMs": 0.20421199999998407,
+          "decodeMs": 0.014284000000003516,
+          "countMs": 0.014946000000009008
+        },
+        {
+          "id": "legacy:LatinRepeat",
+          "encodeMs": 10.16103099999998,
+          "decodeMs": 1.6927980000000105,
+          "countMs": 9.553669999999983
+        },
+        {
+          "id": "legacy:UnicodeRandom",
+          "encodeMs": 248.45236799999998,
+          "decodeMs": 7.515207000000032,
+          "countMs": 18.149439999999913
+        }
+      ],
+      "semanticProbes": [
+        {
+          "text": " I'ſa",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "𲨓?t",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "﻿hello",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "ab﻿c d",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "é👨‍👩‍👧‍👦",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        }
+      ],
+      "measurements": [
+        {
+          "id": "legacy:English",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0006760819256756755,
+            "elapsedMs": 100.06012499999997,
+            "calls": 148000
+          },
+          "ms": 0.0006946743203816053,
+          "elapsedMs": 300.00205200000005,
+          "calls": 431860
+        },
+        {
+          "id": "legacy:English",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.000632951253164557,
+            "elapsedMs": 100.00629800000002,
+            "calls": 158000
+          },
+          "ms": 0.0006217795316062177,
+          "elapsedMs": 300.00862400000005,
+          "calls": 482500
+        },
+        {
+          "id": "legacy:Chinese",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0005244129103303623,
+            "elapsedMs": 100.0055420000001,
+            "calls": 190700
+          },
+          "ms": 0.0005245569782487066,
+          "elapsedMs": 300.00462700000026,
+          "calls": 571920
+        },
+        {
+          "id": "legacy:Chinese",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.00048098450846479474,
+            "elapsedMs": 100.00629900000013,
+            "calls": 207920
+          },
+          "ms": 0.0004928107398646423,
+          "elapsedMs": 300.00346599999966,
+          "calls": 608760
+        },
+        {
+          "id": "legacy:French",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0007064037081508675,
+            "elapsedMs": 100.01263699999981,
+            "calls": 141580
+          },
+          "ms": 0.0007012405708008045,
+          "elapsedMs": 300.0047410000002,
+          "calls": 427820
+        },
+        {
+          "id": "legacy:French",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0006797796560630755,
+            "elapsedMs": 100.00918299999967,
+            "calls": 147120
+          },
+          "ms": 0.0007041853980846873,
+          "elapsedMs": 300.01114700000016,
+          "calls": 426040
+        },
+        {
+          "id": "legacy:Code",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.001062878469713073,
+            "elapsedMs": 100.01686400000017,
+            "calls": 94100
+          },
+          "ms": 0.0010698681477783333,
+          "elapsedMs": 300.01242600000023,
+          "calls": 280420
+        },
+        {
+          "id": "legacy:Code",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.001047918084660518,
+            "elapsedMs": 100.01330199999984,
+            "calls": 95440
+          },
+          "ms": 0.001028259000548397,
+          "elapsedMs": 300.00484600000027,
+          "calls": 291760
+        },
+        {
+          "id": "legacy:Latin",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.003543923883770377,
+            "elapsedMs": 100.00953200000004,
+            "calls": 28220
+          },
+          "ms": 0.0036273521518375273,
+          "elapsedMs": 300.05457000000024,
+          "calls": 82720
+        },
+        {
+          "id": "legacy:Latin",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0033521776139410204,
+            "elapsedMs": 100.02898000000005,
+            "calls": 29840
+          },
+          "ms": 0.003359490481522952,
+          "elapsedMs": 300.0024999999996,
+          "calls": 89300
+        },
+        {
+          "id": "legacy:LatinRepeat",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 8.579699399999981,
+            "elapsedMs": 171.59398799999963,
+            "calls": 20
+          },
+          "ms": 7.891884000000013,
+          "elapsedMs": 307.7834760000005,
+          "calls": 39
+        },
+        {
+          "id": "legacy:LatinRepeat",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 7.235353799999984,
+            "elapsedMs": 144.7070759999997,
+            "calls": 20
+          },
+          "ms": 7.1583989285714305,
+          "elapsedMs": 300.65275500000007,
+          "calls": 42
+        },
+        {
+          "id": "legacy:UnicodeRandom",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 21.36215185000001,
+            "elapsedMs": 427.2430370000002,
+            "calls": 20
+          },
+          "ms": 21.12974900000002,
+          "elapsedMs": 316.94623500000034,
+          "calls": 15
+        },
+        {
+          "id": "legacy:UnicodeRandom",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 15.640101000000005,
+            "elapsedMs": 312.8020200000001,
+            "calls": 20
+          },
+          "ms": 15.032614150000018,
+          "elapsedMs": 300.65228300000035,
+          "calls": 20
+        }
+      ],
+      "checksum": 114028612,
+      "variant": "candidate"
+    },
+    {
+      "verification": {
+        "passed": true,
+        "reference": "tiktoken",
+        "documents": 7,
+        "inputs": 14
+      },
+      "runtime": {
+        "node": "v26.12.0",
+        "bun": null
+      },
+      "entry": "candidate",
+      "round": 1,
+      "initializationMs": 112.85232400000001,
+      "before": {
+        "rss": 81469440,
+        "heapTotal": 19582976,
+        "heapUsed": 8905448,
+        "external": 4874838,
+        "arrayBuffers": 777161
+      },
+      "initialized": {
+        "rss": 133689344,
+        "heapTotal": 40620032,
+        "heapUsed": 30994552,
+        "external": 4783326,
+        "arrayBuffers": 146161
+      },
+      "afterFirstPass": {
+        "rss": 212336640,
+        "heapTotal": 107520000,
+        "heapUsed": 39089304,
+        "external": 7187398,
+        "arrayBuffers": 2550233
+      },
+      "firstPass": [
+        {
+          "id": "legacy:English",
+          "encodeMs": 2.360237000000012,
+          "decodeMs": 0.15583699999999112,
+          "countMs": 0.12314599999999132
+        },
+        {
+          "id": "legacy:Chinese",
+          "encodeMs": 8.053846000000021,
+          "decodeMs": 0.07836199999999849,
+          "countMs": 0.016482999999993808
+        },
+        {
+          "id": "legacy:French",
+          "encodeMs": 0.17230800000001523,
+          "decodeMs": 0.011313999999998714,
+          "countMs": 0.006137999999992871
+        },
+        {
+          "id": "legacy:Code",
+          "encodeMs": 0.03633400000001075,
+          "decodeMs": 0.004673999999994294,
+          "countMs": 0.010277999999999565
+        },
+        {
+          "id": "legacy:Latin",
+          "encodeMs": 0.2091350000000034,
+          "decodeMs": 0.01501500000000533,
+          "countMs": 0.015617999999989252
+        },
+        {
+          "id": "legacy:LatinRepeat",
+          "encodeMs": 9.841841999999986,
+          "decodeMs": 1.7827200000000119,
+          "countMs": 9.793787000000009
+        },
+        {
+          "id": "legacy:UnicodeRandom",
+          "encodeMs": 250.733002,
+          "decodeMs": 8.778955999999994,
+          "countMs": 18.38707199999999
+        }
+      ],
+      "semanticProbes": [
+        {
+          "text": " I'ſa",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "𲨓?t",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "﻿hello",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "ab﻿c d",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "é👨‍👩‍👧‍👦",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        }
+      ],
+      "measurements": [
+        {
+          "id": "legacy:English",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0006532134939287108,
+            "elapsedMs": 100.05924299999992,
+            "calls": 153180
+          },
+          "ms": 0.0006398584289553389,
+          "elapsedMs": 300.0040230000002,
+          "calls": 468860
+        },
+        {
+          "id": "legacy:English",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0006265619972434527,
+            "elapsedMs": 100.01182599999993,
+            "calls": 159620
+          },
+          "ms": 0.0006323084576799864,
+          "elapsedMs": 300.01771699999995,
+          "calls": 474480
+        },
+        {
+          "id": "legacy:Chinese",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0005279318762538281,
+            "elapsedMs": 100.00085600000011,
+            "calls": 189420
+          },
+          "ms": 0.0005290780015519186,
+          "elapsedMs": 300.00838999999996,
+          "calls": 567040
+        },
+        {
+          "id": "legacy:Chinese",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0004886515684549968,
+            "elapsedMs": 100.00742999999966,
+            "calls": 204660
+          },
+          "ms": 0.0004940136263338162,
+          "elapsedMs": 300.0045949999999,
+          "calls": 607280
+        },
+        {
+          "id": "legacy:French",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0008860589314194572,
+            "elapsedMs": 100.00061099999994,
+            "calls": 112860
+          },
+          "ms": 0.0007079772441948269,
+          "elapsedMs": 300.01243699999986,
+          "calls": 423760
+        },
+        {
+          "id": "legacy:French",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.000722520719549197,
+            "elapsedMs": 100.01131799999985,
+            "calls": 138420
+          },
+          "ms": 0.0006764973099125101,
+          "elapsedMs": 300.01302699999997,
+          "calls": 443480
+        },
+        {
+          "id": "legacy:Code",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0010871662282608678,
+            "elapsedMs": 100.01929299999983,
+            "calls": 92000
+          },
+          "ms": 0.001138535411764706,
+          "elapsedMs": 300.00408100000004,
+          "calls": 263500
+        },
+        {
+          "id": "legacy:Code",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0010035874272526588,
+            "elapsedMs": 100.01752299999998,
+            "calls": 99660
+          },
+          "ms": 0.0010032607142857147,
+          "elapsedMs": 300.0150840000001,
+          "calls": 299040
+        },
+        {
+          "id": "legacy:Latin",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.003865915262751164,
+            "elapsedMs": 100.04988700000013,
+            "calls": 25880
+          },
+          "ms": 0.0035072412672433905,
+          "elapsedMs": 300.00941799999964,
+          "calls": 85540
+        },
+        {
+          "id": "legacy:Latin",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.003391406949152551,
+            "elapsedMs": 100.04650500000025,
+            "calls": 29500
+          },
+          "ms": 0.0034206762995895985,
+          "elapsedMs": 300.06172499999957,
+          "calls": 87720
+        },
+        {
+          "id": "legacy:LatinRepeat",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 7.857730650000031,
+            "elapsedMs": 157.1546130000006,
+            "calls": 20
+          },
+          "ms": 7.7526682820512764,
+          "elapsedMs": 302.35406299999977,
+          "calls": 39
+        },
+        {
+          "id": "legacy:LatinRepeat",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 7.027409649999981,
+            "elapsedMs": 140.54819299999963,
+            "calls": 20
+          },
+          "ms": 6.949416136363632,
+          "elapsedMs": 305.7743099999998,
+          "calls": 44
+        },
+        {
+          "id": "legacy:UnicodeRandom",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 20.49706944999998,
+            "elapsedMs": 409.9413889999996,
+            "calls": 20
+          },
+          "ms": 20.083197933333334,
+          "elapsedMs": 301.247969,
+          "calls": 15
+        },
+        {
+          "id": "legacy:UnicodeRandom",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 15.003311550000035,
+            "elapsedMs": 300.0662310000007,
+            "calls": 20
+          },
+          "ms": 15.243524449999995,
+          "elapsedMs": 304.8704889999999,
+          "calls": 20
+        }
+      ],
+      "checksum": 113988492,
+      "variant": "candidate"
+    },
+    {
+      "verification": {
+        "passed": true,
+        "reference": "tiktoken",
+        "documents": 7,
+        "inputs": 14
+      },
+      "runtime": {
+        "node": "v26.12.0",
+        "bun": null
+      },
+      "entry": "candidate",
+      "round": 1,
+      "initializationMs": 116.58309600000001,
+      "before": {
+        "rss": 81891328,
+        "heapTotal": 20107264,
+        "heapUsed": 8905440,
+        "external": 4874838,
+        "arrayBuffers": 1577161
+      },
+      "initialized": {
+        "rss": 128012288,
+        "heapTotal": 34590720,
+        "heapUsed": 25742488,
+        "external": 4783326,
+        "arrayBuffers": 146161
+      },
+      "afterFirstPass": {
+        "rss": 207675392,
+        "heapTotal": 102014976,
+        "heapUsed": 33880560,
+        "external": 7187398,
+        "arrayBuffers": 2550233
+      },
+      "firstPass": [
+        {
+          "id": "legacy:English",
+          "encodeMs": 2.3865069999999946,
+          "decodeMs": 0.1681639999999902,
+          "countMs": 0.2579070000000172
+        },
+        {
+          "id": "legacy:Chinese",
+          "encodeMs": 8.240034000000009,
+          "decodeMs": 0.0741029999999796,
+          "countMs": 0.013546000000019376
+        },
+        {
+          "id": "legacy:French",
+          "encodeMs": 0.19006899999999405,
+          "decodeMs": 0.01069400000000087,
+          "countMs": 0.007562000000007174
+        },
+        {
+          "id": "legacy:Code",
+          "encodeMs": 0.044657000000000835,
+          "decodeMs": 0.004764999999991915,
+          "countMs": 0.012534000000016476
+        },
+        {
+          "id": "legacy:Latin",
+          "encodeMs": 0.2708770000000129,
+          "decodeMs": 0.014979000000010956,
+          "countMs": 0.018695999999977175
+        },
+        {
+          "id": "legacy:LatinRepeat",
+          "encodeMs": 10.690981999999991,
+          "decodeMs": 1.9077430000000106,
+          "countMs": 10.592036000000007
+        },
+        {
+          "id": "legacy:UnicodeRandom",
+          "encodeMs": 253.692792,
+          "decodeMs": 7.8975149999999985,
+          "countMs": 19.45320300000003
+        }
+      ],
+      "semanticProbes": [
+        {
+          "text": " I'ſa",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "𲨓?t",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "﻿hello",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "ab﻿c d",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "é👨‍👩‍👧‍👦",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        }
+      ],
+      "measurements": [
+        {
+          "id": "legacy:English",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0007091748511482854,
+            "elapsedMs": 100.05038800000011,
+            "calls": 141080
+          },
+          "ms": 0.0007811328282039266,
+          "elapsedMs": 300.00187400000004,
+          "calls": 384060
+        },
+        {
+          "id": "legacy:English",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0006786509975570029,
+            "elapsedMs": 100.00601099999994,
+            "calls": 147360
+          },
+          "ms": 0.0006773819959358769,
+          "elapsedMs": 300.01248599999985,
+          "calls": 442900
+        },
+        {
+          "id": "legacy:Chinese",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0005707246375984479,
+            "elapsedMs": 100.00237100000004,
+            "calls": 175220
+          },
+          "ms": 0.0005700443737174122,
+          "elapsedMs": 300.0029529999997,
+          "calls": 526280
+        },
+        {
+          "id": "legacy:Chinese",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0005351655356951735,
+            "elapsedMs": 100.00103200000012,
+            "calls": 186860
+          },
+          "ms": 0.0005328129861826452,
+          "elapsedMs": 300.0056800000002,
+          "calls": 563060
+        },
+        {
+          "id": "legacy:French",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0007492917728158227,
+            "elapsedMs": 100.0004799999997,
+            "calls": 133460
+          },
+          "ms": 0.0007451128601231875,
+          "elapsedMs": 300.01224200000024,
+          "calls": 402640
+        },
+        {
+          "id": "legacy:French",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0007103769569541156,
+            "elapsedMs": 100.0068680000004,
+            "calls": 140780
+          },
+          "ms": 0.0006967972431252327,
+          "elapsedMs": 300.0130210000002,
+          "calls": 430560
+        },
+        {
+          "id": "legacy:Code",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0011410591054313128,
+            "elapsedMs": 100.00242000000026,
+            "calls": 87640
+          },
+          "ms": 0.001169632713450293,
+          "elapsedMs": 300.01079100000015,
+          "calls": 256500
+        },
+        {
+          "id": "legacy:Code",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0010970067025010963,
+            "elapsedMs": 100.00313099999994,
+            "calls": 91160
+          },
+          "ms": 0.0010677237596981998,
+          "elapsedMs": 300.0090220000002,
+          "calls": 280980
+        },
+        {
+          "id": "legacy:Latin",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.003930488845247456,
+            "elapsedMs": 100.07024600000022,
+            "calls": 25460
+          },
+          "ms": 0.0041812040551839486,
+          "elapsedMs": 300.0432030000002,
+          "calls": 71760
+        },
+        {
+          "id": "legacy:Latin",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0036670758064515957,
+            "elapsedMs": 100.03782799999954,
+            "calls": 27280
+          },
+          "ms": 0.0036908451906519104,
+          "elapsedMs": 300.0657140000003,
+          "calls": 81300
+        },
+        {
+          "id": "legacy:LatinRepeat",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 9.306827399999975,
+            "elapsedMs": 186.1365479999995,
+            "calls": 20
+          },
+          "ms": 9.336484030303037,
+          "elapsedMs": 308.1039730000002,
+          "calls": 33
+        },
+        {
+          "id": "legacy:LatinRepeat",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 8.446823399999994,
+            "elapsedMs": 168.93646799999988,
+            "calls": 20
+          },
+          "ms": 7.981183487179503,
+          "elapsedMs": 311.2661560000006,
+          "calls": 39
+        },
+        {
+          "id": "legacy:UnicodeRandom",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 19.832619599999997,
+            "elapsedMs": 396.65239199999996,
+            "calls": 20
+          },
+          "ms": 18.921738312499997,
+          "elapsedMs": 302.74781299999995,
+          "calls": 16
+        },
+        {
+          "id": "legacy:UnicodeRandom",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 15.184546900000033,
+            "elapsedMs": 303.69093800000064,
+            "calls": 20
+          },
+          "ms": 15.384954549999975,
+          "elapsedMs": 307.6990909999995,
+          "calls": 20
+        }
+      ],
+      "checksum": 106936198,
+      "variant": "frozen"
+    },
+    {
+      "verification": {
+        "passed": true,
+        "reference": "tiktoken",
+        "documents": 7,
+        "inputs": 14
+      },
+      "runtime": {
+        "node": "v26.12.0",
+        "bun": null
+      },
+      "entry": "candidate",
+      "round": 2,
+      "initializationMs": 97.75024499999999,
+      "before": {
+        "rss": 80535552,
+        "heapTotal": 20369408,
+        "heapUsed": 8905440,
+        "external": 4874838,
+        "arrayBuffers": 144083
+      },
+      "initialized": {
+        "rss": 128569344,
+        "heapTotal": 35115008,
+        "heapUsed": 25741752,
+        "external": 4783326,
+        "arrayBuffers": 146161
+      },
+      "afterFirstPass": {
+        "rss": 208195584,
+        "heapTotal": 102277120,
+        "heapUsed": 33842840,
+        "external": 7187567,
+        "arrayBuffers": 2550233
+      },
+      "firstPass": [
+        {
+          "id": "legacy:English",
+          "encodeMs": 2.427942999999999,
+          "decodeMs": 0.16212899999999308,
+          "countMs": 0.10864800000001651
+        },
+        {
+          "id": "legacy:Chinese",
+          "encodeMs": 8.023050000000012,
+          "decodeMs": 0.06511699999998655,
+          "countMs": 0.013553999999999178
+        },
+        {
+          "id": "legacy:French",
+          "encodeMs": 0.19163199999999847,
+          "decodeMs": 0.011066999999997051,
+          "countMs": 0.0077339999999992415
+        },
+        {
+          "id": "legacy:Code",
+          "encodeMs": 0.04124699999999848,
+          "decodeMs": 0.004405999999988808,
+          "countMs": 0.02357000000000653
+        },
+        {
+          "id": "legacy:Latin",
+          "encodeMs": 0.2590849999999989,
+          "decodeMs": 0.014036000000004378,
+          "countMs": 0.020176999999989675
+        },
+        {
+          "id": "legacy:LatinRepeat",
+          "encodeMs": 11.072152999999986,
+          "decodeMs": 1.7871240000000057,
+          "countMs": 10.674349000000007
+        },
+        {
+          "id": "legacy:UnicodeRandom",
+          "encodeMs": 253.929288,
+          "decodeMs": 8.26197400000001,
+          "countMs": 18.08528899999999
+        }
+      ],
+      "semanticProbes": [
+        {
+          "text": " I'ſa",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "𲨓?t",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "﻿hello",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "ab﻿c d",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "é👨‍👩‍👧‍👦",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        }
+      ],
+      "measurements": [
+        {
+          "id": "legacy:English",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0006821166939331968,
+            "elapsedMs": 100.06651899999997,
+            "calls": 146700
+          },
+          "ms": 0.0006858757887517147,
+          "elapsedMs": 300.00207,
+          "calls": 437400
+        },
+        {
+          "id": "legacy:English",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0008358496573052487,
+            "elapsedMs": 100.00105299999996,
+            "calls": 119640
+          },
+          "ms": 0.000723490399826372,
+          "elapsedMs": 300.01699899999994,
+          "calls": 414680
+        },
+        {
+          "id": "legacy:Chinese",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0005737500516351126,
+            "elapsedMs": 100.00463400000012,
+            "calls": 174300
+          },
+          "ms": 0.0005750564539007087,
+          "elapsedMs": 300.0069519999997,
+          "calls": 521700
+        },
+        {
+          "id": "legacy:Chinese",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0005384182082480895,
+            "elapsedMs": 100.00579800000014,
+            "calls": 185740
+          },
+          "ms": 0.0005364712885805229,
+          "elapsedMs": 300.00547400000005,
+          "calls": 559220
+        },
+        {
+          "id": "legacy:French",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0007673222034678535,
+            "elapsedMs": 100.01277600000003,
+            "calls": 130340
+          },
+          "ms": 0.0007597505242098856,
+          "elapsedMs": 300.0102869999996,
+          "calls": 394880
+        },
+        {
+          "id": "legacy:French",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0007170257671350724,
+            "elapsedMs": 100.0107539999999,
+            "calls": 139480
+          },
+          "ms": 0.0007206655320682203,
+          "elapsedMs": 300.0130610000001,
+          "calls": 416300
+        },
+        {
+          "id": "legacy:Code",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0011423621087502858,
+            "elapsedMs": 100.00237900000002,
+            "calls": 87540
+          },
+          "ms": 0.0011762174233513694,
+          "elapsedMs": 300.0060160000003,
+          "calls": 255060
+        },
+        {
+          "id": "legacy:Code",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0012914323476239695,
+            "elapsedMs": 100.0085210000002,
+            "calls": 77440
+          },
+          "ms": 0.0011496544489576948,
+          "elapsedMs": 300.013825,
+          "calls": 260960
+        },
+        {
+          "id": "legacy:Latin",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.004175890776293852,
+            "elapsedMs": 100.0543430000007,
+            "calls": 23960
+          },
+          "ms": 0.004061816206336317,
+          "elapsedMs": 300.0057450000004,
+          "calls": 73860
+        },
+        {
+          "id": "legacy:Latin",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.003859972762345647,
+            "elapsedMs": 100.05049399999916,
+            "calls": 25920
+          },
+          "ms": 0.0038152321592065047,
+          "elapsedMs": 300.02985699999954,
+          "calls": 78640
+        },
+        {
+          "id": "legacy:LatinRepeat",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 8.831255399999964,
+            "elapsedMs": 176.62510799999927,
+            "calls": 20
+          },
+          "ms": 8.874017500000022,
+          "elapsedMs": 301.7165950000008,
+          "calls": 34
+        },
+        {
+          "id": "legacy:LatinRepeat",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 7.98041089999997,
+            "elapsedMs": 159.6082179999994,
+            "calls": 20
+          },
+          "ms": 7.770506358974345,
+          "elapsedMs": 303.04974799999945,
+          "calls": 39
+        },
+        {
+          "id": "legacy:UnicodeRandom",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 19.345678450000015,
+            "elapsedMs": 386.9135690000003,
+            "calls": 20
+          },
+          "ms": 19.490037625000014,
+          "elapsedMs": 311.8406020000002,
+          "calls": 16
+        },
+        {
+          "id": "legacy:UnicodeRandom",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 14.204712500000005,
+            "elapsedMs": 284.0942500000001,
+            "calls": 20
+          },
+          "ms": 14.143106409090912,
+          "elapsedMs": 311.1483410000001,
+          "calls": 22
+        }
+      ],
+      "checksum": 106089570,
+      "variant": "frozen"
+    },
+    {
+      "verification": {
+        "passed": true,
+        "reference": "tiktoken",
+        "documents": 7,
+        "inputs": 14
+      },
+      "runtime": {
+        "node": "v26.12.0",
+        "bun": null
+      },
+      "entry": "candidate",
+      "round": 2,
+      "initializationMs": 115.195749,
+      "before": {
+        "rss": 81014784,
+        "heapTotal": 19845120,
+        "heapUsed": 8905512,
+        "external": 4874838,
+        "arrayBuffers": 777161
+      },
+      "initialized": {
+        "rss": 133697536,
+        "heapTotal": 40620032,
+        "heapUsed": 30994712,
+        "external": 4783326,
+        "arrayBuffers": 146161
+      },
+      "afterFirstPass": {
+        "rss": 212877312,
+        "heapTotal": 107782144,
+        "heapUsed": 39086488,
+        "external": 7187398,
+        "arrayBuffers": 2550233
+      },
+      "firstPass": [
+        {
+          "id": "legacy:English",
+          "encodeMs": 2.4999770000000012,
+          "decodeMs": 0.2010620000000074,
+          "countMs": 0.11186899999998445
+        },
+        {
+          "id": "legacy:Chinese",
+          "encodeMs": 8.222604999999987,
+          "decodeMs": 0.06796600000001263,
+          "countMs": 0.01361199999999485
+        },
+        {
+          "id": "legacy:French",
+          "encodeMs": 0.19185699999999883,
+          "decodeMs": 0.010830999999996038,
+          "countMs": 0.007172999999994545
+        },
+        {
+          "id": "legacy:Code",
+          "encodeMs": 0.03376700000001165,
+          "decodeMs": 0.004508999999984553,
+          "countMs": 0.007556000000022323
+        },
+        {
+          "id": "legacy:Latin",
+          "encodeMs": 0.2188210000000197,
+          "decodeMs": 0.015619999999984202,
+          "countMs": 0.02123600000001602
+        },
+        {
+          "id": "legacy:LatinRepeat",
+          "encodeMs": 9.876447999999982,
+          "decodeMs": 1.7276450000000523,
+          "countMs": 9.88679099999996
+        },
+        {
+          "id": "legacy:UnicodeRandom",
+          "encodeMs": 246.63577800000002,
+          "decodeMs": 9.01914499999998,
+          "countMs": 19.15131699999995
+        }
+      ],
+      "semanticProbes": [
+        {
+          "text": " I'ſa",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "𲨓?t",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "﻿hello",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "ab﻿c d",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "é👨‍👩‍👧‍👦",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        }
+      ],
+      "measurements": [
+        {
+          "id": "legacy:English",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.000651615739775983,
+            "elapsedMs": 100.06211299999995,
+            "calls": 153560
+          },
+          "ms": 0.0006355539212778579,
+          "elapsedMs": 300.00687300000004,
+          "calls": 472040
+        },
+        {
+          "id": "legacy:English",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0006201325334821431,
+            "elapsedMs": 100.01497500000005,
+            "calls": 161280
+          },
+          "ms": 0.0006206716381165179,
+          "elapsedMs": 300.0078430000001,
+          "calls": 483360
+        },
+        {
+          "id": "legacy:Chinese",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0005232457513604015,
+            "elapsedMs": 100.00272799999993,
+            "calls": 191120
+          },
+          "ms": 0.0005305021325505732,
+          "elapsedMs": 300.0095660000002,
+          "calls": 565520
+        },
+        {
+          "id": "legacy:Chinese",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0004870331791175627,
+            "elapsedMs": 100.00739300000032,
+            "calls": 205340
+          },
+          "ms": 0.0004853652127487461,
+          "elapsedMs": 300.004238,
+          "calls": 618100
+        },
+        {
+          "id": "legacy:French",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0008263226491488993,
+            "elapsedMs": 100.0015669999998,
+            "calls": 121020
+          },
+          "ms": 0.0007469538467284134,
+          "elapsedMs": 300.00654299999997,
+          "calls": 401640
+        },
+        {
+          "id": "legacy:French",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0007007786264891391,
+            "elapsedMs": 100.00111000000015,
+            "calls": 142700
+          },
+          "ms": 0.000698204889685347,
+          "elapsedMs": 300.0046769999999,
+          "calls": 429680
+        },
+        {
+          "id": "legacy:Code",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.001098969637362638,
+            "elapsedMs": 100.00623700000006,
+            "calls": 91000
+          },
+          "ms": 0.0010941457148067094,
+          "elapsedMs": 300.0147549999997,
+          "calls": 274200
+        },
+        {
+          "id": "legacy:Code",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0010230433408346979,
+            "elapsedMs": 100.01271700000007,
+            "calls": 97760
+          },
+          "ms": 0.0010303252180781659,
+          "elapsedMs": 300.0100970000003,
+          "calls": 291180
+        },
+        {
+          "id": "legacy:Latin",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0037717046757164375,
+            "elapsedMs": 100.02560799999992,
+            "calls": 26520
+          },
+          "ms": 0.003658192014142894,
+          "elapsedMs": 300.0449090000002,
+          "calls": 82020
+        },
+        {
+          "id": "legacy:Latin",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0034724070833333245,
+            "elapsedMs": 100.00532399999975,
+            "calls": 28800
+          },
+          "ms": 0.0035769521936099167,
+          "elapsedMs": 300.0347499999998,
+          "calls": 83880
+        },
+        {
+          "id": "legacy:LatinRepeat",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 8.994646999999986,
+            "elapsedMs": 179.89293999999973,
+            "calls": 20
+          },
+          "ms": 8.178499621621626,
+          "elapsedMs": 302.6044860000002,
+          "calls": 37
+        },
+        {
+          "id": "legacy:LatinRepeat",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 7.1068432999999915,
+            "elapsedMs": 142.13686599999983,
+            "calls": 20
+          },
+          "ms": 7.4006228292683085,
+          "elapsedMs": 303.42553600000065,
+          "calls": 41
+        },
+        {
+          "id": "legacy:UnicodeRandom",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 21.917298549999988,
+            "elapsedMs": 438.34597099999974,
+            "calls": 20
+          },
+          "ms": 21.583364600000035,
+          "elapsedMs": 323.7504690000005,
+          "calls": 15
+        },
+        {
+          "id": "legacy:UnicodeRandom",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 15.486934150000025,
+            "elapsedMs": 309.7386830000005,
+            "calls": 20
+          },
+          "ms": 15.857819849999988,
+          "elapsedMs": 317.15639699999974,
+          "calls": 20
+        }
+      ],
+      "checksum": 112546252,
+      "variant": "candidate"
+    },
+    {
+      "verification": {
+        "passed": true,
+        "reference": "tiktoken",
+        "documents": 7,
+        "inputs": 14
+      },
+      "runtime": {
+        "node": "v26.12.0",
+        "bun": null
+      },
+      "entry": "candidate",
+      "round": 3,
+      "initializationMs": 116.71034000000002,
+      "before": {
+        "rss": 81117184,
+        "heapTotal": 19582976,
+        "heapUsed": 8905448,
+        "external": 4874838,
+        "arrayBuffers": 460622
+      },
+      "initialized": {
+        "rss": 133910528,
+        "heapTotal": 40357888,
+        "heapUsed": 30994664,
+        "external": 4783326,
+        "arrayBuffers": 146161
+      },
+      "afterFirstPass": {
+        "rss": 214249472,
+        "heapTotal": 107520000,
+        "heapUsed": 39090064,
+        "external": 7187567,
+        "arrayBuffers": 2550233
+      },
+      "firstPass": [
+        {
+          "id": "legacy:English",
+          "encodeMs": 2.595119000000011,
+          "decodeMs": 0.16427200000001108,
+          "countMs": 0.10807799999997769
+        },
+        {
+          "id": "legacy:Chinese",
+          "encodeMs": 8.903733000000017,
+          "decodeMs": 0.07445300000000543,
+          "countMs": 0.019427999999976464
+        },
+        {
+          "id": "legacy:French",
+          "encodeMs": 0.21283500000001254,
+          "decodeMs": 0.02077299999999127,
+          "countMs": 0.009291000000018812
+        },
+        {
+          "id": "legacy:Code",
+          "encodeMs": 0.03738900000001877,
+          "decodeMs": 0.004998999999997977,
+          "countMs": 0.011353999999982989
+        },
+        {
+          "id": "legacy:Latin",
+          "encodeMs": 0.22424900000001458,
+          "decodeMs": 0.014394999999979063,
+          "countMs": 0.016330000000010614
+        },
+        {
+          "id": "legacy:LatinRepeat",
+          "encodeMs": 10.386033999999995,
+          "decodeMs": 2.1120599999999854,
+          "countMs": 10.45595400000002
+        },
+        {
+          "id": "legacy:UnicodeRandom",
+          "encodeMs": 262.98939500000006,
+          "decodeMs": 7.517614999999978,
+          "countMs": 19.036923
+        }
+      ],
+      "semanticProbes": [
+        {
+          "text": " I'ſa",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "𲨓?t",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "﻿hello",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "ab﻿c d",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "é👨‍👩‍👧‍👦",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        }
+      ],
+      "measurements": [
+        {
+          "id": "legacy:English",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0007399661514568851,
+            "elapsedMs": 100.058223,
+            "calls": 135220
+          },
+          "ms": 0.0006713755583404199,
+          "elapsedMs": 300.01088200000004,
+          "calls": 446860
+        },
+        {
+          "id": "legacy:English",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0006251455869483681,
+            "elapsedMs": 100.01079099999993,
+            "calls": 159980
+          },
+          "ms": 0.000636518528026478,
+          "elapsedMs": 300.01664300000016,
+          "calls": 471340
+        },
+        {
+          "id": "legacy:Chinese",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0005226242683946487,
+            "elapsedMs": 100.00937999999996,
+            "calls": 191360
+          },
+          "ms": 0.0005317913478923669,
+          "elapsedMs": 300.0047709999999,
+          "calls": 564140
+        },
+        {
+          "id": "legacy:Chinese",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0004978406212664288,
+            "elapsedMs": 100.0062240000002,
+            "calls": 200880
+          },
+          "ms": 0.00048464708086976216,
+          "elapsedMs": 300.0062360000002,
+          "calls": 619020
+        },
+        {
+          "id": "legacy:French",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0006991503705257266,
+            "elapsedMs": 100.00646899999992,
+            "calls": 143040
+          },
+          "ms": 0.0006938485545122356,
+          "elapsedMs": 300.0062380000004,
+          "calls": 432380
+        },
+        {
+          "id": "legacy:French",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0006595621158158537,
+            "elapsedMs": 100.00280799999973,
+            "calls": 151620
+          },
+          "ms": 0.0006849762135257316,
+          "elapsedMs": 300.00588199999993,
+          "calls": 437980
+        },
+        {
+          "id": "legacy:Code",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0010872997173298515,
+            "elapsedMs": 100.00982799999974,
+            "calls": 91980
+          },
+          "ms": 0.0011953998724998005,
+          "elapsedMs": 300.02145999999993,
+          "calls": 250980
+        },
+        {
+          "id": "legacy:Code",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.00117527795534665,
+            "elapsedMs": 100.01615399999991,
+            "calls": 85100
+          },
+          "ms": 0.0010921486093920638,
+          "elapsedMs": 300.0132229999999,
+          "calls": 274700
+        },
+        {
+          "id": "legacy:Latin",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.004000722879999994,
+            "elapsedMs": 100.01807199999985,
+            "calls": 25000
+          },
+          "ms": 0.0035947591061586443,
+          "elapsedMs": 300.01859500000046,
+          "calls": 83460
+        },
+        {
+          "id": "legacy:Latin",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.003585194838709685,
+            "elapsedMs": 100.0269360000002,
+            "calls": 27900
+          },
+          "ms": 0.0036245237134573532,
+          "elapsedMs": 300.0380729999997,
+          "calls": 82780
+        },
+        {
+          "id": "legacy:LatinRepeat",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 7.922073449999971,
+            "elapsedMs": 158.44146899999942,
+            "calls": 20
+          },
+          "ms": 8.230621081081079,
+          "elapsedMs": 304.53297999999995,
+          "calls": 37
+        },
+        {
+          "id": "legacy:LatinRepeat",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 7.173186700000042,
+            "elapsedMs": 143.46373400000084,
+            "calls": 20
+          },
+          "ms": 7.340193048780481,
+          "elapsedMs": 300.94791499999974,
+          "calls": 41
+        },
+        {
+          "id": "legacy:UnicodeRandom",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 20.913985300000014,
+            "elapsedMs": 418.27970600000026,
+            "calls": 20
+          },
+          "ms": 20.437092799999967,
+          "elapsedMs": 306.5563919999995,
+          "calls": 15
+        },
+        {
+          "id": "legacy:UnicodeRandom",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 15.316276100000005,
+            "elapsedMs": 306.3255220000001,
+            "calls": 20
+          },
+          "ms": 15.176055500000029,
+          "elapsedMs": 303.5211100000006,
+          "calls": 20
+        }
+      ],
+      "checksum": 111810172,
+      "variant": "candidate"
+    },
+    {
+      "verification": {
+        "passed": true,
+        "reference": "tiktoken",
+        "documents": 7,
+        "inputs": 14
+      },
+      "runtime": {
+        "node": "v26.12.0",
+        "bun": null
+      },
+      "entry": "candidate",
+      "round": 3,
+      "initializationMs": 104.933295,
+      "before": {
+        "rss": 82096128,
+        "heapTotal": 19582976,
+        "heapUsed": 8905440,
+        "external": 4874838,
+        "arrayBuffers": 777161
+      },
+      "initialized": {
+        "rss": 128389120,
+        "heapTotal": 35115008,
+        "heapUsed": 25741896,
+        "external": 4783326,
+        "arrayBuffers": 146161
+      },
+      "afterFirstPass": {
+        "rss": 206950400,
+        "heapTotal": 102277120,
+        "heapUsed": 33851808,
+        "external": 7187567,
+        "arrayBuffers": 2550233
+      },
+      "firstPass": [
+        {
+          "id": "legacy:English",
+          "encodeMs": 2.426759000000004,
+          "decodeMs": 0.1708189999999945,
+          "countMs": 0.11531200000001718
+        },
+        {
+          "id": "legacy:Chinese",
+          "encodeMs": 8.173993999999993,
+          "decodeMs": 0.0776610000000062,
+          "countMs": 0.017293999999992593
+        },
+        {
+          "id": "legacy:French",
+          "encodeMs": 0.18987599999999816,
+          "decodeMs": 0.010452999999984058,
+          "countMs": 0.007316000000002987
+        },
+        {
+          "id": "legacy:Code",
+          "encodeMs": 0.040931000000000495,
+          "decodeMs": 0.004679000000010092,
+          "countMs": 0.008718999999985044
+        },
+        {
+          "id": "legacy:Latin",
+          "encodeMs": 0.30330299999999966,
+          "decodeMs": 0.018547000000012304,
+          "countMs": 0.020931999999987738
+        },
+        {
+          "id": "legacy:LatinRepeat",
+          "encodeMs": 10.96208900000002,
+          "decodeMs": 2.110492999999991,
+          "countMs": 10.766656000000012
+        },
+        {
+          "id": "legacy:UnicodeRandom",
+          "encodeMs": 262.851199,
+          "decodeMs": 8.723190999999986,
+          "countMs": 18.55115900000004
+        }
+      ],
+      "semanticProbes": [
+        {
+          "text": " I'ſa",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "𲨓?t",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "﻿hello",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "ab﻿c d",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "é👨‍👩‍👧‍👦",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        }
+      ],
+      "measurements": [
+        {
+          "id": "legacy:English",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.000671552993288591,
+            "elapsedMs": 100.06139600000006,
+            "calls": 149000
+          },
+          "ms": 0.0006531790485521448,
+          "elapsedMs": 300.0051370000001,
+          "calls": 459300
+        },
+        {
+          "id": "legacy:English",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0006278405637870422,
+            "elapsedMs": 100.00244500000008,
+            "calls": 159280
+          },
+          "ms": 0.0006394930020889287,
+          "elapsedMs": 300.011747,
+          "calls": 469140
+        },
+        {
+          "id": "legacy:Chinese",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0005721655681428089,
+            "elapsedMs": 100.00309800000014,
+            "calls": 174780
+          },
+          "ms": 0.0005809589020139426,
+          "elapsedMs": 300.00717699999996,
+          "calls": 516400
+        },
+        {
+          "id": "legacy:Chinese",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0005640908111462095,
+            "elapsedMs": 100.00201900000002,
+            "calls": 177280
+          },
+          "ms": 0.0005379013070606375,
+          "elapsedMs": 300.00907499999994,
+          "calls": 557740
+        },
+        {
+          "id": "legacy:French",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0007881489044766706,
+            "elapsedMs": 100.00033299999996,
+            "calls": 126880
+          },
+          "ms": 0.0007936198349293692,
+          "elapsedMs": 300.00417000000016,
+          "calls": 378020
+        },
+        {
+          "id": "legacy:French",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0007426955888905384,
+            "elapsedMs": 100.0113879999999,
+            "calls": 134660
+          },
+          "ms": 0.0007351318990443511,
+          "elapsedMs": 300.0073279999997,
+          "calls": 408100
+        },
+        {
+          "id": "legacy:Code",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0011148940691192875,
+            "elapsedMs": 100.00599800000009,
+            "calls": 89700
+          },
+          "ms": 0.0011120592668099928,
+          "elapsedMs": 300.0113489999999,
+          "calls": 269780
+        },
+        {
+          "id": "legacy:Code",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0010516770767613041,
+            "elapsedMs": 100.01449000000002,
+            "calls": 95100
+          },
+          "ms": 0.0010463411063058037,
+          "elapsedMs": 300.00692200000003,
+          "calls": 286720
+        },
+        {
+          "id": "legacy:Latin",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.003878583410852722,
+            "elapsedMs": 100.06745200000023,
+            "calls": 25800
+          },
+          "ms": 0.003935653043022036,
+          "elapsedMs": 300.05418800000007,
+          "calls": 76240
+        },
+        {
+          "id": "legacy:Latin",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.00376335963130175,
+            "elapsedMs": 100.03009900000052,
+            "calls": 26580
+          },
+          "ms": 0.0038906188796680426,
+          "elapsedMs": 300.04452799999945,
+          "calls": 77120
+        },
+        {
+          "id": "legacy:LatinRepeat",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 9.017040300000009,
+            "elapsedMs": 180.34080600000016,
+            "calls": 20
+          },
+          "ms": 9.003845294117635,
+          "elapsedMs": 306.1307399999996,
+          "calls": 34
+        },
+        {
+          "id": "legacy:LatinRepeat",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 7.819598099999984,
+            "elapsedMs": 156.3919619999997,
+            "calls": 20
+          },
+          "ms": 8.195399054054056,
+          "elapsedMs": 303.22976500000004,
+          "calls": 37
+        },
+        {
+          "id": "legacy:UnicodeRandom",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 19.60792375000001,
+            "elapsedMs": 392.1584750000002,
+            "calls": 20
+          },
+          "ms": 19.78766643749998,
+          "elapsedMs": 316.60266299999967,
+          "calls": 16
+        },
+        {
+          "id": "legacy:UnicodeRandom",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 14.157326400000011,
+            "elapsedMs": 283.1465280000002,
+            "calls": 20
+          },
+          "ms": 14.103850136363649,
+          "elapsedMs": 310.28470300000026,
+          "calls": 22
+        }
+      ],
+      "checksum": 107662890,
+      "variant": "frozen"
+    },
+    {
+      "verification": {
+        "passed": true,
+        "reference": "tiktoken",
+        "documents": 7,
+        "inputs": 14
+      },
+      "runtime": {
+        "node": "v26.12.0",
+        "bun": null
+      },
+      "entry": "candidate",
+      "round": 4,
+      "initializationMs": 99.303106,
+      "before": {
+        "rss": 82059264,
+        "heapTotal": 19058688,
+        "heapUsed": 8905440,
+        "external": 4874838,
+        "arrayBuffers": 777161
+      },
+      "initialized": {
+        "rss": 128585728,
+        "heapTotal": 34590720,
+        "heapUsed": 25738640,
+        "external": 4783326,
+        "arrayBuffers": 146161
+      },
+      "afterFirstPass": {
+        "rss": 208662528,
+        "heapTotal": 102277120,
+        "heapUsed": 33842712,
+        "external": 7187567,
+        "arrayBuffers": 2550233
+      },
+      "firstPass": [
+        {
+          "id": "legacy:English",
+          "encodeMs": 2.4407569999999907,
+          "decodeMs": 0.1595529999999883,
+          "countMs": 0.11186900000001287
+        },
+        {
+          "id": "legacy:Chinese",
+          "encodeMs": 8.199392999999986,
+          "decodeMs": 0.065983000000017,
+          "countMs": 0.014271000000007916
+        },
+        {
+          "id": "legacy:French",
+          "encodeMs": 0.1720239999999933,
+          "decodeMs": 0.018849999999986267,
+          "countMs": 0.007321000000018785
+        },
+        {
+          "id": "legacy:Code",
+          "encodeMs": 0.04102899999998044,
+          "decodeMs": 0.004198999999999842,
+          "countMs": 0.00822100000002024
+        },
+        {
+          "id": "legacy:Latin",
+          "encodeMs": 0.2687379999999848,
+          "decodeMs": 0.017924999999991087,
+          "countMs": 0.020582000000018752
+        },
+        {
+          "id": "legacy:LatinRepeat",
+          "encodeMs": 10.819825000000009,
+          "decodeMs": 1.7387639999999749,
+          "countMs": 10.292619000000002
+        },
+        {
+          "id": "legacy:UnicodeRandom",
+          "encodeMs": 250.96641499999998,
+          "decodeMs": 7.409321000000034,
+          "countMs": 18.15352999999999
+        }
+      ],
+      "semanticProbes": [
+        {
+          "text": " I'ſa",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "𲨓?t",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "﻿hello",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "ab﻿c d",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "é👨‍👩‍👧‍👦",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        }
+      ],
+      "measurements": [
+        {
+          "id": "legacy:English",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0006764067324591054,
+            "elapsedMs": 100.06761200000005,
+            "calls": 147940
+          },
+          "ms": 0.0006889792095351824,
+          "elapsedMs": 300.00910699999986,
+          "calls": 435440
+        },
+        {
+          "id": "legacy:English",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0006760159524131407,
+            "elapsedMs": 100.00980000000004,
+            "calls": 147940
+          },
+          "ms": 0.0006855653146565517,
+          "elapsedMs": 300.01709300000016,
+          "calls": 437620
+        },
+        {
+          "id": "legacy:Chinese",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0005729407700240633,
+            "elapsedMs": 100.001082,
+            "calls": 174540
+          },
+          "ms": 0.0005925039044910534,
+          "elapsedMs": 300.008427,
+          "calls": 506340
+        },
+        {
+          "id": "legacy:Chinese",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0005410465808266618,
+            "elapsedMs": 100.00705000000016,
+            "calls": 184840
+          },
+          "ms": 0.0005399531082394441,
+          "elapsedMs": 300.008746,
+          "calls": 555620
+        },
+        {
+          "id": "legacy:French",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0007443920500223313,
+            "elapsedMs": 100.00162799999998,
+            "calls": 134340
+          },
+          "ms": 0.0007473980349671254,
+          "elapsedMs": 300.09525900000017,
+          "calls": 401520
+        },
+        {
+          "id": "legacy:French",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0007115866514871196,
+            "elapsedMs": 100.00638799999979,
+            "calls": 140540
+          },
+          "ms": 0.0007012227538332091,
+          "elapsedMs": 300.0111430000002,
+          "calls": 427840
+        },
+        {
+          "id": "legacy:Code",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0011780372555948173,
+            "elapsedMs": 100.01536299999998,
+            "calls": 84900
+          },
+          "ms": 0.001169757544447911,
+          "elapsedMs": 300.0194150000002,
+          "calls": 256480
+        },
+        {
+          "id": "legacy:Code",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0010836301950162533,
+            "elapsedMs": 100.01906700000018,
+            "calls": 92300
+          },
+          "ms": 0.001078754955052138,
+          "elapsedMs": 300.00175299999955,
+          "calls": 278100
+        },
+        {
+          "id": "legacy:Latin",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0039823295780254545,
+            "elapsedMs": 100.03611899999942,
+            "calls": 25120
+          },
+          "ms": 0.004272111318337132,
+          "elapsedMs": 300.0730990000002,
+          "calls": 70240
+        },
+        {
+          "id": "legacy:Latin",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0037553529279279445,
+            "elapsedMs": 100.04260200000044,
+            "calls": 26640
+          },
+          "ms": 0.0039018705461638537,
+          "elapsedMs": 300.05384500000036,
+          "calls": 76900
+        },
+        {
+          "id": "legacy:LatinRepeat",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 9.959584549999999,
+            "elapsedMs": 199.191691,
+            "calls": 20
+          },
+          "ms": 9.234043333333334,
+          "elapsedMs": 304.72343,
+          "calls": 33
+        },
+        {
+          "id": "legacy:LatinRepeat",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 7.947834199999988,
+            "elapsedMs": 158.95668399999977,
+            "calls": 20
+          },
+          "ms": 7.986923500000007,
+          "elapsedMs": 303.50309300000026,
+          "calls": 38
+        },
+        {
+          "id": "legacy:UnicodeRandom",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 19.51742945000001,
+            "elapsedMs": 390.3485890000002,
+            "calls": 20
+          },
+          "ms": 20.593556466666694,
+          "elapsedMs": 308.9033470000004,
+          "calls": 15
+        },
+        {
+          "id": "legacy:UnicodeRandom",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 16.326140650000024,
+            "elapsedMs": 326.5228130000005,
+            "calls": 20
+          },
+          "ms": 14.388049047619072,
+          "elapsedMs": 302.1490300000005,
+          "calls": 21
+        }
+      ],
+      "checksum": 106272838,
+      "variant": "frozen"
+    },
+    {
+      "verification": {
+        "passed": true,
+        "reference": "tiktoken",
+        "documents": 7,
+        "inputs": 14
+      },
+      "runtime": {
+        "node": "v26.12.0",
+        "bun": null
+      },
+      "entry": "candidate",
+      "round": 4,
+      "initializationMs": 112.91869700000001,
+      "before": {
+        "rss": 80830464,
+        "heapTotal": 19845120,
+        "heapUsed": 8905448,
+        "external": 4874838,
+        "arrayBuffers": 144083
+      },
+      "initialized": {
+        "rss": 133128192,
+        "heapTotal": 39571456,
+        "heapUsed": 30994808,
+        "external": 4783326,
+        "arrayBuffers": 146161
+      },
+      "afterFirstPass": {
+        "rss": 213086208,
+        "heapTotal": 107520000,
+        "heapUsed": 39094216,
+        "external": 7505705,
+        "arrayBuffers": 2550233
+      },
+      "firstPass": [
+        {
+          "id": "legacy:English",
+          "encodeMs": 2.5197609999999884,
+          "decodeMs": 0.1599830000000111,
+          "countMs": 0.10726699999997891
+        },
+        {
+          "id": "legacy:Chinese",
+          "encodeMs": 8.666516999999999,
+          "decodeMs": 0.07930999999999244,
+          "countMs": 0.020106999999995878
+        },
+        {
+          "id": "legacy:French",
+          "encodeMs": 0.177866999999992,
+          "decodeMs": 0.010322000000002163,
+          "countMs": 0.006482000000005428
+        },
+        {
+          "id": "legacy:Code",
+          "encodeMs": 0.03758600000000456,
+          "decodeMs": 0.00438200000002098,
+          "countMs": 0.01127999999999929
+        },
+        {
+          "id": "legacy:Latin",
+          "encodeMs": 0.20790700000000584,
+          "decodeMs": 0.01416799999998375,
+          "countMs": 0.015755000000012842
+        },
+        {
+          "id": "legacy:LatinRepeat",
+          "encodeMs": 9.965187000000014,
+          "decodeMs": 1.8387899999999888,
+          "countMs": 9.71979300000001
+        },
+        {
+          "id": "legacy:UnicodeRandom",
+          "encodeMs": 261.606798,
+          "decodeMs": 7.840525999999954,
+          "countMs": 16.956387000000063
+        }
+      ],
+      "semanticProbes": [
+        {
+          "text": " I'ſa",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "𲨓?t",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "﻿hello",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "ab﻿c d",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "é👨‍👩‍👧‍👦",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        },
+        {
+          "text": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "ids": true,
+          "roundTrip": true,
+          "count": true
+        }
+      ],
+      "measurements": [
+        {
+          "id": "legacy:English",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0006481480632206238,
+            "elapsedMs": 100.0610979999999,
+            "calls": 154380
+          },
+          "ms": 0.0006329753987678287,
+          "elapsedMs": 300.00502000000006,
+          "calls": 473960
+        },
+        {
+          "id": "legacy:English",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.001201492731859684,
+            "elapsedMs": 100.0122550000001,
+            "calls": 83240
+          },
+          "ms": 0.000692078989619377,
+          "elapsedMs": 300.0162419999999,
+          "calls": 433500
+        },
+        {
+          "id": "legacy:Chinese",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0005271634159198733,
+            "elapsedMs": 100.00289999999995,
+            "calls": 189700
+          },
+          "ms": 0.0005582210516522776,
+          "elapsedMs": 300.0103220000001,
+          "calls": 537440
+        },
+        {
+          "id": "legacy:Chinese",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0005119207002457002,
+            "elapsedMs": 100.008828,
+            "calls": 195360
+          },
+          "ms": 0.0004889666623203052,
+          "elapsedMs": 300.00060600000006,
+          "calls": 613540
+        },
+        {
+          "id": "legacy:French",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0007622938871951238,
+            "elapsedMs": 100.01295800000025,
+            "calls": 131200
+          },
+          "ms": 0.0007475633334994512,
+          "elapsedMs": 300.01211699999976,
+          "calls": 401320
+        },
+        {
+          "id": "legacy:French",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0007735150270688312,
+            "elapsedMs": 100.01549299999988,
+            "calls": 129300
+          },
+          "ms": 0.0006883800399247389,
+          "elapsedMs": 300.0097889999997,
+          "calls": 435820
+        },
+        {
+          "id": "legacy:Code",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.0010842944709453571,
+            "elapsedMs": 100.01532199999974,
+            "calls": 92240
+          },
+          "ms": 0.0010944444659273314,
+          "elapsedMs": 300.00911700000006,
+          "calls": 274120
+        },
+        {
+          "id": "legacy:Code",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.0011521772465437781,
+            "elapsedMs": 100.00898499999994,
+            "calls": 86800
+          },
+          "ms": 0.001016770555141327,
+          "elapsedMs": 300.0083199999999,
+          "calls": 295060
+        },
+        {
+          "id": "legacy:Latin",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 0.003573593428571452,
+            "elapsedMs": 100.06061600000066,
+            "calls": 28000
+          },
+          "ms": 0.0036351087351587097,
+          "elapsedMs": 300.0418749999999,
+          "calls": 82540
+        },
+        {
+          "id": "legacy:Latin",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 0.003764797516930009,
+            "elapsedMs": 100.06831799999964,
+            "calls": 26580
+          },
+          "ms": 0.003539410972156682,
+          "elapsedMs": 300.0004740000004,
+          "calls": 84760
+        },
+        {
+          "id": "legacy:LatinRepeat",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 7.874755350000032,
+            "elapsedMs": 157.49510700000064,
+            "calls": 20
+          },
+          "ms": 7.933057552631573,
+          "elapsedMs": 301.4561869999998,
+          "calls": 38
+        },
+        {
+          "id": "legacy:LatinRepeat",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 7.181389399999989,
+            "elapsedMs": 143.62778799999978,
+            "calls": 20
+          },
+          "ms": 7.258357690476195,
+          "elapsedMs": 304.85102300000017,
+          "calls": 42
+        },
+        {
+          "id": "legacy:UnicodeRandom",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "encode",
+          "warmup": {
+            "ms": 21.233982699999977,
+            "elapsedMs": 424.6796539999996,
+            "calls": 20
+          },
+          "ms": 20.764784733333364,
+          "elapsedMs": 311.47177100000044,
+          "calls": 15
+        },
+        {
+          "id": "legacy:UnicodeRandom",
+          "category": "legacy",
+          "mode": "repeated",
+          "operation": "count",
+          "warmup": {
+            "ms": 15.232978899999988,
+            "elapsedMs": 304.6595779999998,
+            "calls": 20
+          },
+          "ms": 16.479210526315814,
+          "elapsedMs": 313.1050000000005,
+          "calls": 19
+        }
+      ],
+      "checksum": 110885066,
+      "variant": "candidate"
+    }
+  ],
+  "complete": true
+}
