@@ -1,0 +1,17 @@
+$ vp check ⊘ cache disabled
+[1m[94mpass:[39m[0m All 66 files are correctly formatted [2m(651ms, 8 threads)[0m
+[1m[94mpass:[39m[0m Found no warnings, lint errors, or type errors in 53 files [2m(788ms, 8 threads)[0m
+
+$ vp test ⊘ cache disabled
+
+ RUN  v4.1.10 /tmp/gpt-tokenizer-node-record-integration
+
+
+ Test Files  11 passed (11)
+      Tests  4053 passed (4053)
+   Start at  00:35:22
+   Duration  8.66s (transform 8.12s, setup 0ms, import 24.92s, tests 4.02s, environment 176ms)
+
+
+---
+vp run: 0/2 cache hit (0%). (Run `vp run --last-details` for full details)
