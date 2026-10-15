@@ -83,11 +83,12 @@ These are proposals, not measured improvements:
   charging both API-return time and reading every output character. Preserve the
   fast small-output path and malformed UTF-8/generator behavior. The existing
   packed path targets byte-heavy arrays, so it does not solve this general case.
-- **Keep tiny indexed decoding small.** Arrays below 128 tokens still use the
-  generic iterable method with byte-state bookkeeping. An isolated indexed loop
-  may recover the tiny ASCII cl100k losses without changing the generic API.
-  Changed dispatch or JIT inlining is a plausible cause, not an attribution
-  established by a CPU profile; include both absolute and relative timings.
+- **Preserve iteration when specializing tiny decoding.** Arrays below 128
+  tokens retain the generic iterable method. Both broad indexing and a
+  string-only loop were tested and rejected in the second round below. A future
+  continuation must preserve already-read values and avoid restarting the input
+  on a byte token. It must also preserve the existing byte-path latency; this
+  proposal has no validated implementation yet.
 - **Dedicated cold count processing.** Avoid constructing token arrays when the
   caller only needs a count, borrowing Golia's separation of cached IDs and
   cached counts. First profile allocations and merge cost with the cache disabled
@@ -117,6 +118,34 @@ A proposed change should improve the named realistic category or cold workload,
 pass both engines and encodings, and retain separate memory/load and full-output
 checks. Reclaiming a synthetic arithmetic-mean rank alone is insufficient
 evidence for adopting further complexity.
+
+## Second optimization round
+
+Five further candidates were tested in isolated worktrees with the shared FIFO
+lease. None passed all gates, so the production implementation remains the
+published build. Exact patches, completed raw runs, budgets, correctness checks,
+and process spreads are preserved in the linked archives.
+
+| Candidate | Decision and evidence |
+|---|---|
+| [Native ASCII regex specialization](experiments/rejected/round-two-ascii-regex/README.md) | Rejected: essentially flat on Node and slower on Bun. |
+| [Unified null-prototype record](experiments/rejected/round-two-record/README.md) | Rejected: realistic Node encode/count improved and led the tested three-library pure-JS shortlist, but sustained Bun encode churn regressed. Initialized Node heap increased about 5 MiB; the original seven-input arithmetic mean stayed flat and masked a UnicodeRandom loss. |
+| [Node-only record, Bun/browser Map](experiments/rejected/node-record-integration/README.md) | Rejected: the positive Node pilot survived engine selection, but post-encode warmed count hits during sustained cache churn were about 31% slower on Node/o200k and 16–18% slower on Node/cl100k. The combined encode+count time improved; the independent count regression still failed the guard. |
+| [Index every short array](experiments/rejected/tiny-indexed/README.md) | Rejected: cl100k Chinese decode latency roughly doubled despite ordinary short-text improvements. |
+| [Index short string tokens, then fall back](experiments/rejected/tiny-string/README.md) | Rejected: getter/Proxy arrays were reread after a raw token, changing decoded output. Node/o200k Chinese decode-and-read and Bun/o200k Chinese API return also regressed. Selected ordinary API-return wins did not justify those failures. |
+
+The record's full realistic comparison covers candidate, ai-tokenizer and
+bpe-lite for pure-JS ranks; it does not establish leadership over every JS
+library. The Node-only variant failed its guard before the planned popular-JS
+matrix was run, so that matrix has no results to publish. Historical corpus-v2
+evidence and the sanitized corpus-v3 pilot remain separate.
+
+Two regression tests now require short getter-backed and Proxy-backed arrays to
+read each element once, including an incomplete UTF-8 suffix. They pass on the
+retained decoder and catch the rejected string-loop fallback. Future decode
+experiments must preserve that behavior. Future lookup experiments must also
+test warm count hits after sustained eviction, rather than only a small warmed
+request set.
 
 ## Measurement safeguards
 
