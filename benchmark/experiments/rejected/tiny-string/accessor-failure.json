@@ -1,0 +1,23 @@
+{
+  "coreSha256": "6e31078827841729a6b67b0413bf5f0656d103957d02dd85df7521f51d722ee8",
+  "runtime": {
+    "node": "26.12.0",
+    "bun": null
+  },
+  "results": [
+    {
+      "proxy": false,
+      "expected": "a�",
+      "actual": "b�",
+      "expectedReads": 1,
+      "actualReads": 2
+    },
+    {
+      "proxy": true,
+      "expected": "a�",
+      "actual": "b�",
+      "expectedReads": 1,
+      "actualReads": 2
+    }
+  ]
+}

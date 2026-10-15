@@ -1,0 +1,121 @@
+diff --git a/src/BytePairEncodingCore.ts b/src/BytePairEncodingCore.ts
+index e7b48ea..205906d 100644
+--- a/src/BytePairEncodingCore.ts
++++ b/src/BytePairEncodingCore.ts
+@@ -24,6 +24,8 @@ export interface BytePairEncodingConfig {
+ 
+ // Bound the temporary piece array; very large inputs use streaming iteration.
+ const MAX_BATCHED_SPLIT_LENGTH = 1_048_576
++const arrayValues = Array.prototype.values
++const uint32ArrayValues = Uint32Array.prototype.values
+ 
+ function isAsciiString(input: string): boolean {
+   for (let i = 0; i < input.length; i++) {
+@@ -541,13 +543,34 @@ export class BytePairEncodingCore {
+     return decoded
+   }
+ 
++  private decodeSmallStringArray(
++    tokens: readonly number[] | Uint32Array,
++  ): string | undefined {
++    let decoded = ''
++    for (let index = 0; index < tokens.length; index++) {
++      const value = this.tryDecodeToken(tokens[index]!)
++      if (typeof value !== 'string') return undefined
++      decoded += value
++    }
++    return decoded
++  }
++
+   decodeNative(tokens: Iterable<number>): string {
+     // Preserve the cheap string-concatenation path for natural-language text.
+     // Byte-heavy inputs otherwise make thousands of small decoder calls.
+-    if (
+-      (Array.isArray(tokens) || tokens instanceof Uint32Array) &&
+-      tokens.length >= 128
+-    ) {
++    if (Array.isArray(tokens) || tokens instanceof Uint32Array) {
++      if (tokens.length < 128) {
++        const iterator = tokens[Symbol.iterator]
++        if (iterator === arrayValues || iterator === uint32ArrayValues) {
++          const decoded = this.decodeSmallStringArray(tokens)
++          return decoded === undefined ? this.decodeIterable(tokens) : decoded
++        }
++        // Short arrays previously used for-of. Read custom iterator factories
++        // once and preserve their receiver, including accessor side effects.
++        return this.decodeIterable({
++          [Symbol.iterator]: () => iterator.call(tokens),
++        })
++      }
+       let binaryTokens = 0
+       const sampleLength = Math.min(tokens.length, 128)
+       for (let index = 0; index < sampleLength; index++) {
+@@ -562,6 +585,10 @@ export class BytePairEncodingCore {
+       return this.decodeArray(tokens)
+     }
+ 
++    return this.decodeIterable(tokens)
++  }
++
++  private decodeIterable(tokens: Iterable<number>): string {
+     let decoded = ''
+     let word = 0
+     let used = 0
+diff --git a/src/decode.test.ts b/src/decode.test.ts
+index 785fe15..9359110 100644
+--- a/src/decode.test.ts
++++ b/src/decode.test.ts
+@@ -36,6 +36,53 @@ function expected(ids: number[]) {
+ }
+ 
+ describe('independent and contiguous UTF-8 decoding', () => {
++  test('short arrays honor a subsequently replaced prototype iterator', () => {
++    for (const [prototype, ids] of [
++      [Array.prototype, [1, 2, 3, 4]],
++      [Uint32Array.prototype, new Uint32Array([1, 2, 3, 4])],
++    ] as const) {
++      const descriptor = Object.getOwnPropertyDescriptor(
++        prototype,
++        Symbol.iterator,
++      )
++      let actual: string
++      try {
++        Object.defineProperty(prototype, Symbol.iterator, {
++          configurable: true,
++          value: function* () {
++            yield 0
++          },
++        })
++        actual = core.decodeNative(ids)
++      } finally {
++        if (descriptor)
++          Object.defineProperty(prototype, Symbol.iterator, descriptor)
++        else Reflect.deleteProperty(prototype, Symbol.iterator)
++      }
++      expect(actual).toBe('a')
++    }
++  })
++
++  test('short arrays preserve custom iterators and read their factory once', () => {
++    for (const ids of [[0], new Uint32Array([0])]) {
++      let reads = 0
++      Object.defineProperty(ids, Symbol.iterator, {
++        get() {
++          reads++
++          return function* (this: unknown) {
++            expect(this).toBe(ids)
++            yield 1
++            yield 2
++            yield 3
++            yield 4
++          }
++        },
++      })
++      expect(core.decodeNative(ids)).toBe('😀')
++      expect(reads).toBe(1)
++    }
++  })
++
+   test('arbitrary sequences agree with decoding their concatenated bytes', () => {
+     let state = 123456
+     for (let iteration = 0; iteration < 1000; iteration++) {
