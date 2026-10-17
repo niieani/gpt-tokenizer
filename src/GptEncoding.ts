@@ -545,6 +545,10 @@ export class GptEncoding {
     )
   }
 
+  getBytePairEncodingCore(): BytePairEncodingCore {
+    return this.bytePairEncodingCoreProcessor
+  }
+
   setMergeCacheSize(size: number): void {
     this.bytePairEncodingCoreProcessor.setMergeCacheSize(size)
   }

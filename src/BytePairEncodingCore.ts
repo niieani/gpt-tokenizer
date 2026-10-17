@@ -118,6 +118,30 @@ export class BytePairEncodingCore {
     }
   }
 
+  getTokenSplitRegex(): RegExp {
+    return this.tokenSplitRegex
+  }
+
+  getSpecialTokens(): readonly string[] {
+    return [...this.specialTokensEncoder.keys()]
+  }
+
+  findNextAllowedSpecialToken(
+    text: string,
+    allowedSpecial: Set<string> | undefined,
+    startIndex: number,
+  ): [startIndex: number, token: string] | undefined {
+    return this.findNextSpecialToken(text, allowedSpecial, startIndex)
+  }
+
+  countSplitPiece(piece: string): number {
+    const token = this.getBpeRankFromString(piece)
+    if (token !== undefined) {
+      return 1
+    }
+    return this.bytePairEncode(piece).length
+  }
+
   clearMergeCache(): void {
     this.mergeCache?.clear()
   }
