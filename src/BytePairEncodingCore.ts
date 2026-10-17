@@ -118,29 +118,14 @@ export class BytePairEncodingCore {
     }
   }
 
-  /**
-   * Additive helper for incremental token counting: returns the token-split
-   * regex used by encodeNative/countNative. Callers must not mutate it;
-   * String.prototype.matchAll clones the regex internally, so sharing it is safe.
-   */
   getTokenSplitRegex(): RegExp {
     return this.tokenSplitRegex
   }
 
-  /**
-   * Additive helper for incremental token counting: returns the special tokens
-   * configured for this encoding, in the order used to build the internal
-   * special-token scan regex.
-   */
   getSpecialTokens(): readonly string[] {
     return [...this.specialTokensEncoder.keys()]
   }
 
-  /**
-   * Additive helper for incremental token counting: finds the next allowed
-   * special token at or after `startIndex`, mirroring the private scan used by
-   * encodeNative/countNative. Returns `[startIndex, token]` or undefined.
-   */
   findNextAllowedSpecialToken(
     text: string,
     allowedSpecial: Set<string> | undefined,
@@ -149,10 +134,6 @@ export class BytePairEncodingCore {
     return this.findNextSpecialToken(text, allowedSpecial, startIndex)
   }
 
-  /**
-   * Additive helper for incremental token counting: counts the tokens of a
-   * single token-split piece exactly like the per-piece loop in countNative.
-   */
   countSplitPiece(piece: string): number {
     const token = this.getBpeRankFromString(piece)
     if (token !== undefined) {
