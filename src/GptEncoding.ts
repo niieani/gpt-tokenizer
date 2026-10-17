@@ -545,6 +545,15 @@ export class GptEncoding {
     )
   }
 
+  /**
+   * Exposes the internal BPE core processor so additive helpers (e.g. the
+   * incremental token counter in `src/incremental/`) can reach its
+   * piece-counting and special-token scan helpers. Treat the core as read-only.
+   */
+  getBytePairEncodingCore(): BytePairEncodingCore {
+    return this.bytePairEncodingCoreProcessor
+  }
+
   setMergeCacheSize(size: number): void {
     this.bytePairEncodingCoreProcessor.setMergeCacheSize(size)
   }
