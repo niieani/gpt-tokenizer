@@ -6,7 +6,7 @@
 [![Build Status](https://img.shields.io/github/actions/workflow/status/niieani/gpt-tokenizer/ci-cd.yml?branch=main&style=flat-square)](https://github.com/niieani/gpt-tokenizer/actions)
 
 `gpt-tokenizer` is a TypeScript Byte Pair Encoder/Decoder for every OpenAI model family, including GPT-5, GPT-4.1, GPT-4o, o-series reasoning models, gpt-oss, realtime and audio models, and legacy GPT-2/3/4 models.
-It is written in TypeScript and runs in JavaScript environments without native bindings. **#1 for encode, decode, and count in our [Node 26 / o200k_base mean benchmark](#benchmarks).**
+Written in TypeScript, it's the **fastest and lowest-footprint pure-JavaScript GPT tokenizer in our [Node 26 / o200k_base benchmarks](#benchmarks)**, measured by mean encode/decode/count latency and final/peak process memory.
 
 > Try it out in the **[playground](https://gpt-tokenizer.dev/)**!
 
@@ -519,6 +519,11 @@ Five fresh processes per case; the chart shows median latency.
 In the same Node/o200k comparison, it also ranks **#1 for import + construction
 time and settled initialization RSS increase**. These measure initialization,
 excluding process startup; total process memory has different rankings.
+
+Among the six tested **pure-JS implementations**, it has the **lowest final and
+peak process memory** as well as the fastest mean encode/decode/count timings.
+Process memory includes the harness and corpus; see the
+[memory comparison](./benchmark/experiments/LEGACY-node-o200k-RESULTS.md#settled-working-memory).
 
 Two large synthetic inputs dominate this mean. On realistic requests,
 gpt-tokenizer leads the tested pure-JS shortlist for short-request encode/count;

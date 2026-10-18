@@ -38,6 +38,17 @@ slightly lower (8.08 → 7.75 MiB), final RSS medians fall from 180.21 to
 168.00 MiB, and settled initialization heap rises from 16.00 to 16.11 MiB.
 Some RSS process ranges overlap; these are descriptive VM observations.
 
+Within the six tested pure-JS implementations (gpt-tokenizer, js-tiktoken,
+@huggingface/tokenizers, bpe-lite, ai-tokenizer and @lenml/tokenizers), the
+checkout ranks first for mean encode/decode API-return/count latency and for
+absolute final and peak process RSS. Final RSS is 168.00 MiB versus
+228.61–263.76 MiB for the other pure-JS entries; peak RSS is 173.33 MiB versus
+235.10–290.84 MiB. Their full process ranges are separated from the checkout's
+for both RSS metrics. This supports the scoped fastest/lowest-footprint
+pure-JS claim on Node 26.12.0 / o200k_base; it does not extend the mean timing
+rank to every realistic workload. Package/download/browser bundle sizes were
+not measured, so these results do not establish a "smallest" claim.
+
 ## Release regressions and informational checks
 
 The [longer Node/o200k confirmation](experiments/CONFIRM-LEGACY-node-o200k-RESULTS.md)
