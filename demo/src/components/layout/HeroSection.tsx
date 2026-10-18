@@ -47,9 +47,18 @@ export function HeroSection() {
         </div>
       </div>
       <p className="text-lg text-slate-600 dark:text-slate-300">
-        Try out the demo of a TypeScript GPT tokenizer that runs across JS
-        environments. Instant token highlighting,
-        live pricing estimates and chat-aware encoding — all powered by the{' '}
+        Try out the fastest and lowest-footprint pure-JS GPT tokenizer in our{' '}
+        <a
+          href="https://github.com/niieani/gpt-tokenizer#benchmarks"
+          target="_blank"
+          rel="noreferrer"
+          className="underline underline-offset-2"
+        >
+          Node 26 / o200k_base benchmarks
+        </a>
+        , measured by mean encode/decode/count latency and final/peak process
+        memory. Instant token highlighting, live pricing estimates and
+        chat-aware encoding — all powered by the{' '}
         <a
           href="https://www.npmjs.com/package/gpt-tokenizer"
           target="_blank"
