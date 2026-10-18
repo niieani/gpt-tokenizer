@@ -265,6 +265,39 @@ const text = 'Hello, world!'
 const tokenCount = countTokens(text)
 ```
 
+### `createIncrementalCounter(encodeOptions?: EncodeOptions): IncrementalTokenCounter`
+
+Creates an independent counter for text that grows or changes. Each operation returns
+an exact count for the resulting text, using the same special-token options and
+errors as `countTokens`. Appending can change tokens at the join; counts of separate
+chunks cannot simply be added.
+
+```typescript
+import { createIncrementalCounter } from 'gpt-tokenizer'
+
+const counter = createIncrementalCounter()
+counter.update('Hello world')
+counter.append('!')
+counter.applyEdit(6, 5, 'everyone') // 'Hello everyone!'
+console.log(counter.count())
+counter.reset()
+```
+
+`update(text)` finds the common prefix and suffix and applies the resulting edit.
+`applyEdit(start, deleteCount, insertedText)` avoids that comparison when the edit is
+already known. Indexes are UTF-16 code units, as with JavaScript string slicing;
+they must be nonnegative safe integers and the range must be within the tracked
+text. Invalid ranges or disallowed special tokens leave the previous state intact.
+Options are copied when the counter is created.
+
+The counter retains text and piece boundaries and shares the encoding's existing
+BPE cache. It reuses unchanged pieces at conservative tokenizer boundaries; long
+uninterrupted words or whitespace runs can require rescanning a large region.
+Middle edits also move suffix boundary metadata, so updates are not guaranteed to
+take constant time. `reset()` releases the tracked text and boundaries without
+clearing the encoding's shared cache. Existing generators still process a fixed
+input and are independent of this mutable counter.
+
 ### `countChatCompletionTokens(request: ChatCompletionRequest): number`
 
 Counts the tokens that a function-calling chat completion request will consume, including message overhead, optional function definitions, and pinned function calls. This helper is only available on models that support the `function_calling` feature.

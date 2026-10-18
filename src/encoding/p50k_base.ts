@@ -1,6 +1,8 @@
 import bpeRanks from '../bpeRanks/p50k_base.js'
 import { GptEncoding } from '../GptEncoding.js'
 
+export type { IncrementalTokenCounter } from '../GptEncoding.js'
+
 export * from '../constants.js'
 export * from '../specialTokens.js'
 
@@ -13,6 +15,7 @@ const {
   encodeGenerator,
   isWithinTokenLimit,
   countTokens,
+  createIncrementalCounter,
   vocabularySize,
   setMergeCacheSize,
   clearMergeCache,
@@ -21,6 +24,7 @@ const {
 export {
   clearMergeCache,
   countTokens,
+  createIncrementalCounter,
   decode,
   decodeAsyncGenerator,
   decodeGenerator,

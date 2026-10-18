@@ -12,6 +12,13 @@ const cjsModel = require('gpt-tokenizer/model/gpt-4o')
 for (const api of [esm, cjs, esmModel, cjsModel]) {
   assert.deepEqual(api.encode('hello world'), [24_912, 2_375])
   assert.equal(api.decode([24_912, 2_375]), 'hello world')
+  const counter = api.createIncrementalCounter()
+  assert.equal(counter.update('hello'), api.countTokens('hello'))
+  assert.equal(counter.append(' world'), api.countTokens('hello world'))
+  assert.equal(
+    counter.applyEdit(6, 5, 'everyone'),
+    api.countTokens('hello everyone'),
+  )
 }
 
 for (const format of ['cjs', 'esm']) {

@@ -1,5 +1,6 @@
 import { BytePairEncodingCore } from './BytePairEncodingCore.js'
 import { ALL_SPECIAL_TOKENS } from './constants.js'
+import type { IncrementalTokenCounter } from './IncrementalTokenCounter.js'
 import {
   type ChatCompletionRequest,
   type ChatMessage,
@@ -61,6 +62,7 @@ export type {
   EncodeChatOptions,
   HarmonyTerminator,
 } from './functionCalling.js'
+export type { IncrementalTokenCounter } from './IncrementalTokenCounter.js'
 
 export interface CostEstimate {
   input?: number
@@ -170,6 +172,7 @@ export class GptEncoding {
     this.encodeChat = this.encodeChat.bind(this)
     this.encodeChatGenerator = this.encodeChatGenerator.bind(this)
     this.countTokens = this.countTokens.bind(this)
+    this.createIncrementalCounter = this.createIncrementalCounter.bind(this)
     this.setMergeCacheSize = this.setMergeCacheSize.bind(this)
     this.clearMergeCache = this.clearMergeCache.bind(this)
     this.estimateCost = this.estimateCost.bind(this)
@@ -535,6 +538,50 @@ export class GptEncoding {
     }
 
     return this.bytePairEncodingCoreProcessor.countNative(text)
+  }
+
+  /** Create an independent counter sharing this encoding's BPE cache. */
+  createIncrementalCounter(
+    encodeOptions?: EncodeOptions,
+  ): IncrementalTokenCounter {
+    // Snapshot caller-owned sets; later mutations must not invalidate text
+    // that has already been checked under this counter's special policy.
+    const snapshot = encodeOptions && {
+      allowedSpecial:
+        typeof encodeOptions.allowedSpecial === 'object'
+          ? new Set(encodeOptions.allowedSpecial)
+          : encodeOptions.allowedSpecial,
+      disallowedSpecial:
+        typeof encodeOptions.disallowedSpecial === 'object'
+          ? new Set(encodeOptions.disallowedSpecial)
+          : encodeOptions.disallowedSpecial,
+    }
+    const { allowedSpecial, regexPattern } = snapshot
+      ? this.processSpecialTokens(snapshot)
+      : this.defaultSpecialTokenConfig
+    const maxSpecialLength = Math.max(
+      0,
+      ...Array.from(this.specialTokensSet, (token) => token.length),
+    )
+    return this.bytePairEncodingCoreProcessor.createIncrementalCounter(
+      allowedSpecial,
+      (text, start, insertedLength) => {
+        // The previous text was valid. A newly disallowed literal can only
+        // intersect the insertion or a deletion seam. Preserve the exact
+        // policy and first-match error used by countTokens.
+        const match =
+          regexPattern &&
+          text
+            .slice(
+              Math.max(0, start - maxSpecialLength),
+              start + insertedLength + maxSpecialLength,
+            )
+            .match(regexPattern)
+        if (match) {
+          throw new Error(`Disallowed special token found: ${match[0]}`)
+        }
+      },
+    )
   }
 
   private countChatCompletionTokensInternal(
