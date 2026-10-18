@@ -1,5 +1,15 @@
 import { DEFAULT_MERGE_CACHE_SIZE } from './constants.js'
 import {
+  CL100K_TOKEN_SPLIT_REGEX,
+  O200K_TOKEN_SPLIT_REGEX,
+  R50K_TOKEN_SPLIT_REGEX,
+} from './encodingParams/constants.js'
+import {
+  type CountedPiece,
+  type IncrementalTokenCounter,
+  createCounter,
+} from './IncrementalTokenCounter.js'
+import {
   compareUint8Arrays,
   isAscii,
   startsWithByteOrderMark,
@@ -215,6 +225,64 @@ export class BytePairEncodingCore {
     this.mergeCacheHead = 0
   }
 
+  /** @internal Called with the encoding's already normalized special policy. */
+  createIncrementalCounter(
+    allowedSpecial: Set<string> | undefined,
+    validate: (text: string, start: number, insertedLength: number) => void,
+  ): IncrementalTokenCounter {
+    const knownPattern = [
+      R50K_TOKEN_SPLIT_REGEX,
+      CL100K_TOKEN_SPLIT_REGEX,
+      O200K_TOKEN_SPLIT_REGEX,
+    ].includes(this.tokenSplitRegex)
+    const maxSpecialLength = Math.max(
+      0,
+      ...Array.from(this.specialTokensEncoder.keys(), (token) => token.length),
+    )
+    return createCounter({
+      scan: (text, start) =>
+        this.countNativePieces(text, start, allowedSpecial),
+      // For the built-in patterns, ASCII whitespace followed by an ASCII
+      // letter/digit terminates every preceding match's lookahead. Restart
+      // before that whitespace, at an existing piece boundary. Avoid arbitrary
+      // character windows: runs of whitespace and BPE pieces are unbounded.
+      canRestart: (text, offset) =>
+        knownPattern &&
+        /^[ \t\r\n][A-Za-z0-9]/.test(text.slice(offset, offset + 2)),
+      validate,
+      restartMargin: maxSpecialLength + 2,
+      canReuseSuffix: knownPattern,
+    })
+  }
+
+  private *countNativePieces(
+    text: string,
+    start: number,
+    allowedSpecial?: Set<string>,
+  ): Generator<CountedPiece> {
+    while (start < text.length) {
+      const special = this.findNextSpecialToken(text, allowedSpecial, start)
+      const end = special?.[0] ?? text.length
+      const plain = text.slice(start, end)
+      for (const match of plain.matchAll(this.tokenSplitRegex)) {
+        yield {
+          end: start + match.index + match[0].length,
+          count: this.countPiece(match[0]),
+        }
+      }
+      if (!special) break
+      start = end + special[1].length
+      yield { end: start, count: 1 }
+    }
+  }
+
+  private countPiece(piece: string): number {
+    const token = this.bytePairStringRankEncoder.get(piece)
+    return typeof token === 'number'
+      ? 1
+      : (token ?? this.bytePairEncode(piece)).length
+  }
+
   *encodeNativeGenerator(
     text: string,
     allowedSpecial?: Set<string>,
@@ -366,11 +434,7 @@ export class BytePairEncodingCore {
         if (pieces) {
           for (let i = 0; i < pieces.length; i++) {
             const match = pieces[i]!
-            const token = this.bytePairStringRankEncoder.get(match)
-            tokensCount +=
-              typeof token === 'number'
-                ? 1
-                : (token ?? this.bytePairEncode(match)).length
+            tokensCount += this.countPiece(match)
           }
         }
       }

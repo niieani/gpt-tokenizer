@@ -5,6 +5,8 @@
 import bpeRanks from '../bpeRanks/o200k_base.js'
 import { GptEncoding } from '../GptEncoding.js'
 
+export type { IncrementalTokenCounter } from '../GptEncoding.js'
+
 export * from '../constants.js'
 export * from '../specialTokens.js'
 // oxfmt-ignore
@@ -17,6 +19,7 @@ const {
   encodeGenerator,
   isWithinTokenLimit,
   countTokens,
+  createIncrementalCounter,
   encodeChat,
   countChatCompletionTokens,
   encodeChatGenerator,
@@ -28,6 +31,7 @@ const {
 export {
   clearMergeCache,
   countTokens,
+  createIncrementalCounter,
   decode,
   decodeAsyncGenerator,
   decodeGenerator,
