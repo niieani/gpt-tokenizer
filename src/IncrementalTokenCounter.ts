@@ -66,7 +66,11 @@ export function createCounter({
     ) {
       throw new RangeError('The edit range must lie within the tracked text.')
     }
-    if (deleteCount === 0 && inserted.length === 0) return total
+    if (deleteCount === 0 && inserted.length === 0) {
+      // An explicit empty-string exclusion also rejects an empty input.
+      validate(text, start, 0)
+      return total
+    }
 
     const next =
       text.slice(0, start) + inserted + text.slice(start + deleteCount)

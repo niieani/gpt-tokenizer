@@ -39,6 +39,27 @@ function result(fn: () => number): number | string {
 describe.each(Object.entries(encodings))(
   '%s incremental counting',
   (_, encoding) => {
+    test('rejects an empty explicit exclusion on no-op edits', () => {
+      const options = { disallowedSpecial: new Set(['']) }
+      const counter = encoding.createIncrementalCounter(options)
+      expect(() => encoding.countTokens('', options)).toThrow(
+        'Disallowed special token found: ',
+      )
+      for (const edit of [
+        () => counter.update(''),
+        () => counter.append(''),
+        () => counter.applyEdit(0, 0, ''),
+        () => counter.append('text'),
+      ]) {
+        expect(edit).toThrow('Disallowed special token found: ')
+        expect(counter.count()).toBe(0)
+      }
+      counter.reset()
+      expect(() => counter.update('')).toThrow(
+        'Disallowed special token found: ',
+      )
+    })
+
     describe.each([
       'not_a_registered_special_'.repeat(6),
       '😀.[forbidden](literal)?'.repeat(6),
