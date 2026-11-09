@@ -39,6 +39,75 @@ function result(fn: () => number): number | string {
 describe.each(Object.entries(encodings))(
   '%s incremental counting',
   (_, encoding) => {
+    describe.each([
+      'not_a_registered_special_'.repeat(6),
+      '😀.[forbidden](literal)?'.repeat(6),
+    ])('long explicit exclusion: %s', (forbidden) => {
+      test.each([
+        undefined,
+        'all',
+        new Set(['all']),
+        new Set([forbidden]),
+      ] satisfies EncodeOptions['allowedSpecial'][])(
+        'rejects literals crossing edit boundaries: %j',
+        (allowedSpecial) => {
+          const options = {
+            allowedSpecial,
+            disallowedSpecial: new Set([forbidden]),
+          }
+          const counter = encoding.createIncrementalCounter(options)
+          // The validation window must use the same snapshotted policy.
+          options.disallowedSpecial.clear()
+          const expectedOptions = {
+            allowedSpecial,
+            disallowedSpecial: new Set([forbidden]),
+          }
+          const prefix = 'stable prefix with several words '
+          const suffix = ' stable suffix with several words'
+
+          for (const split of [1, forbidden.length / 2, forbidden.length - 1]) {
+            const left = forbidden.slice(0, split)
+            const right = forbidden.slice(split)
+            const joined = prefix + forbidden
+            const beforeAppend = prefix + left
+            expect(counter.update(beforeAppend)).toBe(
+              encoding.countTokens(beforeAppend, expectedOptions),
+            )
+            expect(() => encoding.countTokens(joined, expectedOptions)).toThrow(
+              `Disallowed special token found: ${forbidden}`,
+            )
+            expect(() => counter.append(right)).toThrow(
+              `Disallowed special token found: ${forbidden}`,
+            )
+            expect(counter.count()).toBe(
+              encoding.countTokens(beforeAppend, expectedOptions),
+            )
+            expect(counter.append(' safe')).toBe(
+              encoding.countTokens(beforeAppend + ' safe', expectedOptions),
+            )
+
+            const beforeDelete = prefix + left + 'X' + right + suffix
+            const position = prefix.length + left.length
+            const expected = encoding.countTokens(beforeDelete, expectedOptions)
+            expect(counter.update(beforeDelete)).toBe(expected)
+            for (const edit of [
+              () => counter.applyEdit(position, 1, ''),
+              () => counter.update(joined + suffix),
+              () => counter.applyEdit(position - 1, 2, left.slice(-1)),
+            ]) {
+              expect(edit).toThrow(
+                `Disallowed special token found: ${forbidden}`,
+              )
+              expect(counter.count()).toBe(expected)
+            }
+            expect(counter.append(' safe')).toBe(
+              encoding.countTokens(beforeDelete + ' safe', expectedOptions),
+            )
+          }
+        },
+      )
+    })
+
     test.each([
       undefined,
       'all',

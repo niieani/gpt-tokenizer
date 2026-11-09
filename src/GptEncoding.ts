@@ -563,10 +563,18 @@ export class GptEncoding {
     const { allowedSpecial, regexPattern } = snapshot
       ? this.processSpecialTokens(snapshot)
       : this.defaultSpecialTokenConfig
-    const maxSpecialLength = Math.max(
-      0,
-      ...Array.from(this.specialTokensSet, (token) => token.length),
-    )
+    // Explicit exclusions may contain arbitrary literals longer than any
+    // registered special token. Only an 'all' policy resolves to the built-ins.
+    const disallowedSpecial = snapshot?.disallowedSpecial
+    const disallowedTokens =
+      typeof disallowedSpecial === 'object' &&
+      !disallowedSpecial.has(ALL_SPECIAL_TOKENS)
+        ? disallowedSpecial
+        : this.specialTokensSet
+    let maxDisallowedLength = 0
+    for (const token of disallowedTokens) {
+      maxDisallowedLength = Math.max(maxDisallowedLength, token.length)
+    }
     return this.bytePairEncodingCoreProcessor.createIncrementalCounter(
       allowedSpecial,
       (text, start, insertedLength) => {
@@ -577,8 +585,8 @@ export class GptEncoding {
           regexPattern &&
           text
             .slice(
-              Math.max(0, start - maxSpecialLength),
-              start + insertedLength + maxSpecialLength,
+              Math.max(0, start - maxDisallowedLength),
+              start + insertedLength + maxDisallowedLength,
             )
             .match(regexPattern)
         if (match) {
