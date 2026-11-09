@@ -2,7 +2,11 @@ import fs from 'fs'
 import path from 'path'
 import { describe, expect, test } from 'vite-plus/test'
 import { ALL_SPECIAL_TOKENS } from './constants.js'
-import { type ChatMessage, GptEncoding } from './GptEncoding.js'
+import {
+  type ChatMessage,
+  type EncodeOptions,
+  GptEncoding,
+} from './GptEncoding.js'
 import {
   type ChatModelName,
   type EncodingName,
@@ -15,7 +19,29 @@ import {
 import * as models from './models.js'
 import * as modelsMap from './modelsMap.js'
 import { resolveEncoding } from './resolveEncoding.js'
-import { EndOfText } from './specialTokens.js'
+import { EndOfPrompt, EndOfText } from './specialTokens.js'
+
+const explicitDisallowedPolicies: [string, EncodeOptions][] = [
+  ['no allowed set', { disallowedSpecial: new Set([EndOfText]) }],
+  [
+    'all allowed',
+    { allowedSpecial: 'all', disallowedSpecial: new Set([EndOfText]) },
+  ],
+  [
+    'all allowed in a set',
+    {
+      allowedSpecial: new Set(['all']),
+      disallowedSpecial: new Set([EndOfText]),
+    },
+  ],
+  [
+    'overlapping sets',
+    {
+      allowedSpecial: new Set([EndOfText]),
+      disallowedSpecial: new Set([EndOfText]),
+    },
+  ],
+]
 
 describe('generated model exports', () => {
   test.each(['gpt2', 'gpt-2'])(
@@ -148,6 +174,70 @@ describe.each(encodingNames)('%s', (encodingName: EncodingName) => {
     isWithinTokenLimit,
     countTokens,
   } = encoding
+
+  describe.each(explicitDisallowedPolicies)(
+    'explicit disallowed specials: %s',
+    (_, options) => {
+      const input = `a${EndOfText}b`
+      test.each([
+        ['encode', () => encode(input, options)],
+        [
+          'encodeGenerator',
+          () => [...encoding.encodeGenerator(input, options)].flat(),
+        ],
+        ['countTokens', () => countTokens(input, options)],
+        ['isWithinTokenLimit', () => isWithinTokenLimit(input, 100, options)],
+      ] as const)('%s rejects a forbidden literal', (_, run) => {
+        expect(run).toThrowError(/Disallowed special token found/)
+      })
+
+      test('does not modify caller-owned sets', () => {
+        const allowedBefore =
+          typeof options.allowedSpecial === 'object'
+            ? new Set(options.allowedSpecial)
+            : options.allowedSpecial
+        const disallowedBefore = new Set(options.disallowedSpecial)
+        encode('ordinary text', options)
+        expect(options.allowedSpecial).toEqual(allowedBefore)
+        expect(options.disallowedSpecial).toEqual(disallowedBefore)
+      })
+    },
+  )
+
+  test('preserves empty, default and all special-token policies', () => {
+    for (const options of [
+      undefined,
+      {},
+      { disallowedSpecial: 'all' },
+      { disallowedSpecial: new Set(['all']) },
+    ] satisfies (EncodeOptions | undefined)[]) {
+      expect(() => encode(EndOfText, options)).toThrowError(
+        /Disallowed special token found/,
+      )
+    }
+
+    const ordinary = encode(EndOfText, { disallowedSpecial: new Set() })
+    expect(ordinary.length).toBeGreaterThan(1)
+    expect(decode(ordinary)).toBe(EndOfText)
+    for (const options of [
+      { disallowedSpecial: new Set<string>() },
+      { disallowedSpecial: new Set([EndOfPrompt]) },
+    ]) {
+      expect(encode(EndOfText, options)).toEqual(ordinary)
+      expect([...encoding.encodeGenerator(EndOfText, options)].flat()).toEqual(
+        ordinary,
+      )
+      expect(countTokens(EndOfText, options)).toBe(ordinary.length)
+      expect(isWithinTokenLimit(EndOfText, 100, options)).toBe(ordinary.length)
+    }
+
+    expect(
+      encode(EndOfText, {
+        allowedSpecial: new Set([EndOfText]),
+        disallowedSpecial: 'all',
+      }),
+    ).toHaveLength(1)
+  })
 
   describe('encode and decode', () => {
     test.each(offsetPrompts)('offset prompt: %s', (str) => {
@@ -335,6 +425,37 @@ const exampleMessages: ChatMessage[] = [
       "This late pivot means we don't have time to boil the ocean for the client deliverable.",
   },
 ] as const
+
+describe.each(['gpt-3.5-turbo', 'gpt-4o', 'gpt-oss-20b'])(
+  '%s explicit disallowed chat specials',
+  async (modelName) => {
+    const encoding: GptEncoding = await import(`./model/${modelName}.ts`).then(
+      (mod) => mod.default,
+    )
+    describe.each(explicitDisallowedPolicies)(
+      'explicit disallowed chat specials: %s',
+      (_, options) => {
+        const chat = [
+          { role: 'user', content: `a${EndOfText}b` },
+        ] satisfies ChatMessage[]
+        test.each([
+          ['encodeChat', () => encoding.encodeChat(chat, undefined, options)],
+          [
+            'encodeChatGenerator',
+            () => [...encoding.encodeChatGenerator(chat, undefined, options)],
+          ],
+          ['countTokens', () => encoding.countTokens(chat, options)],
+          [
+            'isWithinTokenLimit',
+            () => encoding.isWithinTokenLimit(chat, 100, options),
+          ],
+        ] as const)('%s rejects a forbidden literal', (_, run) => {
+          expect(run).toThrowError(/Disallowed special token found/)
+        })
+      },
+    )
+  },
+)
 
 describe.each(chatModelNames)('%s', async (modelName) => {
   const encoding: GptEncoding = await import(`./model/${modelName}.ts`).then(
