@@ -449,6 +449,13 @@ Note: The model spec must be available either through the model-specific import 
 There are a few special tokens that are used by the GPT models.
 Note that not all models support all of these tokens.
 
+For `o200k_base`, `<|endoftext|>` is token `199999` and `<|endofprompt|>` is
+token `200018`, matching tiktoken. This package also retains legacy FIM and
+ChatML extensions (`<|fim_prefix|>`, `<|fim_middle|>`, `<|fim_suffix|>`,
+`<|im_start|>`, `<|im_end|>`, and `<|im_sep|>`, IDs `200000`–`200005`) for
+compatibility, including `encodeChat` framing. Those extensions are not part of
+tiktoken's `o200k_base` special-token set.
+
 By default, **all special tokens are disallowed**.
 
 The `encode`, `encodeGenerator`, `encodeChat`, `encodeChatGenerator`, `countTokens`, and `isWithinTokenLimit` functions accept an `EncodeOptions` parameter to customize special token handling:

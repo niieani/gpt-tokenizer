@@ -34,6 +34,19 @@ const allowedAnywhereCases: [
   ['o200k_base', 'start of text', '<|endoftext|>hi', [199999, 3686]],
   ['o200k_base', 'adjacent', '<|endoftext|><|endoftext|>', [199999, 199999]],
   ['o200k_base', 'only token', '<|endoftext|>', [199999]],
+  ['o200k_base', 'only endofprompt', '<|endofprompt|>', [200018]],
+  [
+    'o200k_base',
+    'mixed adjacent specials',
+    '<|endoftext|><|endofprompt|>',
+    [199999, 200018],
+  ],
+  [
+    'o200k_base',
+    'endofprompt between ordinary text',
+    'a<|endofprompt|>b',
+    [64, 200018, 65],
+  ],
   [
     'o200k_base',
     'surrounded by whitespace',
@@ -138,10 +151,6 @@ const allowedAnywhereCases: [
 /**
  * Reference vectors generated with `tiktoken` for a subset of allowed special
  * tokens (`allowed_special={...}, disallowed_special=()`).
- *
- * `o200k_base` is only exercised with `<|endoftext|>` allowed: this library
- * assigns `<|endofprompt|>` a different id than tiktoken for that encoding,
- * which is unrelated to where the token appears in the text.
  */
 const allowedSubsetCases: [
   encodingName: string,
@@ -159,6 +168,13 @@ const allowedSubsetCases: [
       27, 91, 419, 1440, 82467, 91, 29, 1215, 220, 199999, 342, 464, 91, 419,
       1440, 82467, 91, 29,
     ],
+  ],
+  [
+    'o200k_base',
+    'only endofprompt allowed',
+    'a<|endoftext|>b<|endofprompt|>c',
+    ['<|endofprompt|>'],
+    [64, 27, 91, 419, 1440, 919, 91, 29, 65, 200018, 66],
   ],
   [
     'o200k_base',
