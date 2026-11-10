@@ -299,50 +299,28 @@ export class GptEncoding {
     allowedSpecial,
     disallowedSpecial,
   }: EncodeOptions = {}): SpecialTokenConfig {
+    if (allowedSpecial === ALL_SPECIAL_TOKENS) {
+      allowedSpecial = this.specialTokensSet
+    }
+
     let regexPattern: RegExp | undefined
-
     if (
-      allowedSpecial === ALL_SPECIAL_TOKENS ||
-      allowedSpecial?.has(ALL_SPECIAL_TOKENS)
+      disallowedSpecial === undefined ||
+      disallowedSpecial === ALL_SPECIAL_TOKENS
     ) {
-      allowedSpecial = new Set(this.specialTokensSet)
-      const allowedSpecialSet = allowedSpecial
-      if (disallowedSpecial === ALL_SPECIAL_TOKENS) {
-        throw new Error(
-          'allowedSpecial and disallowedSpecial cannot both be set to "all".',
-        )
-      }
-      if (typeof disallowedSpecial === 'object') {
-        // remove any special tokens that are disallowed
-        disallowedSpecial.forEach((val) => allowedSpecialSet.delete(val))
-      } else {
-        // all special tokens are allowed, and no 'disallowedSpecial' is provided
-        disallowedSpecial = new Set()
-      }
-    }
-
-    if (
-      !disallowedSpecial ||
-      disallowedSpecial === ALL_SPECIAL_TOKENS ||
-      disallowedSpecial.has(ALL_SPECIAL_TOKENS)
-    ) {
-      // by default, all special tokens are disallowed
-      disallowedSpecial = new Set(this.specialTokensSet)
-      const disallowedSpecialSet = disallowedSpecial
-      if (allowedSpecial?.size) {
-        allowedSpecial.forEach((val) => disallowedSpecialSet.delete(val))
-        // disallowed takes precedence over allowed
-        disallowedSpecial.forEach((val) => allowedSpecial.delete(val))
-        if (disallowedSpecial.size > 0) {
-          regexPattern = getSpecialTokenRegex(disallowedSpecial)
-        }
-      } else {
+      // Like tiktoken, the default/all exclusion is the vocabulary minus the
+      // allowed set. Only the string 'all' is a wildcard, not Set(['all']).
+      if (!allowedSpecial?.size) {
         regexPattern = this.allSpecialTokenRegex
+      } else if (allowedSpecial !== this.specialTokensSet) {
+        const disallowed = new Set(this.specialTokensSet)
+        for (const token of allowedSpecial) disallowed.delete(token)
+        if (disallowed.size > 0) regexPattern = getSpecialTokenRegex(disallowed)
       }
-    }
-
-    if (!regexPattern && disallowedSpecial.size > 0) {
-      regexPattern = getSpecialTokenRegex(new Set(disallowedSpecial))
+    } else if (disallowedSpecial.size > 0) {
+      // Explicit sets are literal exclusions, including unknown strings and
+      // overlaps with allowedSpecial. Never mutate caller-owned sets.
+      regexPattern = getSpecialTokenRegex(disallowedSpecial)
     }
 
     return { allowedSpecial, regexPattern }
@@ -614,8 +592,7 @@ export class GptEncoding {
     // registered special token. Only an 'all' policy resolves to the built-ins.
     const disallowedSpecial = snapshot?.disallowedSpecial
     const disallowedTokens =
-      typeof disallowedSpecial === 'object' &&
-      !disallowedSpecial.has(ALL_SPECIAL_TOKENS)
+      typeof disallowedSpecial === 'object'
         ? disallowedSpecial
         : this.specialTokensSet
     let maxDisallowedLength = 0

@@ -28,7 +28,7 @@ const explicitDisallowedPolicies: [string, EncodeOptions][] = [
     { allowedSpecial: 'all', disallowedSpecial: new Set([EndOfText]) },
   ],
   [
-    'all allowed in a set',
+    'literal all in the allowed set',
     {
       allowedSpecial: new Set(['all']),
       disallowedSpecial: new Set([EndOfText]),
@@ -209,7 +209,6 @@ describe.each(encodingNames)('%s', (encodingName: EncodingName) => {
       undefined,
       {},
       { disallowedSpecial: 'all' },
-      { disallowedSpecial: new Set(['all']) },
     ] satisfies (EncodeOptions | undefined)[]) {
       expect(() => encode(EndOfText, options)).toThrowError(
         /Disallowed special token found/,

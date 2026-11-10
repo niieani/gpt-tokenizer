@@ -74,14 +74,14 @@ describe.each(Object.entries(encodings))(
         (allowedSpecial) => {
           const options = {
             allowedSpecial,
-            disallowedSpecial: new Set([forbidden]),
+            disallowedSpecial: new Set(['all', forbidden]),
           }
           const counter = encoding.createIncrementalCounter(options)
           // The validation window must use the same snapshotted policy.
           options.disallowedSpecial.clear()
           const expectedOptions = {
             allowedSpecial,
-            disallowedSpecial: new Set([forbidden]),
+            disallowedSpecial: new Set(['all', forbidden]),
           }
           const prefix = 'stable prefix with several words '
           const suffix = ' stable suffix with several words'
@@ -310,7 +310,7 @@ test('rejects invalid ranges without changing state', () => {
   expect(counter.append(' world')).toBe(o200k.countTokens('hello world'))
 })
 
-test('snapshots policy sets and rejects conflicting options', () => {
+test('snapshots policy sets and accepts matching all policies', () => {
   const allowedSpecial = new Set([EndOfText])
   const counter = createIncrementalCounter({ allowedSpecial })
   allowedSpecial.clear()
@@ -321,12 +321,11 @@ test('snapshots policy sets and rejects conflicting options', () => {
   expect(ordinary.append(EndOfText)).toBe(
     o200k.countTokens(EndOfText, { disallowedSpecial: new Set() }),
   )
-  expect(() =>
-    createIncrementalCounter({
-      allowedSpecial: 'all',
-      disallowedSpecial: 'all',
-    }),
-  ).toThrow('allowedSpecial and disallowedSpecial cannot both be set to "all".')
+  const all = createIncrementalCounter({
+    allowedSpecial: 'all',
+    disallowedSpecial: 'all',
+  })
+  expect(all.append(EndOfText)).toBe(1)
 })
 
 test('a rejected edit preserves both text and boundaries', () => {
