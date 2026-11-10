@@ -112,6 +112,9 @@ export class GptEncoding {
   private allSpecialTokenRegex: RegExp
   private defaultSpecialTokenConfig: SpecialTokenConfig
   private chatFormatter: ChatFormatter
+  private readonly defaultEncodeChatGenerator:
+    | GptEncoding['encodeChatGenerator']
+    | undefined
 
   countChatCompletionTokens?: (request: ChatCompletionRequest) => number
 
@@ -170,7 +173,12 @@ export class GptEncoding {
     this.decodeAsync = this.decodeAsync.bind(this)
     this.isWithinTokenLimit = this.isWithinTokenLimit.bind(this)
     this.encodeChat = this.encodeChat.bind(this)
+    const hasDefaultChatGenerator =
+      this.encodeChatGenerator === defaultEncodeChatGenerator
     this.encodeChatGenerator = this.encodeChatGenerator.bind(this)
+    this.defaultEncodeChatGenerator = hasDefaultChatGenerator
+      ? this.encodeChatGenerator
+      : undefined
     this.countTokens = this.countTokens.bind(this)
     this.createIncrementalCounter = this.createIncrementalCounter.bind(this)
     this.setMergeCacheSize = this.setMergeCacheSize.bind(this)
@@ -387,7 +395,40 @@ export class GptEncoding {
    * Also mentioned in section 6 of this document: https://github.com/openai/openai-cookbook/blob/main/examples/How_to_count_tokens_with_tiktoken.ipynb
    * @param encodeOptions Options controlling how special tokens are handled.
    */
-  *encodeChatGenerator(
+  encodeChatGenerator(
+    chat: Iterable<ChatMessage>,
+    model = this.modelName,
+    encodeOptions?: EncodeOptions & EncodeChatOptions,
+  ): Generator<number[], void, undefined> {
+    const chunks = this.encodeChatGeneratorInternal(chat, model, encodeOptions)
+    // Harmony already yields independently owned chunks.
+    return this.chatFormatter === 'harmony'
+      ? chunks
+      : this.isolateChatTokenChunks(chunks)
+  }
+
+  private *isolateChatTokenChunks(
+    chunks: Iterable<number[]>,
+  ): Generator<number[], void, undefined> {
+    for (const tokens of chunks) {
+      yield tokens.slice()
+    }
+  }
+
+  private encodeChatGeneratorForInternalUse(
+    chat: Iterable<ChatMessage>,
+    model: ModelName | undefined,
+    encodeOptions?: EncodeOptions & EncodeChatOptions,
+  ): Generator<number[], void, undefined> {
+    // Preserve overrides and decorators of the public generator.
+    return this.encodeChatGenerator === this.defaultEncodeChatGenerator
+      ? this.encodeChatGeneratorInternal(chat, model, encodeOptions)
+      : this.encodeChatGenerator(chat, model, encodeOptions)
+  }
+
+  // Only the public generator exposes chunks to callers. Internal consumers
+  // read or flatten them without mutation, so they can reuse cached arrays.
+  private *encodeChatGeneratorInternal(
     chat: Iterable<ChatMessage>,
     model = this.modelName,
     encodeOptions?: EncodeOptions & EncodeChatOptions,
@@ -467,7 +508,9 @@ export class GptEncoding {
     model = this.modelName,
     encodeOptions?: EncodeOptions & EncodeChatOptions,
   ): number[] {
-    return [...this.encodeChatGenerator(chat, model, encodeOptions)].flat()
+    return [
+      ...this.encodeChatGeneratorForInternalUse(chat, model, encodeOptions),
+    ].flat()
   }
 
   /**
@@ -485,7 +528,11 @@ export class GptEncoding {
     const tokenGenerator =
       typeof input === 'string'
         ? this.encodeGenerator(input, encodeOptions)
-        : this.encodeChatGenerator(input, undefined, encodeOptions)
+        : this.encodeChatGeneratorForInternalUse(
+            input,
+            undefined,
+            encodeOptions,
+          )
     let count = 0
     for (const tokens of tokenGenerator) {
       count += tokens.length
@@ -524,7 +571,7 @@ export class GptEncoding {
       )
     }
 
-    const tokenGenerator = this.encodeChatGenerator(
+    const tokenGenerator = this.encodeChatGeneratorForInternalUse(
       input,
       undefined,
       encodeOptions,
@@ -793,3 +840,6 @@ export class GptEncoding {
     return result
   }
 }
+
+// Capture before callers can decorate the prototype or construct an encoding.
+const defaultEncodeChatGenerator = GptEncoding.prototype.encodeChatGenerator
