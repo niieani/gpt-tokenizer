@@ -39,6 +39,128 @@ function result(fn: () => number): number | string {
 describe.each(Object.entries(encodings))(
   '%s incremental counting',
   (_, encoding) => {
+    test('rejects an empty explicit exclusion on no-op edits', () => {
+      const options = { disallowedSpecial: new Set(['']) }
+      const counter = encoding.createIncrementalCounter(options)
+      expect(() => encoding.countTokens('', options)).toThrow(
+        'Disallowed special token found: ',
+      )
+      for (const edit of [
+        () => counter.update(''),
+        () => counter.append(''),
+        () => counter.applyEdit(0, 0, ''),
+        () => counter.append('text'),
+      ]) {
+        expect(edit).toThrow('Disallowed special token found: ')
+        expect(counter.count()).toBe(0)
+      }
+      counter.reset()
+      expect(() => counter.update('')).toThrow(
+        'Disallowed special token found: ',
+      )
+    })
+
+    describe.each([
+      'not_a_registered_special_'.repeat(6),
+      '😀.[forbidden](literal)?'.repeat(6),
+    ])('long explicit exclusion: %s', (forbidden) => {
+      test.each([
+        undefined,
+        'all',
+        new Set(['all']),
+        new Set([forbidden]),
+      ] satisfies EncodeOptions['allowedSpecial'][])(
+        'rejects literals crossing edit boundaries: %j',
+        (allowedSpecial) => {
+          const options = {
+            allowedSpecial,
+            disallowedSpecial: new Set(['all', forbidden]),
+          }
+          const counter = encoding.createIncrementalCounter(options)
+          // The validation window must use the same snapshotted policy.
+          options.disallowedSpecial.clear()
+          const expectedOptions = {
+            allowedSpecial,
+            disallowedSpecial: new Set(['all', forbidden]),
+          }
+          const prefix = 'stable prefix with several words '
+          const suffix = ' stable suffix with several words'
+
+          for (const split of [1, forbidden.length / 2, forbidden.length - 1]) {
+            const left = forbidden.slice(0, split)
+            const right = forbidden.slice(split)
+            const joined = prefix + forbidden
+            const beforeAppend = prefix + left
+            expect(counter.update(beforeAppend)).toBe(
+              encoding.countTokens(beforeAppend, expectedOptions),
+            )
+            expect(() => encoding.countTokens(joined, expectedOptions)).toThrow(
+              `Disallowed special token found: ${forbidden}`,
+            )
+            expect(() => counter.append(right)).toThrow(
+              `Disallowed special token found: ${forbidden}`,
+            )
+            expect(counter.count()).toBe(
+              encoding.countTokens(beforeAppend, expectedOptions),
+            )
+            expect(counter.append(' safe')).toBe(
+              encoding.countTokens(beforeAppend + ' safe', expectedOptions),
+            )
+
+            const beforeDelete = prefix + left + 'X' + right + suffix
+            const position = prefix.length + left.length
+            const expected = encoding.countTokens(beforeDelete, expectedOptions)
+            expect(counter.update(beforeDelete)).toBe(expected)
+            for (const edit of [
+              () => counter.applyEdit(position, 1, ''),
+              () => counter.update(joined + suffix),
+              () => counter.applyEdit(position - 1, 2, left.slice(-1)),
+            ]) {
+              expect(edit).toThrow(
+                `Disallowed special token found: ${forbidden}`,
+              )
+              expect(counter.count()).toBe(expected)
+            }
+            expect(counter.append(' safe')).toBe(
+              encoding.countTokens(beforeDelete + ' safe', expectedOptions),
+            )
+          }
+        },
+      )
+    })
+
+    test.each([
+      undefined,
+      'all',
+      new Set([EndOfText]),
+    ] satisfies EncodeOptions['allowedSpecial'][])(
+      'rejects explicit exclusions independently: %j',
+      (allowedSpecial) => {
+        const disallowedSpecial = new Set([EndOfText])
+        const counter = encoding.createIncrementalCounter({
+          allowedSpecial,
+          disallowedSpecial,
+        })
+        // Later caller mutations must not disable the snapshotted policy.
+        disallowedSpecial.clear()
+        const before = `stable words <|endofXtext|> after`
+        const expected = encoding.countTokens(before)
+        counter.update(before)
+        const position = before.indexOf('X')
+        for (const edit of [
+          () => counter.update(EndOfText),
+          () => counter.append(EndOfText),
+          () => counter.applyEdit(position, 1, ''),
+        ]) {
+          expect(edit).toThrowError(/Disallowed special token found/)
+          expect(counter.count()).toBe(expected)
+        }
+        expect(counter.append(' next')).toBe(
+          encoding.countTokens(before + ' next'),
+        )
+      },
+    )
+
     test('append, replacement, deletion, update and reset', () => {
       const counter = encoding.createIncrementalCounter()
       expect(counter.count()).toBe(0)
@@ -188,7 +310,7 @@ test('rejects invalid ranges without changing state', () => {
   expect(counter.append(' world')).toBe(o200k.countTokens('hello world'))
 })
 
-test('snapshots policy sets and rejects conflicting options', () => {
+test('snapshots policy sets and accepts matching all policies', () => {
   const allowedSpecial = new Set([EndOfText])
   const counter = createIncrementalCounter({ allowedSpecial })
   allowedSpecial.clear()
@@ -199,12 +321,11 @@ test('snapshots policy sets and rejects conflicting options', () => {
   expect(ordinary.append(EndOfText)).toBe(
     o200k.countTokens(EndOfText, { disallowedSpecial: new Set() }),
   )
-  expect(() =>
-    createIncrementalCounter({
-      allowedSpecial: 'all',
-      disallowedSpecial: 'all',
-    }),
-  ).toThrow('allowedSpecial and disallowedSpecial cannot both be set to "all".')
+  const all = createIncrementalCounter({
+    allowedSpecial: 'all',
+    disallowedSpecial: 'all',
+  })
+  expect(all.append(EndOfText)).toBe(1)
 })
 
 test('a rejected edit preserves both text and boundaries', () => {
